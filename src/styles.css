@@ -1,0 +1,21 @@
+*{
+  box-sizing: border-box;
+}
+body{
+  margin: 0;
+  font-family: sans-serif;
+  color: black;
+}
+
+@media screen and (max-width:819px) {
+  h1{
+    font-size: 1.35rem;
+  }
+}
+
+.card {
+  background: var(--surface-card);
+  padding: 2rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}

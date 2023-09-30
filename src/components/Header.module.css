@@ -1,0 +1,34 @@
+.header{
+    position: fixed;
+    width:82%;
+    top:0;
+    left: 18%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1.5rem;
+    align-items: center;
+    background-color: #e4b0b5;
+}
+.header.full{
+    left: 0;
+    width: 100%;
+}
+.list{
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap:1rem;
+}
+.list li a{
+    text-decoration: none;
+}
+.toggler:hover{
+    cursor: pointer;
+}
+
+@media screen and (max-width:767px) {
+    .header{
+        left:40%;
+        width:60%;
+    }
+}
