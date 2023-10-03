@@ -2,6 +2,7 @@
     position: fixed;
     width:82%;
     top:0;
+    z-index: 1;
     left: 18%;
     display: flex;
     justify-content: space-between;
@@ -9,6 +10,27 @@
     align-items: center;
     background-color: #e4b0b5;
 }
+.logo-toggler{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+.toggler{
+    padding: 0;
+    margin: 0;
+}
+.logo-container{
+    display: flex;
+    align-items: center;
+    /* gap:1rem; */
+  }
+  .logo-container h2{
+    padding: 0;
+  }
+  .logo-container img{
+    width: 3rem;
+  }
+
 .header.full{
     left: 0;
     width: 100%;
@@ -30,5 +52,6 @@
     .header{
         left:40%;
         width:60%;
+        padding: 0 0.5rem;
     }
 }

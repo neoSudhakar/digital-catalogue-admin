@@ -5,6 +5,7 @@ import { uiActions } from "../store/ui-slice";
 import { motion } from "framer-motion";
 import LikeIcon from "../icons/like-icon";
 import { Link } from "react-router-dom";
+import Logo from "../assets/logo.svg";
 
 export default function Header(){
     const dispatch = useDispatch();
@@ -14,8 +15,15 @@ export default function Header(){
         dispatch(uiActions.toggleDashboard());
     }
 
-    return <motion.header className={`${classes.header} ${!isDashboardOpen ? classes.full : ""}`}>
-    <p className={classes.toggler} onClick={handleToggleDashboard}><TogglerIcon/></p>
+    return <motion.header className={`${classes.header} ${classes.full}`}>
+    <div className={classes["logo-toggler"]}>
+        <p className={classes.toggler} onClick={handleToggleDashboard}><TogglerIcon/></p>
+        <div className={classes["logo-container"]}>
+                <img src={Logo}/>
+                <h2>Digital Catalogue</h2>
+        </div>
+    </div>
+    
     <nav>
         <ul className={classes.list}>
             <li>

@@ -16,12 +16,7 @@ export default function Sidebar() {
   }
   // initial={{x:-30, opacity:0}} animate={{x:0, opacity:1}} exit={{x:-30, opacity:0}} 
     return (
-      <motion.div initial={{x:-30, opacity:0}} animate={{x:0, opacity:1}} exit={{x:-30, opacity:0}}  className={classes.sidebar}>
-        <div className={classes["logo-container"]}>
-            <img src={Logo}/>
-            <h2>Digital Catalogue</h2>
-        </div>
-        
+      <motion.div className={classes.sidebar}>
         <section className={classes["fields"]} style={{margin: '2rem', margin: '0', padding: '0', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexDirection: 'column'}} >
         
           <NavLink onClick={()=>dispatch(uiActions.toggleDashboard())} to="/" className={({isActive})=>isActive? classes.active : ""} end style={{display: 'flex', alignItems: 'center', justifyContent: "flex-start", flexDirection: 'row', margin: '0.7rem 0', padding: '0.7rem 0', width: '100%', borderRadius: '1rem'}} >

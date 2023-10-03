@@ -6,16 +6,19 @@ import { useSelector } from "react-redux";
 import { AnimatePresence, motion } from "framer-motion";
 
 export default function RootLayout(){
+    // function handleContextMenu(event){
+    //     event.preventDefault();
+    // }
+    // onContextMenu={handleContextMenu}
+
     const isDashboardOpen= useSelector(state=>state.ui.isDashboardOpen);
  //key="sidebar" key="right"
-    return <motion.div className={classes.root}>
-            <AnimatePresence mode="sync">
+    return <motion.div  className={classes.root}>
+                <Header/>
                 {isDashboardOpen && <Sidebar key="sidebar"/>} 
-                <motion.div key="right" className={`${classes.right} ${!isDashboardOpen ? classes.full : ""}`}>
-                    <Header/>
+                <motion.div className={`${classes.right} ${!isDashboardOpen ? classes.full : ""}`}>
                     <Outlet/>
                 </motion.div>
-            </AnimatePresence>
     </motion.div>
      
 }

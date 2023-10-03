@@ -761,7 +761,7 @@ export default function ViewDesign() {
                                 checked={designNumFilters["D.No:1"]}
                                 onChange={handleDesignNumCheckChange}
                               />
-                              <label htmlFor="1">1</label>
+                              <label htmlFor="1">D.No:1</label>
                             </p>
                             <p className={classes["checkbox-grp"]}>
                               <input
@@ -771,7 +771,7 @@ export default function ViewDesign() {
                                 checked={designNumFilters["D.No:2"]}
                                 onChange={handleDesignNumCheckChange}
                               />
-                              <label htmlFor="2">2</label>
+                              <label htmlFor="2">D.No:1</label>
                             </p>
                           </motion.div>
                         )}

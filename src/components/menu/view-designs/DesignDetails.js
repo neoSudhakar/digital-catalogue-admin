@@ -51,8 +51,8 @@ export default function DesignDetails({cardItem, onGoBack}){
                     },
                     largeImage: {
                         src: defaultImageItem.image,
-                        width: 1200,
-                        height: 1800
+                        width: 1000,
+                        height: 1000
                     },
                     enlargedImageContainerDimensions:{
                         width:"100%",
