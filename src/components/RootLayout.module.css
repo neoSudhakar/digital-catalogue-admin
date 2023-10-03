@@ -9,7 +9,6 @@
     flex-direction: column;
     background-color: #fcf2f3;
     width:82%;
-    padding: 0rem;
     padding-top: 3rem;
     overflow-y: auto;
 }
@@ -23,5 +22,6 @@
     .right{
         margin-left: 40%;
         width:60%;
+        padding-top: 2.75rem;
     }
 }

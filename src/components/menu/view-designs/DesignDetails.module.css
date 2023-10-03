@@ -156,3 +156,46 @@
     background-color: rgb(221, 36, 159);
     color: white;
 }
+
+@media screen and (max-width:767px) {
+    .card-details{
+        flex-direction: column;
+        height: auto;
+        gap:1rem;
+    }
+    .carousel{
+        width:100%;
+        min-height: 35vh;
+        max-height: 50vh;
+    }
+    .content{
+        display: block;
+        text-align: center;
+        padding: 0.5rem;
+    }
+    .content{
+        width: 100%;
+    }
+    .cardItem-details div{
+        width:auto;
+        margin: 0 auto;
+    }
+}
+
+@media screen and (min-height:1000px){
+    .card-details{
+        height: 30vh;
+    }
+    .carousel{
+        height: 30vh;
+    }
+}
+
+@media screen and (max-width:767px) and (min-height:1000px) {
+    .card-details{
+        height: auto;
+    }
+    .carousel{
+        width:100%;
+    }
+}

@@ -3,12 +3,14 @@ import CreationTable from "./CreationTable";
 import classes from "./MasterCreation.module.css";
 import useInput from "../../../hooks/use-input";
 import { useNavigate } from "react-router-dom";
-import { Drawer, Button, Upload, Modal } from "antd";
+import { Drawer, Button, Upload, Modal, Select } from "antd";
 import { PlusOutlined } from '@ant-design/icons';
-import UploadImage from "../../../assets/upload-image.png"
+// import UploadImage from "../../../assets/upload-image.png"
 //import classes from "./DesignDetails.module.css";
 import ReactImageMagnify from "react-image-magnify";
 import axios, { Axios } from "axios";
+import SelectComponent from "./Select";
+import UploadImage from "../../../assets/upload-image.png";
 
 export default function MasterCreation() {
 
@@ -159,15 +161,23 @@ export default function MasterCreation() {
     handleChange: styleHandleChange,
   } = useInput((inputValue) => inputValue.trim().length !== 0);
 
-  const {
-    inputVal: product,
-    isValid: productIsValid,
-    hasErr: productHasErr,
-    touchFn: productTouchFn,
-    resetFn: productResetFn,
-    handleBlur: productHandleBlur,
-    handleChange: productHandleChange,
-  } = useInput((inputValue) => inputValue.trim().length !== 0);
+  // const {
+  //   inputVal: product,
+  //   isValid: productIsValid,
+  //   hasErr: productHasErr,
+  //   touchFn: productTouchFn,
+  //   resetFn: productResetFn,
+  //   handleBlur: productHandleBlur,
+  //   handleChange: productHandleChange,
+  // } = useInput((inputValue) => inputValue.trim().length !== 0);
+
+  const [product,setProduct] =useState();
+
+  const productHandleChange=(value)=>{
+    console.log("VAlue: ", value);
+    setProduct((prev)=>value);
+    console.log(product);
+  }
 
   const {
     inputVal: model,
@@ -499,7 +509,7 @@ export default function MasterCreation() {
   const main_groupClasses = `${classes.group} ${main_groupHasErr ? classes["invalid"] : ""}`;
   const categoryClasses = `${classes.group} ${categoryHasErr ? classes["invalid"] : ""}`;
   const styleClasses = `${classes.group} ${styleHasErr ? classes["invalid"] : ""}`;
-  const productClasses = `${classes.group} ${productHasErr ? classes["invalid"] : ""}`;
+  // const productClasses = `${classes.group} ${productHasErr ? classes["invalid"] : ""}`;
   const modelClasses = `${classes.group} ${modelHasErr ? classes["invalid"] : ""}`;
   const sizeClasses = `${classes.group} ${sizeHasErr ? classes["invalid"] : ""}`;
   const workerClasses = `${classes.group} ${workerHasErr ? classes["invalid"] : ""}`;
@@ -617,9 +627,9 @@ export default function MasterCreation() {
                     </select>
                     {styleHasErr && <p className={classes.err}>Select a style!</p>}
                   </div>
-                  <div className={productClasses} style={{ minWidth: "30%" }}>
+                  <div className={classes.group} style={{ minWidth: "30%" }}>
                     <label htmlFor="product">Product</label>
-                    <select
+                    {/* <select
                       value={product}
                       //  defaultValue="Product1"
                       onBlur={productHandleBlur}
@@ -636,6 +646,28 @@ export default function MasterCreation() {
                       <option value="Product3">Product3</option>
                     </select>
                     {productHasErr && <p className={classes.err}>Select a product!</p>}
+                    </select> */}
+                    {/* {productHasErr && <p className={classes.err}>Select a product!</p>} */}
+                    <Select
+                                placeholder={"Select a product"}
+                                options={[
+                                    {
+                                        value: "product1",
+                                        label: "Product1"
+                                    },
+                                    {
+                                        value: "product2",
+                                        label: "Product2"
+                                    },
+                                    {
+                                        value: "product3",
+                                        label: "Product3"
+                                    }
+                                ]}
+                                name="product"
+                                onChange={productHandleChange}
+                                value={product}
+                            />
                   </div>
                   <div className={modelClasses}>
                     <label htmlFor="model">Model</label>
@@ -873,16 +905,19 @@ export default function MasterCreation() {
               </div>
               <CreationTable rowDataArr={rowDataArr} />
               <div className={classes.actions}>
-                <Button onClick={handleAddImage} style={{ marginRight: "3rem" }}>Add Image</Button>
-                <Button onClick={handleSave}>Save</Button>
-                <Button onClick={ResetAll}>Clear</Button>
-                <Button onClick={handleExit}>Exit</Button>
+                <Button className={classes.button} onClick={handleAddImage} style={{ marginRight: "3rem" }}>Add Image</Button>
+                <Button className={classes.button} onClick={handleSave}>Save</Button>
+                <Button className={classes.button} onClick={ResetAll}>Clear</Button>
+                <Button className={classes.button} onClick={handleExit}>Exit</Button>
               </div>
             </fieldset>
             <div className={classes.image}>
               {fileList.length <= 0 ?
-                <img src={"https://nxtdiv-digital-catalogue.s3.ap-south-1.amazonaws.com/DigitalCatalogue/2023/8/30/20230930202809573_Jewellery.jpg"} alt="Design Image" style={{ width: '100%' }} /> :
-                <img src={imageUrl[0]} alt="Design Image" style={{ width: '100%' }} />}
+                //C:\Users\GaneshSurna\Downloads\WhatsApp Image 2023-10-03 at 2.39.48 PM.jpeg
+                //"https://nxtdiv-digital-catalogue.s3.ap-south-1.amazonaws.com/DigitalCatalogue/2023/8/30/20230930202809573_Jewellery.jpg"
+                <img src={UploadImage} alt="Design Image" style={{ width: '100%' }} /> :
+                <img src={imageUrl} alt="Design Image" style={{ width: '100%' }} />}
+
             </div>
           </div>
         </div>

@@ -551,100 +551,66 @@ export default function ViewDesign() {
   }
 
   let filteredList = DUMMY_LIST.filter((item) => {
-    if (mainGrpFilters["Diamond"] && item.main_group === "Diamond") {
-      return true;
-    }
-    if (mainGrpFilters["Gold"] && item.main_group === "Gold") {
-      return true;
-    }
-
-    if (categoryFilters["Gold Jewelery"] && item.category === "Gold Jewelery") {
-      return true;
-    }
-    if (
-      categoryFilters["Diamond Jewelery"] &&
-      item.category === "Diamond Jewelery"
-    ) {
-      return true;
-    }
-
-    if (designNumFilters["D.No:1"] && item.design_number === 1) {
-      return true;
-    }
-    if (designNumFilters["D.No:2"] && item.design_number === 2) {
-      return true;
-    }
-
-    if (styleFilters["Style 1"] && item.style === "Style 1") {
-      return true;
-    }
-    if (styleFilters["Style 2"] && item.style === "Style 2") {
-      return true;
-    }
-    if (styleFilters["Style 3"] && item.style === "Style 3") {
-      return true;
-    }
-
-    if (productFilters["Product 1"] && item.product === "Product 1") {
-      return true;
-    }
-    if (productFilters["Product 2"] && item.product === "Product 2") {
-      return true;
-    }
-    if (productFilters["Product 3"] && item.product === "Product 3") {
-      return true;
-    }
-
-    if (modelFilters["Model 1"] && item.model === "Model 1") {
-      return true;
-    }
-    if (modelFilters["Model 2"] && item.model === "Model 2") {
-      return true;
-    }
-    if (modelFilters["Model 3"] && item.model === "Model 3") {
-      return true;
-    }
-
-    if (sizeFilters["Size 1"] && item.size === "Size 1") {
-      return true;
-    }
-    if (sizeFilters["Size 2"] && item.size === "Size 2") {
-      return true;
-    }
-    if (sizeFilters["Size 3"] && item.size === "Size 3") {
-      return true;
-    }
-
-    if (weightRangeFilters["0-10grms"] && item.gross_weight <= 10) {
-      return true;
-    }
-    if (
-      weightRangeFilters["10-20grms"] &&
-      item.gross_weight > 10 &&
-      item.gross_weight <= 20
-    ) {
-      return true;
-    }
-    if (
-      weightRangeFilters["20-50grms"] &&
-      item.gross_weight > 20 &&
-      item.gross_weight <= 50
-    ) {
-      return true;
-    }
-    if (
-      weightRangeFilters["50-100grms"] &&
-      item.gross_weight > 50 &&
-      item.gross_weight <= 100
-    ) {
-      return true;
-    }
-
-    return false;
+    const isMainGroupMatch =
+      Object.values(mainGrpFilters).every((value) => value === false) ||
+      mainGrpFilters[item.main_group];
+    
+    const isCategoryMatch =
+      Object.values(categoryFilters).every((value) => value === false) ||
+      categoryFilters[item.category];
+  
+    const isDesignNumMatch =
+      Object.values(designNumFilters).every((value) => value === false) ||
+      designNumFilters[`D.No:${item.design_number}`];
+  
+    const isStyleMatch =
+      Object.values(styleFilters).every((value) => value === false) ||
+      styleFilters[item.style];
+  
+    const isProductMatch =
+      Object.values(productFilters).every((value) => value === false) ||
+      productFilters[item.product];
+  
+    const isModelMatch =
+      Object.values(modelFilters).every((value) => value === false) ||
+      modelFilters[item.model];
+  
+    const isSizeMatch =
+      Object.values(sizeFilters).every((value) => value === false) ||
+      sizeFilters[item.size];
+  
+    const isWeightMatch =
+      Object.values(weightRangeFilters).every((value) => value === false) ||
+      (weightRangeFilters["0-10grms"] && item.gross_weight <= 10) ||
+      (weightRangeFilters["10-20grms"] &&
+        item.gross_weight > 10 &&
+        item.gross_weight <= 20) ||
+      (weightRangeFilters["20-50grms"] &&
+        item.gross_weight > 20 &&
+        item.gross_weight <= 50) ||
+      (weightRangeFilters["50-100grms"] &&
+        item.gross_weight > 50 &&
+        item.gross_weight <= 100);
+  
+    return (
+      isMainGroupMatch &&
+      isCategoryMatch &&
+      isDesignNumMatch &&
+      isStyleMatch &&
+      isProductMatch &&
+      isModelMatch &&
+      isSizeMatch &&
+      isWeightMatch
+    );
   });
+  
+  
+  
 
   if (filteredList.length === 0) {
-    filteredList = DUMMY_LIST;
+    content=<div className={classes["whole-designs-page"]}>
+      <p>No results found!</p>
+    </div>
   }
 
   let content = (
@@ -777,7 +743,7 @@ export default function ViewDesign() {
                                 checked={designNumFilters["D.No:1"]}
                                 onChange={handleDesignNumCheckChange}
                               />
-                              <label htmlFor="1">1</label>
+                              <label htmlFor="1">D.No:1</label>
                             </p>
                             <p className={classes["checkbox-grp"]}>
                               <input
@@ -787,7 +753,7 @@ export default function ViewDesign() {
                                 checked={designNumFilters["D.No:2"]}
                                 onChange={handleDesignNumCheckChange}
                               />
-                              <label htmlFor="2">2</label>
+                              <label htmlFor="2">D.No:1</label>
                             </p>
                           </motion.div>
                         )}
@@ -1515,7 +1481,9 @@ export default function ViewDesign() {
           animate="visible"
           className={classes["cards-container"]}
         >
-          <AnimatePresence>
+          {filteredList.length===0 && <p style={{marginTop:"10rem auto", width:"100%", textAlign: "center"}}>No results found!</p>}
+          {filteredList.length>0 && (
+            <AnimatePresence>
             {filteredList.map((item) => {
               return (
                 <motion.li
@@ -1538,6 +1506,7 @@ export default function ViewDesign() {
               );
             })}
           </AnimatePresence>
+          )}
         </motion.ul>
       </div>
     </div>

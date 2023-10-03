@@ -1,8 +1,8 @@
 import { Select } from 'antd';
 
-const onChange = (value) => {
-  console.log(`selected ${value}`);
-};
+// const onChange = (value) => {
+//   console.log(`selected ${value}`);
+// };
 const onSearch = (value) => {
   console.log('search:', value);
 };
@@ -11,7 +11,7 @@ const onSearch = (value) => {
 const filterOption = (input, option,) =>
 (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
 
-const SelectComponent = ({options, placeholder, name, onMainGroupChange}) => (
+const SelectComponent = ({options, value, placeholder, name, onChange}) => (
   
   <Select
     style={{
@@ -23,8 +23,9 @@ const SelectComponent = ({options, placeholder, name, onMainGroupChange}) => (
     showSearch
     placeholder={placeholder}
     optionFilterProp="children"
-    onChange={onChange}
+    onChange={()=>onChange()}
     onSearch={onSearch}
+    value={value}
     filterOption={filterOption}
     options={options}
     // options={[
