@@ -10,7 +10,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import UploadImage from "../../../assets/upload-image.png"
 //import classes from "./DesignDetails.module.css";
 import ReactImageMagnify from "react-image-magnify";
-import axios from "axios";
+import axios, { Axios } from "axios";
 
 export default function MasterCreation() {
 
@@ -36,29 +36,32 @@ export default function MasterCreation() {
 
   // handle image -----------------------------
 
-  function handleImageData(files) {
-   // setCreatedDate(event.target.value);
-    setImageUrlFile(files)
-  }
+ 
+
 
   const handleImageUpload = async () => {
-    let formData = new FormData();
-    fileList.forEach(async (fl, index) => {
+
+    /*  fileList.forEach(async (fl, index) => {
       if (!fl.url && !fl.preview) {
         fl.preview = await getBase64(fl.originFileObj);
       }
-      console.log("adding file to formData", index)
-      formData.append(`file${index + 1}`, fl);
-      console.log(formData.get('file1'));
-      
+ 
       setImageUrl([...imageUrl, (fl.url || fl.preview)]);
-      setIsDrawerOpen(false);
-      setImageUrlFile(formData);
-    }
-    )
-    handleImageData(formData);
-  }
+     
+      // setImageUrlFile(formData);
+   // }
+   // )
+   //setImageUrl(fileNew[0]);
+    setIsDrawerOpen(false);
+    //  handleImageData(formData);
+  } */
+    // )
+    setIsDrawerOpen(false);
+}
 
+
+
+    
 
 
   const getBase64 = (file) =>
@@ -74,6 +77,7 @@ export default function MasterCreation() {
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
   const [fileList, setFileList] = useState([]);
+  const [fileNew, setFileNew] = useState();
   const handleCancel = () => setPreviewOpen(false);
   const handlePreview = async (file) => {
     if (!file.url && !file.preview) {
@@ -84,6 +88,49 @@ export default function MasterCreation() {
     setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
   };
   const handleUploadChange = ({ fileList: newFileList }) => setFileList(newFileList);
+ 
+  const uploadJSONFiles = (event) => {
+    event.preventDefault();
+    let formData = new FormData();
+    const enteredFormData = {
+      createdDate: created_date,
+      mainGroup: main_group,
+      category: category,
+      style: style,
+      product: product,
+      model: model,
+      size: size,
+      worker: worker,
+      pieces: pieces,
+      crossWeight: gross_weight,
+      stoneWeight: stone_weight,
+      setWeight: net_weight,
+      componentWeight: component_weight,
+      ghatWt: ghat_weight,
+      remark: remark,
+      designDetails: enteredRowData,
+    };
+    //console.log(fileNew[0])
+    for(let key of Object.keys(event.target.files)) {
+      if (key !== 'length') {
+        formData.append('images', event.target.files[key]);
+      }
+    }
+    formData.append('design',
+      new Blob([JSON.stringify(enteredFormData)], { 
+        type: 'application/json'
+      }));
+    fetch('http://localhost:8080/api/designs', { 
+      method: 'POST',
+      body: formData
+    }).then(response => response.json())
+    .then(result => console.log('Files successfully uploaded!'))
+    .catch(error => console.log('error occurred!')); 
+ // }
+  
+   }
+
+ 
   const uploadButton = (
     <div>
       <PlusOutlined />
@@ -355,11 +402,11 @@ export default function MasterCreation() {
     }
 
     const enteredData = {
-      Type: type,
-      StoneGroup: stone_group,
-      Pieces: pieces1,
-      StoneWeight: stone_weight1,
-      UnitOfMeasurement: "Grms/Cts"
+      type: type,
+      stoneGroup: stone_group,
+      sieces: pieces1,
+      stoneWeight: stone_weight1,
+      unitOfMeasurement: "Grms/Cts"
     };
 
     setEnteredRowData((prev) => [...prev, { ...enteredData }]);
@@ -377,7 +424,7 @@ export default function MasterCreation() {
     setRowDataArr((prev) => [...prev, { ...formattedRowData }]);
   }
 
-  function handleSave() {
+  const handleSave = (event) =>{
     //  setImageUrlTouch(true);
 
     main_groupTouchFn();
@@ -399,43 +446,46 @@ export default function MasterCreation() {
     pieces1TouchFn();
     stone_weight1TouchFn();
 
-    //  if (!formIsValid) {
-    //    if (image_urlHasErr) {
-    //      window.alert("Add an image!");
-    //    }
-    //    return;
-    //  }
 
+    let formData = new FormData();
     const enteredFormData = {
-      design_number: 1,
-      //image_url,
-      created_date,
-      MainGroup: main_group,
-      Category: category,
-      Style: style,
-      Product: product,
-      Model: model,
-      Size: size,
-      Worker: worker,
-      Pieces: pieces,
-      GrossWeight: gross_weight,
-      StoneWeight: stone_weight,
-      NetWeight: net_weight,
-      ComponentWeight: component_weight,
-      GhatWt: ghat_weight,
-      Remark: remark,
-      stone_descrition: enteredRowData,
-      imageUrlFiles : imageUrlFile,
+      createdDate: created_date,
+      mainGroup: main_group,
+      category: category,
+      style: style,
+      product: product,
+      model: model,
+      size: size,
+      worker: worker,
+      pieces: pieces,
+      crossWeight: gross_weight,
+      stoneWeight: stone_weight,
+      setWeight: net_weight,
+      componentWeight: component_weight,
+      ghatWt: ghat_weight,
+      remark: remark,
+      designDetails: enteredRowData,
     };
+    //console.log(fileNew[0])
+    for (let key of Object.keys(event.target.file)) {
+     // console.log("key and images are >>>", key, " ...images ...", fileNew[key])
+      if (key !== 'length') {
+        formData.append('images',[event.target.file[key]]);
+      }
+    }
 
-    // setEnteredFormData((prev)=>{
-    //     return {...prev, ...enteredData}
-    // });
+    console.log(formData.get('images'))
+    formData.append('design',
+      new Blob([JSON.stringify(enteredFormData)], {
+        type: 'application/json'
+      }));
 
-    localStorage.setItem("DATA", JSON.stringify(enteredFormData));
-    console.log(enteredFormData);
-
-    // ResetAll();
+    fetch('http://localhost:8080/api/designs', {
+      method: 'POST',
+      body: formData,
+    }).then(response => response.json())
+      .then(result => console.log('Files successfully uploaded!'))
+      .catch(error => console.log('error occurred!'));
   }
 
   function handleExit() {
@@ -528,7 +578,7 @@ export default function MasterCreation() {
                       <option value="" disabled hidden>
                         Select an option
                       </option>
-                      <option value="Diamond" selected>Diamond</option>
+                      <option value="Diamond">Diamond</option>
                       <option value="Gold">Gold</option>
                       <option value="Silver">Silver</option>
                     </select>
@@ -558,7 +608,7 @@ export default function MasterCreation() {
                     <select
                       value={category}
                       onBlur={categoryHandleBlur}
-                      defaultValue="Diamond Jewelery"
+                      //  defaultValue="Diamond Jewelery"
                       onChange={categoryHandleChange}
                       id="category"
                       name="category"
@@ -595,7 +645,7 @@ export default function MasterCreation() {
                     <label htmlFor="style">Style</label>
                     <select
                       value={style}
-                      defaultValue="Style1"
+                      // defaultValue="Style1"
                       onBlur={styleHandleBlur}
                       onChange={styleHandleChange}
                       id="style"
@@ -633,7 +683,7 @@ export default function MasterCreation() {
                     <label htmlFor="product">Product</label>
                     <select
                       value={product}
-                      defaultValue="Product1"
+                      //  defaultValue="Product1"
                       onBlur={productHandleBlur}
                       onChange={productHandleChange}
                       id="product"
@@ -671,7 +721,7 @@ export default function MasterCreation() {
                     <label htmlFor="model">Model</label>
                     <select
                       value={model}
-                      defaultValue="Model1"
+                      //  defaultValue="Model1"
                       onBlur={modelHandleBlur}
                       onChange={modelHandleChange}
                       id="model"
@@ -710,7 +760,7 @@ export default function MasterCreation() {
                     <select
                       value={size}
                       onBlur={sizeHandleBlur}
-                      defaultValue="Size1"
+                      //   defaultValue="Size1"
                       onChange={sizeHandleChange}
                       id="size"
                       name="size"
@@ -748,7 +798,7 @@ export default function MasterCreation() {
                     <select
                       value={worker}
                       onBlur={workerHandleBlur}
-                      defaultValue="Worker1"
+                      //  defaultValue="Worker1"
                       onChange={workerHandleChange}
                       id="worker"
                       name="worker"
@@ -1001,7 +1051,7 @@ export default function MasterCreation() {
             </fieldset>
             <div className={classes.image}>
               {fileList.length <= 0 ?
-                <img src={UploadImage} alt="Design Image" style={{ width: '100%' }} /> :
+                <img src={"https://nxtdiv-digital-catalogue.s3.ap-south-1.amazonaws.com/DigitalCatalogue/2023/8/30/20230930202809573_Jewellery.jpg"} alt="Design Image" style={{ width: '100%' }} /> :
                 <img src={imageUrl} alt="Design Image" style={{ width: '100%' }} />}
 
             </div>
@@ -1023,15 +1073,21 @@ export default function MasterCreation() {
           */}
           <h2>Add Images</h2>
           <div style={{ alignItems: 'center', justifyItems: 'center' }}>
-            <Upload
-              action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
-              listType="picture-card"
-              fileList={fileList}
-              onPreview={handlePreview}
-              onChange={handleUploadChange}
-            >
-              {fileList.length >= 4 ? null : uploadButton}
-            </Upload>
+           {/*  <Upload
+            action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
+            listType="picture-card"
+            fileList={fileList}
+            onPreview={handlePreview}
+            onChange={handleUploadChange}
+          >
+            {fileList.length >= 4 ? null : uploadButton}
+          </Upload> */}
+            <div className="uk-margin-medium-top">
+              <label>Upload Files</label>
+              <input type="file"
+                onChange={(event) => uploadJSONFiles(event)}
+                multiple />
+            </div> 
 
 
           </div>
@@ -1054,4 +1110,7 @@ export default function MasterCreation() {
       </Drawer>
     </>
   );
+
+
+  
 }
