@@ -410,7 +410,7 @@ export default function MasterCreation() {
   const handleSave = (event) => {
     
     
-    setImageUrlTouch(true);
+  //  setImageUrlTouch(true);
     main_groupTouchFn();
     categoryTouchFn();
     styleTouchFn();
@@ -465,7 +465,8 @@ export default function MasterCreation() {
     }).then(response => response.json())
       .then(res => console.log('Files successfully uploaded!', res))
       .catch(err => console.log('error occurred!', err));
-      alert.show("Design Added..")
+     // alert.show("Design Added..")
+      window.alert("Master Design Added..")
       ResetAll();
       handleExit();
   }
@@ -879,7 +880,7 @@ export default function MasterCreation() {
               </div>
             </fieldset>
             <div className={classes.image}>
-              {fileList.length <= 0 & imageUrl.length <= 0?
+              {fileList.length <= 0 ?
                 <img src={"https://nxtdiv-digital-catalogue.s3.ap-south-1.amazonaws.com/DigitalCatalogue/2023/8/30/20230930202809573_Jewellery.jpg"} alt="Design Image" style={{ width: '100%' }} /> :
                 <img src={imageUrl[0]} alt="Design Image" style={{ width: '100%' }} />}
             </div>
