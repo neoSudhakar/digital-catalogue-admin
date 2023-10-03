@@ -8,6 +8,7 @@ import WrongIcon from "../../../icons/wrong-icon";
 import useCheck from "../../../hooks/use-check";
 import { Drawer } from "antd";
 import DesignDetails from "./DesignDetails";
+import axios from "axios";
 
 const today = new Date().toISOString().slice(0, 10);
 
@@ -467,6 +468,21 @@ export default function ViewDesign() {
   const [isShow, setIsShow] = useState(false);
   const [cardItem, setCardItem] = useState(null);
 
+  const [designList, setDesignList] = useState([]);
+
+  useEffect(() => {
+    getVeiwDesign();
+  },[]);
+
+  const getVeiwDesign = () => {
+    axios.get('http://localhost:8080/api/designs')
+      .then((res) =>  {
+        console.log('response is list Designs: ',res.data)
+        setDesignList(res.data);
+      })
+        .catch((err) => console.log('error is : ', err))
+  }
+
   function handleShowDetails(item) {
     console.log(item);
     setCardItem(item);
@@ -524,7 +540,7 @@ export default function ViewDesign() {
     dispatch(uiActions.clearFilters());
   }
 
-  console.log(selectedFilters);
+  //console.log(selectedFilters);
 
   function handleOpenFilters() {
     setIsDrawerOPen(true);

@@ -1,8 +1,6 @@
 import { useRef, useState } from "react";
 import CreationTable from "./CreationTable";
 import classes from "./MasterCreation.module.css";
-// import SelectComponent from "./Select";
-// import InputComponent from "./Input";
 import useInput from "../../../hooks/use-input";
 import { useNavigate } from "react-router-dom";
 import { Drawer, Button, Upload, Modal } from "antd";
@@ -15,53 +13,38 @@ import axios, { Axios } from "axios";
 export default function MasterCreation() {
 
   const navigate = useNavigate();
-
-  const [imageUrl, setImageUrl] = useState([]);
+ 
   //const [image_urlTouch, setImageUrlTouch] = useState(false);
-  const [imageUrlFile, setImageUrlFile] = useState([]);
-
   //const image_urlHasErr = image_urlTouch && !image_url;
-
   const [rowDataArr, setRowDataArr] = useState([]);
-
   const today = new Date().toISOString().slice(0, 10);
   const [created_date, setCreatedDate] = useState(today);
+  const [enteredRowData, setEnteredRowData] = useState([]);
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState('');
+  const [previewTitle, setPreviewTitle] = useState('');
+  const [fileList, setFileList] = useState([]);
+  const [fileNew, setFileNew] = useState(null);
+  const [imageUrl, setImageUrl] = useState([]);
+
 
   function created_dateHandleChange(event) {
     setCreatedDate(event.target.value);
   }
-
-  const [enteredRowData, setEnteredRowData] = useState([]);
-  // const [enteredFormData, setEnteredFormData] = useState();
-
   // handle image -----------------------------
-
- 
-
 
   const handleImageUpload = async () => {
 
-    /*  fileList.forEach(async (fl, index) => {
+    fileList.forEach(async (fl, index) => {
       if (!fl.url && !fl.preview) {
         fl.preview = await getBase64(fl.originFileObj);
       }
  
       setImageUrl([...imageUrl, (fl.url || fl.preview)]);
-     
-      // setImageUrlFile(formData);
-   // }
-   // )
-   //setImageUrl(fileNew[0]);
+    })
+
     setIsDrawerOpen(false);
-    //  handleImageData(formData);
-  } */
-    // )
-    setIsDrawerOpen(false);
-}
-
-
-
-    
+  }
 
 
   const getBase64 = (file) =>
@@ -71,14 +54,11 @@ export default function MasterCreation() {
       reader.onload = () => resolve(reader.result);
       reader.onerror = (error) => reject(error);
     });
+  
 
-  // const imageUpload = () => {
-  const [previewOpen, setPreviewOpen] = useState(false);
-  const [previewImage, setPreviewImage] = useState('');
-  const [previewTitle, setPreviewTitle] = useState('');
-  const [fileList, setFileList] = useState([]);
-  const [fileNew, setFileNew] = useState();
   const handleCancel = () => setPreviewOpen(false);
+
+
   const handlePreview = async (file) => {
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
@@ -87,8 +67,12 @@ export default function MasterCreation() {
     setPreviewOpen(true);
     setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
   };
+
+
   const handleUploadChange = ({ fileList: newFileList }) => setFileList(newFileList);
- 
+
+
+
   const uploadJSONFiles = (event) => {
     event.preventDefault();
     let formData = new FormData();
@@ -110,27 +94,24 @@ export default function MasterCreation() {
       remark: remark,
       designDetails: enteredRowData,
     };
-    //console.log(fileNew[0])
-    for(let key of Object.keys(event.target.files)) {
+    for (let key of Object.keys(event.target.files)) {
       if (key !== 'length') {
         formData.append('images', event.target.files[key]);
       }
     }
     formData.append('design',
-      new Blob([JSON.stringify(enteredFormData)], { 
+      new Blob([JSON.stringify(enteredFormData)], {
         type: 'application/json'
       }));
-    fetch('http://localhost:8080/api/designs', { 
+    fetch('http://localhost:8080/api/designs', {
       method: 'POST',
       body: formData
     }).then(response => response.json())
-    .then(result => console.log('Files successfully uploaded!'))
-    .catch(error => console.log('error occurred!')); 
- // }
-  
-   }
+      .then(result => console.log('Files successfully uploaded!', result))
+      .catch(error => console.log('error occurred!', error));
+  }
 
- 
+
   const uploadButton = (
     <div>
       <PlusOutlined />
@@ -144,9 +125,7 @@ export default function MasterCreation() {
     </div>
   );
 
-  //};
-
-
+ 
   //-----------------------------------------------
 
   const {
@@ -367,6 +346,7 @@ export default function MasterCreation() {
     rowDataIsValid = true;
   }
 
+
   function ResetAll() {
     main_groupResetFn();
     categoryResetFn();
@@ -392,6 +372,7 @@ export default function MasterCreation() {
   }
 
   function handleAdd() {
+   
     typeTouchFn();
     stone_groupTouchFn();
     pieces1TouchFn();
@@ -424,9 +405,12 @@ export default function MasterCreation() {
     setRowDataArr((prev) => [...prev, { ...formattedRowData }]);
   }
 
-  const handleSave = (event) =>{
-    //  setImageUrlTouch(true);
 
+
+  const handleSave = (event) => {
+    
+    
+    setImageUrlTouch(true);
     main_groupTouchFn();
     categoryTouchFn();
     styleTouchFn();
@@ -466,14 +450,9 @@ export default function MasterCreation() {
       remark: remark,
       designDetails: enteredRowData,
     };
-    //console.log(fileNew[0])
-    for (let key of Object.keys(event.target.file)) {
-     // console.log("key and images are >>>", key, " ...images ...", fileNew[key])
-      if (key !== 'length') {
-        formData.append('images',[event.target.file[key]]);
-      }
-    }
 
+    formData.append('images', fileList);
+   
     console.log(formData.get('images'))
     formData.append('design',
       new Blob([JSON.stringify(enteredFormData)], {
@@ -484,19 +463,32 @@ export default function MasterCreation() {
       method: 'POST',
       body: formData,
     }).then(response => response.json())
-      .then(result => console.log('Files successfully uploaded!'))
-      .catch(error => console.log('error occurred!'));
+      .then(res => console.log('Files successfully uploaded!', res))
+      .catch(err => console.log('error occurred!', err));
+      alert.show("Design Added..")
+      ResetAll();
+      handleExit();
   }
+
+
+
+
 
   function handleExit() {
     navigate("/master-design");
   }
 
+
+
+
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
 
   function handleAddImage() {
     setIsDrawerOpen(true);
   }
+
+
   function handleCloseDrawer() {
     setIsDrawerOpen(false);
   }
@@ -528,24 +520,24 @@ export default function MasterCreation() {
   const [selectedFiles, setSelectedFiles] = useState(null);
   const [msg, setMsg] = useState(null);
 
+
   function handleSelectFiles(event) {
     setSelectedFiles(event.target.files);
   }
+
 
   function handleUploadFiles() {
     if (!selectedFiles) {
       setMsg("No file Selected!");
       return;
     }
-
     const fd = new FormData();
     for (let i = 0; i < selectedFiles.length; i++) {
       fd.append(`file${i + 1}`, selectedFiles[i]);
     }
+  }
 
-  }
-  {//console.log(handlePreview(fileList[0]))}
-  }
+  
   return (
     <>
       <main className={classes.container}>
@@ -582,26 +574,7 @@ export default function MasterCreation() {
                       <option value="Gold">Gold</option>
                       <option value="Silver">Silver</option>
                     </select>
-                    {main_groupHasErr && <p className={classes.err}>Select a main group!</p>}
-                    {/* <SelectComponent
-                                onMainGroupChange={handleMainGroupChange}
-                                placeholder={"Select main group"}
-                                options={[
-                                    {
-                                        value: "gold",
-                                        label: "Gold"
-                                    },
-                                    {
-                                        value: "diamond",
-                                        label: "Diamond"
-                                    },
-                                    {
-                                        value: "silver",
-                                        label: "Silver"
-                                    }
-                                ]}
-                                name="main_group"
-                            /> */}
+                    {main_groupHasErr && <p className={classes.err}>Select a main group!</p>}                    
                   </div>
                   <div className={categoryClasses} style={{ minWidth: "30%" }}>
                     <label htmlFor="category">Category</label>
@@ -622,24 +595,6 @@ export default function MasterCreation() {
                       <option value="Silver Jewelery">Silver Jewellery</option>
                     </select>
                     {categoryHasErr && <p className={classes.err}>Select a category!</p>}
-                    {/* <SelectComponent
-                                placeholder={"Select a category"}
-                                options={[
-                                    {
-                                        value: "gold jewellery",
-                                        label: "Gold Jewellery"
-                                    },
-                                    {
-                                        value: "diamond jewellery",
-                                        label: "Diamond Jewellery"
-                                    },
-                                    {
-                                        value: "silver jewellery",
-                                        label: "Silver Jewellery"
-                                    } 
-                                ]}
-                                name="category"
-                            /> */}
                   </div>
                   <div className={styleClasses} style={{ minWidth: "30%" }}>
                     <label htmlFor="style">Style</label>
@@ -660,24 +615,6 @@ export default function MasterCreation() {
                       <option value="Style3">Style3</option>
                     </select>
                     {styleHasErr && <p className={classes.err}>Select a style!</p>}
-                    {/* <SelectComponent
-                                placeholder={"Select a style"}
-                                options={[
-                                    {
-                                        value: "style1",
-                                        label: "Style1"
-                                    },
-                                    {
-                                        value: "style2",
-                                        label: "Style2"
-                                    },
-                                    {
-                                        value: "style3",
-                                        label: "Style3"
-                                    }
-                                ]}
-                                name="style"
-                            /> */}
                   </div>
                   <div className={productClasses} style={{ minWidth: "30%" }}>
                     <label htmlFor="product">Product</label>
@@ -698,24 +635,6 @@ export default function MasterCreation() {
                       <option value="Product3">Product3</option>
                     </select>
                     {productHasErr && <p className={classes.err}>Select a product!</p>}
-                    {/* <SelectComponent
-                                placeholder={"Select a product"}
-                                options={[
-                                    {
-                                        value: "product1",
-                                        label: "Product1"
-                                    },
-                                    {
-                                        value: "product2",
-                                        label: "Product2"
-                                    },
-                                    {
-                                        value: "product3",
-                                        label: "Product3"
-                                    }
-                                ]}
-                                name="product"
-                            /> */}
                   </div>
                   <div className={modelClasses}>
                     <label htmlFor="model">Model</label>
@@ -736,24 +655,6 @@ export default function MasterCreation() {
                       <option value="Model3">Model3</option>
                     </select>
                     {modelHasErr && <p className={classes.err}>Select a model!</p>}
-                    {/* <SelectComponent
-                                placeholder={"Select model"}
-                                options={[
-                                    {
-                                        value: "model1",
-                                        label: "Model1"
-                                    },
-                                    {
-                                        value: "model2",
-                                        label: "Model2"
-                                    },
-                                    {
-                                        value: "model3",
-                                        label: "Model3"
-                                    }
-                                ]}
-                                name="model"
-                            /> */}
                   </div>
                   <div className={sizeClasses}>
                     <label htmlFor="size">Size</label>
@@ -774,24 +675,6 @@ export default function MasterCreation() {
                       <option value="Size3">Size3</option>
                     </select>
                     {sizeHasErr && <p className={classes.err}>Select a size!</p>}
-                    {/* <SelectComponent
-                                placeholder={"Select size"}
-                                options={[
-                                    {
-                                        value: "size1",
-                                        label: "Size1"
-                                    },
-                                    {
-                                        value: "size2",
-                                        label: "Size2"
-                                    },
-                                    {
-                                        value: "size3",
-                                        label: "Size3"
-                                    }
-                                ]}
-                                name="size"
-                            /> */}
                   </div>
                   <div className={workerClasses}>
                     <label htmlFor="worker">Worker</label>
@@ -812,24 +695,6 @@ export default function MasterCreation() {
                       <option value="Worker3">Worker3</option>
                     </select>
                     {workerHasErr && <p className={classes.err}>Select one worker!</p>}
-                    {/* <SelectComponent
-                                placeholder={"Select worker"}
-                                options={[
-                                    {
-                                        value: "worker1",
-                                        label: "Worker1"
-                                    },
-                                    {
-                                        value: "worker2",
-                                        label: "Worker2"
-                                    },
-                                    {
-                                        value: "worker3",
-                                        label: "Worker3"
-                                    }
-                                ]}
-                                name="worker"
-                            /> */}
                   </div>
                   <div className={piecesClasses} style={{ maxWidth: "10%" }}>
                     <label htmlFor="pieces">Pcs</label>
@@ -953,24 +818,6 @@ export default function MasterCreation() {
                       <option value="Type3">Type3</option>
                     </select>
                     {typeHasErr && <p className={classes.err}>Select a type!</p>}
-                    {/* <SelectComponent
-                                placeholder={"Select a type"}
-                                options={[
-                                    {
-                                        value: "type1",
-                                        label: "Type1"
-                                    },
-                                    {
-                                        value: "type2",
-                                        label: "Type2"
-                                    },
-                                    {
-                                        value: "type3",
-                                        label: "Type3"
-                                    }
-                                ]}
-                                name="type"
-                            /> */}
                   </div>
                   <div className={stone_groupClasses} style={{ minWidth: "20%" }}>
                     <label htmlFor="stone_group">Stone Group</label>
@@ -989,24 +836,6 @@ export default function MasterCreation() {
                       <option value="Stone Group 2">Stone Group 2</option>
                     </select>
                     {stone_groupHasErr && <p className={classes.err}>Select a stone group!</p>}
-                    {/* <SelectComponent
-                                placeholder={"Select stone group"}
-                                options={[
-                                    {
-                                        value: "stone group 1",
-                                        label: "Stone Group 1"
-                                    },
-                                    {
-                                        value: "stone group 2",
-                                        label: "Stone Group 2"
-                                    },
-                                    {
-                                        value: "stone group 3",
-                                        label: "Stone Group 3"
-                                    }
-                                ]}
-                                name="stone-group"
-                            /> */}
                   </div>
                   <div className={pieces1Classes} style={{ maxWidth: "10%" }}>
                     <label htmlFor="pieces1">Pcs</label>
@@ -1050,10 +879,9 @@ export default function MasterCreation() {
               </div>
             </fieldset>
             <div className={classes.image}>
-              {fileList.length <= 0 ?
+              {fileList.length <= 0 & imageUrl.length <= 0?
                 <img src={"https://nxtdiv-digital-catalogue.s3.ap-south-1.amazonaws.com/DigitalCatalogue/2023/8/30/20230930202809573_Jewellery.jpg"} alt="Design Image" style={{ width: '100%' }} /> :
-                <img src={imageUrl} alt="Design Image" style={{ width: '100%' }} />}
-
+                <img src={imageUrl[0]} alt="Design Image" style={{ width: '100%' }} />}
             </div>
           </div>
         </div>
@@ -1073,7 +901,7 @@ export default function MasterCreation() {
           */}
           <h2>Add Images</h2>
           <div style={{ alignItems: 'center', justifyItems: 'center' }}>
-           {/*  <Upload
+           <Upload
             action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
             listType="picture-card"
             fileList={fileList}
@@ -1081,15 +909,13 @@ export default function MasterCreation() {
             onChange={handleUploadChange}
           >
             {fileList.length >= 4 ? null : uploadButton}
-          </Upload> */}
-            <div className="uk-margin-medium-top">
+          </Upload> 
+            {/* <div className="uk-margin-medium-top">
               <label>Upload Files</label>
               <input type="file"
                 onChange={(event) => uploadJSONFiles(event)}
                 multiple />
-            </div> 
-
-
+            </div> */}
           </div>
           <div style={{ alignItems: 'center', justifyContent: 'center', float: 'center' }}>
             <Button onClick={handleImageUpload}>
@@ -1112,5 +938,5 @@ export default function MasterCreation() {
   );
 
 
-  
+
 }
