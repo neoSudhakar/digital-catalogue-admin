@@ -4,10 +4,10 @@ import UploadImage from "../../../assets/upload-image.png";
 
 export default function ImageComponent({fileList}){
       let  images= [
-            {image: "https://picsum.photos/536/354", isDefault: true},
-            // {image: "https://picsum.photos/536/301", isDefault: false},
-            {image: "https://picsum.photos/536/302", isDefault: false},
-            {image: "https://picsum.photos/536/303" , isDefault: false},
+            {image: UploadImage, isDefault: true},
+            {image: UploadImage, isDefault: false},
+            // {image: "https://picsum.photos/536/302", isDefault: false},
+            // {image: "https://picsum.photos/536/303" , isDefault: false},
       ]
 
     const [imageItems, setImageItems]= useState(images);
@@ -34,7 +34,7 @@ export default function ImageComponent({fileList}){
         //"https://nxtdiv-digital-catalogue.s3.ap-south-1.amazonaws.com/DigitalCatalogue/2023/8/30/20230930202809573_Jewellery.jpg"
         <img src={UploadImage} alt="Design Image" style={{ width: '30%' }} />)
       }
-      {images.length === 1 && <img src={images[0].image}  style={{ width: '100%' }}  />}
+      {images.length === 1 && <img src={images[0].image}  style={{ width: '100%', height:"95%" }}  />}
       {images.length > 1 && <div className={classes.container}>
           <div className={classes["default-img"]}>
               <img src={defaultImageItem.image} />

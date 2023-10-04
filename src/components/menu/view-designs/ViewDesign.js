@@ -13,367 +13,575 @@ const today = new Date().toISOString().slice(0, 10);
 
 const DUMMY_LIST = [
   {
-    id: "d1",
-    title: "Design 1",
-    description: "This is the first Design.",
-    price: 300,
-    main_group: "Diamond",
+    id: "1",
+    // title: "Design "+id,
+    // description: "This is the first Design.",
+    // price: 300,
+    mainGroup: "Diamond",
     category: "Diamond Jewelery",
-    design_number: 1,
-    created_date: today,
+    designNumber: 1,
+    createdDate: today,
     style: "Style 2",
     product: "Product 2",
     model: "Model 2",
     size: "Size 2",
     worker: "Worker 2",
     pieces: 1,
-    gross_weight: 120,
-    stone_weight: 130,
-    net_weight: 140,
-    component_weight: 150,
-    ghat_weight: 160,
+    grossWeight: 120,
+    stoneWeight: 130,
+    netWeight: 140,
+    componentWeight: 150,
+    ghatWt: 160,
     remark: "Remarks description...",
-    images:[
-      {image: "https://picsum.photos/536/354", isDefault: true},
-      {image: "https://picsum.photos/536/301", isDefault: false},
-      {image: "https://picsum.photos/536/302", isDefault: false},
-      {image: "https://picsum.photos/536/303" , isDefault: false},
+    detailsSet: [
+      {
+        type: 'composite',
+        stoneGroup: 'stoneGroup1',
+        pieces: 122,
+        stoneWeight: 12,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+      {
+        type: 'stone',
+        stoneGroup: 'stoneGroup2',
+        pieces: 150,
+        stoneWeight: 19,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+    ],
+    designImages:[
+      {imageUrl: "https://picsum.photos/536/354", isDefault: true},
+      {imageUrl: "https://picsum.photos/536/301", isDefault: false},
+      {imageUrl: "https://picsum.photos/536/302", isDefault: false},
+      {imageUrl: "https://picsum.photos/536/303" , isDefault: false},
     ]
   },
   {
-    id: "d2",
-    title: "Design 2",
-    description: "This is the second Design.",
-    price: 350,
-    main_group: "Gold",
+    id: "2",
+    // title: "Design 2",
+    // description: "This is the second Design.",
+    // price: 350,
+    mainGroup: "Gold",
     category: "Gold Jewelery",
-    design_number: 2,
-    created_date: today,
+    designNumber: 2,
+    createdDate: today,
     style: "Style 3",
     product: "Product 3",
     model: "Model 3",
     size: "Size 3",
     worker: "Worker 3",
     pieces: 1,
-    gross_weight: 130,
-    stone_weight: 130,
-    net_weight: 140,
-    component_weight: 150,
-    ghat_weight: 160,
+    grossWeight: 130,
+    stoneWeight: 130,
+    netWeight: 140,
+    componentWeight: 150,
+    ghatWt: 160,
     remark: "Remarks description...",
-    images:[
-      {image: "https://picsum.photos/536/355", isDefault: true},
-      {image: "https://picsum.photos/536/304", isDefault: false},
-      {image: "https://picsum.photos/536/305", isDefault: false},
-      {image: "https://picsum.photos/536/306" , isDefault: false},
+    detailsSet: [
+      {
+        type: 'composite',
+        stoneGroup: 'stoneGroup1',
+        pieces: 122,
+        stoneWeight: 12,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+      {
+        type: 'stone',
+        stoneGroup: 'stoneGroup2',
+        pieces: 150,
+        stoneWeight: 19,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+    ],
+    designImages:[
+      {imageUrl: "https://picsum.photos/536/355", isDefault: true},
+      {imageUrl: "https://picsum.photos/536/304", isDefault: false},
+      {imageUrl: "https://picsum.photos/536/305", isDefault: false},
+      {imageUrl: "https://picsum.photos/536/306" , isDefault: false},
     ]
   },
   {
-    id: "d3",
-    title: "Design 3",
-    description: "This is the third Design.",
-    price: 390,
-    main_group: "Diamond",
+    id: "3",
+    // title: "Design 3",
+    // description: "This is the third Design.",
+    // price: 390,
+    mainGroup: "Diamond",
     category: "Diamond Jewelery",
-    design_number: 1,
-    created_date: today,
+    designNumber: 1,
+    createdDate: today,
     style: "Style 2",
     product: "Product 2",
     model: "Model 2",
     size: "Size 2",
     worker: "Worker 2",
     pieces: 1,
-    gross_weight: 140,
-    stone_weight: 130,
-    net_weight: 140,
-    component_weight: 150,
-    ghat_weight: 160,
+    grossWeight: 140,
+    stoneWeight: 130,
+    netWeight: 140,
+    componentWeight: 150,
+    ghatWt: 160,
     remark: "Remarks description...",
-    images:[
-      {image: "https://picsum.photos/536/353", isDefault: true},
-      {image: "https://picsum.photos/536/307", isDefault: false},
-      {image: "https://picsum.photos/536/308", isDefault: false},
-      {image: "https://picsum.photos/536/309" , isDefault: false},
+    detailsSet: [
+      {
+        type: 'composite',
+        stoneGroup: 'Stone Group 1',
+        pieces: 122,
+        stoneWeight: 12,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+      {
+        type: 'stone',
+        stoneGroup: 'Stone Group 2',
+        pieces: 150,
+        stoneWeight: 19,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+    ],
+    designImages:[
+      {imageUrl: "https://picsum.photos/536/353", isDefault: true},
+      {imageUrl: "https://picsum.photos/536/307", isDefault: false},
+      {imageUrl: "https://picsum.photos/536/308", isDefault: false},
+      {imageUrl: "https://picsum.photos/536/309" , isDefault: false},
     ]
   },
   {
-    id: "d4",
-    title: "Design 4",
-    description: "This is the fourth Design.",
-    price: 400,
-    main_group: "Gold",
+    id: "4",
+    // title: "Design 4",
+    // description: "This is the fourth Design.",
+    // price: 400,
+    mainGroup: "Gold",
     category: "Gold Jewelery",
-    design_number: 2,
-    created_date: today,
+    designNumber: 2,
+    createdDate: today,
     style: "Style 1",
     product: "Product 1",
     model: "Model 1",
     size: "Size 1",
     worker: "Worker 1",
     pieces: 1,
-    gross_weight: 120,
-    stone_weight: 130,
-    net_weight: 140,
-    component_weight: 150,
-    ghat_weight: 160,
+    grossWeight: 120,
+    stoneWeight: 130,
+    netWeight: 140,
+    componentWeight: 150,
+    ghatWt: 160,
     remark: "Remarks description...",
-    images:[
-      {image: "https://picsum.photos/536/352", isDefault: true},
-      {image: "https://picsum.photos/536/310", isDefault: false},
-      {image: "https://picsum.photos/536/311", isDefault: false},
-      {image: "https://picsum.photos/536/312" , isDefault: false},
+    detailsSet: [
+      {
+        type: 'composite',
+        stoneGroup: 'Stone Group 1',
+        pieces: 122,
+        stoneWeight: 12,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+      {
+        type: 'stone',
+        stoneGroup: 'Stone Group 2',
+        pieces: 150,
+        stoneWeight: 19,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+    ],
+    designImages:[
+      {imageUrl: "https://picsum.photos/536/352", isDefault: true},
+      {imageUrl: "https://picsum.photos/536/310", isDefault: false},
+      {imageUrl: "https://picsum.photos/536/311", isDefault: false},
+      {imageUrl: "https://picsum.photos/536/312" , isDefault: false},
     ]
   },
   {
-    id: "d5",
-    title: "Design 5",
-    description: "This is the fifth Design.",
-    price: 450,
-    main_group: "Diamond",
+    id: "5",
+    // title: "Design 5",
+    // description: "This is the fifth Design.",
+    // price: 450,
+    mainGroup: "Diamond",
     category: "Diamond Jewelery",
-    design_number: 1,
-    created_date: today,
+    designNumber: 1,
+    createdDate: today,
     style: "Style 2",
     product: "Product 2",
     model: "Model 2",
     size: "Size 2",
     worker: "Worker 2",
     pieces: 1,
-    gross_weight: 130,
-    stone_weight: 130,
-    net_weight: 140,
-    component_weight: 150,
-    ghat_weight: 160,
+    grossWeight: 130,
+    stoneWeight: 130,
+    netWeight: 140,
+    componentWeight: 150,
+    ghatWt: 160,
     remark: "Remarks description...",
-    images:[
-      {image: "https://picsum.photos/536/351", isDefault: true},
-      {image: "https://picsum.photos/536/313", isDefault: false},
-      {image: "https://picsum.photos/536/314", isDefault: false},
-      {image: "https://picsum.photos/536/315" , isDefault: false},
+    detailsSet: [
+      {
+        type: 'composite',
+        stoneGroup: 'Stone Group 1',
+        pieces: 122,
+        stoneWeight: 12,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+      {
+        type: 'stone',
+        stoneGroup: 'Stone Group 2',
+        pieces: 150,
+        stoneWeight: 19,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+    ],
+    designImages:[
+      {imageUrl: "https://picsum.photos/536/351", isDefault: true},
+      {imageUrl: "https://picsum.photos/536/313", isDefault: false},
+      {imageUrl: "https://picsum.photos/536/314", isDefault: false},
+      {imageUrl: "https://picsum.photos/536/315" , isDefault: false},
     ]
   },
   {
-    id: "d6",
-    title: "Design 6",
-    description: "This is the sixth Design.",
-    price: 500,
-    main_group: "Gold",
+    id: "6",
+    // title: "Design 6",
+    // description: "This is the sixth Design.",
+    // price: 500,
+    mainGroup: "Gold",
     category: "Gold Jewelery",
-    design_number: 2,
-    created_date: today,
+    designNumber: 2,
+    createdDate: today,
     style: "Style 3",
     product: "Product 3",
     model: "Model 3",
     size: "Size 3",
     worker: "Worker 3",
     pieces: 1,
-    gross_weight: 140,
-    stone_weight: 130,
-    net_weight: 140,
-    component_weight: 150,
-    ghat_weight: 160,
+    grossWeight: 140,
+    stoneWeight: 130,
+    netWeight: 140,
+    componentWeight: 150,
+    ghatWt: 160,
     remark: "Remarks description...",
-    images:[
-      {image: "https://picsum.photos/536/356", isDefault: true},
-      {image: "https://picsum.photos/536/316", isDefault: false},
-      {image: "https://picsum.photos/536/317", isDefault: false},
-      {image: "https://picsum.photos/536/318" , isDefault: false},
+    detailsSet: [
+      {
+        type: 'composite',
+        stoneGroup: 'Stone Group 1',
+        pieces: 122,
+        stoneWeight: 12,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+      {
+        type: 'stone',
+        stoneGroup: 'Stone Group 2',
+        pieces: 150,
+        stoneWeight: 19,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+    ],
+    designImages:[
+      {imageUrl: "https://picsum.photos/536/356", isDefault: true},
+      {imageUrl: "https://picsum.photos/536/316", isDefault: false},
+      {imageUrl: "https://picsum.photos/536/317", isDefault: false},
+      {imageUrl: "https://picsum.photos/536/318" , isDefault: false},
     ]
   },
   {
-    id: "d7",
-    title: "Design 7",
-    description: "This is the seventh Design.",
-    price: 550,
-    main_group: "Diamond",
+    id: "7",
+    // title: "Design 7",
+    // description: "This is the seventh Design.",
+    // price: 550,
+    mainGroup: "Diamond",
     category: "Diamond Jewelery",
-    design_number: 2,
-    created_date: today,
+    designNumber: 2,
+    createdDate: today,
     style: "Style 2",
     product: "Product 2",
     model: "Model 2",
     size: "Size 2",
     worker: "Worker 2",
     pieces: 1,
-    gross_weight: 120,
-    stone_weight: 130,
-    net_weight: 140,
-    component_weight: 150,
-    ghat_weight: 160,
+    grossWeight: 120,
+    stoneWeight: 130,
+    netWeight: 140,
+    componentWeight: 150,
+    ghatWt: 160,
     remark: "Remarks description...",
-    images:[
-      {image: "https://picsum.photos/536/357", isDefault: true},
-      {image: "https://picsum.photos/536/319", isDefault: false},
-      {image: "https://picsum.photos/536/320", isDefault: false},
-      {image: "https://picsum.photos/536/321" , isDefault: false},
+    detailsSet: [
+      {
+        type: 'composite',
+        stoneGroup: 'Stone Group 1',
+        pieces: 122,
+        stoneWeight: 12,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+      {
+        type: 'stone',
+        stoneGroup: 'Stone Group 2',
+        pieces: 150,
+        stoneWeight: 19,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+    ],
+    designImages:[
+      {imageUrl: "https://picsum.photos/536/357", isDefault: true},
+      {imageUrl: "https://picsum.photos/536/319", isDefault: false},
+      {imageUrl: "https://picsum.photos/536/320", isDefault: false},
+      {imageUrl: "https://picsum.photos/536/321" , isDefault: false},
     ]
   },
   {
-    id: "d8",
-    title: "Design 8",
-    description: "This is the eighth Design.",
-    price: 600,
-    main_group: "Gold",
+    id: "8",
+    // title: "Design 8",
+    // description: "This is the eighth Design.",
+    // price: 600,
+    mainGroup: "Gold",
     category: "Gold Jewelery",
-    design_number: 1,
-    created_date: today,
+    designNumber: 1,
+    createdDate: today,
     style: "Style 3",
     product: "Product 3",
     model: "Model 3",
     size: "Size 3",
     worker: "Worker 3",
     pieces: 1,
-    gross_weight: 130,
-    stone_weight: 130,
-    net_weight: 140,
-    component_weight: 150,
-    ghat_weight: 160,
+    grossWeight: 130,
+    stoneWeight: 130,
+    netWeight: 140,
+    componentWeight: 150,
+    ghatWt: 160,
     remark: "Remarks description...",
-    images:[
-      {image: "https://picsum.photos/536/358", isDefault: true},
-      {image: "https://picsum.photos/536/322", isDefault: false},
-      {image: "https://picsum.photos/536/323", isDefault: false},
-      {image: "https://picsum.photos/536/324" , isDefault: false},
+    detailsSet: [
+      {
+        type: 'composite',
+        stoneGroup: 'Stone Group 1',
+        pieces: 122,
+        stoneWeight: 12,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+      {
+        type: 'stone',
+        stoneGroup: 'Stone Group 2',
+        pieces: 150,
+        stoneWeight: 19,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+    ],
+    designImages:[
+      {imageUrl: "https://picsum.photos/536/358", isDefault: true},
+      {imageUrl: "https://picsum.photos/536/322", isDefault: false},
+      {imageUrl: "https://picsum.photos/536/323", isDefault: false},
+      {imageUrl: "https://picsum.photos/536/324" , isDefault: false},
     ]
   },
   {
-    id: "d9",
-    title: "Design 9",
-    description: "This is the ninth Design.",
-    price: 650,
-    main_group: "Diamond",
+    id: "9",
+    // title: "Design 9",
+    // description: "This is the ninth Design.",
+    // price: 650,
+    mainGroup: "Diamond",
     category: "Diamond Jewelery",
-    design_number: 2,
-    created_date: today,
+    designNumber: 2,
+    createdDate: today,
     style: "Style 1",
     product: "Product 1",
     model: "Model 1",
     size: "Size 1",
     worker: "Worker 1",
     pieces: 1,
-    gross_weight: 140,
-    stone_weight: 130,
-    net_weight: 140,
-    component_weight: 150,
-    ghat_weight: 160,
+    grossWeight: 140,
+    stoneWeight: 130,
+    netWeight: 140,
+    componentWeight: 150,
+    ghatWt: 160,
     remark: "Remarks description...",
-    images:[
-      {image: "https://picsum.photos/536/359", isDefault: true},
-      {image: "https://picsum.photos/536/325", isDefault: false},
-      {image: "https://picsum.photos/536/326", isDefault: false},
-      {image: "https://picsum.photos/536/327" , isDefault: false},
+    detailsSet: [
+      {
+        type: 'composite',
+        stoneGroup: 'Stone Group 1',
+        pieces: 122,
+        stoneWeight: 12,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+      {
+        type: 'stone',
+        stoneGroup: 'Stone Group 2',
+        pieces: 150,
+        stoneWeight: 19,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+    ],
+    designImages:[
+      {imageUrl: "https://picsum.photos/536/359", isDefault: true},
+      {imageUrl: "https://picsum.photos/536/325", isDefault: false},
+      {imageUrl: "https://picsum.photos/536/326", isDefault: false},
+      {imageUrl: "https://picsum.photos/536/327" , isDefault: false},
     ]
   },
   {
-    id: "d10",
-    title: "Design 10",
-    description: "This is the tenth Design.",
-    price: 700,
-    main_group: "Gold",
+    id: "10",
+    // title: "Design 10",
+    // description: "This is the tenth Design.",
+    // price: 700,
+    mainGroup: "Gold",
     category: "Gold Jewelery",
-    design_number: 1,
-    created_date: today,
+    designNumber: 1,
+    createdDate: today,
     style: "Style 2",
     product: "Product 2",
     model: "Model 2",
     size: "Size 2",
     worker: "Worker 2",
     pieces: 1,
-    gross_weight: 120,
-    stone_weight: 130,
-    net_weight: 140,
-    component_weight: 150,
-    ghat_weight: 160,
+    grossWeight: 120,
+    stoneWeight: 130,
+    netWeight: 140,
+    componentWeight: 150,
+    ghatWt: 160,
     remark: "Remarks description...",
-    images:[
-      {image: "https://picsum.photos/536/360", isDefault: true},
-      {image: "https://picsum.photos/536/328", isDefault: false},
-      {image: "https://picsum.photos/536/329", isDefault: false},
-      {image: "https://picsum.photos/536/330" , isDefault: false},
+    detailsSet: [
+      {
+        type: 'composite',
+        stoneGroup: 'Stone Group 1',
+        pieces: 122,
+        stoneWeight: 12,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+      {
+        type: 'stone',
+        stoneGroup: 'Stone Group 2',
+        pieces: 150,
+        stoneWeight: 19,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+    ],
+    designImages:[
+      {imageUrl: "https://picsum.photos/536/360", isDefault: true},
+      {imageUrl: "https://picsum.photos/536/328", isDefault: false},
+      {imageUrl: "https://picsum.photos/536/329", isDefault: false},
+      {imageUrl: "https://picsum.photos/536/330" , isDefault: false},
     ]
   },
   {
-    id: "d11",
-    title: "Design 11",
-    description: "This is the 11th Design.",
-    price: 750,
-    main_group: "Diamond",
+    id: "11",
+    // title: "Design 11",
+    // description: "This is the 11th Design.",
+    // price: 750,
+    mainGroup: "Diamond",
     category: "Diamond Jewelery",
-    design_number: 2,
-    created_date: today,
+    designNumber: 2,
+    createdDate: today,
     style: "Style 1",
     product: "Product 1",
     model: "Model 1",
     size: "Size 1",
     worker: "Worker 1",
     pieces: 1,
-    gross_weight: 130,
-    stone_weight: 130,
-    net_weight: 140,
-    component_weight: 150,
-    ghat_weight: 160,
+    grossWeight: 130,
+    stoneWeight: 130,
+    netWeight: 140,
+    componentWeight: 150,
+    ghatWt: 160,
     remark: "Remarks description...",
-    images:[
-      {image: "https://picsum.photos/536/361", isDefault: true},
-      {image: "https://picsum.photos/536/331", isDefault: false},
-      {image: "https://picsum.photos/536/332", isDefault: false},
-      {image: "https://picsum.photos/536/333" , isDefault: false},
+    detailsSet: [
+      {
+        type: 'composite',
+        stoneGroup: 'Stone Group 1',
+        pieces: 122,
+        stoneWeight: 12,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+      {
+        type: 'stone',
+        stoneGroup: 'Stone Group 2',
+        pieces: 150,
+        stoneWeight: 19,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+    ],
+    designImages:[
+      {imageUrl: "https://picsum.photos/536/361", isDefault: true},
+      {imageUrl: "https://picsum.photos/536/331", isDefault: false},
+      {imageUrl: "https://picsum.photos/536/332", isDefault: false},
+      {imageUrl: "https://picsum.photos/536/333" , isDefault: false},
     ]
   },
   {
-    id: "d12",
-    title: "Design 12",
-    description: "This is the 12th Design.",
-    price: 750,
-    main_group: "Gold",
+    id: "12",
+    // title: "Design 12",
+    // description: "This is the 12th Design.",
+    // price: 750,
+    mainGroup: "Gold",
     category: "Gold Jewelery",
-    design_number: 1,
-    created_date: today,
+    designNumber: 1,
+    createdDate: today,
     style: "Style 2",
     product: "Product 2",
     model: "Model 2",
     size: "Size 2",
     worker: "Worker 2",
     pieces: 1,
-    gross_weight: 140,
-    stone_weight: 130,
-    net_weight: 140,
-    component_weight: 150,
-    ghat_weight: 160,
+    grossWeight: 140,
+    stoneWeight: 130,
+    netWeight: 140,
+    componentWeight: 150,
+    ghatWt: 160,
     remark: "Remarks description...",
-    images:[
-      {image: "https://picsum.photos/536/362", isDefault: true},
-      {image: "https://picsum.photos/536/334", isDefault: false},
-      {image: "https://picsum.photos/536/335", isDefault: false},
-      {image: "https://picsum.photos/536/336" , isDefault: false},
+    detailsSet: [
+      {
+        type: 'composite',
+        stoneGroup: 'Stone Group 1',
+        pieces: 122,
+        stoneWeight: 12,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+      {
+        type: 'stone',
+        stoneGroup: 'Stone Group 2',
+        pieces: 150,
+        stoneWeight: 19,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+    ],
+    designImages:[
+      {imageUrl: "https://picsum.photos/536/362", isDefault: true},
+      {imageUrl: "https://picsum.photos/536/334", isDefault: false},
+      {imageUrl: "https://picsum.photos/536/335", isDefault: false},
+      {imageUrl: "https://picsum.photos/536/336" , isDefault: false},
     ]
   },
   {
-    id: "d13",
-    title: "Design 13",
-    description: "This is the 13th Design.",
-    price: 750,
-    main_group: "Gold",
+    id: "13",
+    // title: "Design 13",
+    // description: "This is the 13th Design.",
+    // price: 750,
+    mainGroup: "Gold",
     category: "Gold Jewelery",
-    design_number: 1,
-    created_date: today,
+    designNumber: 1,
+    createdDate: today,
     style: "Style 3",
     product: "Product 3",
     model: "Model 3",
     size: "Size 3",
     worker: "Worker 1",
     pieces: 1,
-    gross_weight: 100,
-    stone_weight: 100,
-    net_weight: 100,
-    component_weight: 100,
-    ghat_weight: 100,
+    grossWeight: 100,
+    stoneWeight: 100,
+    netWeight: 100,
+    componentWeight: 100,
+    ghatWt: 100,
     remark: "Remarks description...",
-    images:[
-      {image: "https://picsum.photos/536/363", isDefault: true},
-      {image: "https://picsum.photos/536/337", isDefault: false},
-      {image: "https://picsum.photos/536/338", isDefault: false},
-      {image: "https://picsum.photos/536/339" , isDefault: false},
+    detailsSet: [
+      {
+        type: 'composite',
+        stoneGroup: 'Stone Group 1',
+        pieces: 122,
+        stoneWeight: 12,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+      {
+        type: 'stone',
+        stoneGroup: 'Stone Group 2',
+        pieces: 150,
+        stoneWeight: 19,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+    ],
+    designImages:[
+      {imageUrl: "https://picsum.photos/536/363", isDefault: true},
+      {imageUrl: "https://picsum.photos/536/337", isDefault: false},
+      {imageUrl: "https://picsum.photos/536/338", isDefault: false},
+      {imageUrl: "https://picsum.photos/536/339" , isDefault: false},
     ]
   },
 ];
@@ -537,7 +745,7 @@ export default function ViewDesign() {
   let filteredList = DUMMY_LIST.filter((item) => {
     const isMainGroupMatch =
       Object.values(mainGrpFilters).every((value) => value === false) ||
-      mainGrpFilters[item.main_group];
+      mainGrpFilters[item.mainGroup];
     
     const isCategoryMatch =
       Object.values(categoryFilters).every((value) => value === false) ||
@@ -545,7 +753,7 @@ export default function ViewDesign() {
   
     const isDesignNumMatch =
       Object.values(designNumFilters).every((value) => value === false) ||
-      designNumFilters[`D.No:${item.design_number}`];
+      designNumFilters[`D.No:${item.designNumber}`];
   
     const isStyleMatch =
       Object.values(styleFilters).every((value) => value === false) ||
@@ -565,16 +773,16 @@ export default function ViewDesign() {
   
     const isWeightMatch =
       Object.values(weightRangeFilters).every((value) => value === false) ||
-      (weightRangeFilters["0-10grms"] && item.gross_weight <= 10) ||
+      (weightRangeFilters["0-10grms"] && item.grossWeight <= 10) ||
       (weightRangeFilters["10-20grms"] &&
-        item.gross_weight > 10 &&
-        item.gross_weight <= 20) ||
+        item.grossWeight > 10 &&
+        item.grossWeight <= 20) ||
       (weightRangeFilters["20-50grms"] &&
-        item.gross_weight > 20 &&
-        item.gross_weight <= 50) ||
+        item.grossWeight > 20 &&
+        item.grossWeight <= 50) ||
       (weightRangeFilters["50-100grms"] &&
-        item.gross_weight > 50 &&
-        item.gross_weight <= 100);
+        item.grossWeight > 50 &&
+        item.grossWeight <= 100);
   
     return (
       isMainGroupMatch &&
@@ -1127,7 +1335,7 @@ export default function ViewDesign() {
                         checked={designNumFilters["D.No:1"]}
                         onChange={handleDesignNumCheckChange}
                       />
-                      <label htmlFor="1">1</label>
+                      <label htmlFor="1">D.No:1</label>
                     </p>
                     <p className={classes["checkbox-grp"]}>
                       <input
@@ -1137,7 +1345,7 @@ export default function ViewDesign() {
                         checked={designNumFilters["D.No:2"]}
                         onChange={handleDesignNumCheckChange}
                       />
-                      <label htmlFor="2">2</label>
+                      <label htmlFor="2">D.No:2</label>
                     </p>
                   </motion.div>
                 )}
@@ -1474,9 +1682,9 @@ export default function ViewDesign() {
                   key={item.id}
                   className={classes.card}
                 >
-                  <img src={item.images[0].image} alt={item.title} />
-                  <p className={classes.title}>{item.title}</p>
-                  <p>{item.description}</p>
+                  <img src={item.designImages[0].imageUrl} alt={item.title} />
+                  <p className={classes.title}>Design {item.id}</p>
+                  <p>Gross Weight: {item.grossWeight} Grms</p>
                 </motion.li>
               );
             })}
@@ -1488,7 +1696,6 @@ export default function ViewDesign() {
   );
 
   if (isShow) {
-    
     content = (
       <DesignDetails onGoBack={handleGoBack} cardItem={cardItem}/>
     );

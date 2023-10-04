@@ -4,7 +4,7 @@ import { AgGridReact } from 'ag-grid-react'; // the AG Grid React Component
 import 'ag-grid-community/styles/ag-grid.css'; // Core grid CSS, always needed
 import 'ag-grid-community/styles/ag-theme-alpine.css'; // Optional theme CSS
 
-const CreationTable = ({rowDataArr}) => {
+const DesignTable = ({rowDataArr}) => {
 
 //   const gridRef = useRef(); // Optional - for accessing Grid's API
 
@@ -20,12 +20,12 @@ const CreationTable = ({rowDataArr}) => {
 
   // Each Column Definition results in one Column.
   const [columnDefs, setColumnDefs] = useState([
-    {field: "Sno", filter: false, width: 80, maxWidth: 150},
-    {field: 'type', filter: false, width: 150, minWidth: 150,},
-    {field: 'stoneGroup', filter: false, width: 150, minWidth: 150},
-    {field: "pcs", filter: false, width: 100, minWidth: 80, maxWidth: 110},
-    {field: "stoneWt", filter: false, width: 100, minWidth: 80, maxWidth: 120},
-    {field: "UOM", filter: false, width: 100, minWidth: 80, maxWidth: 110},
+    {field: "Sno", filter: false, width: 100, maxWidth: 110, minWidth: 100},
+    {field: 'type', filter: false, }, //width: 160, minWidth: 160, maxWidth: 200,
+    {field: 'stoneGroup', filter: false, }, //width: 180, minWidth: 180, maxWidth: 220,
+    {field: "pcs", filter: false, }, //width: 150, minWidth: 150, maxWidth: 160,
+    {field: "stoneWt", filter: false, }, //width: 150, minWidth: 150, maxWidth: 160,
+    {field: "UOM", filter: false,},// width: 100, minWidth: 100, maxWidth: 120,
   ]);
 
 
@@ -64,7 +64,7 @@ const CreationTable = ({rowDataArr}) => {
       {/* <button onClick={buttonListener}>Push Me</button> */}
 
       {/* On div wrapping Grid a) specify theme CSS Class Class and b) sets Grid size */}
-      <div className="ag-theme-alpine"  style={{width: "100%", height: 200}}>
+      <div className="ag-theme-alpine"  style={{width: "100%", height: 200 }}>
 
         <AgGridReact
             // ref={gridRef} // Ref for accessing Grid's API
@@ -83,4 +83,4 @@ const CreationTable = ({rowDataArr}) => {
   );
 };
 
-export default CreationTable;
+export default DesignTable;

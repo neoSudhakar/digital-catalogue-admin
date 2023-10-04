@@ -12,11 +12,23 @@
 
 .card-details{
     display: flex;
+    flex-direction: column;
     width:80%;
     background-color: white;
     box-shadow: 0 2px 4px rgba(0,0,0,0.25);
     min-height: 60vh;
+    align-items: center;
+    padding-bottom: 1rem;
+}
+.above-table{
+    width: 100%;
+    flex: 1;
+    display: flex;
     align-items: stretch;
+}
+.table{
+    width: 95%;
+    flex: 1;
 }
 
 .carousel{
