@@ -1,29 +1,33 @@
 import { Select } from 'antd';
 
-// const onChange = (value) => {
-//   console.log(`selected ${value}`);
-// };
-const onSearch = (value) => {
-  console.log('search:', value);
-};
+const SelectComponent = ({options, value, placeholder, name, onChangeFn, onBlurFn, id}) => {
+  const onChange = (value) => {
+    console.log(`selected ${value}`);
+    onChangeFn(value);
 
-// Filter `option.label` match the user type `input`
-const filterOption = (input, option,) =>
-(option?.label ?? '').toLowerCase().includes(input.toLowerCase());
-
-const SelectComponent = ({options, value, placeholder, name, onChange}) => (
+  };
+  const onSearch = (value) => {
+    console.log('search:', value);
+  };
   
-  <Select
+  // Filter `option.label` match the user type `input`
+  const filterOption = (input, option,) =>
+  (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
+  
+  return <Select
     style={{
-        border:"1px solid rgb(112, 112, 129)",
+        // border:"1px solid rgb(112, 112, 129)",
         borderRadius:"0.25rem",
+        backgroundColor: "white",
     }}
-    bordered={false}
+    // bordered={false}
     name={name}
+    id={id}
     showSearch
     placeholder={placeholder}
     optionFilterProp="children"
-    onChange={()=>onChange()}
+    onChange={onChange}
+    onBlur={()=>onBlurFn()}
     onSearch={onSearch}
     value={value}
     filterOption={filterOption}
@@ -43,5 +47,5 @@ const SelectComponent = ({options, value, placeholder, name, onChange}) => (
     //   },
     // ]}
   />
-);
+  };
 export default SelectComponent;

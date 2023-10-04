@@ -587,15 +587,6 @@ export default function ViewDesign() {
       isWeightMatch
     );
   });
-  
-  
-  
-
-  if (filteredList.length === 0) {
-    content=<div className={classes["whole-designs-page"]}>
-      <p>No results found!</p>
-    </div>
-  }
 
   let content = (
     <div key="whole-designs" className={classes["whole-designs-page"]}>

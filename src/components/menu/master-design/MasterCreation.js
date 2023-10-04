@@ -13,6 +13,8 @@ import ReactImageMagnify from "react-image-magnify";
 import axios, { Axios } from "axios";
 import SelectComponent from "./Select";
 import UploadImage from "../../../assets/upload-image.png";
+import ImageComponent from "./ImageComponent";
+import useSelect from "../../../hooks/useSelect";
 
 export default function MasterCreation() {
 
@@ -159,7 +161,7 @@ export default function MasterCreation() {
     resetFn: main_groupResetFn,
     handleBlur: main_groupHandleBlur,
     handleChange: main_groupHandleChange,
-  } = useInput((inputValue) => inputValue.trim().length !== 0);
+  } = useSelect((inputValue) => inputValue);
 
 
   const {
@@ -170,7 +172,7 @@ export default function MasterCreation() {
     resetFn: categoryResetFn,
     handleBlur: categoryHandleBlur,
     handleChange: categoryHandleChange,
-  } = useInput((inputValue) => inputValue.trim().length !== 0);
+  } = useSelect((inputValue) => inputValue);
 
   const {
     inputVal: style,
@@ -180,25 +182,17 @@ export default function MasterCreation() {
     resetFn: styleResetFn,
     handleBlur: styleHandleBlur,
     handleChange: styleHandleChange,
-  } = useInput((inputValue) => inputValue.trim().length !== 0);
+  } = useSelect((inputValue) => inputValue);
 
-  // const {
-  //   inputVal: product,
-  //   isValid: productIsValid,
-  //   hasErr: productHasErr,
-  //   touchFn: productTouchFn,
-  //   resetFn: productResetFn,
-  //   handleBlur: productHandleBlur,
-  //   handleChange: productHandleChange,
-  // } = useInput((inputValue) => inputValue.trim().length !== 0);
-
-  const [product,setProduct] =useState();
-
-  const productHandleChange=(value)=>{
-    console.log("VAlue: ", value);
-    setProduct((prev)=>value);
-    console.log(product);
-  }
+  const {
+    inputVal: product,
+    isValid: productIsValid,
+    hasErr: productHasErr,
+    touchFn: productTouchFn,
+    resetFn: productResetFn,
+    handleBlur: productHandleBlur,
+    handleChange: productHandleChange,
+  } = useSelect((inputValue) => inputValue);
 
   const {
     inputVal: model,
@@ -208,7 +202,7 @@ export default function MasterCreation() {
     resetFn: modelResetFn,
     handleBlur: modelHandleBlur,
     handleChange: modelHandleChange,
-  } = useInput((inputValue) => inputValue.trim().length !== 0);
+  } = useSelect((inputValue) => inputValue);
 
   const {
     inputVal: size,
@@ -218,7 +212,7 @@ export default function MasterCreation() {
     resetFn: sizeResetFn,
     handleBlur: sizeHandleBlur,
     handleChange: sizeHandleChange,
-  } = useInput((inputValue) => inputValue.trim().length !== 0);
+  } = useSelect((inputValue) => inputValue);
 
   const {
     inputVal: worker,
@@ -228,7 +222,7 @@ export default function MasterCreation() {
     resetFn: workerResetFn,
     handleBlur: workerHandleBlur,
     handleChange: workerHandleChange,
-  } = useInput((inputValue) => inputValue.trim().length !== 0);
+  } = useSelect((inputValue) => inputValue);
 
   const {
     inputVal: pieces,
@@ -308,7 +302,7 @@ export default function MasterCreation() {
     resetFn: typeResetFn,
     handleBlur: typeHandleBlur,
     handleChange: typeHandleChange,
-  } = useInput((inputValue) => inputValue.trim().length !== 0);
+  } = useSelect((inputValue) => inputValue);
 
   const {
     inputVal: stone_group,
@@ -318,7 +312,7 @@ export default function MasterCreation() {
     resetFn: stone_groupResetFn,
     handleBlur: stone_groupHandleBlur,
     handleChange: stone_groupHandleChange,
-  } = useInput((inputValue) => inputValue.trim().length !== 0);
+  } = useSelect((inputValue) => inputValue);
 
   const {
     inputVal: pieces1,
@@ -516,7 +510,7 @@ export default function MasterCreation() {
   const main_groupClasses = `${classes.group} ${main_groupHasErr ? classes["invalid"] : ""}`;
   const categoryClasses = `${classes.group} ${categoryHasErr ? classes["invalid"] : ""}`;
   const styleClasses = `${classes.group} ${styleHasErr ? classes["invalid"] : ""}`;
-  // const productClasses = `${classes.group} ${productHasErr ? classes["invalid"] : ""}`;
+  const productClasses = `${classes.group} ${productHasErr ? classes["invalid"] : ""}`;
   const modelClasses = `${classes.group} ${modelHasErr ? classes["invalid"] : ""}`;
   const sizeClasses = `${classes.group} ${sizeHasErr ? classes["invalid"] : ""}`;
   const workerClasses = `${classes.group} ${workerHasErr ? classes["invalid"] : ""}`;
@@ -592,26 +586,30 @@ export default function MasterCreation() {
                       <option value="Gold">Gold</option>
                       <option value="Silver">Silver</option>
                     </select>
-                    {main_groupHasErr && <p className={classes.err}>Select a main group!</p>}
+              
                     {/* <SelectComponent
-                                onMainGroupChange={handleMainGroupChange}
                                 placeholder={"Select main group"}
+                                id="main_group"
+                                onChangeFn={main_groupHandleChange}
+                                onBlurFn ={main_groupHandleBlur}
+                                value={main_group}
                                 options={[
                                     {
-                                        value: "gold",
+                                        value: "Gold",
                                         label: "Gold"
                                     },
                                     {
-                                        value: "diamond",
+                                        value: "Diamond",
                                         label: "Diamond"
                                     },
                                     {
-                                        value: "silver",
+                                        value: "Silver",
                                         label: "Silver"
                                     }
                                 ]}
                                 name="main_group"
                             /> */}
+                            {main_groupHasErr && <p className={classes.err}>Select a main group!</p>}
                   </div>
                   <div className={categoryClasses} style={{ minWidth: "30%" }}>
                     <label htmlFor="category">Category</label>
@@ -631,9 +629,13 @@ export default function MasterCreation() {
                       <option value="Gold Jewelery">Gold Jewellery</option>
                       <option value="Silver Jewelery">Silver Jewellery</option>
                     </select>
-                    {categoryHasErr && <p className={classes.err}>Select a category!</p>}
+                    
                     {/* <SelectComponent
                                 placeholder={"Select a category"}
+                                id="category"
+                                onChangeFn={categoryHandleChange}
+                                onBlurFn ={categoryHandleBlur}
+                                value={category}
                                 options={[
                                     {
                                         value: "gold jewellery",
@@ -650,6 +652,7 @@ export default function MasterCreation() {
                                 ]}
                                 name="category"
                             /> */}
+                            {categoryHasErr && <p className={classes.err}>Select a category!</p>}
                   </div>
                   <div className={styleClasses} style={{ minWidth: "30%" }}>
                     <label htmlFor="style">Style</label>
@@ -669,29 +672,34 @@ export default function MasterCreation() {
                       <option value="Style2">Style2</option>
                       <option value="Style3">Style3</option>
                     </select>
-                    {styleHasErr && <p className={classes.err}>Select a style!</p>}
+                    
                     {/* <SelectComponent
                                 placeholder={"Select a style"}
+                                id="style"
+                                onChangeFn={styleHandleChange}
+                                onBlurFn ={styleHandleBlur}
+                                value={style}
                                 options={[
                                     {
-                                        value: "style1",
+                                        value: "Style1",
                                         label: "Style1"
                                     },
                                     {
-                                        value: "style2",
+                                        value: "Style2",
                                         label: "Style2"
                                     },
                                     {
-                                        value: "style3",
+                                        value: "Style3",
                                         label: "Style3"
                                     }
                                 ]}
                                 name="style"
                             /> */}
+                            {styleHasErr && <p className={classes.err}>Select a style!</p>}
                   </div>
-                  <div className={classes.group} style={{ minWidth: "30%" }}>
+                  <div className={productClasses} style={{ minWidth: "30%" }}>
                     <label htmlFor="product">Product</label>
-                    {/* <select
+                    <select
                       value={product}
                       //  defaultValue="Product1"
                       onBlur={productHandleBlur}
@@ -706,28 +714,31 @@ export default function MasterCreation() {
                       </option>
                       <option value="Product2">Product2</option>
                       <option value="Product3">Product3</option>
-                    </select> */}
-                    {/* {productHasErr && <p className={classes.err}>Select a product!</p>} */}
-                    <Select
+                    </select>
+                    
+                    {/* <SelectComponent
                                 placeholder={"Select a product"}
+                                id="product"
+                                onChangeFn={productHandleChange}
+                                onBlurFn ={productHandleBlur}
+                                value={product}
                                 options={[
                                     {
-                                        value: "product1",
+                                        value: "Product1",
                                         label: "Product1"
                                     },
                                     {
-                                        value: "product2",
+                                        value: "Product2",
                                         label: "Product2"
                                     },
                                     {
-                                        value: "product3",
+                                        value: "Product3",
                                         label: "Product3"
                                     }
                                 ]}
                                 name="product"
-                                onChange={productHandleChange}
-                                value={product}
-                            />
+                            /> */}
+                            {productHasErr && <p className={classes.err}>Select a product!</p>}
                   </div>
                   <div className={modelClasses}>
                     <label htmlFor="model">Model</label>
@@ -747,25 +758,29 @@ export default function MasterCreation() {
                       <option value="Model2">Model2</option>
                       <option value="Model3">Model3</option>
                     </select>
-                    {modelHasErr && <p className={classes.err}>Select a model!</p>}
                     {/* <SelectComponent
                                 placeholder={"Select model"}
+                                id="model"
+                                onChangeFn={modelHandleChange}
+                                onBlurFn ={modelHandleBlur}
+                                value={model}
                                 options={[
                                     {
-                                        value: "model1",
+                                        value: "Model1",
                                         label: "Model1"
                                     },
                                     {
-                                        value: "model2",
+                                        value: "Model2",
                                         label: "Model2"
                                     },
                                     {
-                                        value: "model3",
+                                        value: "Model3",
                                         label: "Model3"
                                     }
                                 ]}
                                 name="model"
                             /> */}
+                            {modelHasErr && <p className={classes.err}>Select a model!</p>}
                   </div>
                   <div className={sizeClasses}>
                     <label htmlFor="size">Size</label>
@@ -785,25 +800,29 @@ export default function MasterCreation() {
                       <option value="Size2">Size2</option>
                       <option value="Size3">Size3</option>
                     </select>
-                    {sizeHasErr && <p className={classes.err}>Select a size!</p>}
                     {/* <SelectComponent
                                 placeholder={"Select size"}
+                                id="size"
+                                onChangeFn={sizeHandleChange}
+                                onBlurFn ={sizeHandleBlur}
+                                value={size}
                                 options={[
                                     {
-                                        value: "size1",
+                                        value: "Size1",
                                         label: "Size1"
                                     },
                                     {
-                                        value: "size2",
+                                        value: "Size2",
                                         label: "Size2"
                                     },
                                     {
-                                        value: "size3",
+                                        value: "Size3",
                                         label: "Size3"
                                     }
                                 ]}
                                 name="size"
                             /> */}
+                        {sizeHasErr && <p className={classes.err}>Select a size!</p>}
                   </div>
                   <div className={workerClasses}>
                     <label htmlFor="worker">Worker</label>
@@ -823,25 +842,29 @@ export default function MasterCreation() {
                       <option value="Worker2">Worker2</option>
                       <option value="Worker3">Worker3</option>
                     </select>
-                    {workerHasErr && <p className={classes.err}>Select one worker!</p>}
                     {/* <SelectComponent
                                 placeholder={"Select worker"}
+                                name={"worker"}
+                                id="worker"
+                                onChangeFn={workerHandleChange}
+                                onBlurFn ={workerHandleBlur}
+                                value={worker}
                                 options={[
                                     {
-                                        value: "worker1",
+                                        value: "Worker1",
                                         label: "Worker1"
                                     },
                                     {
-                                        value: "worker2",
+                                        value: "Worker2",
                                         label: "Worker2"
                                     },
                                     {
-                                        value: "worker3",
+                                        value: "Worker3",
                                         label: "Worker3"
                                     }
                                 ]}
-                                name="worker"
                             /> */}
+                      {workerHasErr && <p className={classes.err}>Select one worker!</p>}
                   </div>
                   <div className={piecesClasses} style={{ maxWidth: "10%" }}>
                     <label htmlFor="pieces">Pcs</label>
@@ -964,25 +987,30 @@ export default function MasterCreation() {
                       <option value="Type2">Type2</option>
                       <option value="Type3">Type3</option>
                     </select>
-                    {typeHasErr && <p className={classes.err}>Select a type!</p>}
+                    
                     {/* <SelectComponent
                                 placeholder={"Select a type"}
+                                name={"type"}
+                                id="type"
+                                onChangeFn={typeHandleChange}
+                                onBlurFn ={typeHandleBlur}
+                                value={type}
                                 options={[
                                     {
-                                        value: "type1",
+                                        value: "Type1",
                                         label: "Type1"
                                     },
                                     {
-                                        value: "type2",
+                                        value: "Type2",
                                         label: "Type2"
                                     },
                                     {
-                                        value: "type3",
+                                        value: "Type3",
                                         label: "Type3"
                                     }
                                 ]}
-                                name="type"
                             /> */}
+                        {typeHasErr && <p className={classes.err}>Select a type!</p>}
                   </div>
                   <div className={stone_groupClasses} style={{ minWidth: "20%" }}>
                     <label htmlFor="stone_group">Stone Group</label>
@@ -1000,25 +1028,26 @@ export default function MasterCreation() {
                       </option>
                       <option value="Stone Group 2">Stone Group 2</option>
                     </select>
-                    {stone_groupHasErr && <p className={classes.err}>Select a stone group!</p>}
+                    
                     {/* <SelectComponent
-                                placeholder={"Select stone group"}
+                              placeholder={"Select stone group"}
+                                name={"stone_group"}
+                                onChangeFn={stone_groupHandleChange}
+                                onBlurFn ={stone_groupHandleBlur}
+                                value={stone_group}
+                                id='stone_group'
                                 options={[
                                     {
-                                        value: "stone group 1",
+                                        value: "Stone Group 1",
                                         label: "Stone Group 1"
                                     },
                                     {
-                                        value: "stone group 2",
+                                        value: "Stone Group 2",
                                         label: "Stone Group 2"
                                     },
-                                    {
-                                        value: "stone group 3",
-                                        label: "Stone Group 3"
-                                    }
                                 ]}
-                                name="stone-group"
                             /> */}
+                      {stone_groupHasErr && <p className={classes.err}>Select a stone group!</p>}
                   </div>
                   <div className={pieces1Classes} style={{ maxWidth: "10%" }}>
                     <label htmlFor="pieces1">Pcs</label>
@@ -1062,12 +1091,7 @@ export default function MasterCreation() {
               </div>
             </fieldset>
             <div className={classes.image}>
-              {fileList.length <= 0 ?
-                //C:\Users\GaneshSurna\Downloads\WhatsApp Image 2023-10-03 at 2.39.48 PM.jpeg
-                //"https://nxtdiv-digital-catalogue.s3.ap-south-1.amazonaws.com/DigitalCatalogue/2023/8/30/20230930202809573_Jewellery.jpg"
-                <img src={UploadImage} alt="Design Image" style={{ width: '100%' }} /> :
-                <img src={imageUrl} alt="Design Image" style={{ width: '100%' }} />}
-
+              <ImageComponent fileList={fileList}/>
             </div>
           </div>
         </div>

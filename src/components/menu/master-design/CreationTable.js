@@ -20,20 +20,23 @@ const CreationTable = ({rowDataArr}) => {
 
   // Each Column Definition results in one Column.
   const [columnDefs, setColumnDefs] = useState([
-    {field: "Sno", filter: true},
-    {field: 'type', filter: true},
-    {field: 'stoneGroup', filter: true},
-    {field: "pcs", filter: true},
-    {field: "stoneWt", filter: true},
-    {field: "UOM", filter: true},
+    {field: "Sno", filter: false, width: 80, maxWidth: 150},
+    {field: 'type', filter: false, width: 100, minWidth: 80},
+    {field: 'stoneGroup', filter: false, width: 100, minWidth: 80},
+    {field: "pcs", filter: false, width: 100, minWidth: 80, maxWidth: 150},
+    {field: "stoneWt", filter: false, width: 100, minWidth: 80, maxWidth: 150},
+    {field: "UOM", filter: false, width: 100, minWidth: 80, maxWidth: 150},
   ]);
 
 
 
   // DefaultColDef sets props common to all Columns
-  const defaultColDef = useMemo( ()=> ({
-      sortable: true
-    }));
+    const defaultColDef = useMemo(() => {
+      return {
+        resizable: true,
+        // sortable: true,
+      };
+    }, []);
 
   // Example of consuming Grid Event
   const cellClickedListener = useCallback( event => {
