@@ -50,10 +50,10 @@ const DUMMY_LIST = [
       },
     ],
     designImages:[
-      {imageUrl: "https://picsum.photos/536/354", isDefault: true},
-      {imageUrl: "https://picsum.photos/536/301", isDefault: false},
-      {imageUrl: "https://picsum.photos/536/302", isDefault: false},
-      {imageUrl: "https://picsum.photos/536/303" , isDefault: false},
+      {imageUrl: "https://picsum.photos/536/354",},
+      {imageUrl: "https://picsum.photos/536/301", },
+      {imageUrl: "https://picsum.photos/536/302", },
+      {imageUrl: "https://picsum.photos/536/303" , },
     ]
   },
   {
@@ -94,10 +94,10 @@ const DUMMY_LIST = [
       },
     ],
     designImages:[
-      {imageUrl: "https://picsum.photos/536/355", isDefault: true},
-      {imageUrl: "https://picsum.photos/536/304", isDefault: false},
-      {imageUrl: "https://picsum.photos/536/305", isDefault: false},
-      {imageUrl: "https://picsum.photos/536/306" , isDefault: false},
+      {imageUrl: "https://picsum.photos/536/355", },
+      {imageUrl: "https://picsum.photos/536/304", },
+      {imageUrl: "https://picsum.photos/536/305", },
+      {imageUrl: "https://picsum.photos/536/306" , },
     ]
   },
   {
@@ -138,10 +138,10 @@ const DUMMY_LIST = [
       },
     ],
     designImages:[
-      {imageUrl: "https://picsum.photos/536/353", isDefault: true},
-      {imageUrl: "https://picsum.photos/536/307", isDefault: false},
-      {imageUrl: "https://picsum.photos/536/308", isDefault: false},
-      {imageUrl: "https://picsum.photos/536/309" , isDefault: false},
+      {imageUrl: "https://picsum.photos/536/353", },
+      {imageUrl: "https://picsum.photos/536/307", },
+      {imageUrl: "https://picsum.photos/536/308", },
+      {imageUrl: "https://picsum.photos/536/309" , },
     ]
   },
   {
@@ -182,10 +182,10 @@ const DUMMY_LIST = [
       },
     ],
     designImages:[
-      {imageUrl: "https://picsum.photos/536/352", isDefault: true},
-      {imageUrl: "https://picsum.photos/536/310", isDefault: false},
-      {imageUrl: "https://picsum.photos/536/311", isDefault: false},
-      {imageUrl: "https://picsum.photos/536/312" , isDefault: false},
+      {imageUrl: "https://picsum.photos/536/352", },
+      {imageUrl: "https://picsum.photos/536/310", },
+      {imageUrl: "https://picsum.photos/536/311", },
+      {imageUrl: "https://picsum.photos/536/312" , },
     ]
   },
   {
@@ -226,10 +226,10 @@ const DUMMY_LIST = [
       },
     ],
     designImages:[
-      {imageUrl: "https://picsum.photos/536/351", isDefault: true},
-      {imageUrl: "https://picsum.photos/536/313", isDefault: false},
-      {imageUrl: "https://picsum.photos/536/314", isDefault: false},
-      {imageUrl: "https://picsum.photos/536/315" , isDefault: false},
+      {imageUrl: "https://picsum.photos/536/351", },
+      {imageUrl: "https://picsum.photos/536/313", },
+      {imageUrl: "https://picsum.photos/536/314", },
+      {imageUrl: "https://picsum.photos/536/315" ,},
     ]
   },
   {
@@ -270,10 +270,10 @@ const DUMMY_LIST = [
       },
     ],
     designImages:[
-      {imageUrl: "https://picsum.photos/536/356", isDefault: true},
-      {imageUrl: "https://picsum.photos/536/316", isDefault: false},
-      {imageUrl: "https://picsum.photos/536/317", isDefault: false},
-      {imageUrl: "https://picsum.photos/536/318" , isDefault: false},
+      {imageUrl: "https://picsum.photos/536/356"},
+      {imageUrl: "https://picsum.photos/536/316"},
+      {imageUrl: "https://picsum.photos/536/317", },
+      {imageUrl: "https://picsum.photos/536/318" , },
     ]
   },
   {
@@ -314,10 +314,10 @@ const DUMMY_LIST = [
       },
     ],
     designImages:[
-      {imageUrl: "https://picsum.photos/536/357", isDefault: true},
-      {imageUrl: "https://picsum.photos/536/319", isDefault: false},
-      {imageUrl: "https://picsum.photos/536/320", isDefault: false},
-      {imageUrl: "https://picsum.photos/536/321" , isDefault: false},
+      {imageUrl: "https://picsum.photos/536/357"},
+      {imageUrl: "https://picsum.photos/536/319"},
+      {imageUrl: "https://picsum.photos/536/320"},
+      {imageUrl: "https://picsum.photos/536/321" },
     ]
   },
   {
@@ -358,10 +358,10 @@ const DUMMY_LIST = [
       },
     ],
     designImages:[
-      {imageUrl: "https://picsum.photos/536/358", isDefault: true},
-      {imageUrl: "https://picsum.photos/536/322", isDefault: false},
-      {imageUrl: "https://picsum.photos/536/323", isDefault: false},
-      {imageUrl: "https://picsum.photos/536/324" , isDefault: false},
+      {imageUrl: "https://picsum.photos/536/358",},
+      {imageUrl: "https://picsum.photos/536/322", },
+      {imageUrl: "https://picsum.photos/536/323", },
+      {imageUrl: "https://picsum.photos/536/324" , },
     ]
   },
   {
@@ -402,10 +402,10 @@ const DUMMY_LIST = [
       },
     ],
     designImages:[
-      {imageUrl: "https://picsum.photos/536/359", isDefault: true},
-      {imageUrl: "https://picsum.photos/536/325", isDefault: false},
-      {imageUrl: "https://picsum.photos/536/326", isDefault: false},
-      {imageUrl: "https://picsum.photos/536/327" , isDefault: false},
+      {imageUrl: "https://picsum.photos/536/359", },
+      {imageUrl: "https://picsum.photos/536/325", },
+      {imageUrl: "https://picsum.photos/536/326",  },
+      {imageUrl: "https://picsum.photos/536/327" ,  },
     ]
   },
   {
@@ -446,10 +446,10 @@ const DUMMY_LIST = [
       },
     ],
     designImages:[
-      {imageUrl: "https://picsum.photos/536/360", isDefault: true},
-      {imageUrl: "https://picsum.photos/536/328", isDefault: false},
-      {imageUrl: "https://picsum.photos/536/329", isDefault: false},
-      {imageUrl: "https://picsum.photos/536/330" , isDefault: false},
+      {imageUrl: "https://picsum.photos/536/360",  },
+      {imageUrl: "https://picsum.photos/536/328",  },
+      {imageUrl: "https://picsum.photos/536/329",  },
+      {imageUrl: "https://picsum.photos/536/330" ,  },
     ]
   },
   {
@@ -490,10 +490,10 @@ const DUMMY_LIST = [
       },
     ],
     designImages:[
-      {imageUrl: "https://picsum.photos/536/361", isDefault: true},
-      {imageUrl: "https://picsum.photos/536/331", isDefault: false},
-      {imageUrl: "https://picsum.photos/536/332", isDefault: false},
-      {imageUrl: "https://picsum.photos/536/333" , isDefault: false},
+      {imageUrl: "https://picsum.photos/536/361",  },
+      {imageUrl: "https://picsum.photos/536/331",  },
+      {imageUrl: "https://picsum.photos/536/332", },
+      {imageUrl: "https://picsum.photos/536/333" ,  },
     ]
   },
   {
@@ -534,10 +534,10 @@ const DUMMY_LIST = [
       },
     ],
     designImages:[
-      {imageUrl: "https://picsum.photos/536/362", isDefault: true},
-      {imageUrl: "https://picsum.photos/536/334", isDefault: false},
-      {imageUrl: "https://picsum.photos/536/335", isDefault: false},
-      {imageUrl: "https://picsum.photos/536/336" , isDefault: false},
+      {imageUrl: "https://picsum.photos/536/362",  },
+      {imageUrl: "https://picsum.photos/536/334",  },
+      {imageUrl: "https://picsum.photos/536/335",  },
+      {imageUrl: "https://picsum.photos/536/336" ,  },
     ]
   },
   {
@@ -578,10 +578,10 @@ const DUMMY_LIST = [
       },
     ],
     designImages:[
-      {imageUrl: "https://picsum.photos/536/363", isDefault: true},
-      {imageUrl: "https://picsum.photos/536/337", isDefault: false},
-      {imageUrl: "https://picsum.photos/536/338", isDefault: false},
-      {imageUrl: "https://picsum.photos/536/339" , isDefault: false},
+      {imageUrl: "https://picsum.photos/536/363",  },
+      {imageUrl: "https://picsum.photos/536/337",  },
+      {imageUrl: "https://picsum.photos/536/338",  },
+      {imageUrl: "https://picsum.photos/536/339" ,  },
     ]
   },
 ];

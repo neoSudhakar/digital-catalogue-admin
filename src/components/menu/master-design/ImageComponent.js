@@ -1,16 +1,27 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import classes from "./ImageComponent.module.css";
 import UploadImage from "../../../assets/upload-image.png";
 
 export default function ImageComponent({fileList}){
       let  images= [
-            {image: UploadImage, isDefault: true},
-            {image: UploadImage, isDefault: false},
-            // {image: "https://picsum.photos/536/302", isDefault: false},
-            // {image: "https://picsum.photos/536/303" , isDefault: false},
+            {image: UploadImage},
+            // {image: UploadImage},
+            {image: "https://picsum.photos/536/302"},
+            {image: "https://picsum.photos/536/303"},
       ]
 
-    const [imageItems, setImageItems]= useState(images);
+      const updatedDesignImagesArr= useMemo(()=>{
+        return images.map((eachItem, index)=>{
+          if(index===0){
+            return {...eachItem, isDefault: true};
+          }
+          else{
+            return {...eachItem, isDefault: false};
+          }
+        });
+      })
+
+    const [imageItems, setImageItems]= useState(updatedDesignImagesArr);
 
     const defaultImageItem=imageItems.find((item)=>{
         return item.isDefault;

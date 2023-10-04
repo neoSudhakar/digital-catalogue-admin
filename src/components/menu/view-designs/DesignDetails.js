@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import classes from "./DesignDetails.module.css";
 import ReactImageMagnify from "react-image-magnify";
 import CreationTable from "../master-design/CreationTable";
@@ -22,7 +22,18 @@ export default function DesignDetails({cardItem, onGoBack}){
       }
     })
 
-    const [imageItems, setImageItems]= useState(cardItem.designImages);
+    const updatedDesignImagesArr= useMemo(()=>{
+      return cardItem.designImages.map((eachItem, index)=>{
+        if(index===0){
+          return {...eachItem, isDefault: true};
+        }
+        else{
+          return {...eachItem, isDefault: false};
+        }
+      });
+    })
+
+    const [imageItems, setImageItems]= useState(updatedDesignImagesArr);
 
     const defaultImageItem=imageItems.find((item)=>{
         return item.isDefault;
