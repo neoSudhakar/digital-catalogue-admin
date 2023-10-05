@@ -8,6 +8,7 @@ import WrongIcon from "../../../icons/wrong-icon";
 import useCheck from "../../../hooks/use-check";
 import { Drawer } from "antd";
 import DesignDetails from "./DesignDetails";
+import axios from "axios";
 
 const today = new Date().toISOString().slice(0, 10);
 
@@ -21,13 +22,13 @@ const DUMMY_LIST = [
     category: "Diamond Jewelery",
     designNumber: 1,
     createdDate: today,
-    style: "Style 2",
-    product: "Product 2",
-    model: "Model 2",
-    size: "Size 2",
-    worker: "Worker 2",
+    style: "Style2",
+    product: "Product2",
+    model: "Model2",
+    size: "Size2",
+    worker: "Worker2",
     pieces: 1,
-    grossWeight: 120,
+    grossWeight: 200,
     stoneWeight: 130,
     netWeight: 140,
     componentWeight: 150,
@@ -65,11 +66,11 @@ const DUMMY_LIST = [
     category: "Gold Jewelery",
     designNumber: 2,
     createdDate: today,
-    style: "Style 3",
-    product: "Product 3",
-    model: "Model 3",
-    size: "Size 3",
-    worker: "Worker 3",
+    style: "Style3",
+    product: "Product3",
+    model: "Model3",
+    size: "Size3",
+    worker: "Worker3",
     pieces: 1,
     grossWeight: 130,
     stoneWeight: 130,
@@ -109,13 +110,13 @@ const DUMMY_LIST = [
     category: "Diamond Jewelery",
     designNumber: 1,
     createdDate: today,
-    style: "Style 2",
-    product: "Product 2",
-    model: "Model 2",
-    size: "Size 2",
-    worker: "Worker 2",
+    style: "Style2",
+    product: "Product2",
+    model: "Model2",
+    size: "Size2",
+    worker: "Worker2",
     pieces: 1,
-    grossWeight: 140,
+    grossWeight: 210,
     stoneWeight: 130,
     netWeight: 140,
     componentWeight: 150,
@@ -124,14 +125,14 @@ const DUMMY_LIST = [
     detailsSet: [
       {
         type: 'composite',
-        stoneGroup: 'Stone Group 1',
+        stoneGroup: 'StoneGroup1',
         pieces: 122,
         stoneWeight: 12,
         unitOfMeasurement: 'Grm/Cts'
       },
       {
         type: 'stone',
-        stoneGroup: 'Stone Group 2',
+        stoneGroup: 'StoneGroup2',
         pieces: 150,
         stoneWeight: 19,
         unitOfMeasurement: 'Grm/Cts'
@@ -153,13 +154,13 @@ const DUMMY_LIST = [
     category: "Gold Jewelery",
     designNumber: 2,
     createdDate: today,
-    style: "Style 1",
-    product: "Product 1",
-    model: "Model 1",
-    size: "Size 1",
-    worker: "Worker 1",
+    style: "Style1",
+    product: "Product1",
+    model: "Model1",
+    size: "Size1",
+    worker: "Worker1",
     pieces: 1,
-    grossWeight: 120,
+    grossWeight: 250,
     stoneWeight: 130,
     netWeight: 140,
     componentWeight: 150,
@@ -168,14 +169,14 @@ const DUMMY_LIST = [
     detailsSet: [
       {
         type: 'composite',
-        stoneGroup: 'Stone Group 1',
+        stoneGroup: 'StoneGroup1',
         pieces: 122,
         stoneWeight: 12,
         unitOfMeasurement: 'Grm/Cts'
       },
       {
         type: 'stone',
-        stoneGroup: 'Stone Group 2',
+        stoneGroup: 'StoneGroup2',
         pieces: 150,
         stoneWeight: 19,
         unitOfMeasurement: 'Grm/Cts'
@@ -197,13 +198,13 @@ const DUMMY_LIST = [
     category: "Diamond Jewelery",
     designNumber: 1,
     createdDate: today,
-    style: "Style 2",
-    product: "Product 2",
-    model: "Model 2",
-    size: "Size 2",
-    worker: "Worker 2",
+    style: "Style2",
+    product: "Product2",
+    model: "Model2",
+    size: "Size2",
+    worker: "Worker2",
     pieces: 1,
-    grossWeight: 130,
+    grossWeight: 190,
     stoneWeight: 130,
     netWeight: 140,
     componentWeight: 150,
@@ -212,14 +213,14 @@ const DUMMY_LIST = [
     detailsSet: [
       {
         type: 'composite',
-        stoneGroup: 'Stone Group 1',
+        stoneGroup: 'StoneGroup1',
         pieces: 122,
         stoneWeight: 12,
         unitOfMeasurement: 'Grm/Cts'
       },
       {
         type: 'stone',
-        stoneGroup: 'Stone Group 2',
+        stoneGroup: 'StoneGroup2',
         pieces: 150,
         stoneWeight: 19,
         unitOfMeasurement: 'Grm/Cts'
@@ -241,11 +242,11 @@ const DUMMY_LIST = [
     category: "Gold Jewelery",
     designNumber: 2,
     createdDate: today,
-    style: "Style 3",
-    product: "Product 3",
-    model: "Model 3",
-    size: "Size 3",
-    worker: "Worker 3",
+    style: "Style3",
+    product: "Product3",
+    model: "Model3",
+    size: "Size3",
+    worker: "Worker3",
     pieces: 1,
     grossWeight: 140,
     stoneWeight: 130,
@@ -256,14 +257,14 @@ const DUMMY_LIST = [
     detailsSet: [
       {
         type: 'composite',
-        stoneGroup: 'Stone Group 1',
+        stoneGroup: 'StoneGroup1',
         pieces: 122,
         stoneWeight: 12,
         unitOfMeasurement: 'Grm/Cts'
       },
       {
         type: 'stone',
-        stoneGroup: 'Stone Group 2',
+        stoneGroup: 'StoneGroup2',
         pieces: 150,
         stoneWeight: 19,
         unitOfMeasurement: 'Grm/Cts'
@@ -285,13 +286,13 @@ const DUMMY_LIST = [
     category: "Diamond Jewelery",
     designNumber: 2,
     createdDate: today,
-    style: "Style 2",
-    product: "Product 2",
-    model: "Model 2",
-    size: "Size 2",
-    worker: "Worker 2",
+    style: "Style2",
+    product: "Product2",
+    model: "Model2",
+    size: "Size2",
+    worker: "Worker2",
     pieces: 1,
-    grossWeight: 120,
+    grossWeight: 90,
     stoneWeight: 130,
     netWeight: 140,
     componentWeight: 150,
@@ -300,14 +301,14 @@ const DUMMY_LIST = [
     detailsSet: [
       {
         type: 'composite',
-        stoneGroup: 'Stone Group 1',
+        stoneGroup: 'StoneGroup1',
         pieces: 122,
         stoneWeight: 12,
         unitOfMeasurement: 'Grm/Cts'
       },
       {
         type: 'stone',
-        stoneGroup: 'Stone Group 2',
+        stoneGroup: 'StoneGroup2',
         pieces: 150,
         stoneWeight: 19,
         unitOfMeasurement: 'Grm/Cts'
@@ -329,13 +330,13 @@ const DUMMY_LIST = [
     category: "Gold Jewelery",
     designNumber: 1,
     createdDate: today,
-    style: "Style 3",
-    product: "Product 3",
-    model: "Model 3",
-    size: "Size 3",
-    worker: "Worker 3",
+    style: "Style3",
+    product: "Product3",
+    model: "Model3",
+    size: "Size3",
+    worker: "Worker3",
     pieces: 1,
-    grossWeight: 130,
+    grossWeight: 40,
     stoneWeight: 130,
     netWeight: 140,
     componentWeight: 150,
@@ -344,14 +345,14 @@ const DUMMY_LIST = [
     detailsSet: [
       {
         type: 'composite',
-        stoneGroup: 'Stone Group 1',
+        stoneGroup: 'StoneGroup1',
         pieces: 122,
         stoneWeight: 12,
         unitOfMeasurement: 'Grm/Cts'
       },
       {
         type: 'stone',
-        stoneGroup: 'Stone Group 2',
+        stoneGroup: 'StoneGroup2',
         pieces: 150,
         stoneWeight: 19,
         unitOfMeasurement: 'Grm/Cts'
@@ -373,11 +374,11 @@ const DUMMY_LIST = [
     category: "Diamond Jewelery",
     designNumber: 2,
     createdDate: today,
-    style: "Style 1",
-    product: "Product 1",
-    model: "Model 1",
-    size: "Size 1",
-    worker: "Worker 1",
+    style: "Style1",
+    product: "Product1",
+    model: "Model1",
+    size: "Size1",
+    worker: "Worker1",
     pieces: 1,
     grossWeight: 140,
     stoneWeight: 130,
@@ -388,14 +389,14 @@ const DUMMY_LIST = [
     detailsSet: [
       {
         type: 'composite',
-        stoneGroup: 'Stone Group 1',
+        stoneGroup: 'StoneGroup1',
         pieces: 122,
         stoneWeight: 12,
         unitOfMeasurement: 'Grm/Cts'
       },
       {
         type: 'stone',
-        stoneGroup: 'Stone Group 2',
+        stoneGroup: 'StoneGroup2',
         pieces: 150,
         stoneWeight: 19,
         unitOfMeasurement: 'Grm/Cts'
@@ -417,11 +418,11 @@ const DUMMY_LIST = [
     category: "Gold Jewelery",
     designNumber: 1,
     createdDate: today,
-    style: "Style 2",
-    product: "Product 2",
-    model: "Model 2",
-    size: "Size 2",
-    worker: "Worker 2",
+    style: "Style2",
+    product: "Product2",
+    model: "Model2",
+    size: "Size2",
+    worker: "Worker2",
     pieces: 1,
     grossWeight: 120,
     stoneWeight: 130,
@@ -432,22 +433,22 @@ const DUMMY_LIST = [
     detailsSet: [
       {
         type: 'composite',
-        stoneGroup: 'Stone Group 1',
+        stoneGroup: 'StoneGroup1',
         pieces: 122,
         stoneWeight: 12,
         unitOfMeasurement: 'Grm/Cts'
       },
       {
         type: 'stone',
-        stoneGroup: 'Stone Group 2',
+        stoneGroup: 'StoneGroup2',
         pieces: 150,
         stoneWeight: 19,
         unitOfMeasurement: 'Grm/Cts'
       },
     ],
     designImages:[
-      {imageUrl: "https://picsum.photos/536/360",  },
       {imageUrl: "https://picsum.photos/536/328",  },
+      {imageUrl: "https://picsum.photos/536/360",  },
       {imageUrl: "https://picsum.photos/536/329",  },
       {imageUrl: "https://picsum.photos/536/330" ,  },
     ]
@@ -461,11 +462,11 @@ const DUMMY_LIST = [
     category: "Diamond Jewelery",
     designNumber: 2,
     createdDate: today,
-    style: "Style 1",
-    product: "Product 1",
-    model: "Model 1",
-    size: "Size 1",
-    worker: "Worker 1",
+    style: "Style1",
+    product: "Product1",
+    model: "Model1",
+    size: "Size1",
+    worker: "Worker1",
     pieces: 1,
     grossWeight: 130,
     stoneWeight: 130,
@@ -476,14 +477,14 @@ const DUMMY_LIST = [
     detailsSet: [
       {
         type: 'composite',
-        stoneGroup: 'Stone Group 1',
+        stoneGroup: 'StoneGroup1',
         pieces: 122,
         stoneWeight: 12,
         unitOfMeasurement: 'Grm/Cts'
       },
       {
         type: 'stone',
-        stoneGroup: 'Stone Group 2',
+        stoneGroup: 'StoneGroup2',
         pieces: 150,
         stoneWeight: 19,
         unitOfMeasurement: 'Grm/Cts'
@@ -505,11 +506,11 @@ const DUMMY_LIST = [
     category: "Gold Jewelery",
     designNumber: 1,
     createdDate: today,
-    style: "Style 2",
-    product: "Product 2",
-    model: "Model 2",
-    size: "Size 2",
-    worker: "Worker 2",
+    style: "Style2",
+    product: "Product2",
+    model: "Model2",
+    size: "Size2",
+    worker: "Worker2",
     pieces: 1,
     grossWeight: 140,
     stoneWeight: 130,
@@ -520,14 +521,14 @@ const DUMMY_LIST = [
     detailsSet: [
       {
         type: 'composite',
-        stoneGroup: 'Stone Group 1',
+        stoneGroup: 'StoneGroup1',
         pieces: 122,
         stoneWeight: 12,
         unitOfMeasurement: 'Grm/Cts'
       },
       {
         type: 'stone',
-        stoneGroup: 'Stone Group 2',
+        stoneGroup: 'StoneGroup2',
         pieces: 150,
         stoneWeight: 19,
         unitOfMeasurement: 'Grm/Cts'
@@ -549,11 +550,11 @@ const DUMMY_LIST = [
     category: "Gold Jewelery",
     designNumber: 1,
     createdDate: today,
-    style: "Style 3",
-    product: "Product 3",
-    model: "Model 3",
-    size: "Size 3",
-    worker: "Worker 1",
+    style: "Style3",
+    product: "Product3",
+    model: "Model3",
+    size: "Size3",
+    worker: "Worker1",
     pieces: 1,
     grossWeight: 100,
     stoneWeight: 100,
@@ -564,14 +565,14 @@ const DUMMY_LIST = [
     detailsSet: [
       {
         type: 'composite',
-        stoneGroup: 'Stone Group 1',
+        stoneGroup: 'StoneGroup1',
         pieces: 122,
         stoneWeight: 12,
         unitOfMeasurement: 'Grm/Cts'
       },
       {
         type: 'stone',
-        stoneGroup: 'Stone Group 2',
+        stoneGroup: 'StoneGroup2',
         pieces: 150,
         stoneWeight: 19,
         unitOfMeasurement: 'Grm/Cts'
@@ -587,6 +588,22 @@ const DUMMY_LIST = [
 ];
 
 export default function ViewDesign() {
+
+  // const [designList, setDesignList] = useState([]);
+
+  // useEffect(() => {
+  //   getVeiwDesign();
+  // },[]);
+
+  // const getVeiwDesign = () => {
+  //   axios.get('http://18.204.204.183:8080/api/designs')
+  //     .then((res) =>  {
+  //       console.log('response is list Designs: ',res.data)
+  //       setDesignList(res.data);
+  //     })
+  //       .catch((err) => console.log('error is : ', err))
+  // }
+
   const token = useRouteLoaderData("root");
   const dispatch = useDispatch();
 
@@ -623,33 +640,33 @@ export default function ViewDesign() {
     handleFieldCheckChange: handleStyleCheckChange,
   } = useCheck({
     "Style 1": false,
-    "Style 2": false,
-    "Style 3": false,
+    "Style2": false,
+    "Style3": false,
   }, handleCloseFilters);
 
   const {
     field: productFilters,
     handleFieldCheckChange: handleProductCheckChange,
   } = useCheck({
-    "Product 1": false,
-    "Product 2": false,
-    "Product 3": false,
+    "Product1": false,
+    "Product2": false,
+    "Product3": false,
   }, handleCloseFilters);
 
   const {
     field: modelFilters,
     handleFieldCheckChange: handleModelCheckChange,
   } = useCheck({
-    "Model 1": false,
-    "Model 2": false,
-    "Model 3": false,
+    "Model1": false,
+    "Model2": false,
+    "Model3": false,
   }, handleCloseFilters);
 
   const { field: sizeFilters, handleFieldCheckChange: handleSizeCheckChange } =
     useCheck({
-      "Size 1": false,
-      "Size 2": false,
-      "Size 3": false,
+      "Size1": false,
+      "Size2": false,
+      "Size3": false,
     }, handleCloseFilters);
 
   const {
@@ -660,6 +677,8 @@ export default function ViewDesign() {
     "10-20grms": false,
     "20-50grms": false,
     "50-100grms": false,
+    "100-200grms": false,
+    ">200grms": false,
   }, handleCloseFilters);
 
   const {
@@ -742,6 +761,8 @@ export default function ViewDesign() {
     setIsDrawerOPen(false);
   }
 
+  // designList
+
   let filteredList = DUMMY_LIST.filter((item) => {
     const isMainGroupMatch =
       Object.values(mainGrpFilters).every((value) => value === false) ||
@@ -782,7 +803,12 @@ export default function ViewDesign() {
         item.grossWeight <= 50) ||
       (weightRangeFilters["50-100grms"] &&
         item.grossWeight > 50 &&
-        item.grossWeight <= 100);
+        item.grossWeight <= 100) || 
+      (weightRangeFilters["100-200grms"] &&
+        item.grossWeight > 100 &&
+        item.grossWeight <= 200) ||
+      (weightRangeFilters[">200grms"] &&
+        item.grossWeight >200);
   
     return (
       isMainGroupMatch &&
@@ -967,32 +993,32 @@ export default function ViewDesign() {
                             <p className={classes["checkbox-grp"]}>
                               <input
                                 type="checkbox"
-                                id="Style 1"
-                                name="Style 1"
-                                checked={styleFilters["Style 1"]}
+                                id="Style1"
+                                name="Style1"
+                                checked={styleFilters["Style1"]}
                                 onChange={handleStyleCheckChange}
                               />
-                              <label htmlFor="Style 1">Style 1</label>
+                              <label htmlFor="Style1">Style 1</label>
                             </p>
                             <p className={classes["checkbox-grp"]}>
                               <input
                                 type="checkbox"
-                                id="Style 2"
-                                name="Style 2"
-                                checked={styleFilters["Style 2"]}
+                                id="Style2"
+                                name="Style2"
+                                checked={styleFilters["Style2"]}
                                 onChange={handleStyleCheckChange}
                               />
-                              <label htmlFor="Style 2">Style 2</label>
+                              <label htmlFor="Style2">Style 2</label>
                             </p>
                             <p className={classes["checkbox-grp"]}>
                               <input
                                 type="checkbox"
-                                id="Style 3"
-                                name="Style 3"
-                                checked={styleFilters["Style 3"]}
+                                id="Style3"
+                                name="Style3"
+                                checked={styleFilters["Style3"]}
                                 onChange={handleStyleCheckChange}
                               />
-                              <label htmlFor="Style 3">Style 3</label>
+                              <label htmlFor="Style3">Style 3</label>
                             </p>
                           </motion.div>
                         )}
@@ -1023,32 +1049,32 @@ export default function ViewDesign() {
                             <p className={classes["checkbox-grp"]}>
                               <input
                                 type="checkbox"
-                                id="Product 1"
-                                name="Product 1"
-                                checked={productFilters["Product 1"]}
+                                id="Product1"
+                                name="Product1"
+                                checked={productFilters["Product1"]}
                                 onChange={handleProductCheckChange}
                               />
-                              <label htmlFor="Product 1">Product 1</label>
+                              <label htmlFor="Product1">Product 1</label>
                             </p>
                             <p className={classes["checkbox-grp"]}>
                               <input
                                 type="checkbox"
-                                id="Product 2"
-                                name="Product 2"
-                                checked={productFilters["Product 2"]}
+                                id="Product2"
+                                name="Product2"
+                                checked={productFilters["Product2"]}
                                 onChange={handleProductCheckChange}
                               />
-                              <label htmlFor="Product 2">Product 2</label>
+                              <label htmlFor="Product2">Product 2</label>
                             </p>
                             <p className={classes["checkbox-grp"]}>
                               <input
                                 type="checkbox"
-                                id="Product 3"
-                                name="Product 3"
-                                checked={productFilters["Product 3"]}
+                                id="Product3"
+                                name="Product3"
+                                checked={productFilters["Product3"]}
                                 onChange={handleProductCheckChange}
                               />
-                              <label htmlFor="Product 3">Product 3</label>
+                              <label htmlFor="Product3">Product 3</label>
                             </p>
                           </motion.div>
                         )}
@@ -1116,6 +1142,26 @@ export default function ViewDesign() {
                               />
                               <label htmlFor="wt 4">50-100grms</label>
                             </p>
+                            <p className={classes["checkbox-grp"]}>
+                              <input
+                                type="checkbox"
+                                id="wt 5"
+                                name="100-200grms"
+                                checked={weightRangeFilters["100-200grms"]}
+                                onChange={handleWtCheckChange}
+                              />
+                              <label htmlFor="wt 5">100-200grms</label>
+                            </p>
+                            <p className={classes["checkbox-grp"]}>
+                              <input
+                                type="checkbox"
+                                id="wt 6"
+                                name=">200grms"
+                                checked={weightRangeFilters[">200grms"]}
+                                onChange={handleWtCheckChange}
+                              />
+                              <label htmlFor="wt 6">{`> `}200grms</label>
+                            </p>
                           </motion.div>
                         )}
                       </AnimatePresence>
@@ -1146,63 +1192,63 @@ export default function ViewDesign() {
                             <p className={classes["checkbox-grp"]}>
                               <input
                                 type="checkbox"
-                                id="Model 1"
-                                name="Model 1"
-                                checked={modelFilters["Model 1"]}
+                                id="Model1"
+                                name="Model1"
+                                checked={modelFilters["Model1"]}
                                 onChange={handleModelCheckChange}
                               />
-                              <label htmlFor="Model 1">Model 1</label>
+                              <label htmlFor="Model1">Model 1</label>
                             </p>
                             <p className={classes["checkbox-grp"]}>
                               <input
                                 type="checkbox"
-                                id="Model 2"
-                                name="Model 2"
+                                id="Model2"
+                                name="Model2"
                                 checked={modelFilters["Model 2"]}
                                 onChange={handleModelCheckChange}
                               />
-                              <label htmlFor="Model 2">Model 2</label>
+                              <label htmlFor="Model2">Model 2</label>
                             </p>
                             <p className={classes["checkbox-grp"]}>
                               <input
                                 type="checkbox"
-                                id="Model 3"
-                                name="Model 3"
-                                checked={modelFilters["Model 3"]}
+                                id="Model3"
+                                name="Model3"
+                                checked={modelFilters["Model3"]}
                                 onChange={handleModelCheckChange}
                               />
-                              <label htmlFor="Model 3">Model 3</label>
+                              <label htmlFor="Model3">Model 3</label>
                             </p>
                             <p className={classes.opt}>Size</p>
                             <p className={classes["checkbox-grp"]}>
                               <input
                                 type="checkbox"
-                                id="Size 1"
-                                name="Size 1"
-                                checked={sizeFilters["Size 1"]}
+                                id="Size1"
+                                name="Size1"
+                                checked={sizeFilters["Size1"]}
                                 onChange={handleSizeCheckChange}
                               />
-                              <label htmlFor="Size 1">Size 1</label>
+                              <label htmlFor="Size1">Size 1</label>
                             </p>
                             <p className={classes["checkbox-grp"]}>
                               <input
                                 type="checkbox"
-                                id="Size 2"
-                                name="Size 2"
-                                checked={sizeFilters["Size 2"]}
+                                id="Size2"
+                                name="Size2"
+                                checked={sizeFilters["Size2"]}
                                 onChange={handleSizeCheckChange}
                               />
-                              <label htmlFor="Size 2">Size 2</label>
+                              <label htmlFor="Size2">Size 2</label>
                             </p>
                             <p className={classes["checkbox-grp"]}>
                               <input
                                 type="checkbox"
-                                id="Size 3"
-                                name="Size 3"
-                                checked={sizeFilters["Size 3"]}
+                                id="Size3"
+                                name="Size3"
+                                checked={sizeFilters["Size3"]}
                                 onChange={handleSizeCheckChange}
                               />
-                              <label htmlFor="Size 3">Size 3</label>
+                              <label htmlFor="Size3">Size 3</label>
                             </p>
                           </motion.div>
                         )}
@@ -1376,32 +1422,32 @@ export default function ViewDesign() {
                     <p className={classes["checkbox-grp"]}>
                       <input
                         type="checkbox"
-                        id="Style 1"
-                        name="Style 1"
-                        checked={styleFilters["Style 1"]}
+                        id="Style1"
+                        name="Style1"
+                        checked={styleFilters["Style1"]}
                         onChange={handleStyleCheckChange}
                       />
-                      <label htmlFor="Style 1">Style 1</label>
+                      <label htmlFor="Style1">Style 1</label>
                     </p>
                     <p className={classes["checkbox-grp"]}>
                       <input
                         type="checkbox"
-                        id="Style 2"
-                        name="Style 2"
-                        checked={styleFilters["Style 2"]}
+                        id="Style2"
+                        name="Style2"
+                        checked={styleFilters["Style2"]}
                         onChange={handleStyleCheckChange}
                       />
-                      <label htmlFor="Style 2">Style 2</label>
+                      <label htmlFor="Style2">Style 2</label>
                     </p>
                     <p className={classes["checkbox-grp"]}>
                       <input
                         type="checkbox"
-                        id="Style 3"
-                        name="Style 3"
-                        checked={styleFilters["Style 3"]}
+                        id="Style3"
+                        name="Style3"
+                        checked={styleFilters["Style3"]}
                         onChange={handleStyleCheckChange}
                       />
-                      <label htmlFor="Style 3">Style 3</label>
+                      <label htmlFor="Style3">Style 3</label>
                     </p>
                   </motion.div>
                 )}
@@ -1432,32 +1478,32 @@ export default function ViewDesign() {
                     <p className={classes["checkbox-grp"]}>
                       <input
                         type="checkbox"
-                        id="Product 1"
-                        name="Product 1"
-                        checked={productFilters["Product 1"]}
+                        id="Product1"
+                        name="Product1"
+                        checked={productFilters["Product1"]}
                         onChange={handleProductCheckChange}
                       />
-                      <label htmlFor="Product 1">Product 1</label>
+                      <label htmlFor="Product1">Product 1</label>
                     </p>
                     <p className={classes["checkbox-grp"]}>
                       <input
                         type="checkbox"
-                        id="Product 2"
-                        name="Product 2"
-                        checked={productFilters["Product 2"]}
+                        id="Product2"
+                        name="Product2"
+                        checked={productFilters["Product2"]}
                         onChange={handleProductCheckChange}
                       />
-                      <label htmlFor="Product 2">Product 2</label>
+                      <label htmlFor="Product2">Product 2</label>
                     </p>
                     <p className={classes["checkbox-grp"]}>
                       <input
                         type="checkbox"
-                        id="Product 3"
-                        name="Product 3"
-                        checked={productFilters["Product 3"]}
+                        id="Product3"
+                        name="Product3"
+                        checked={productFilters["Product3"]}
                         onChange={handleProductCheckChange}
                       />
-                      <label htmlFor="Product 3">Product 3</label>
+                      <label htmlFor="Product3">Product 3</label>
                     </p>
                   </motion.div>
                 )}
@@ -1525,6 +1571,26 @@ export default function ViewDesign() {
                       />
                       <label htmlFor="wt 4">50-100grms</label>
                     </p>
+                    <p className={classes["checkbox-grp"]}>
+                        <input
+                          type="checkbox"
+                          id="wt 5"
+                          name="100-200grms"
+                          checked={weightRangeFilters["100-200grms"]}
+                          onChange={handleWtCheckChange}
+                        />
+                        <label htmlFor="wt 5">100-200grms</label>
+                    </p>
+                    <p className={classes["checkbox-grp"]}>
+                        <input
+                          type="checkbox"
+                          id="wt 6"
+                          name=">200grms"
+                          checked={weightRangeFilters[">200grms"]}
+                          onChange={handleWtCheckChange}
+                        />
+                        <label htmlFor="wt 6">{`> `}200grms</label>
+                    </p>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -1555,63 +1621,63 @@ export default function ViewDesign() {
                     <p className={classes["checkbox-grp"]}>
                       <input
                         type="checkbox"
-                        id="Model 1"
-                        name="Model 1"
-                        checked={modelFilters["Model 1"]}
+                        id="Model1"
+                        name="Model1"
+                        checked={modelFilters["Model1"]}
                         onChange={handleModelCheckChange}
                       />
-                      <label htmlFor="Model 1">Model 1</label>
+                      <label htmlFor="Model1">Model 1</label>
                     </p>
                     <p className={classes["checkbox-grp"]}>
                       <input
                         type="checkbox"
-                        id="Model 2"
-                        name="Model 2"
-                        checked={modelFilters["Model 2"]}
+                        id="Model2"
+                        name="Model2"
+                        checked={modelFilters["Model2"]}
                         onChange={handleModelCheckChange}
                       />
-                      <label htmlFor="Model 2">Model 2</label>
+                      <label htmlFor="Model2">Model 2</label>
                     </p>
                     <p className={classes["checkbox-grp"]}>
                       <input
                         type="checkbox"
-                        id="Model 3"
-                        name="Model 3"
-                        checked={modelFilters["Model 3"]}
+                        id="Model3"
+                        name="Model3"
+                        checked={modelFilters["Model3"]}
                         onChange={handleModelCheckChange}
                       />
-                      <label htmlFor="Model 3">Model 3</label>
+                      <label htmlFor="Model3">Model 3</label>
                     </p>
                     <p className={classes.opt}>Size</p>
                     <p className={classes["checkbox-grp"]}>
                       <input
                         type="checkbox"
-                        id="Size 1"
-                        name="Size 1"
-                        checked={sizeFilters["Size 1"]}
+                        id="Size1"
+                        name="Size1"
+                        checked={sizeFilters["Size1"]}
                         onChange={handleSizeCheckChange}
                       />
-                      <label htmlFor="Size 1">Size 1</label>
+                      <label htmlFor="Size1">Size 1</label>
                     </p>
                     <p className={classes["checkbox-grp"]}>
                       <input
                         type="checkbox"
-                        id="Size 2"
-                        name="Size 2"
-                        checked={sizeFilters["Size 2"]}
+                        id="Size2"
+                        name="Size2"
+                        checked={sizeFilters["Size2"]}
                         onChange={handleSizeCheckChange}
                       />
-                      <label htmlFor="Size 2">Size 2</label>
+                      <label htmlFor="Size2">Size 2</label>
                     </p>
                     <p className={classes["checkbox-grp"]}>
                       <input
                         type="checkbox"
-                        id="Size 3"
-                        name="Size 3"
-                        checked={sizeFilters["Size 3"]}
+                        id="Size3"
+                        name="Size3"
+                        checked={sizeFilters["Size3"]}
                         onChange={handleSizeCheckChange}
                       />
-                      <label htmlFor="Size 3">Size 3</label>
+                      <label htmlFor="Size3">Size 3</label>
                     </p>
                   </motion.div>
                 )}

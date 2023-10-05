@@ -171,6 +171,12 @@
 
 @media screen and (max-width:767px) {
     .card-details{
+        /* flex-direction: column;
+        height: auto;
+        gap:1rem; */
+        width: 92%;
+    }
+    .above-table{
         flex-direction: column;
         height: auto;
         gap:1rem;
