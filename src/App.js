@@ -9,7 +9,7 @@ import "./styles.css";
 import AuthForm from "./components/Register/AuthForm";
 
 import { action as logoutAction } from "./components/Register/Logout";
-import { authTokenLoader } from "./util/auth";
+import { authTokenLoader, checkAuthLoader } from "./util/auth";
 import MasterCreation from "./components/menu/master-design/MasterCreation";
 
 const router= createBrowserRouter([
@@ -19,19 +19,19 @@ const router= createBrowserRouter([
     loader: authTokenLoader,
     children: [
       {
-        index: true, element: <Dashboard/>,
+        index: true, element: <Dashboard/>,  loader: checkAuthLoader,
       },
       {
-        path: "/master-design", element: <MasterDesign/>,
+        path: "/master-design", element: <MasterDesign/>, loader: checkAuthLoader
       },
       {
-        path: "/view-designs", element: <ViewDesign/>,
+        path: "/view-designs", element: <ViewDesign/>, loader: checkAuthLoader
       },
       {
-        path: "/order-form", element: <OrderForm/>,
+        path: "/order-form", element: <OrderForm/>, loader: checkAuthLoader
       },
       {
-        path: "/customers", element: <Customers/>,
+        path: "/customers", element: <Customers/>, loader: checkAuthLoader
       },
       {
         path:"/auth", element:<AuthForm/>,
@@ -40,7 +40,7 @@ const router= createBrowserRouter([
         path:"/logout", action: logoutAction,
       },
       {
-        path:"/master-design/creation",  element:<MasterCreation/>,
+        path:"/master-design/creation",  element:<MasterCreation/>, loader: checkAuthLoader
       },
     ]
   },

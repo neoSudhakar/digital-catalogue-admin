@@ -3,6 +3,11 @@
     height: 100vh;
     overflow: hidden;
 }
+.auth{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .right{
     margin-left: 18%;
     display: flex;
