@@ -51,19 +51,24 @@ export default function Header() {
       {token && <nav>
         <ul className={classes.list}>
           <li>
-            <Link>
+            <span className={classes["click-icon"]}>
+                <LikeIcon/>
+            </span>
+          </li>
+          <li>
+            <span className={classes["click-icon"]}>
               <CartIcon />
-            </Link>
+            </span>
           </li>
           <li>
-            <Link>
+            <span className={classes["click-icon"]}>
               <ChatIcon />
-            </Link>
+            </span>
           </li>
           <li>
-            <Link>
+            <span className={classes["click-icon"]}>
               <NotificationIcon />
-            </Link>
+            </span>
           </li>
           <li>
             <div className={classes["user-image-text"]}>
