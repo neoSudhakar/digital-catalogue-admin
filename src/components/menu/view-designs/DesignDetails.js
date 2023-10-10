@@ -9,21 +9,6 @@ import Button from "../../../UI/Button";
 import DesignTanbleJSX from "./DesignTableJSX";
 
 export default function DesignDetails({cardItem, onGoBack}){
-    const {detailsSet} = cardItem;
-
-     //   {"Sno": 1, type:"Type 1", stoneGroup:" Stone Group 1" , pcs: 1, stoneWt: 1, "UOM":"Grms" },
-
-    const rowDataArr= detailsSet.map((eachItem, index)=>{
-      const {type, stoneGroup, pieces, stoneWeight, unitOfMeasurement} = eachItem;
-      return {
-        "Sno": index+1,
-        type,
-        stoneGroup,
-        pcs: pieces,
-        stoneWt: stoneWeight,
-        "UOM": unitOfMeasurement,
-      }
-    })
 
     const updatedDesignImagesArr= useMemo(()=>{
       return cardItem.designImages.map((eachItem, index)=>{
@@ -105,7 +90,7 @@ export default function DesignDetails({cardItem, onGoBack}){
         <DesignFields cardItem={cardItem}/>
 
       </div>
-      <DesignTanbleJSX rowDataArr={rowDataArr}/>
+      <DesignTanbleJSX cardItem={cardItem}/>
       
     </div>
     

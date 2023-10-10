@@ -4,56 +4,25 @@ import DesignTable from "./DesignTable";
 import classes from "./DesignTableJSX.module.css";
 import ModalComponent from "./ModalComponent";
 import useInput from "../../../hooks/use-input";
+import CustomTable from "./CustomTable";
+import AddDesignTableForm from "./AddDesignTableForm";
 
-export default function DesignTanbleJSX({ rowDataArr }) {
-  const [isModelOpen, setIsModalOpen] = useState(false);
+export default function DesignTanbleJSX({ cardItem}) {
+    const {detailsSet} = cardItem;
 
-  // const [type, setType] = useState("");
-  // const [stoneGroup, setStoneGroup] = useState("");
-  // const [pcs, setPcs] = useState("");
-  // const [stoneWt, setStoneWt] = useState("");
+    const rowDataArr= detailsSet.map((eachItem, index)=>{
+      const {type, stoneGroup, pieces, stoneWeight, unitOfMeasurement} = eachItem;
+      return {
+        "Sno": index+1,
+        type,
+        stoneGroup,
+        pieces,
+        stoneWeight,
+        unitOfMeasurement,
+      }
+    })
 
-  const {
-    inputVal: type,
-    isValid: typeIsValid,
-    handleChange: handleTypeChange,
-    resetFn: typeResetFn,
-    hasErr: typeHasErr,
-    handleBlur: handleTypeBlur,
-  } = useInput((inputValue) => inputValue.trim().length !== 0);
-
-  const {
-    inputVal: stoneGroup,
-    isValid: stoneGroupIsValid,
-    handleChange: handleStoneGroupChange,
-    resetFn: stoneGroupResetFn,
-    hasErr: stoneGroupHasErr,
-    handleBlur: handleStoneGroupBlur,
-  } = useInput((inputValue) => inputValue.trim().length !== 0);
-
-  const {
-    inputVal: pcs,
-    isValid: pcsIsValid,
-    handleChange: handlePcsChange,
-    resetFn: pcsResetFn,
-    hasErr: pcsHasErr,
-    handleBlur: handlePcsBlur,
-  } = useInput((inputValue) => inputValue.trim().length !== 0);
-
-  const {
-    inputVal: stoneWt,
-    isValid: stoneWtIsValid,
-    handleChange: handleStoneWtChange,
-    resetFn: stoneWtResetFn,
-    hasErr: stoneWtHasErr,
-    handleBlur: handleStoneWtBlur,
-  } = useInput((inputValue) => inputValue.trim().length !== 0);
-
-  let isFormValid = false;
-
-  if (typeIsValid && stoneGroupIsValid && pcsIsValid && stoneWtIsValid) {
-    isFormValid = true;
-  }
+    const [isModelOpen, setIsModalOpen] = useState(false);
 
   function handleStartAddDesign() {
     setIsModalOpen(true);
@@ -63,33 +32,10 @@ export default function DesignTanbleJSX({ rowDataArr }) {
     setIsModalOpen(false);
   }
 
-  function handleSubmit(event) {
-    event.preventDefault();
-
-    if (!isFormValid) {
-      return;
-    }
-
-    const form = new FormData(event.target);
-    const formData = Object.fromEntries(form);
-
-    console.log(formData);
-
-    typeResetFn();
-    stoneGroupResetFn();
-    pcsResetFn();
-    stoneWtResetFn();
-
-    alert("Updated");
-    setIsModalOpen(false);
+  function handleADDAction(addedData){
+    console.log("AddedData", addedData);
   }
 
-  const cancelStyleObj = {
-    backgroundColor: "white",
-    color: "blue",
-    border: "1px solid blue",
-  };
-  const saveStyleObj = { backgroundColor: "blue" };
 
   return (
     <>
@@ -105,7 +51,7 @@ export default function DesignTanbleJSX({ rowDataArr }) {
         isOpen={isModelOpen}
         style={{ minWidth: "50%", maxWidth: "90%" }}
       >
-        <form className={classes.from} onSubmit={handleSubmit}>
+        {/* <form className={classes.from} onSubmit={handleSubmit}>
           <div className={classes["input-grp"]}>
             <label htmlFor="Type">Type</label>
             <input
@@ -170,7 +116,8 @@ export default function DesignTanbleJSX({ rowDataArr }) {
               </Button>
             </div>
           </div>
-        </form>
+        </form> */}
+        <AddDesignTableForm onCloseModal={handleCancelAddDesign} onAction={handleADDAction} />
       </ModalComponent>
     </>
   );
