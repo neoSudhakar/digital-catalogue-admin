@@ -26,6 +26,7 @@ const DesignTable = ({rowDataArr}) => {
     {field: "pcs", filter: false, }, //width: 150, minWidth: 150, maxWidth: 160,
     {field: "stoneWt", filter: false, }, //width: 150, minWidth: 150, maxWidth: 160,
     {field: "UOM", filter: false,},// width: 100, minWidth: 100, maxWidth: 120,
+    // {field: "actions",filter: false,},
   ]);
 
 
