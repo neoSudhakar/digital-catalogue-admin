@@ -1,5 +1,5 @@
-import Button from "../../../UI/Button";
-import classes from "./AddDesignTableForm.module.css";
+import Button from "../../../../UI/Button";
+import classes from "../AddDesignTableForm.module.css";
 
 export default function UpdateTableForm({formData, onCloseModal}){
     function handleSubmit(event) {

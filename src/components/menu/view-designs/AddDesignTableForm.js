@@ -1,6 +1,5 @@
-import { useMemo } from "react";
+
 import Button from "../../../UI/Button";
-import useInput from "../../../hooks/use-input";
 import useInputSpcl from "../../../hooks/use-input-spcl";
 import classes from "./AddDesignTableForm.module.css";
 
@@ -145,7 +144,7 @@ export default function AddDesignTableForm({onCloseModal, formData, onAction}){
                     disabled={!isFormValid}
                     type="submit"
                     >
-                    Update
+                    {formData ? "Update" : "Add"}
                     </Button>
                 </div>
             </div>

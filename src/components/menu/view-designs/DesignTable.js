@@ -11,9 +11,7 @@ import classes from "./DesignTable.module.css";
 
 import "ag-grid-community/styles/ag-grid.css"; // Core grid CSS, always needed
 import "ag-grid-community/styles/ag-theme-alpine.css"; // Optional theme CSS
-import DesignTableForm from "./AddDesignTableForm";
 import ModalComponent from "./ModalComponent";
-import UpdateTableForm from "./UpdateTableForm";
 import AddDesignTableForm from "./AddDesignTableForm";
 
 const DesignTable = ({ rowDataArr }) => {

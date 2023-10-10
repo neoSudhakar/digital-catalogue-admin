@@ -2,10 +2,7 @@ import { motion } from "framer-motion";
 import { useMemo, useState } from "react";
 import classes from "./DesignDetails.module.css";
 import ReactImageMagnify from "react-image-magnify";
-import CreationTable from "../master-design/CreationTable";
-import DesignTable from "./DesignTable";
 import DesignFields from "./DesignFields";
-import Button from "../../../UI/Button";
 import DesignTanbleJSX from "./DesignTableJSX";
 
 export default function DesignDetails({cardItem, onGoBack}){

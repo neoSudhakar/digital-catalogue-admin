@@ -3,8 +3,6 @@ import Button from "../../../UI/Button";
 import DesignTable from "./DesignTable";
 import classes from "./DesignTableJSX.module.css";
 import ModalComponent from "./ModalComponent";
-import useInput from "../../../hooks/use-input";
-import CustomTable from "./CustomTable";
 import AddDesignTableForm from "./AddDesignTableForm";
 
 export default function DesignTanbleJSX({ cardItem}) {
