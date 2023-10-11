@@ -2,7 +2,7 @@
     display: flex;
     width:50%;
     flex-direction: column;
-    justify-content: center;
+    /* justify-content: center; */
     align-items: center;
     text-align: center;
     flex:2;
@@ -74,6 +74,9 @@
     margin-left: 1rem;
     flex: 1;
 }
+.input-grp-first{
+    margin-top: 2rem;
+}
 
 .input-grp label{
     font-weight: bold;
@@ -88,6 +91,17 @@
     border: 1px solid #ccc;
     border-radius: 0.35rem;
 }
+.input-grp select{
+    padding: 0.25rem 0.65rem;
+    display: block;
+    width: 100%;
+    font-size: 1rem;
+    outline: none;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 0.35rem;
+}
+
 .input-grp input:focus{
     background-color: rgb(227, 243, 250);
     border-color: rgb(120, 188, 252);

@@ -90,25 +90,40 @@ export default function AddDesignTableForm({onCloseModal, formData, onAction}){
       const saveStyleObj = { backgroundColor: "blue" };
 
     return <form className={classes.from} onSubmit={handleSubmit}>
-            <div className={classes["input-grp"]}>
+            <div className={`${classes["input-grp"]} ${classes["input-grp-first"]}`}>
                 <label htmlFor="type">Type</label>
-                <input
+                {/* <input
                     id="type"
                     name="type"
                     type="text"
                     value={type}
                     onChange={handleTypeChange}
-                />
+                /> */}
+                <select name="type" id="type" onChange={handleTypeChange} defaultValue={type} >
+                    {!formData && <option value="" disabled hidden>
+                        Select an option
+                      </option>}
+                    <option value="Stone">Stone</option>
+                    <option value="Composite">Composite</option>
+                </select>
             </div>
             <div className={classes["input-grp"]}>
                 <label htmlFor="stoneGroup">Stone Group</label>
-                <input
+                {/* <input
                     id="stoneGroup"
                     name="stoneGroup"
                     value={stoneGroup}
                     type="text"
                     onChange={handleStoneGroupChange}
-                />
+                /> */}
+                <select name="stoneGroup" id="stoneGroup" onChange={handleStoneGroupChange} defaultValue={stoneGroup} >
+                    {!formData && <option value="" disabled hidden>
+                        Select an option
+                      </option>}
+                    <option value="StoneGroup1">StoneGroup1</option>
+                    <option value="StoneGroup2">StoneGroup2</option>
+                    <option value="StoneGroup3">StoneGroup3</option>
+                </select>
             </div>
             <div className={classes["input-grp"]}>
                 <label htmlFor="pieces">Pcs</label>

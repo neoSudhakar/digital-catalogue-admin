@@ -94,8 +94,9 @@ export default function DesignFields({ cardItem }) {
 
       {isModalOpen && <ModalComponent
         isOpen={isModalOpen}
+        title={"UPDATE DESIGN"}
         // onSave={handleUpdateFields}
-        style={{ maxWidth: "90%", minWidth: "80%" }}
+        style={{ maxWidth: "90%", minWidth: "80%", }}
         // onCancel={handleCancelUpdate}
       >
         <UpdateFieldsForm onAction={handleUpdateAction} cardItem={cardItem} onCloseModal={handleCancelUpdate} />

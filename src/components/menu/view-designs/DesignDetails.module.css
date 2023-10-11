@@ -22,6 +22,9 @@
     padding-bottom: 1rem;
     flex: 1;
 }
+.full{
+    width: 95% !important;
+}
 .above-table{
     width: 100%;
     flex: 1;

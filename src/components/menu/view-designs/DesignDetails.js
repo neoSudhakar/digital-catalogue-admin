@@ -4,8 +4,11 @@ import classes from "./DesignDetails.module.css";
 import ReactImageMagnify from "react-image-magnify";
 import DesignFields from "./DesignFields";
 import DesignTanbleJSX from "./DesignTableJSX";
+import { useSelector } from "react-redux";
 
 export default function DesignDetails({cardItem, onGoBack}){
+
+  const isDashboardOpen = useSelector((state)=>state.ui.isDashboardOpen);
 
     const updatedDesignImagesArr= useMemo(()=>{
       return cardItem.designImages.map((eachItem, index)=>{
@@ -47,10 +50,10 @@ export default function DesignDetails({cardItem, onGoBack}){
     initial={{ y: -30, opacity: 0 }}
     animate={{ y: 0, opacity: 1 }}
     exit={{ y: -30, opacity: 0 }}
-    className={classes["details-container"]}
+    className={`${classes["details-container"]}`}
   >
     <h1>Design {cardItem.id} Details</h1>
-    <div className={classes["card-details"]}>
+    <div className={`${classes["card-details"]}  ${isDashboardOpen ? classes.full : ""}`}>
       <div className={classes["above-table"]}>
         <div className={classes.carousel}>
         <div className={classes["default-image"]}>

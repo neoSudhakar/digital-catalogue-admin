@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialUiState = {
   isDashboardOpen: true,
+  isDesignDetailsOpen: false,
   selectedFilters: [],
   filters: {
     "mainGrpFilter": false,
@@ -62,6 +63,12 @@ const uiSlice = createSlice({
     },
     clearFilters(state){
         state.selectedFilters=[];
+    },
+    openDesignDetails(state){
+        state.isDesignDetailsOpen= true;
+    },
+    closeDesignDetails(state){
+        state.isDesignDetailsOpen= false;
     }
   },
 });

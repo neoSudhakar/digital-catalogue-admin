@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import classes from "./ViewDesign.module.css";
 import { useRouteLoaderData } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -36,15 +36,15 @@ const DUMMY_LIST = [
     remark: "Remarks description...",
     detailsSet: [
       {
-        type: 'composite',
-        stoneGroup: 'stoneGroup1',
+        type: 'Composite',
+        stoneGroup: 'StoneGroup1',
         pieces: 122,
         stoneWeight: 12,
         unitOfMeasurement: 'Grm/Cts'
       },
       {
-        type: 'stone',
-        stoneGroup: 'stoneGroup2',
+        type: 'Stone',
+        stoneGroup: 'StoneGroup2',
         pieces: 150,
         stoneWeight: 19,
         unitOfMeasurement: 'Grm/Cts'
@@ -80,15 +80,15 @@ const DUMMY_LIST = [
     remark: "Remarks description...",
     detailsSet: [
       {
-        type: 'composite',
-        stoneGroup: 'stoneGroup1',
+        type: 'Composite',
+        stoneGroup: 'StoneGroup1',
         pieces: 122,
         stoneWeight: 12,
         unitOfMeasurement: 'Grm/Cts'
       },
       {
-        type: 'stone',
-        stoneGroup: 'stoneGroup2',
+        type: 'Stone',
+        stoneGroup: 'StoneGroup2',
         pieces: 150,
         stoneWeight: 19,
         unitOfMeasurement: 'Grm/Cts'
@@ -124,14 +124,14 @@ const DUMMY_LIST = [
     remark: "Remarks description...",
     detailsSet: [
       {
-        type: 'composite',
+        type: 'Composite',
         stoneGroup: 'StoneGroup1',
         pieces: 122,
         stoneWeight: 12,
         unitOfMeasurement: 'Grm/Cts'
       },
       {
-        type: 'stone',
+        type: 'Stone',
         stoneGroup: 'StoneGroup2',
         pieces: 150,
         stoneWeight: 19,
@@ -168,14 +168,14 @@ const DUMMY_LIST = [
     remark: "Remarks description...",
     detailsSet: [
       {
-        type: 'composite',
+        type: 'Composite',
         stoneGroup: 'StoneGroup1',
         pieces: 122,
         stoneWeight: 12,
         unitOfMeasurement: 'Grm/Cts'
       },
       {
-        type: 'stone',
+        type: 'Stone',
         stoneGroup: 'StoneGroup2',
         pieces: 150,
         stoneWeight: 19,
@@ -212,14 +212,14 @@ const DUMMY_LIST = [
     remark: "Remarks description...",
     detailsSet: [
       {
-        type: 'composite',
+        type: 'Composite',
         stoneGroup: 'StoneGroup1',
         pieces: 122,
         stoneWeight: 12,
         unitOfMeasurement: 'Grm/Cts'
       },
       {
-        type: 'stone',
+        type: 'Stone',
         stoneGroup: 'StoneGroup2',
         pieces: 150,
         stoneWeight: 19,
@@ -256,14 +256,14 @@ const DUMMY_LIST = [
     remark: "Remarks description...",
     detailsSet: [
       {
-        type: 'composite',
+        type: 'Composite',
         stoneGroup: 'StoneGroup1',
         pieces: 122,
         stoneWeight: 12,
         unitOfMeasurement: 'Grm/Cts'
       },
       {
-        type: 'stone',
+        type: 'Stone',
         stoneGroup: 'StoneGroup2',
         pieces: 150,
         stoneWeight: 19,
@@ -300,14 +300,14 @@ const DUMMY_LIST = [
     remark: "Remarks description...",
     detailsSet: [
       {
-        type: 'composite',
+        type: 'Composite',
         stoneGroup: 'StoneGroup1',
         pieces: 122,
         stoneWeight: 12,
         unitOfMeasurement: 'Grm/Cts'
       },
       {
-        type: 'stone',
+        type: 'Stone',
         stoneGroup: 'StoneGroup2',
         pieces: 150,
         stoneWeight: 19,
@@ -344,14 +344,14 @@ const DUMMY_LIST = [
     remark: "Remarks description...",
     detailsSet: [
       {
-        type: 'composite',
+        type: 'Composite',
         stoneGroup: 'StoneGroup1',
         pieces: 122,
         stoneWeight: 12,
         unitOfMeasurement: 'Grm/Cts'
       },
       {
-        type: 'stone',
+        type: 'Stone',
         stoneGroup: 'StoneGroup2',
         pieces: 150,
         stoneWeight: 19,
@@ -388,14 +388,14 @@ const DUMMY_LIST = [
     remark: "Remarks description...",
     detailsSet: [
       {
-        type: 'composite',
+        type: 'Composite',
         stoneGroup: 'StoneGroup1',
         pieces: 122,
         stoneWeight: 12,
         unitOfMeasurement: 'Grm/Cts'
       },
       {
-        type: 'stone',
+        type: 'Stone',
         stoneGroup: 'StoneGroup2',
         pieces: 150,
         stoneWeight: 19,
@@ -432,14 +432,14 @@ const DUMMY_LIST = [
     remark: "Remarks description...",
     detailsSet: [
       {
-        type: 'composite',
+        type: 'Composite',
         stoneGroup: 'StoneGroup1',
         pieces: 122,
         stoneWeight: 12,
         unitOfMeasurement: 'Grm/Cts'
       },
       {
-        type: 'stone',
+        type: 'Stone',
         stoneGroup: 'StoneGroup2',
         pieces: 150,
         stoneWeight: 19,
@@ -476,14 +476,14 @@ const DUMMY_LIST = [
     remark: "Remarks description...",
     detailsSet: [
       {
-        type: 'composite',
+        type: 'Composite',
         stoneGroup: 'StoneGroup1',
         pieces: 122,
         stoneWeight: 12,
         unitOfMeasurement: 'Grm/Cts'
       },
       {
-        type: 'stone',
+        type: 'Stone',
         stoneGroup: 'StoneGroup2',
         pieces: 150,
         stoneWeight: 19,
@@ -520,14 +520,14 @@ const DUMMY_LIST = [
     remark: "Remarks description...",
     detailsSet: [
       {
-        type: 'composite',
+        type: 'Composite',
         stoneGroup: 'StoneGroup1',
         pieces: 122,
         stoneWeight: 12,
         unitOfMeasurement: 'Grm/Cts'
       },
       {
-        type: 'stone',
+        type: 'Stone',
         stoneGroup: 'StoneGroup2',
         pieces: 150,
         stoneWeight: 19,
@@ -564,14 +564,14 @@ const DUMMY_LIST = [
     remark: "Remarks description...",
     detailsSet: [
       {
-        type: 'composite',
+        type: 'Composite',
         stoneGroup: 'StoneGroup1',
         pieces: 122,
         stoneWeight: 12,
         unitOfMeasurement: 'Grm/Cts'
       },
       {
-        type: 'stone',
+        type: 'Stone',
         stoneGroup: 'StoneGroup2',
         pieces: 150,
         stoneWeight: 19,
@@ -607,9 +607,15 @@ export default function ViewDesign() {
   const token = useRouteLoaderData("root");
   const dispatch = useDispatch();
 
+  // const [isShow, setIsShow] = useState(false);
+
+  const [cardItem, setCardItem] = useState(null);
+
   const [isDrawerOPen, setIsDrawerOPen]= useState(false);
 
   const selectedFilters = useSelector((state) => state.ui.selectedFilters);
+
+  const isDesignDetailsOpen = useSelector((state)=>state.ui.isDesignDetailsOpen);
 
   const {
     field: mainGrpFilters,
@@ -691,16 +697,15 @@ export default function ViewDesign() {
     moreFilter: isMoreFilterExpanded,
   } = useSelector((state) => state.ui.filters);
 
-  const [isShow, setIsShow] = useState(false);
-  const [cardItem, setCardItem] = useState(null);
-
   function handleShowDetails(item) {
     console.log(item);
     setCardItem(item);
-    setIsShow(true);
+    // setIsShow(true);
+    dispatch(uiActions.openDesignDetails());
   }
   function handleGoBack() {
-    setIsShow(false);
+    // setIsShow(false);
+    dispatch(uiActions.closeDesignDetails());
   }
 
   function handleExpandMainGrpFilter() {
@@ -1761,7 +1766,7 @@ export default function ViewDesign() {
     </div>
   );
 
-  if (isShow) {
+  if (isDesignDetailsOpen) {
     content = (
       <DesignDetails onGoBack={handleGoBack} cardItem={cardItem}/>
     );

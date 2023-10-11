@@ -134,9 +134,9 @@ const DesignTable = ({ rowDataArr }) => {
         />
       </div>
       {isModelOpen && <ModalComponent
-        title="UPDATE DESIGN"
+        title="UPDATE DESCRIPTION"
         isOpen={isModelOpen}
-        style={{ minWidth: "50%", maxWidth: "90%" }}
+        style={{ minWidth: "45%", maxWidth: "90%" }}
       >
         <AddDesignTableForm onCloseModal={handleCancelUpdateRow} formData={formData} onAction={handleUpdateAction} />
       </ModalComponent>}
