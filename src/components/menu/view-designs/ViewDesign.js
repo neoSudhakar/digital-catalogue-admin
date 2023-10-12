@@ -9,372 +9,581 @@ import useCheck from "../../../hooks/use-check";
 import { Drawer } from "antd";
 import DesignDetails from "./DesignDetails";
 import axios from "axios";
-
+import { Spin } from "antd";
 const today = new Date().toISOString().slice(0, 10);
+
 
 const DUMMY_LIST = [
   {
-    id: "d1",
-    title: "Design 1",
-    description: "This is the first Design.",
-    price: 300,
-    main_group: "Diamond",
+    id: "1",
+    // title: "Design "+id,
+    // description: "This is the first Design.",
+    // price: 300,
+    mainGroup: "Diamond",
     category: "Diamond Jewelery",
-    design_number: 1,
-    created_date: today,
+    designNumber: 1,
+    createdDate: today,
     style: "Style 2",
     product: "Product 2",
     model: "Model 2",
     size: "Size 2",
     worker: "Worker 2",
     pieces: 1,
-    gross_weight: 120,
-    stone_weight: 130,
-    net_weight: 140,
-    component_weight: 150,
-    ghat_weight: 160,
+    grossWeight: 120,
+    stoneWeight: 130,
+    netWeight: 140,
+    componentWeight: 150,
+    ghatWt: 160,
     remark: "Remarks description...",
-    images:[
-      {image: "https://picsum.photos/536/354", isDefault: true},
-      {image: "https://picsum.photos/536/301", isDefault: false},
-      {image: "https://picsum.photos/536/302", isDefault: false},
-      {image: "https://picsum.photos/536/303" , isDefault: false},
+    detailsSet: [
+      {
+        type: 'composite',
+        stoneGroup: 'stoneGroup1',
+        pieces: 122,
+        stoneWeight: 12,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+      {
+        type: 'stone',
+        stoneGroup: 'stoneGroup2',
+        pieces: 150,
+        stoneWeight: 19,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+    ],
+    designImages:[
+      {imageUrl: "https://picsum.photos/536/354",},
+      {imageUrl: "https://picsum.photos/536/301", },
+      {imageUrl: "https://picsum.photos/536/302", },
+      {imageUrl: "https://picsum.photos/536/303" , },
     ]
   },
   {
-    id: "d2",
-    title: "Design 2",
-    description: "This is the second Design.",
-    price: 350,
-    main_group: "Gold",
+    id: "2",
+    // title: "Design 2",
+    // description: "This is the second Design.",
+    // price: 350,
+    mainGroup: "Gold",
     category: "Gold Jewelery",
-    design_number: 2,
-    created_date: today,
+    designNumber: 2,
+    createdDate: today,
     style: "Style 3",
     product: "Product 3",
     model: "Model 3",
     size: "Size 3",
     worker: "Worker 3",
     pieces: 1,
-    gross_weight: 130,
-    stone_weight: 130,
-    net_weight: 140,
-    component_weight: 150,
-    ghat_weight: 160,
+    grossWeight: 130,
+    stoneWeight: 130,
+    netWeight: 140,
+    componentWeight: 150,
+    ghatWt: 160,
     remark: "Remarks description...",
-    images:[
-      {image: "https://picsum.photos/536/355", isDefault: true},
-      {image: "https://picsum.photos/536/304", isDefault: false},
-      {image: "https://picsum.photos/536/305", isDefault: false},
-      {image: "https://picsum.photos/536/306" , isDefault: false},
+    detailsSet: [
+      {
+        type: 'composite',
+        stoneGroup: 'stoneGroup1',
+        pieces: 122,
+        stoneWeight: 12,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+      {
+        type: 'stone',
+        stoneGroup: 'stoneGroup2',
+        pieces: 150,
+        stoneWeight: 19,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+    ],
+    designImages:[
+      {imageUrl: "https://picsum.photos/536/355", },
+      {imageUrl: "https://picsum.photos/536/304", },
+      {imageUrl: "https://picsum.photos/536/305", },
+      {imageUrl: "https://picsum.photos/536/306" , },
     ]
   },
   {
-    id: "d3",
-    title: "Design 3",
-    description: "This is the third Design.",
-    price: 390,
-    main_group: "Diamond",
+    id: "3",
+    // title: "Design 3",
+    // description: "This is the third Design.",
+    // price: 390,
+    mainGroup: "Diamond",
     category: "Diamond Jewelery",
-    design_number: 1,
-    created_date: today,
+    designNumber: 1,
+    createdDate: today,
     style: "Style 2",
     product: "Product 2",
     model: "Model 2",
     size: "Size 2",
     worker: "Worker 2",
     pieces: 1,
-    gross_weight: 140,
-    stone_weight: 130,
-    net_weight: 140,
-    component_weight: 150,
-    ghat_weight: 160,
+    grossWeight: 140,
+    stoneWeight: 130,
+    netWeight: 140,
+    componentWeight: 150,
+    ghatWt: 160,
     remark: "Remarks description...",
-    images:[
-      {image: "https://picsum.photos/536/353", isDefault: true},
-      {image: "https://picsum.photos/536/307", isDefault: false},
-      {image: "https://picsum.photos/536/308", isDefault: false},
-      {image: "https://picsum.photos/536/309" , isDefault: false},
+    detailsSet: [
+      {
+        type: 'composite',
+        stoneGroup: 'Stone Group 1',
+        pieces: 122,
+        stoneWeight: 12,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+      {
+        type: 'stone',
+        stoneGroup: 'Stone Group 2',
+        pieces: 150,
+        stoneWeight: 19,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+    ],
+    designImages:[
+      {imageUrl: "https://picsum.photos/536/353", },
+      {imageUrl: "https://picsum.photos/536/307", },
+      {imageUrl: "https://picsum.photos/536/308", },
+      {imageUrl: "https://picsum.photos/536/309" , },
     ]
   },
   {
-    id: "d4",
-    title: "Design 4",
-    description: "This is the fourth Design.",
-    price: 400,
-    main_group: "Gold",
+    id: "4",
+    // title: "Design 4",
+    // description: "This is the fourth Design.",
+    // price: 400,
+    mainGroup: "Gold",
     category: "Gold Jewelery",
-    design_number: 2,
-    created_date: today,
+    designNumber: 2,
+    createdDate: today,
     style: "Style 1",
     product: "Product 1",
     model: "Model 1",
     size: "Size 1",
     worker: "Worker 1",
     pieces: 1,
-    gross_weight: 120,
-    stone_weight: 130,
-    net_weight: 140,
-    component_weight: 150,
-    ghat_weight: 160,
+    grossWeight: 120,
+    stoneWeight: 130,
+    netWeight: 140,
+    componentWeight: 150,
+    ghatWt: 160,
     remark: "Remarks description...",
-    images:[
-      {image: "https://picsum.photos/536/352", isDefault: true},
-      {image: "https://picsum.photos/536/310", isDefault: false},
-      {image: "https://picsum.photos/536/311", isDefault: false},
-      {image: "https://picsum.photos/536/312" , isDefault: false},
+    detailsSet: [
+      {
+        type: 'composite',
+        stoneGroup: 'Stone Group 1',
+        pieces: 122,
+        stoneWeight: 12,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+      {
+        type: 'stone',
+        stoneGroup: 'Stone Group 2',
+        pieces: 150,
+        stoneWeight: 19,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+    ],
+    designImages:[
+      {imageUrl: "https://picsum.photos/536/352", },
+      {imageUrl: "https://picsum.photos/536/310", },
+      {imageUrl: "https://picsum.photos/536/311", },
+      {imageUrl: "https://picsum.photos/536/312" , },
     ]
   },
   {
-    id: "d5",
-    title: "Design 5",
-    description: "This is the fifth Design.",
-    price: 450,
-    main_group: "Diamond",
+    id: "5",
+    // title: "Design 5",
+    // description: "This is the fifth Design.",
+    // price: 450,
+    mainGroup: "Diamond",
     category: "Diamond Jewelery",
-    design_number: 1,
-    created_date: today,
+    designNumber: 1,
+    createdDate: today,
     style: "Style 2",
     product: "Product 2",
     model: "Model 2",
     size: "Size 2",
     worker: "Worker 2",
     pieces: 1,
-    gross_weight: 130,
-    stone_weight: 130,
-    net_weight: 140,
-    component_weight: 150,
-    ghat_weight: 160,
+    grossWeight: 130,
+    stoneWeight: 130,
+    netWeight: 140,
+    componentWeight: 150,
+    ghatWt: 160,
     remark: "Remarks description...",
-    images:[
-      {image: "https://picsum.photos/536/351", isDefault: true},
-      {image: "https://picsum.photos/536/313", isDefault: false},
-      {image: "https://picsum.photos/536/314", isDefault: false},
-      {image: "https://picsum.photos/536/315" , isDefault: false},
+    detailsSet: [
+      {
+        type: 'composite',
+        stoneGroup: 'Stone Group 1',
+        pieces: 122,
+        stoneWeight: 12,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+      {
+        type: 'stone',
+        stoneGroup: 'Stone Group 2',
+        pieces: 150,
+        stoneWeight: 19,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+    ],
+    designImages:[
+      {imageUrl: "https://picsum.photos/536/351", },
+      {imageUrl: "https://picsum.photos/536/313", },
+      {imageUrl: "https://picsum.photos/536/314", },
+      {imageUrl: "https://picsum.photos/536/315" ,},
     ]
   },
   {
-    id: "d6",
-    title: "Design 6",
-    description: "This is the sixth Design.",
-    price: 500,
-    main_group: "Gold",
+    id: "6",
+    // title: "Design 6",
+    // description: "This is the sixth Design.",
+    // price: 500,
+    mainGroup: "Gold",
     category: "Gold Jewelery",
-    design_number: 2,
-    created_date: today,
+    designNumber: 2,
+    createdDate: today,
     style: "Style 3",
     product: "Product 3",
     model: "Model 3",
     size: "Size 3",
     worker: "Worker 3",
     pieces: 1,
-    gross_weight: 140,
-    stone_weight: 130,
-    net_weight: 140,
-    component_weight: 150,
-    ghat_weight: 160,
+    grossWeight: 140,
+    stoneWeight: 130,
+    netWeight: 140,
+    componentWeight: 150,
+    ghatWt: 160,
     remark: "Remarks description...",
-    images:[
-      {image: "https://picsum.photos/536/356", isDefault: true},
-      {image: "https://picsum.photos/536/316", isDefault: false},
-      {image: "https://picsum.photos/536/317", isDefault: false},
-      {image: "https://picsum.photos/536/318" , isDefault: false},
+    detailsSet: [
+      {
+        type: 'composite',
+        stoneGroup: 'Stone Group 1',
+        pieces: 122,
+        stoneWeight: 12,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+      {
+        type: 'stone',
+        stoneGroup: 'Stone Group 2',
+        pieces: 150,
+        stoneWeight: 19,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+    ],
+    designImages:[
+      {imageUrl: "https://picsum.photos/536/356"},
+      {imageUrl: "https://picsum.photos/536/316"},
+      {imageUrl: "https://picsum.photos/536/317", },
+      {imageUrl: "https://picsum.photos/536/318" , },
     ]
   },
   {
-    id: "d7",
-    title: "Design 7",
-    description: "This is the seventh Design.",
-    price: 550,
-    main_group: "Diamond",
+    id: "7",
+    // title: "Design 7",
+    // description: "This is the seventh Design.",
+    // price: 550,
+    mainGroup: "Diamond",
     category: "Diamond Jewelery",
-    design_number: 2,
-    created_date: today,
+    designNumber: 2,
+    createdDate: today,
     style: "Style 2",
     product: "Product 2",
     model: "Model 2",
     size: "Size 2",
     worker: "Worker 2",
     pieces: 1,
-    gross_weight: 120,
-    stone_weight: 130,
-    net_weight: 140,
-    component_weight: 150,
-    ghat_weight: 160,
+    grossWeight: 120,
+    stoneWeight: 130,
+    netWeight: 140,
+    componentWeight: 150,
+    ghatWt: 160,
     remark: "Remarks description...",
-    images:[
-      {image: "https://picsum.photos/536/357", isDefault: true},
-      {image: "https://picsum.photos/536/319", isDefault: false},
-      {image: "https://picsum.photos/536/320", isDefault: false},
-      {image: "https://picsum.photos/536/321" , isDefault: false},
+    detailsSet: [
+      {
+        type: 'composite',
+        stoneGroup: 'Stone Group 1',
+        pieces: 122,
+        stoneWeight: 12,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+      {
+        type: 'stone',
+        stoneGroup: 'Stone Group 2',
+        pieces: 150,
+        stoneWeight: 19,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+    ],
+    designImages:[
+      {imageUrl: "https://picsum.photos/536/357"},
+      {imageUrl: "https://picsum.photos/536/319"},
+      {imageUrl: "https://picsum.photos/536/320"},
+      {imageUrl: "https://picsum.photos/536/321" },
     ]
   },
   {
-    id: "d8",
-    title: "Design 8",
-    description: "This is the eighth Design.",
-    price: 600,
-    main_group: "Gold",
+    id: "8",
+    // title: "Design 8",
+    // description: "This is the eighth Design.",
+    // price: 600,
+    mainGroup: "Gold",
     category: "Gold Jewelery",
-    design_number: 1,
-    created_date: today,
+    designNumber: 1,
+    createdDate: today,
     style: "Style 3",
     product: "Product 3",
     model: "Model 3",
     size: "Size 3",
     worker: "Worker 3",
     pieces: 1,
-    gross_weight: 130,
-    stone_weight: 130,
-    net_weight: 140,
-    component_weight: 150,
-    ghat_weight: 160,
+    grossWeight: 130,
+    stoneWeight: 130,
+    netWeight: 140,
+    componentWeight: 150,
+    ghatWt: 160,
     remark: "Remarks description...",
-    images:[
-      {image: "https://picsum.photos/536/358", isDefault: true},
-      {image: "https://picsum.photos/536/322", isDefault: false},
-      {image: "https://picsum.photos/536/323", isDefault: false},
-      {image: "https://picsum.photos/536/324" , isDefault: false},
+    detailsSet: [
+      {
+        type: 'composite',
+        stoneGroup: 'Stone Group 1',
+        pieces: 122,
+        stoneWeight: 12,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+      {
+        type: 'stone',
+        stoneGroup: 'Stone Group 2',
+        pieces: 150,
+        stoneWeight: 19,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+    ],
+    designImages:[
+      {imageUrl: "https://picsum.photos/536/358",},
+      {imageUrl: "https://picsum.photos/536/322", },
+      {imageUrl: "https://picsum.photos/536/323", },
+      {imageUrl: "https://picsum.photos/536/324" , },
     ]
   },
   {
-    id: "d9",
-    title: "Design 9",
-    description: "This is the ninth Design.",
-    price: 650,
-    main_group: "Diamond",
+    id: "9",
+    // title: "Design 9",
+    // description: "This is the ninth Design.",
+    // price: 650,
+    mainGroup: "Diamond",
     category: "Diamond Jewelery",
-    design_number: 2,
-    created_date: today,
+    designNumber: 2,
+    createdDate: today,
     style: "Style 1",
     product: "Product 1",
     model: "Model 1",
     size: "Size 1",
     worker: "Worker 1",
     pieces: 1,
-    gross_weight: 140,
-    stone_weight: 130,
-    net_weight: 140,
-    component_weight: 150,
-    ghat_weight: 160,
+    grossWeight: 140,
+    stoneWeight: 130,
+    netWeight: 140,
+    componentWeight: 150,
+    ghatWt: 160,
     remark: "Remarks description...",
-    images:[
-      {image: "https://picsum.photos/536/359", isDefault: true},
-      {image: "https://picsum.photos/536/325", isDefault: false},
-      {image: "https://picsum.photos/536/326", isDefault: false},
-      {image: "https://picsum.photos/536/327" , isDefault: false},
+    detailsSet: [
+      {
+        type: 'composite',
+        stoneGroup: 'Stone Group 1',
+        pieces: 122,
+        stoneWeight: 12,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+      {
+        type: 'stone',
+        stoneGroup: 'Stone Group 2',
+        pieces: 150,
+        stoneWeight: 19,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+    ],
+    designImages:[
+      {imageUrl: "https://picsum.photos/536/359", },
+      {imageUrl: "https://picsum.photos/536/325", },
+      {imageUrl: "https://picsum.photos/536/326",  },
+      {imageUrl: "https://picsum.photos/536/327" ,  },
     ]
   },
   {
-    id: "d10",
-    title: "Design 10",
-    description: "This is the tenth Design.",
-    price: 700,
-    main_group: "Gold",
+    id: "10",
+    // title: "Design 10",
+    // description: "This is the tenth Design.",
+    // price: 700,
+    mainGroup: "Gold",
     category: "Gold Jewelery",
-    design_number: 1,
-    created_date: today,
+    designNumber: 1,
+    createdDate: today,
     style: "Style 2",
     product: "Product 2",
     model: "Model 2",
     size: "Size 2",
     worker: "Worker 2",
     pieces: 1,
-    gross_weight: 120,
-    stone_weight: 130,
-    net_weight: 140,
-    component_weight: 150,
-    ghat_weight: 160,
+    grossWeight: 120,
+    stoneWeight: 130,
+    netWeight: 140,
+    componentWeight: 150,
+    ghatWt: 160,
     remark: "Remarks description...",
-    images:[
-      {image: "https://picsum.photos/536/360", isDefault: true},
-      {image: "https://picsum.photos/536/328", isDefault: false},
-      {image: "https://picsum.photos/536/329", isDefault: false},
-      {image: "https://picsum.photos/536/330" , isDefault: false},
+    detailsSet: [
+      {
+        type: 'composite',
+        stoneGroup: 'Stone Group 1',
+        pieces: 122,
+        stoneWeight: 12,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+      {
+        type: 'stone',
+        stoneGroup: 'Stone Group 2',
+        pieces: 150,
+        stoneWeight: 19,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+    ],
+    designImages:[
+      {imageUrl: "https://picsum.photos/536/360",  },
+      {imageUrl: "https://picsum.photos/536/328",  },
+      {imageUrl: "https://picsum.photos/536/329",  },
+      {imageUrl: "https://picsum.photos/536/330" ,  },
     ]
   },
   {
-    id: "d11",
-    title: "Design 11",
-    description: "This is the 11th Design.",
-    price: 750,
-    main_group: "Diamond",
+    id: "11",
+    // title: "Design 11",
+    // description: "This is the 11th Design.",
+    // price: 750,
+    mainGroup: "Diamond",
     category: "Diamond Jewelery",
-    design_number: 2,
-    created_date: today,
+    designNumber: 2,
+    createdDate: today,
     style: "Style 1",
     product: "Product 1",
     model: "Model 1",
     size: "Size 1",
     worker: "Worker 1",
     pieces: 1,
-    gross_weight: 130,
-    stone_weight: 130,
-    net_weight: 140,
-    component_weight: 150,
-    ghat_weight: 160,
+    grossWeight: 130,
+    stoneWeight: 130,
+    netWeight: 140,
+    componentWeight: 150,
+    ghatWt: 160,
     remark: "Remarks description...",
-    images:[
-      {image: "https://picsum.photos/536/361", isDefault: true},
-      {image: "https://picsum.photos/536/331", isDefault: false},
-      {image: "https://picsum.photos/536/332", isDefault: false},
-      {image: "https://picsum.photos/536/333" , isDefault: false},
+    detailsSet: [
+      {
+        type: 'composite',
+        stoneGroup: 'Stone Group 1',
+        pieces: 122,
+        stoneWeight: 12,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+      {
+        type: 'stone',
+        stoneGroup: 'Stone Group 2',
+        pieces: 150,
+        stoneWeight: 19,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+    ],
+    designImages:[
+      {imageUrl: "https://picsum.photos/536/361",  },
+      {imageUrl: "https://picsum.photos/536/331",  },
+      {imageUrl: "https://picsum.photos/536/332", },
+      {imageUrl: "https://picsum.photos/536/333" ,  },
     ]
   },
   {
-    id: "d12",
-    title: "Design 12",
-    description: "This is the 12th Design.",
-    price: 750,
-    main_group: "Gold",
+    id: "12",
+    // title: "Design 12",
+    // description: "This is the 12th Design.",
+    // price: 750,
+    mainGroup: "Gold",
     category: "Gold Jewelery",
-    design_number: 1,
-    created_date: today,
+    designNumber: 1,
+    createdDate: today,
     style: "Style 2",
     product: "Product 2",
     model: "Model 2",
     size: "Size 2",
     worker: "Worker 2",
     pieces: 1,
-    gross_weight: 140,
-    stone_weight: 130,
-    net_weight: 140,
-    component_weight: 150,
-    ghat_weight: 160,
+    grossWeight: 140,
+    stoneWeight: 130,
+    netWeight: 140,
+    componentWeight: 150,
+    ghatWt: 160,
     remark: "Remarks description...",
-    images:[
-      {image: "https://picsum.photos/536/362", isDefault: true},
-      {image: "https://picsum.photos/536/334", isDefault: false},
-      {image: "https://picsum.photos/536/335", isDefault: false},
-      {image: "https://picsum.photos/536/336" , isDefault: false},
+    detailsSet: [
+      {
+        type: 'composite',
+        stoneGroup: 'Stone Group 1',
+        pieces: 122,
+        stoneWeight: 12,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+      {
+        type: 'stone',
+        stoneGroup: 'Stone Group 2',
+        pieces: 150,
+        stoneWeight: 19,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+    ],
+    designImages:[
+      {imageUrl: "https://picsum.photos/536/362",  },
+      {imageUrl: "https://picsum.photos/536/334",  },
+      {imageUrl: "https://picsum.photos/536/335",  },
+      {imageUrl: "https://picsum.photos/536/336" ,  },
     ]
   },
   {
-    id: "d13",
-    title: "Design 13",
-    description: "This is the 13th Design.",
-    price: 750,
-    main_group: "Gold",
+    id: "13",
+    // title: "Design 13",
+    // description: "This is the 13th Design.",
+    // price: 750,
+    mainGroup: "Gold",
     category: "Gold Jewelery",
-    design_number: 1,
-    created_date: today,
+    designNumber: 1,
+    createdDate: today,
     style: "Style 3",
     product: "Product 3",
     model: "Model 3",
     size: "Size 3",
     worker: "Worker 1",
     pieces: 1,
-    gross_weight: 100,
-    stone_weight: 100,
-    net_weight: 100,
-    component_weight: 100,
-    ghat_weight: 100,
+    grossWeight: 100,
+    stoneWeight: 100,
+    netWeight: 100,
+    componentWeight: 100,
+    ghatWt: 100,
     remark: "Remarks description...",
-    images:[
-      {image: "https://picsum.photos/536/363", isDefault: true},
-      {image: "https://picsum.photos/536/337", isDefault: false},
-      {image: "https://picsum.photos/536/338", isDefault: false},
-      {image: "https://picsum.photos/536/339" , isDefault: false},
+    detailsSet: [
+      {
+        type: 'composite',
+        stoneGroup: 'Stone Group 1',
+        pieces: 122,
+        stoneWeight: 12,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+      {
+        type: 'stone',
+        stoneGroup: 'Stone Group 2',
+        pieces: 150,
+        stoneWeight: 19,
+        unitOfMeasurement: 'Grm/Cts'
+      },
+    ],
+    designImages:[
+      {imageUrl: "https://picsum.photos/536/363",  },
+      {imageUrl: "https://picsum.photos/536/337",  },
+      {imageUrl: "https://picsum.photos/536/338",  },
+      {imageUrl: "https://picsum.photos/536/339" ,  },
     ]
   },
 ];
@@ -386,6 +595,33 @@ export default function ViewDesign() {
   const [isDrawerOPen, setIsDrawerOPen]= useState(false);
 
   const selectedFilters = useSelector((state) => state.ui.selectedFilters);
+
+  const [designList, setDesignList] = useState([]);
+
+  const [load, setLoad] = useState(false);
+
+  useEffect(() => {
+    getVeiwDesign();
+    setLoad[true];
+  },[]);
+
+  const getVeiwDesign = () => {
+    
+    try {
+    axios.get('http://18.204.204.183:8080/api/designs')
+      .then((res) =>  {
+       // console.log('response is list Designs: ',res.data)
+        setDesignList(res.data);
+        setLoad[false];
+      })
+        .catch((err) => console.log('error is : ', err))
+    }
+    catch (err){
+      console.log(err);
+    }
+  }
+  
+
 
   const {
     field: mainGrpFilters,
@@ -415,34 +651,34 @@ export default function ViewDesign() {
     field: styleFilters,
     handleFieldCheckChange: handleStyleCheckChange,
   } = useCheck({
-    "Style 1": false,
-    "Style 2": false,
-    "Style 3": false,
+    "Style1": false,
+    "Style2": false,
+    "Style3": false,
   }, handleCloseFilters);
 
   const {
     field: productFilters,
     handleFieldCheckChange: handleProductCheckChange,
   } = useCheck({
-    "Product 1": false,
-    "Product 2": false,
-    "Product 3": false,
+    "Product1": false,
+    "Product2": false,
+    "Product3": false,
   }, handleCloseFilters);
 
   const {
     field: modelFilters,
     handleFieldCheckChange: handleModelCheckChange,
   } = useCheck({
-    "Model 1": false,
-    "Model 2": false,
-    "Model 3": false,
+    "Model1": false,
+    "Model2": false,
+    "Model3": false,
   }, handleCloseFilters);
 
   const { field: sizeFilters, handleFieldCheckChange: handleSizeCheckChange } =
     useCheck({
-      "Size 1": false,
-      "Size 2": false,
-      "Size 3": false,
+      "Size1": false,
+      "Size2": false,
+      "Size3": false,
     }, handleCloseFilters);
 
   const {
@@ -453,6 +689,8 @@ export default function ViewDesign() {
     "10-20grms": false,
     "20-50grms": false,
     "50-100grms": false,
+    "100-200grms": false,
+    ">200grms": false,
   }, handleCloseFilters);
 
   const {
@@ -468,23 +706,8 @@ export default function ViewDesign() {
   const [isShow, setIsShow] = useState(false);
   const [cardItem, setCardItem] = useState(null);
 
-  const [designList, setDesignList] = useState([]);
-
-  useEffect(() => {
-    getVeiwDesign();
-  },[]);
-
-  const getVeiwDesign = () => {
-    axios.get('http://localhost:8080/api/designs')
-      .then((res) =>  {
-        console.log('response is list Designs: ',res.data)
-        setDesignList(res.data);
-      })
-        .catch((err) => console.log('error is : ', err))
-  }
-
   function handleShowDetails(item) {
-    console.log(item);
+  //  console.log(item);
     setCardItem(item);
     setIsShow(true);
   }
@@ -540,7 +763,7 @@ export default function ViewDesign() {
     dispatch(uiActions.clearFilters());
   }
 
-  //console.log(selectedFilters);
+ // console.log(selectedFilters);
 
   function handleOpenFilters() {
     setIsDrawerOPen(true);
@@ -550,10 +773,10 @@ export default function ViewDesign() {
     setIsDrawerOPen(false);
   }
 
-  let filteredList = DUMMY_LIST.filter((item) => {
+  let filteredList = designList.filter((item) => {
     const isMainGroupMatch =
       Object.values(mainGrpFilters).every((value) => value === false) ||
-      mainGrpFilters[item.main_group];
+      mainGrpFilters[item.mainGroup];
     
     const isCategoryMatch =
       Object.values(categoryFilters).every((value) => value === false) ||
@@ -561,7 +784,7 @@ export default function ViewDesign() {
   
     const isDesignNumMatch =
       Object.values(designNumFilters).every((value) => value === false) ||
-      designNumFilters[`D.No:${item.design_number}`];
+      designNumFilters[`D.No:${item.designNumber}`];
   
     const isStyleMatch =
       Object.values(styleFilters).every((value) => value === false) ||
@@ -581,16 +804,21 @@ export default function ViewDesign() {
   
     const isWeightMatch =
       Object.values(weightRangeFilters).every((value) => value === false) ||
-      (weightRangeFilters["0-10grms"] && item.gross_weight <= 10) ||
+      (weightRangeFilters["0-10grms"] && item.grossWeight <= 10) ||
       (weightRangeFilters["10-20grms"] &&
-        item.gross_weight > 10 &&
-        item.gross_weight <= 20) ||
+        item.grossWeight > 10 &&
+        item.grossWeight <= 20) ||
       (weightRangeFilters["20-50grms"] &&
-        item.gross_weight > 20 &&
-        item.gross_weight <= 50) ||
+        item.grossWeight > 20 &&
+        item.grossWeight <= 50) ||
       (weightRangeFilters["50-100grms"] &&
-        item.gross_weight > 50 &&
-        item.gross_weight <= 100);
+        item.grossWeight > 50 &&
+        item.grossWeight <= 100) || 
+      (weightRangeFilters["100-200grms"] &&
+        item.grossWeight > 100 &&
+        item.grossWeight <= 200) ||
+      (weightRangeFilters[">200grms"] &&
+        item.grossWeight >200);
   
     return (
       isMainGroupMatch &&
@@ -603,15 +831,6 @@ export default function ViewDesign() {
       isWeightMatch
     );
   });
-  
-  
-  
-
-  if (filteredList.length === 0) {
-    content=<div className={classes["whole-designs-page"]}>
-      <p>No results found!</p>
-    </div>
-  }
 
   let content = (
     <div key="whole-designs" className={classes["whole-designs-page"]}>
@@ -784,9 +1003,9 @@ export default function ViewDesign() {
                             <p className={classes["checkbox-grp"]}>
                               <input
                                 type="checkbox"
-                                id="Style 1"
-                                name="Style 1"
-                                checked={styleFilters["Style 1"]}
+                                id="Style1"
+                                name="Style1"
+                                checked={styleFilters["Style1"]}
                                 onChange={handleStyleCheckChange}
                               />
                               <label htmlFor="Style 1">Style 1</label>
@@ -794,9 +1013,9 @@ export default function ViewDesign() {
                             <p className={classes["checkbox-grp"]}>
                               <input
                                 type="checkbox"
-                                id="Style 2"
-                                name="Style 2"
-                                checked={styleFilters["Style 2"]}
+                                id="Style2"
+                                name="Style2"
+                                checked={styleFilters["Style2"]}
                                 onChange={handleStyleCheckChange}
                               />
                               <label htmlFor="Style 2">Style 2</label>
@@ -804,9 +1023,9 @@ export default function ViewDesign() {
                             <p className={classes["checkbox-grp"]}>
                               <input
                                 type="checkbox"
-                                id="Style 3"
-                                name="Style 3"
-                                checked={styleFilters["Style 3"]}
+                                id="Style3"
+                                name="Style3"
+                                checked={styleFilters["Style3"]}
                                 onChange={handleStyleCheckChange}
                               />
                               <label htmlFor="Style 3">Style 3</label>
@@ -840,9 +1059,9 @@ export default function ViewDesign() {
                             <p className={classes["checkbox-grp"]}>
                               <input
                                 type="checkbox"
-                                id="Product 1"
-                                name="Product 1"
-                                checked={productFilters["Product 1"]}
+                                id="Product1"
+                                name="Product1"
+                                checked={productFilters["Product1"]}
                                 onChange={handleProductCheckChange}
                               />
                               <label htmlFor="Product 1">Product 1</label>
@@ -850,9 +1069,9 @@ export default function ViewDesign() {
                             <p className={classes["checkbox-grp"]}>
                               <input
                                 type="checkbox"
-                                id="Product 2"
-                                name="Product 2"
-                                checked={productFilters["Product 2"]}
+                                id="Product2"
+                                name="Product2"
+                                checked={productFilters["Product2"]}
                                 onChange={handleProductCheckChange}
                               />
                               <label htmlFor="Product 2">Product 2</label>
@@ -860,9 +1079,9 @@ export default function ViewDesign() {
                             <p className={classes["checkbox-grp"]}>
                               <input
                                 type="checkbox"
-                                id="Product 3"
-                                name="Product 3"
-                                checked={productFilters["Product 3"]}
+                                id="Product3"
+                                name="Product3"
+                                checked={productFilters["Product3"]}
                                 onChange={handleProductCheckChange}
                               />
                               <label htmlFor="Product 3">Product 3</label>
@@ -933,6 +1152,26 @@ export default function ViewDesign() {
                               />
                               <label htmlFor="wt 4">50-100grms</label>
                             </p>
+                            <p className={classes["checkbox-grp"]}>
+                              <input
+                                type="checkbox"
+                                id="wt 5"
+                                name="100-200grms"
+                                checked={weightRangeFilters["100-200grms"]}
+                                onChange={handleWtCheckChange}
+                              />
+                              <label htmlFor="wt 5">100-200grms</label>
+                            </p>
+                            <p className={classes["checkbox-grp"]}>
+                              <input
+                                type="checkbox"
+                                id="wt 6"
+                                name=">200grms"
+                                checked={weightRangeFilters[">200grms"]}
+                                onChange={handleWtCheckChange}
+                              />
+                              <label htmlFor="wt 6">{`> `}200grms</label>
+                            </p>
                           </motion.div>
                         )}
                       </AnimatePresence>
@@ -963,9 +1202,9 @@ export default function ViewDesign() {
                             <p className={classes["checkbox-grp"]}>
                               <input
                                 type="checkbox"
-                                id="Model 1"
-                                name="Model 1"
-                                checked={modelFilters["Model 1"]}
+                                id="Model1"
+                                name="Model1"
+                                checked={modelFilters["Model1"]}
                                 onChange={handleModelCheckChange}
                               />
                               <label htmlFor="Model 1">Model 1</label>
@@ -973,9 +1212,9 @@ export default function ViewDesign() {
                             <p className={classes["checkbox-grp"]}>
                               <input
                                 type="checkbox"
-                                id="Model 2"
-                                name="Model 2"
-                                checked={modelFilters["Model 2"]}
+                                id="Model2"
+                                name="Model2"
+                                checked={modelFilters["Model2"]}
                                 onChange={handleModelCheckChange}
                               />
                               <label htmlFor="Model 2">Model 2</label>
@@ -983,9 +1222,9 @@ export default function ViewDesign() {
                             <p className={classes["checkbox-grp"]}>
                               <input
                                 type="checkbox"
-                                id="Model 3"
-                                name="Model 3"
-                                checked={modelFilters["Model 3"]}
+                                id="Model3"
+                                name="Model3"
+                                checked={modelFilters["Model3"]}
                                 onChange={handleModelCheckChange}
                               />
                               <label htmlFor="Model 3">Model 3</label>
@@ -994,9 +1233,9 @@ export default function ViewDesign() {
                             <p className={classes["checkbox-grp"]}>
                               <input
                                 type="checkbox"
-                                id="Size 1"
-                                name="Size 1"
-                                checked={sizeFilters["Size 1"]}
+                                id="Size1"
+                                name="Size1"
+                                checked={sizeFilters["Size1"]}
                                 onChange={handleSizeCheckChange}
                               />
                               <label htmlFor="Size 1">Size 1</label>
@@ -1004,9 +1243,9 @@ export default function ViewDesign() {
                             <p className={classes["checkbox-grp"]}>
                               <input
                                 type="checkbox"
-                                id="Size 2"
-                                name="Size 2"
-                                checked={sizeFilters["Size 2"]}
+                                id="Size2"
+                                name="Size2"
+                                checked={sizeFilters["Size2"]}
                                 onChange={handleSizeCheckChange}
                               />
                               <label htmlFor="Size 2">Size 2</label>
@@ -1014,9 +1253,9 @@ export default function ViewDesign() {
                             <p className={classes["checkbox-grp"]}>
                               <input
                                 type="checkbox"
-                                id="Size 3"
-                                name="Size 3"
-                                checked={sizeFilters["Size 3"]}
+                                id="Size3"
+                                name="Size3"
+                                checked={sizeFilters["Size3"]}
                                 onChange={handleSizeCheckChange}
                               />
                               <label htmlFor="Size 3">Size 3</label>
@@ -1152,7 +1391,7 @@ export default function ViewDesign() {
                         checked={designNumFilters["D.No:1"]}
                         onChange={handleDesignNumCheckChange}
                       />
-                      <label htmlFor="1">1</label>
+                      <label htmlFor="1">D.No:1</label>
                     </p>
                     <p className={classes["checkbox-grp"]}>
                       <input
@@ -1162,7 +1401,7 @@ export default function ViewDesign() {
                         checked={designNumFilters["D.No:2"]}
                         onChange={handleDesignNumCheckChange}
                       />
-                      <label htmlFor="2">2</label>
+                      <label htmlFor="2">D.No:2</label>
                     </p>
                   </motion.div>
                 )}
@@ -1193,9 +1432,9 @@ export default function ViewDesign() {
                     <p className={classes["checkbox-grp"]}>
                       <input
                         type="checkbox"
-                        id="Style 1"
-                        name="Style 1"
-                        checked={styleFilters["Style 1"]}
+                        id="Style1"
+                        name="Style1"
+                        checked={styleFilters["Style1"]}
                         onChange={handleStyleCheckChange}
                       />
                       <label htmlFor="Style 1">Style 1</label>
@@ -1203,19 +1442,19 @@ export default function ViewDesign() {
                     <p className={classes["checkbox-grp"]}>
                       <input
                         type="checkbox"
-                        id="Style 2"
-                        name="Style 2"
-                        checked={styleFilters["Style 2"]}
+                        id="Style2"
+                        name="Style2"
+                        checked={styleFilters["Style2"]}
                         onChange={handleStyleCheckChange}
                       />
-                      <label htmlFor="Style 2">Style 2</label>
+                      <label htmlFor="Style2">Style 2</label>
                     </p>
                     <p className={classes["checkbox-grp"]}>
                       <input
                         type="checkbox"
-                        id="Style 3"
-                        name="Style 3"
-                        checked={styleFilters["Style 3"]}
+                        id="Style3"
+                        name="Style3"
+                        checked={styleFilters["Style3"]}
                         onChange={handleStyleCheckChange}
                       />
                       <label htmlFor="Style 3">Style 3</label>
@@ -1249,9 +1488,9 @@ export default function ViewDesign() {
                     <p className={classes["checkbox-grp"]}>
                       <input
                         type="checkbox"
-                        id="Product 1"
-                        name="Product 1"
-                        checked={productFilters["Product 1"]}
+                        id="Product1"
+                        name="Product1"
+                        checked={productFilters["Product1"]}
                         onChange={handleProductCheckChange}
                       />
                       <label htmlFor="Product 1">Product 1</label>
@@ -1259,9 +1498,9 @@ export default function ViewDesign() {
                     <p className={classes["checkbox-grp"]}>
                       <input
                         type="checkbox"
-                        id="Product 2"
-                        name="Product 2"
-                        checked={productFilters["Product 2"]}
+                        id="Product2"
+                        name="Product2"
+                        checked={productFilters["Product2"]}
                         onChange={handleProductCheckChange}
                       />
                       <label htmlFor="Product 2">Product 2</label>
@@ -1269,9 +1508,9 @@ export default function ViewDesign() {
                     <p className={classes["checkbox-grp"]}>
                       <input
                         type="checkbox"
-                        id="Product 3"
-                        name="Product 3"
-                        checked={productFilters["Product 3"]}
+                        id="Product3"
+                        name="Product3"
+                        checked={productFilters["Product3"]}
                         onChange={handleProductCheckChange}
                       />
                       <label htmlFor="Product 3">Product 3</label>
@@ -1342,6 +1581,26 @@ export default function ViewDesign() {
                       />
                       <label htmlFor="wt 4">50-100grms</label>
                     </p>
+                    <p className={classes["checkbox-grp"]}>
+                              <input
+                                type="checkbox"
+                                id="wt 5"
+                                name="100-200grms"
+                                checked={weightRangeFilters["100-200grms"]}
+                                onChange={handleWtCheckChange}
+                              />
+                              <label htmlFor="wt 5">100-200grms</label>
+                            </p>
+                            <p className={classes["checkbox-grp"]}>
+                              <input
+                                type="checkbox"
+                                id="wt 6"
+                                name=">200grms"
+                                checked={weightRangeFilters[">200grms"]}
+                                onChange={handleWtCheckChange}
+                              />
+                              <label htmlFor="wt 6">{`> `}200grms</label>
+                            </p>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -1372,9 +1631,9 @@ export default function ViewDesign() {
                     <p className={classes["checkbox-grp"]}>
                       <input
                         type="checkbox"
-                        id="Model 1"
-                        name="Model 1"
-                        checked={modelFilters["Model 1"]}
+                        id="Model1"
+                        name="Model1"
+                        checked={modelFilters["Model1"]}
                         onChange={handleModelCheckChange}
                       />
                       <label htmlFor="Model 1">Model 1</label>
@@ -1382,9 +1641,9 @@ export default function ViewDesign() {
                     <p className={classes["checkbox-grp"]}>
                       <input
                         type="checkbox"
-                        id="Model 2"
-                        name="Model 2"
-                        checked={modelFilters["Model 2"]}
+                        id="Model2"
+                        name="Model2"
+                        checked={modelFilters["Model2"]}
                         onChange={handleModelCheckChange}
                       />
                       <label htmlFor="Model 2">Model 2</label>
@@ -1392,9 +1651,9 @@ export default function ViewDesign() {
                     <p className={classes["checkbox-grp"]}>
                       <input
                         type="checkbox"
-                        id="Model 3"
-                        name="Model 3"
-                        checked={modelFilters["Model 3"]}
+                        id="Model3"
+                        name="Model3"
+                        checked={modelFilters["Model3"]}
                         onChange={handleModelCheckChange}
                       />
                       <label htmlFor="Model 3">Model 3</label>
@@ -1403,9 +1662,9 @@ export default function ViewDesign() {
                     <p className={classes["checkbox-grp"]}>
                       <input
                         type="checkbox"
-                        id="Size 1"
-                        name="Size 1"
-                        checked={sizeFilters["Size 1"]}
+                        id="Size1"
+                        name="Size1"
+                        checked={sizeFilters["Size1"]}
                         onChange={handleSizeCheckChange}
                       />
                       <label htmlFor="Size 1">Size 1</label>
@@ -1413,9 +1672,9 @@ export default function ViewDesign() {
                     <p className={classes["checkbox-grp"]}>
                       <input
                         type="checkbox"
-                        id="Size 2"
-                        name="Size 2"
-                        checked={sizeFilters["Size 2"]}
+                        id="Size2"
+                        name="Size2"
+                        checked={sizeFilters["Size2"]}
                         onChange={handleSizeCheckChange}
                       />
                       <label htmlFor="Size 2">Size 2</label>
@@ -1423,9 +1682,9 @@ export default function ViewDesign() {
                     <p className={classes["checkbox-grp"]}>
                       <input
                         type="checkbox"
-                        id="Size 3"
-                        name="Size 3"
-                        checked={sizeFilters["Size 3"]}
+                        id="Size3"
+                        name="Size3"
+                        checked={sizeFilters["Size3"]}
                         onChange={handleSizeCheckChange}
                       />
                       <label htmlFor="Size 3">Size 3</label>
@@ -1480,8 +1739,8 @@ export default function ViewDesign() {
           initial="hidden"
           animate="visible"
           className={classes["cards-container"]}
-        >
-          {filteredList.length===0 && <p style={{marginTop:"10rem auto", width:"100%", textAlign: "center"}}>No results found!</p>}
+        > {load && <Spin tip="Loading" size="large" style={{alignItems:'center', alignContent:'center'}}></Spin> }
+          {load && filteredList.length===0 && <p style={{marginTop:"10rem auto", width:"100%", textAlign: "center"}}>No results found!</p>}
           {filteredList.length>0 && (
             <AnimatePresence>
             {filteredList.map((item) => {
@@ -1499,9 +1758,9 @@ export default function ViewDesign() {
                   key={item.id}
                   className={classes.card}
                 >
-                  <img src={item.images[0].image} alt={item.title} />
-                  <p className={classes.title}>{item.title}</p>
-                  <p>{item.description}</p>
+                  <img src={item.designImages[0].imageUrl} alt={item.title} />
+                  <p className={classes.title}>Design {item.id}</p>
+                  <p>Gross Weight: {item.grossWeight} Grms</p>
                 </motion.li>
               );
             })}
@@ -1513,7 +1772,6 @@ export default function ViewDesign() {
   );
 
   if (isShow) {
-    
     content = (
       <DesignDetails onGoBack={handleGoBack} cardItem={cardItem}/>
     );

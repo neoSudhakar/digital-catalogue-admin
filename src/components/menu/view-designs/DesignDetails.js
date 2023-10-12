@@ -1,11 +1,39 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import classes from "./DesignDetails.module.css";
 import ReactImageMagnify from "react-image-magnify";
+import CreationTable from "../master-design/CreationTable";
+import DesignTable from "./DesignTable";
 
 export default function DesignDetails({cardItem, onGoBack}){
+    const {detailsSet} = cardItem;
 
-    const [imageItems, setImageItems]= useState(cardItem.images);
+     //   {"Sno": 1, type:"Type 1", stoneGroup:" Stone Group 1" , pcs: 1, stoneWt: 1, "UOM":"Grms" },
+
+    const rowDataArr= detailsSet.map((eachItem, index)=>{
+      const {type, stoneGroup, pieces, stoneWeight, unitOfMeasurement} = eachItem;
+      return {
+        "Sno": index+1,
+        type,
+        stoneGroup,
+        pcs: pieces,
+        stoneWt: stoneWeight,
+        "UOM": unitOfMeasurement,
+      }
+    })
+
+    const updatedDesignImagesArr= useMemo(()=>{
+      return cardItem.designImages.map((eachItem, index)=>{
+        if(index===0){
+          return {...eachItem, isDefault: true};
+        }
+        else{
+          return {...eachItem, isDefault: false};
+        }
+      });
+    })
+
+    const [imageItems, setImageItems]= useState(updatedDesignImagesArr);
 
     const defaultImageItem=imageItems.find((item)=>{
         return item.isDefault;
@@ -18,7 +46,7 @@ export default function DesignDetails({cardItem, onGoBack}){
     function handleSelectImage(imageItem){
         // setSelectedImageItem(imageItem.image);
         const updatedImageItems=imageItems.map((item)=>{
-          if(item.image===imageItem.image){
+          if(item.imageUrl===imageItem.imageUrl){
             return {...item, isDefault: true};
           }
           else{
@@ -36,21 +64,23 @@ export default function DesignDetails({cardItem, onGoBack}){
     exit={{ y: -30, opacity: 0 }}
     className={classes["details-container"]}
   >
-    <h1>{cardItem.title} Details</h1>
+    
+    <h1>Design {cardItem.id} Details</h1>
     <div className={classes["card-details"]}>
+      <div className={classes["above-table"]}>
       <div className={classes.carousel}>
       <div className={classes["default-image"]}>
         <ReactImageMagnify {...{
                     smallImage: {
                         alt: 'Wristwatch by Ted Baker London',
                         isFluidWidth: true,
-                        src: defaultImageItem.image,
-                        width:"100%",
+                        src: defaultImageItem.imageUrl,
+                       // width:"100%",
                         zIndex:0,
-                        height: "100%",
+                      //  height: "100%",
                     },
                     largeImage: {
-                        src: defaultImageItem.image,
+                        src: defaultImageItem.imageUrl,
                         width: 1000,
                         height: 1000
                     },
@@ -62,24 +92,23 @@ export default function DesignDetails({cardItem, onGoBack}){
         </div>
         <ul className={classes["left-images-container"]}>
           {imageItems.map((item)=>{
-            return <li className={`${classes["left-image"]} ${item.isDefault ? classes.active : "" }`} onMouseOver={()=>handleSelectImage(item)} key={item.image}>
-                <img src={item.image}/>
+            return <li className={`${classes["left-image"]} ${item.isDefault ? classes.active : "" }`} onMouseOver={()=>handleSelectImage(item)} key={item.imageUrl}>
+                <img src={item.imageUrl}/>
             </li>
           })}
         </ul>
         
       </div>
       <section className={classes.content}>
-        <h2 className={classes.title}>{cardItem.title}</h2>
-        <p>{cardItem.description}</p>
+        {/* <h2 className={classes.title}>Design {cardItem.id}</h2> */}
         <div className={classes["cardItem-details"]}>
           <div>
             <span>Design No.: </span>
-            <p>{cardItem.design_number}</p>
+            <p>{cardItem.id}</p>
           </div>
           <div>
             <span>Mian Group: </span>
-            <p>{cardItem.main_group}</p>
+            <p>{cardItem.mainGroup}</p>
           </div>
           <div>
             <span>Category: </span>
@@ -87,7 +116,7 @@ export default function DesignDetails({cardItem, onGoBack}){
           </div>
           <div>
             <span>Created Date: </span>
-            <p>{cardItem.created_date}</p>
+            <p>{cardItem.createdDate}</p>
           </div>
           <div>
             <span>Style: </span>
@@ -115,46 +144,32 @@ export default function DesignDetails({cardItem, onGoBack}){
           </div>
           <div>
             <span>Gross Weight: </span>
-            <p>{cardItem.gross_weight}</p>
+            <p>{cardItem.grossWeight}</p>
           </div>
           <div>
             <span>Stone Weight: </span>
-            <p>{cardItem.stone_weight}</p>
+            <p>{cardItem.stoneWeight}</p>
           </div>
           <div>
             <span>Net Weight: </span>
-            <p>{cardItem.net_weight}</p>
+            <p>{cardItem.netWeight}</p>
           </div>
           <div>
             <span>Component Weight: </span>
-            <p>{cardItem.component_weight}</p>
+            <p>{cardItem.componentWeight}</p>
           </div>
           <div>
             <span>Ghat Weight: </span>
-            <p>{cardItem.ghat_weight}</p>
+            <p>{cardItem.ghatWt}</p>
           </div>
-
-          {/* <p className={classes.price}>
-            <span>₹{cardItem.price} </span>
-          </p> */}
-        </div>
-        <div className={classes.actions}>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: "spring", stiffness: 500, mass: 1 }}
-          >
-            ADD TO CART
-          </motion.button>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: "spring", stiffness: 500, mass: 1 }}
-          >
-            BUY
-          </motion.button>
         </div>
       </section>
+      </div>
+      <div className={classes.table}>
+          <DesignTable rowDataArr={rowDataArr}/>
+      </div>
     </div>
-    {/* <CarouselComponent /> */}
+    
     <motion.button
       whileHover={{ scale: 1.1 }}
       transition={{ type: "spring", stiffness: 500, mass: 1 }}

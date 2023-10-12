@@ -7,6 +7,7 @@ import OrderForm from "./components/menu/order-form/OrderForm";
 import Customers from "./components/menu/customers/Customers";
 import "./styles.css";
 import AuthForm from "./components/Register/AuthForm";
+import { ToastProvider, useToasts } from 'react-toast-notifications';
 
 import { action as logoutAction } from "./components/Register/Logout";
 import { authTokenLoader } from "./util/auth";
@@ -47,7 +48,7 @@ const router= createBrowserRouter([
 ])
 
 export default function App() {
-  return (
-    <RouterProvider router={router}/>
+  return (    
+    <RouterProvider router={router}/>   
   );
 }
