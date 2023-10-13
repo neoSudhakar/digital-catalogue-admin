@@ -11,6 +11,7 @@ import AuthForm from "./components/Register/AuthForm";
 import { action as logoutAction } from "./components/Register/Logout";
 import { authTokenLoader, checkAuthLoader } from "./util/auth";
 import MasterCreation from "./components/menu/master-design/MasterCreation";
+import CatalogueDesigns from "./components/menu/catalogue/CatalogueDesigns";
 
 const router= createBrowserRouter([
   {
@@ -42,6 +43,9 @@ const router= createBrowserRouter([
       {
         path:"/master-design/creation",  element:<MasterCreation/>, loader: checkAuthLoader
       },
+      {
+        path: "catalogue", element: <CatalogueDesigns/>, loader: checkAuthLoader,
+      }
     ]
   },
 ])

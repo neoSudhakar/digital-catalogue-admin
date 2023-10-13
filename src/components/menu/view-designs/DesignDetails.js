@@ -5,6 +5,7 @@ import ReactImageMagnify from "react-image-magnify";
 import DesignFields from "./DesignFields";
 import DesignTanbleJSX from "./DesignTableJSX";
 import { useSelector } from "react-redux";
+import ImagesTable from "./ImagesTable/ImagesTable";
 
 export default function DesignDetails({cardItem, onGoBack}){
 
@@ -52,6 +53,16 @@ export default function DesignDetails({cardItem, onGoBack}){
     exit={{ y: -30, opacity: 0 }}
     className={`${classes["details-container"]}`}
   >
+    <div className={classes["back-btn-container"]}>
+    <motion.button
+      whileHover={{ scale: 1.05 }}
+      transition={{ type: "spring", stiffness: 500, mass: 1 }}
+      className={classes.back}
+      onClick={handleGoBack}
+    >
+      Back
+    </motion.button>
+    </div>
     <h1>Design {cardItem.id} Details</h1>
     <div className={`${classes["card-details"]}  ${isDashboardOpen ? classes.full : ""}`}>
       <div className={classes["above-table"]}>
@@ -91,16 +102,8 @@ export default function DesignDetails({cardItem, onGoBack}){
 
       </div>
       <DesignTanbleJSX cardItem={cardItem}/>
+      <ImagesTable imagesArr={imageItems} />
       
     </div>
-    
-    <motion.button
-      whileHover={{ scale: 1.05 }}
-      transition={{ type: "spring", stiffness: 500, mass: 1 }}
-      className={classes.back}
-      onClick={handleGoBack}
-    >
-      Back
-    </motion.button>
   </motion.div>
 }

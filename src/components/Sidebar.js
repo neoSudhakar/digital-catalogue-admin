@@ -102,6 +102,36 @@ export default function Sidebar() {
         </NavLink>
         <NavLink
           onClick={() => {
+            dispatch(uiActions.toggleDashboard());
+          }}
+          to="/catalogue"
+          className={({ isActive }) => (isActive ? classes.active : "")}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-start",
+            flexDirection: "row",
+            margin: "0.7rem 0",
+            padding: "0.7rem 0",
+            width: "100%",
+            borderRadius: "1rem",
+          }}
+        >
+          <AiFillCodeSandboxSquare style={{ padding: "0 1rem 0 0" }} />
+          <span
+            style={{
+              fontSize: "20px",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              padding: "0 0 0 0.5rem",
+            }}
+          >
+            Catalogue
+          </span>
+        </NavLink>
+        <NavLink
+          onClick={() => {
             dispatch(uiActions.closeDesignDetails());
             dispatch(uiActions.toggleDashboard());
           }}

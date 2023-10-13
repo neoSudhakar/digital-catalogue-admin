@@ -23,6 +23,8 @@
     border:none;
     text-transform: uppercase;
     margin-bottom: 1rem;
+    align-self: flex-end;
+    margin-right: 3rem;
 }
 .update-fields:hover{
     background-color: rgb(243, 34, 198);
