@@ -38,7 +38,7 @@ export default function DesignTanbleJSX({ cardItem}) {
   return (
     <>
       <div className={classes["add-design"]}>
-        <Button onClick={handleStartAddDesign}>Add Description</Button>
+        <button className={classes.button} onClick={handleStartAddDesign}>Add Description</button>
       </div>
       <div className={classes.table}>
         <DesignTable rowDataArr={rowDataArr} />

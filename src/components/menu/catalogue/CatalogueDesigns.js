@@ -3,13 +3,9 @@ import classes from "../view-designs/ViewDesign.module.css";
 import { useRouteLoaderData } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
-import { uiActions } from "../../../store/ui-slice";
-import WrongIcon from "../../../icons/wrong-icon";
-import useCheck from "../../../hooks/use-check";
-import { Drawer } from "antd";
-import DesignDetails from "../view-designs/DesignDetails";
-import axios from "axios";
 import DesignCards from "../view-designs/DesignCards/DesignCards";
+import CatalogueDesignDetails from "./CatalogueDesignDetails";
+import { uiActions } from "../../../store/ui-slice";
 
 export default function CatalogueDesigns() {
 
@@ -35,28 +31,28 @@ export default function CatalogueDesigns() {
 
   const [cardItem, setCardItem] = useState(null);
 
-  const isDesignDetailsOpen = useSelector((state)=>state.ui.isDesignDetailsOpen);
+  const isDesignDetailsOpen = useSelector((state)=>state.ui.isCatalogueDesignDetailsOpen);
 
   function handleShowDetails(item) {
     console.log(item);
     setCardItem(item);
     // setIsShow(true);
-    dispatch(uiActions.openDesignDetails());
+    dispatch(uiActions.openCatalogueDesignDetails());
   }
   function handleGoBack() {
     // setIsShow(false);
-    dispatch(uiActions.closeDesignDetails());
+    dispatch(uiActions.closeCatalogueDesignDetails());
   }
 
 
 
   let content = (
-    <DesignCards handleShowDetails={handleShowDetails} setCardItem={setCardItem}/>
+    <DesignCards handleShowDetails={handleShowDetails}/>
   );
 
   if (isDesignDetailsOpen) {
     content = (
-      <DesignDetails onGoBack={handleGoBack} cardItem={cardItem}/>
+      <CatalogueDesignDetails onGoBack={handleGoBack} cardItem={cardItem}/>
     );
   }
 

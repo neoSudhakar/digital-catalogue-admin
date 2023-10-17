@@ -102,6 +102,7 @@ export default function Sidebar() {
         </NavLink>
         <NavLink
           onClick={() => {
+            dispatch(uiActions.closeCatalogueDesignDetails());
             dispatch(uiActions.toggleDashboard());
           }}
           to="/catalogue"

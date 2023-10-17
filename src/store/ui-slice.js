@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialUiState = {
   isDashboardOpen: true,
   isDesignDetailsOpen: false,
+  isCatalogueDesignDetailsOpen: false,
   selectedFilters: [],
   filters: {
     "mainGrpFilter": false,
@@ -69,8 +70,14 @@ const uiSlice = createSlice({
     },
     closeDesignDetails(state){
         state.isDesignDetailsOpen= false;
-    }
-  },
+    },
+    openCatalogueDesignDetails(state){
+        state.isCatalogueDesignDetailsOpen= true;
+    },
+    closeCatalogueDesignDetails(state){
+        state.isCatalogueDesignDetailsOpen= false;
+    },
+  }
 });
 
 export const uiActions = uiSlice.actions;

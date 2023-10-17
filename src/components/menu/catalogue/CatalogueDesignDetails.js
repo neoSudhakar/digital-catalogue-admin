@@ -1,13 +1,13 @@
-import { motion } from "framer-motion";
-import { useMemo, useState } from "react";
-import classes from "./DesignDetails.module.css";
-import ReactImageMagnify from "react-image-magnify";
-import DesignFields from "./DesignFields";
-import DesignTanbleJSX from "./DesignTableJSX";
-import { useSelector } from "react-redux";
-import ImagesTable from "./ImagesTable/ImagesTable";
 
-export default function DesignDetails({cardItem, onGoBack}){
+import { useMemo, useState } from "react";
+import classes from "../view-designs/DesignDetails.module.css";
+import ReactImageMagnify from "react-image-magnify";
+// import DesignFields from "../view-designs/DesignFields";
+import { useSelector } from "react-redux";
+import CatalogueDesignFields from "./CatalogueDesignFields";
+import CatalogueProductDetails from "./CatalogueProductDetails";
+
+export default function CatalogueDesignDetails({cardItem, onGoBack}){
 
   const isDashboardOpen = useSelector((state)=>state.ui.isDashboardOpen);
 
@@ -46,50 +46,43 @@ export default function DesignDetails({cardItem, onGoBack}){
       }
 
 
-    return <motion.div
-    key="details"
-    initial={{ y: -30, opacity: 0 }}
-    animate={{ y: 0, opacity: 1 }}
-    exit={{ y: -30, opacity: 0 }}
+    return <div
     className={`${classes["details-container"]}`}
   >
     <div className={classes["back-btn-container"]}>
-    <motion.button
-      whileHover={{ scale: 1.05 }}
-      transition={{ type: "spring", stiffness: 500, mass: 1 }}
+    <button
       className={classes.back}
       onClick={handleGoBack}
     >
       Back
-    </motion.button>
+    </button>
     </div>
     <h1>Design {cardItem.id} Details</h1>
-    <div className={`${classes["card-details"]}  ${isDashboardOpen ? classes.full : ""}`}>
+    <div className={`${classes["card-details"]}  ${classes.full}`} style={{paddingTop: "2rem"}}>
       <div className={classes["above-table"]}>
         <div className={classes.carousel}>
         <div className={classes["default-image"]}>
-          <img src={defaultImageItem.imageUrl} />
-          {/* <ReactImageMagnify {...{
+          <ReactImageMagnify {...{
                       smallImage: {
                           alt: 'Wristwatch by Ted Baker London',
                           isFluidWidth: true,
                           src: defaultImageItem.imageUrl,
-                          // width:"100%",
+                        //   width:"100%",
                           zIndex:0,
-                          // height: "100%",
+                        //   height: 1000,
                       },
                       largeImage: {
                           src: defaultImageItem.imageUrl,
-                          width: 1000,
-                          height: 1000
+                          width: 1200,
+                          height: 500
                       },
                       enlargedImageContainerDimensions:{
                           width:"100%",
                           height:"100%"
                       }
-            }} /> */}
+            }} />
           </div>
-          <ul className={classes["left-images-container"]}>
+          <ul className={classes["left-images-container"]} style={!isDashboardOpen ? {maxWidth:"80%"} : {}} >
             {imageItems.map((item)=>{
               return <li className={`${classes["left-image"]} ${item.isDefault ? classes.active : "" }`} onMouseOver={()=>handleSelectImage(item)} key={item.imageUrl}>
                   <img src={item.imageUrl}/>
@@ -99,12 +92,10 @@ export default function DesignDetails({cardItem, onGoBack}){
           
         </div>
 
-        <DesignFields cardItem={cardItem}/>
+        <CatalogueDesignFields cardItem={cardItem}/>
 
       </div>
-      <DesignTanbleJSX cardItem={cardItem}/>
-      <ImagesTable imagesArr={imageItems} />
-      
+      {/* <CatalogueProductDetails cardItem={cardItem}/> */}
     </div>
-  </motion.div>
+  </div>
 }

@@ -25,6 +25,9 @@
     top: 0;
     width: 100%;
     padding: 0.5rem 2%;
+    font-weight: 600;
+    color: brown;
+    background-color: rgb(155, 56, 56);
     color: white;
     display: flex;
     align-items: center;
