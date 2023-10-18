@@ -123,7 +123,7 @@
     gap:1rem;
     padding: 0.25rem;
     align-items: center;
-    border: 1px solid #ccc;
+    border: 1px solid maroon;
 }
 .opt{
     color:#7c7d7e;
@@ -142,7 +142,7 @@
     font-weight: bold;
     /* font-size: 1.5rem; */
     color:#56585c;
-    color: rgb(0, 132, 255);
+    color: maroon;
 }
 .filter-field{
     cursor: pointer;

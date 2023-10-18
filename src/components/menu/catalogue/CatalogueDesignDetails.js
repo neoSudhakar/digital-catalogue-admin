@@ -1,6 +1,7 @@
 
 import { useMemo, useState } from "react";
-import classes from "../view-designs/DesignDetails.module.css";
+// import classes from "../view-designs/DesignDetails.module.css";
+import classes from "./catalogueDesignDetails.module.css";
 import ReactImageMagnify from "react-image-magnify";
 // import DesignFields from "../view-designs/DesignFields";
 import { useSelector } from "react-redux";
@@ -62,7 +63,8 @@ export default function CatalogueDesignDetails({cardItem, onGoBack}){
       <div className={classes["above-table"]}>
         <div className={classes.carousel}>
         <div className={classes["default-image"]}>
-          <ReactImageMagnify {...{
+          <img src={defaultImageItem.imageUrl} />
+          {/* <ReactImageMagnify {...{
                       smallImage: {
                           alt: 'Wristwatch by Ted Baker London',
                           isFluidWidth: true,
@@ -80,7 +82,7 @@ export default function CatalogueDesignDetails({cardItem, onGoBack}){
                           width:"100%",
                           height:"100%"
                       }
-            }} />
+            }} /> */}
           </div>
           <ul className={classes["left-images-container"]} style={!isDashboardOpen ? {maxWidth:"80%"} : {}} >
             {imageItems.map((item)=>{
@@ -95,7 +97,9 @@ export default function CatalogueDesignDetails({cardItem, onGoBack}){
         <CatalogueDesignFields cardItem={cardItem}/>
 
       </div>
-      {/* <CatalogueProductDetails cardItem={cardItem}/> */}
+      <CatalogueProductDetails cardItem={cardItem}/>
     </div>
+    {/* <div className={classes["footer"]}>
+    </div> */}
   </div>
 }

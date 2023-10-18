@@ -127,6 +127,9 @@
   
 
 @media screen and (max-width:767px) {
+    .update-fields{
+        margin-right: 0;
+    }
     .content{
         display: block;
         text-align: center;
