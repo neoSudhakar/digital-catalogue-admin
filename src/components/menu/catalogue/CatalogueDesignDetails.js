@@ -63,8 +63,8 @@ export default function CatalogueDesignDetails({cardItem, onGoBack}){
       <div className={classes["above-table"]}>
         <div className={classes.carousel}>
         <div className={classes["default-image"]}>
-          <img src={defaultImageItem.imageUrl} />
-          {/* <ReactImageMagnify {...{
+          {/* <img src={defaultImageItem.imageUrl} /> */}
+          <ReactImageMagnify {...{
                       smallImage: {
                           alt: 'Wristwatch by Ted Baker London',
                           isFluidWidth: true,
@@ -82,7 +82,7 @@ export default function CatalogueDesignDetails({cardItem, onGoBack}){
                           width:"100%",
                           height:"100%"
                       }
-            }} /> */}
+            }} />
           </div>
           <ul className={classes["left-images-container"]} style={!isDashboardOpen ? {maxWidth:"80%"} : {}} >
             {imageItems.map((item)=>{

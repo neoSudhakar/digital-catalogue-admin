@@ -74,6 +74,7 @@
     align-items: center;
     object-fit: contain;
     border: 1px solid #ccc;
+    margin: 2rem;
 }
 .default-image img{
     height: 100%;

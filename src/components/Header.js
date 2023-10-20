@@ -11,10 +11,11 @@ import ChatIcon from "../icons/chat-icon";
 import NotificationIcon from "../icons/notification-icon";
 import Image from "../assets/upload-image.png";
 import ChevronDownIcon from "../icons/chevron-down-icon";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Header() {
   const token = useRouteLoaderData("root");
+  const [userName, setUserName]= useState("");
   const submit = useSubmit();
   const dispatch = useDispatch();
   const isDashboardOpen = useSelector((state) => state.ui.isDashboardOpen);
@@ -33,6 +34,14 @@ export default function Header() {
     handleShowUser();
     submit(null, { method: "post", action: "/logout" });
   }
+
+  useEffect(()=>{
+    if(token){
+      const fullNameObj = localStorage.getItem('fullName');
+      const parsedFullNameObj= JSON.parse(fullNameObj)
+      setUserName(parsedFullNameObj.fName + " " + parsedFullNameObj.lName);
+    }
+  })
 
   return (
     <motion.header className={`${classes.header} ${classes.full}`}>
@@ -79,7 +88,7 @@ export default function Header() {
                 }
               />
               <p className={classes.para}>
-                Hi, <span className={classes.name}>Michael</span>
+                Hi, <span className={classes.name}>{userName}</span>
               </p>
             </div>
           </li>

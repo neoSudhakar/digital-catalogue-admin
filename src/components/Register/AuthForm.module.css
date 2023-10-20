@@ -1,20 +1,28 @@
 .container{
     width: 100%;
+    margin-top: 0.9rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 60vh;
+    height: 100%;
+    overflow-y: auto;
+}
+.container h1{
+    color: brown;
 }
 .form{
     background-color: white;
-    width:40%;
-    padding: 2rem;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+    width:45%;
+    padding: 2rem 3rem;
+    border-radius: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.25);
 }
 .input-grp{
-    display: block;
-    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.85rem;
 }
 .input-grp.invalid input{
     background-color: rgb(253, 223, 223);
@@ -27,7 +35,10 @@
 
 .input-grp label{
     display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
     margin-bottom: 0.5rem;
+    flex: 2;
 }
 .input-grp input{
     padding: 0.65rem;
@@ -37,6 +48,7 @@
     background-color: white;
     border: 1px solid #ccc;
     border-radius: 0.35rem;
+    flex: 6;
 }
 .input-grp input:focus{
     background-color: rgb(227, 243, 250);
@@ -51,7 +63,7 @@
 }
 .form-actions .button{
     color:white;
-    background-color: rgb(245, 107, 226);
+    background-color: brown;
     padding: 0.5rem 2rem;
     border-radius: 0.35rem;
     border: none;
@@ -59,7 +71,7 @@
 }
 .form-actions .button:hover{
     cursor: pointer;
-    background-color: rgb(245, 49, 219);
+    background-color: rgb(138, 4, 4);
 }
 .form-actions .alternative{
     background-color: transparent;
