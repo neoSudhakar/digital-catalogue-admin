@@ -36,7 +36,7 @@ export default function AuthForm() {
     resetFn: phoneNumResetFn,
     handleBlur: handlePhoneNumBlur,
     handleChange: handlePhoneNumChange,
-  } = useInput((inputValue) => inputValue.trim().length === 10);
+  } = useInput((inputValue) => inputValue.trim().length === 10 && !isNaN(+inputValue));
 
   const {
     inputVal: email,

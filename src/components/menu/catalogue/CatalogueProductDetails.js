@@ -31,9 +31,9 @@ export default function CatalogueProductDetails({cardItem}) {
       </div>
     </div>
 
-    <div className={classes['right-image']}>
+    {/* <div className={classes['right-image']}>
       <img src={cardItem.designImages[0].imageUrl} alt={cardItem.category} />
-    </div>
+    </div> */}
   </div>
   )
 }

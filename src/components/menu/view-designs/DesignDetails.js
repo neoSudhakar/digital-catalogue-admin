@@ -103,7 +103,7 @@ export default function DesignDetails({cardItem, onGoBack}){
 
       </div>
       <DesignTanbleJSX cardItem={cardItem}/>
-      <ImagesTable imagesArr={imageItems} />
+      <ImagesTable imagesArr={imageItems} cardItem={cardItem} />
       
     </div>
   </motion.div>

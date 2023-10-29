@@ -21,8 +21,8 @@ export default function useSelect(validateFn){
     }
 
     function handleChange(value){
-        setIsTouched(true);
         setInputVal(value);
+        setIsTouched(false);
     }
 
     return {

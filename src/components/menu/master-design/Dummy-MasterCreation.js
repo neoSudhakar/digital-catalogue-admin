@@ -6,20 +6,24 @@ import classes from "./MasterCreation.module.css";
 import useInput from "../../../hooks/use-input";
 import { useNavigate } from "react-router-dom";
 import { Drawer, Button, Upload, Modal, Select } from "antd";
+
+
 import { PlusOutlined } from '@ant-design/icons';
-// import UploadImage from "../../../assets/upload-image.png"
-//import classes from "./DesignDetails.module.css";
 import ReactImageMagnify from "react-image-magnify";
 import axios, { Axios } from "axios";
 import SelectComponent from "./Select";
 import UploadImage from "../../../assets/upload-image.png";
 import ImageComponent from "./ImageComponent";
 import useSelect from "../../../hooks/useSelect";
+//import { useToasts } from 'react-toast-notifications';
 
 export default function MasterCreation() {
 
   const navigate = useNavigate();
 
+  
+  
+  
   const [imageUrl, setImageUrl] = useState([]);
   //const [image_urlTouch, setImageUrlTouch] = useState(false);
   const [imageUrlFile, setImageUrlFile] = useState([]);
@@ -29,9 +33,9 @@ export default function MasterCreation() {
   const [rowDataArr, setRowDataArr] = useState([]);
 
   const today = new Date().toISOString().slice(0, 10);
-  const [createdDate, setCreatedDate] = useState(today);
+  const [created_date, setCreatedDate] = useState(today);
 
-  function createdDateHandleChange(event) {
+  function created_dateHandleChange(event) {
     setCreatedDate(event.target.value);
   }
 
@@ -39,7 +43,7 @@ export default function MasterCreation() {
   // const [enteredFormData, setEnteredFormData] = useState();
 
   // handle image -----------------------------
-
+  //const { addToast } = useToasts();
  
 
 
@@ -93,46 +97,8 @@ export default function MasterCreation() {
   };
   const handleUploadChange = ({ fileList: newFileList }) => setFileList(newFileList);
  
-  const uploadJSONFiles = (event) => {
-    event.preventDefault();
-    let formData = new FormData();
-    const enteredFormData = {
-      createdDate: createdDate,
-      mainGroup: mainGroup,
-      category: category,
-      style: style,
-      product: product,
-      model: model,
-      size: size,
-      worker: worker,
-      pieces: pieces,
-      crossWeight: grossWeight,
-      stoneWeight: stoneWeight,
-      setWeight: netWeight,
-      componentWeight: componentWeight,
-      ghatWt: ghatWt,
-      remark: remark,
-      designDetails: enteredRowData,
-    };
-    //console.log(fileNew[0])
-    for(let key of Object.keys(event.target.files)) {
-      if (key !== 'length') {
-        formData.append('images', event.target.files[key]);
-      }
-    }
-    formData.append('design',
-      new Blob([JSON.stringify(enteredFormData)], { 
-        type: 'application/json'
-      }));
-    fetch('http://localhost:8080/api/designs', { 
-      method: 'POST',
-      body: formData
-    }).then(response => response.json())
-    .then(result => console.log('Files successfully uploaded!'))
-    .catch(error => console.log('error occurred!')); 
- // }
   
-   }
+
 
  
   const uploadButton = (
@@ -154,15 +120,15 @@ export default function MasterCreation() {
   //-----------------------------------------------
 
   const {
-    inputVal: mainGroup,
-    isValid: mainGroupIsValid,
-    hasErr: mainGroupHasErr,
-    touchFn: mainGroupTouchFn,
-    resetFn: mainGroupResetFn,
-    handleBlur: mainGroupHandleBlur,
-    handleChange: mainGroupHandleChange,
+    inputVal: main_group,
+    isValid: main_groupIsValid,
+    hasErr: main_groupHasErr,
+    touchFn: main_groupTouchFn,
+    resetFn: main_groupResetFn,
+    handleBlur: main_groupHandleBlur,
+    handleChange: main_groupHandleChange,
   } = useInput((inputValue) => inputValue.trim().length !== 0);
-  // useSelect((inputValue) => inputValue);
+
 
 
   const {
@@ -174,7 +140,7 @@ export default function MasterCreation() {
     handleBlur: categoryHandleBlur,
     handleChange: categoryHandleChange,
   } = useInput((inputValue) => inputValue.trim().length !== 0);
-  // useSelect((inputValue) => inputValue);
+
 
   const {
     inputVal: style,
@@ -185,7 +151,7 @@ export default function MasterCreation() {
     handleBlur: styleHandleBlur,
     handleChange: styleHandleChange,
   } = useInput((inputValue) => inputValue.trim().length !== 0);
-  // useSelect((inputValue) => inputValue);
+
 
   const {
     inputVal: product,
@@ -196,7 +162,7 @@ export default function MasterCreation() {
     handleBlur: productHandleBlur,
     handleChange: productHandleChange,
   } = useInput((inputValue) => inputValue.trim().length !== 0);
-  // useSelect((inputValue) => inputValue);
+
 
   const {
     inputVal: model,
@@ -207,7 +173,7 @@ export default function MasterCreation() {
     handleBlur: modelHandleBlur,
     handleChange: modelHandleChange,
   } = useInput((inputValue) => inputValue.trim().length !== 0);
-  // useSelect((inputValue) => inputValue);
+
 
   const {
     inputVal: size,
@@ -218,7 +184,7 @@ export default function MasterCreation() {
     handleBlur: sizeHandleBlur,
     handleChange: sizeHandleChange,
   } = useInput((inputValue) => inputValue.trim().length !== 0);
-  // useSelect((inputValue) => inputValue);
+
 
   const {
     inputVal: worker,
@@ -229,7 +195,7 @@ export default function MasterCreation() {
     handleBlur: workerHandleBlur,
     handleChange: workerHandleChange,
   } = useInput((inputValue) => inputValue.trim().length !== 0);
-  // useSelect((inputValue) => inputValue);
+
 
   const {
     inputVal: pieces,
@@ -242,53 +208,53 @@ export default function MasterCreation() {
   } = useInput((inputValue) => inputValue.trim().length !== 0);
 
   const {
-    inputVal: grossWeight,
-    isValid: grossWeightIsValid,
-    hasErr: grossWeightHasErr,
-    touchFn: grossWeightTouchFn,
-    resetFn: grossWeightResetFn,
-    handleBlur: grossWeightHandleBlur,
-    handleChange: grossWeightHandleChange,
+    inputVal: gross_weight,
+    isValid: gross_weightIsValid,
+    hasErr: gross_weightHasErr,
+    touchFn: gross_weightTouchFn,
+    resetFn: gross_weightResetFn,
+    handleBlur: gross_weightHandleBlur,
+    handleChange: gross_weightHandleChange,
   } = useInput((inputValue) => inputValue.trim().length !== 0);
 
   const {
-    inputVal: stoneWeight,
-    isValid: stoneWeightIsValid,
-    hasErr: stoneWeightHasErr,
-    touchFn: stoneWeightTouchFn,
-    resetFn: stoneWeightResetFn,
-    handleBlur: stoneWeightHandleBlur,
-    handleChange: stoneWeightHandleChange,
+    inputVal: stone_weight,
+    isValid: stone_weightIsValid,
+    hasErr: stone_weightHasErr,
+    touchFn: stone_weightTouchFn,
+    resetFn: stone_weightResetFn,
+    handleBlur: stone_weightHandleBlur,
+    handleChange: stone_weightHandleChange,
   } = useInput((inputValue) => inputValue.trim().length !== 0);
 
   const {
-    inputVal: netWeight,
-    isValid: netWeightIsValid,
-    hasErr: netWeightHasErr,
-    touchFn: netWeightTouchFn,
-    resetFn: netWeightResetFn,
-    handleBlur: netWeightHandleBlur,
-    handleChange: netWeightHandleChange,
+    inputVal: net_weight,
+    isValid: net_weightIsValid,
+    hasErr: net_weightHasErr,
+    touchFn: net_weightTouchFn,
+    resetFn: net_weightResetFn,
+    handleBlur: net_weightHandleBlur,
+    handleChange: net_weightHandleChange,
   } = useInput((inputValue) => inputValue.trim().length !== 0);
 
   const {
-    inputVal: componentWeight,
-    isValid: componentWeightIsValid,
-    hasErr: componentWeightHasErr,
-    touchFn: componentWeightTouchFn,
-    resetFn: componentWeightResetFn,
-    handleBlur: componentWeightHandleBlur,
-    handleChange: componentWeightHandleChange,
+    inputVal: component_weight,
+    isValid: component_weightIsValid,
+    hasErr: component_weightHasErr,
+    touchFn: component_weightTouchFn,
+    resetFn: component_weightResetFn,
+    handleBlur: component_weightHandleBlur,
+    handleChange: component_weightHandleChange,
   } = useInput((inputValue) => inputValue.trim().length !== 0);
 
   const {
-    inputVal: ghatWt,
-    isValid: ghatWtIsValid,
-    hasErr: ghatWtHasErr,
-    touchFn: ghatWtTouchFn,
-    resetFn: ghatWtResetFn,
-    handleBlur: ghatWtHandleBlur,
-    handleChange: ghatWtHandleChange,
+    inputVal: ghat_weight,
+    isValid: ghat_weightIsValid,
+    hasErr: ghat_weightHasErr,
+    touchFn: ghat_weightTouchFn,
+    resetFn: ghat_weightResetFn,
+    handleBlur: ghat_weightHandleBlur,
+    handleChange: ghat_weightHandleChange,
   } = useInput((inputValue) => inputValue.trim().length !== 0);
 
   const {
@@ -310,18 +276,16 @@ export default function MasterCreation() {
     handleBlur: typeHandleBlur,
     handleChange: typeHandleChange,
   } = useInput((inputValue) => inputValue.trim().length !== 0);
-  // useSelect((inputValue) => inputValue);
 
   const {
-    inputVal: stoneGroup,
-    isValid: stoneGroupIsValid,
-    hasErr: stoneGroupHasErr,
-    touchFn: stoneGroupTouchFn,
-    resetFn: stoneGroupResetFn,
-    handleBlur: stoneGroupHandleBlur,
-    handleChange: stoneGroupHandleChange,
+    inputVal: stone_group,
+    isValid: stone_groupIsValid,
+    hasErr: stone_groupHasErr,
+    touchFn: stone_groupTouchFn,
+    resetFn: stone_groupResetFn,
+    handleBlur: stone_groupHandleBlur,
+    handleChange: stone_groupHandleChange,
   } = useInput((inputValue) => inputValue.trim().length !== 0);
-  // useSelect((inputValue) => inputValue);
 
   const {
     inputVal: pieces1,
@@ -334,19 +298,19 @@ export default function MasterCreation() {
   } = useInput((inputValue) => inputValue.trim().length !== 0);
 
   const {
-    inputVal: stoneWeight1,
-    isValid: stoneWeight1IsValid,
-    hasErr: stoneWeight1HasErr,
-    touchFn: stoneWeight1TouchFn,
-    resetFn: stoneWeight1ResetFn,
-    handleBlur: stoneWeight1HandleBlur,
-    handleChange: stoneWeight1HandleChange,
+    inputVal: stone_weight1,
+    isValid: stone_weight1IsValid,
+    hasErr: stone_weight1HasErr,
+    touchFn: stone_weight1TouchFn,
+    resetFn: stone_weight1ResetFn,
+    handleBlur: stone_weight1HandleBlur,
+    handleChange: stone_weight1HandleChange,
   } = useInput((inputValue) => inputValue.trim().length !== 0);
 
   let formIsValid = false;
 
   if (
-    mainGroupIsValid &&
+    main_groupIsValid &&
     categoryIsValid &&
     styleIsValid &&
     productIsValid &&
@@ -354,16 +318,16 @@ export default function MasterCreation() {
     sizeIsValid &&
     workerIsValid &&
     piecesIsValid &&
-    grossWeightIsValid &&
-    stoneWeightIsValid &&
-    netWeightIsValid &&
-    componentWeightIsValid &&
-    ghatWtIsValid &&
+    gross_weightIsValid &&
+    stone_weightIsValid &&
+    net_weightIsValid &&
+    component_weightIsValid &&
+    ghat_weightIsValid &&
     remarkIsValid &&
     typeIsValid &&
-    stoneGroupIsValid &&
+    stone_groupIsValid &&
     pieces1IsValid &&
-    stoneWeight1IsValid
+    stone_weight1IsValid
     // image_url
   ) {
     formIsValid = true;
@@ -373,15 +337,15 @@ export default function MasterCreation() {
 
   if (
     typeIsValid &&
-    stoneGroupIsValid &&
+    stone_groupIsValid &&
     pieces1IsValid &&
-    stoneWeight1IsValid
+    stone_weight1IsValid
   ) {
     rowDataIsValid = true;
   }
 
   function ResetAll() {
-    mainGroupResetFn();
+    main_groupResetFn();
     categoryResetFn();
     styleResetFn();
     productResetFn();
@@ -389,16 +353,16 @@ export default function MasterCreation() {
     sizeResetFn();
     workerResetFn();
     piecesResetFn();
-    grossWeightResetFn();
-    stoneWeightResetFn();
-    netWeightResetFn();
-    componentWeightResetFn();
-    ghatWtResetFn();
+    gross_weightResetFn();
+    stone_weightResetFn();
+    net_weightResetFn();
+    component_weightResetFn();
+    ghat_weightResetFn();
     remarkResetFn();
     typeResetFn();
-    stoneGroupResetFn();
+    stone_groupResetFn();
     pieces1ResetFn();
-    stoneWeight1ResetFn();
+    stone_weight1ResetFn();
 
     // setImageUrl();
     // setImageUrlTouch(false);
@@ -406,9 +370,9 @@ export default function MasterCreation() {
 
   function handleAdd() {
     typeTouchFn();
-    stoneGroupTouchFn();
+    stone_groupTouchFn();
     pieces1TouchFn();
-    stoneWeight1TouchFn();
+    stone_weight1TouchFn();
 
     if (!rowDataIsValid) {
       return;
@@ -416,9 +380,9 @@ export default function MasterCreation() {
 
     const enteredData = {
       type: type,
-      stoneGroup: stoneGroup,
+      stoneGroup: stone_group,
       pieces: pieces1,
-      stoneWeight: stoneWeight1,
+      stoneWeight: stone_weight1,
       unitOfMeasurement: "Grms/Cts"
     };
 
@@ -428,8 +392,8 @@ export default function MasterCreation() {
     const formattedRowData = {
       Sno: index,
       type,
-      stoneGroup: stoneGroup,
-      stoneWt: stoneWeight1,
+      stoneGroup: stone_group,
+      stoneWt: stone_weight1,
       pcs: pieces1,
       UOM: "Grms",
     };
@@ -437,8 +401,10 @@ export default function MasterCreation() {
     setRowDataArr((prev) => [...prev, { ...formattedRowData }]);
   }
 
-  function handleTouchAll(){
-    mainGroupTouchFn();
+  const handleSave = (event) =>{
+    //  setImageUrlTouch(true);
+
+    main_groupTouchFn();
     categoryTouchFn();
     styleTouchFn();
     productTouchFn();
@@ -446,32 +412,22 @@ export default function MasterCreation() {
     sizeTouchFn();
     workerTouchFn();
     piecesTouchFn();
-    grossWeightTouchFn();
-    stoneWeightTouchFn();
-    netWeightTouchFn();
-    componentWeightTouchFn();
-    ghatWtTouchFn();
+    gross_weightTouchFn();
+    stone_weightTouchFn();
+    net_weightTouchFn();
+    component_weightTouchFn();
+    ghat_weightTouchFn();
     remarkTouchFn();
     typeTouchFn();
-    stoneGroupTouchFn();
+    stone_groupTouchFn();
     pieces1TouchFn();
-    stoneWeight1TouchFn();
-  }
-
-  const handleSave = (event) =>{
-    //  setImageUrlTouch(true);
-
-    handleTouchAll();
-
-    // if(!formIsValid){
-    //   return;
-    // }
+    stone_weight1TouchFn();
 
 
     let formData = new FormData();
     const enteredFormData = {
-      createdDate: createdDate.split("-").reverse().join("-"),
-      mainGroup: mainGroup,
+      createdDate: created_date.split("-").reverse().join("-"),
+      mainGroup: main_group,
       category: category,
       style: style,
       product: product,
@@ -479,23 +435,23 @@ export default function MasterCreation() {
       size: size,
       worker: worker,
       pieces: pieces,
-      crossWeight: grossWeight,
-      stoneWeight: stoneWeight,
-      setWeight: netWeight,
-      componentWeight: componentWeight,
-      ghatWt: ghatWt,
-      remark: remark,
+      grossWeight: gross_weight,
+      stoneWeight: stone_weight,
+      netWeight: net_weight,
+      componentWeight: component_weight,
+      ghatWt: ghat_weight,
+      remarks: remark,
       designDetails: enteredRowData,
     };
-
+    //console.log(fileNew[0])
     if(images.length<=0){
       window.alert("please add images");
       return;
     }
    // console.log(pieces.length ==0)
-    if( mainGroup.length == 0 || category.length ==0 || style.length ==0 || product.length ==0 || model.length ==0
-        || size.length ==0 || worker.length ==0 || pieces.length ==0 || grossWeight.length ==0 || stoneWeight.length ==0
-        || netWeight.length ==0 || componentWeight.length ==0 || ghatWt.length ==0 || remark.length ==0
+    if( main_group.length == 0 || category.length ==0 || style.length ==0 || product.length ==0 || model.length ==0
+        || size.length ==0 || worker.length ==0 || pieces.length ==0 || gross_weight.length ==0 || stone_weight.length ==0
+        || net_weight.length ==0 || component_weight.length ==0 || ghat_weight.length ==0 || remark.length ==0
         )  {
       window.alert("please add all values");
       return;
@@ -504,7 +460,6 @@ export default function MasterCreation() {
       window.alert("please add design discreption in table ");
       return;
     }
-    console.log(images);
     for (let key of Object.keys(images)) {
       if (key !== 'length') {
         formData.append('images', images[key].file);
@@ -517,9 +472,7 @@ export default function MasterCreation() {
         type: 'application/json'
       }));
 
-    console.log("FormData", formData);
-
-    fetch('http://localhost:8080/api/designs', {
+    fetch('http://18.204.204.183:8080/api/designs', {
       method: 'POST',
       body: formData,
     }).then(response => response.json())
@@ -527,6 +480,7 @@ export default function MasterCreation() {
       .catch(error => console.log('error occurred!'));
 
       ResetAll();
+     // addToast('Master Design Saved Successfully', { appearance: 'success' , autoDismiss: true });
       handleExit();
   }
 
@@ -545,7 +499,7 @@ export default function MasterCreation() {
 
 
 
-  const mainGroupClasses = `${classes.group} ${mainGroupHasErr ? classes["invalid"] : ""}`;
+  const main_groupClasses = `${classes.group} ${main_groupHasErr ? classes["invalid"] : ""}`;
   const categoryClasses = `${classes.group} ${categoryHasErr ? classes["invalid"] : ""}`;
   const styleClasses = `${classes.group} ${styleHasErr ? classes["invalid"] : ""}`;
   const productClasses = `${classes.group} ${productHasErr ? classes["invalid"] : ""}`;
@@ -554,18 +508,18 @@ export default function MasterCreation() {
   const workerClasses = `${classes.group} ${workerHasErr ? classes["invalid"] : ""}`;
 
   const piecesClasses = `${classes["num-group"]} ${piecesHasErr ? classes["invalid"] : ""}`;
-  const grossWeightClasses = `${classes["num-group"]} ${grossWeightHasErr ? classes["invalid"] : ""}`;
-  const stoneWeightClasses = `${classes["num-group"]} ${stoneWeightHasErr ? classes["invalid"] : ""}`;
-  const netWeightClasses = `${classes["num-group"]} ${netWeightHasErr ? classes["invalid"] : ""}`;
-  const componentWeightClasses = `${classes["num-group"]} ${componentWeightHasErr ? classes["invalid"] : ""}`;
-  const ghatWtClasses = `${classes["num-group"]} ${ghatWtHasErr ? classes["invalid"] : ""}`;
+  const gross_weightClasses = `${classes["num-group"]} ${gross_weightHasErr ? classes["invalid"] : ""}`;
+  const stone_weightClasses = `${classes["num-group"]} ${stone_weightHasErr ? classes["invalid"] : ""}`;
+  const net_weightClasses = `${classes["num-group"]} ${net_weightHasErr ? classes["invalid"] : ""}`;
+  const component_weightClasses = `${classes["num-group"]} ${component_weightHasErr ? classes["invalid"] : ""}`;
+  const ghat_weightClasses = `${classes["num-group"]} ${ghat_weightHasErr ? classes["invalid"] : ""}`;
 
   const remarkClasses = `${classes.remarks} ${remarkHasErr ? classes["invalid"] : ""}`;
 
   const typeClasses = `${classes.group} ${typeHasErr ? classes["invalid"] : ""}`;
-  const stoneGroupClasses = `${classes.group} ${stoneGroupHasErr ? classes["invalid"] : ""}`;
+  const stone_groupClasses = `${classes.group} ${stone_groupHasErr ? classes["invalid"] : ""}`;
   const pieces1Classes = `${classes["num-group"]} ${pieces1HasErr ? classes["invalid"] : ""}`;
-  const stoneWeight1Classes = `${classes["num-group"]} ${stoneWeight1HasErr ? classes["invalid"] : ""}`;
+  const stone_weight1Classes = `${classes["num-group"]} ${stone_weight1HasErr ? classes["invalid"] : ""}`;
 
   const [selectedFiles, setSelectedFiles] = useState(null);
   const [msg, setMsg] = useState(null);
@@ -654,21 +608,21 @@ export default function MasterCreation() {
               <legend>Entry Details</legend>
               <div className={classes.form}>
                 <input
-                  value={createdDate}
-                  onChange={createdDateHandleChange}
-                  //   onBlur={createdDateHandleBlur}
+                  value={created_date}
+                  onChange={created_dateHandleChange}
+                  //   onBlur={created_dateHandleBlur}
                   className={classes.date}
                   type="date"
                 />
                 <section className={classes.fields}>
-                  <div className={mainGroupClasses} style={{ minWidth: "30%" }}>
-                    <label htmlFor="mainGroup">Main Group</label>
+                  <div className={main_groupClasses} style={{ minWidth: "30%" }}>
+                    <label htmlFor="main_group">Main Group</label>
                     <select
-                      id="mainGroup"
-                      value={mainGroup}
-                      onBlur={mainGroupHandleBlur}
-                      onChange={mainGroupHandleChange}
-                      name="mainGroup"
+                      id="main_group"
+                      value={main_group}
+                      onBlur={main_groupHandleBlur}
+                      onChange={main_groupHandleChange}
+                      name="main_group"
                       placeholder="Select a main group"
                     >
                       <option value="" disabled hidden>
@@ -676,15 +630,15 @@ export default function MasterCreation() {
                       </option>
                       <option value="Diamond">Diamond</option>
                       <option value="Gold">Gold</option>
-                      <option value="Silver">Silver</option>
+                      <option value="Gold">Silver</option>
                     </select>
               
                     {/* <SelectComponent
                                 placeholder={"Select main group"}
-                                id="mainGroup"
-                                onChangeFn={mainGroupHandleChange}
-                                onBlurFn ={mainGroupHandleBlur}
-                                value={mainGroup}
+                                id="main_group"
+                                onChangeFn={main_groupHandleChange}
+                                onBlurFn ={main_groupHandleBlur}
+                                value={main_group}
                                 options={[
                                     {
                                         value: "Gold",
@@ -699,9 +653,9 @@ export default function MasterCreation() {
                                         label: "Silver"
                                     }
                                 ]}
-                                name="mainGroup"
+                                name="main_group"
                             /> */}
-                            {/* {mainGroupHasErr && <p className={classes.err}>Select a main group!</p>} */}
+                            {main_groupHasErr && <p className={classes.err}>Select a main group!</p>}
                   </div>
                   <div className={categoryClasses} style={{ minWidth: "30%" }}>
                     <label htmlFor="category">Category</label>
@@ -719,7 +673,7 @@ export default function MasterCreation() {
                       </option>
                       <option value="Diamond Jewelery">Diamond Jewellery</option>
                       <option value="Gold Jewelery">Gold Jewellery</option>
-                      <option value="Silver Jewelery">Silver Jewellery</option>
+                      <option value="Gold Jewelery">Silver Jewellery</option>
                     </select>
                     
                     {/* <SelectComponent
@@ -744,7 +698,7 @@ export default function MasterCreation() {
                                 ]}
                                 name="category"
                             /> */}
-                            {/* {categoryHasErr && <p className={classes.err}>Select a category!</p>} */}
+                            {categoryHasErr && <p className={classes.err}>Select a category!</p>}
                   </div>
                   <div className={styleClasses} style={{ minWidth: "30%" }}>
                     <label htmlFor="style">Style</label>
@@ -787,7 +741,7 @@ export default function MasterCreation() {
                                 ]}
                                 name="style"
                             /> */}
-                            {/* {styleHasErr && <p className={classes.err}>Select a style!</p>} */}
+                            {styleHasErr && <p className={classes.err}>Select a style!</p>}
                   </div>
                   <div className={productClasses} style={{ minWidth: "30%" }}>
                     <label htmlFor="product">Product</label>
@@ -830,7 +784,7 @@ export default function MasterCreation() {
                                 ]}
                                 name="product"
                             /> */}
-                            {/* {productHasErr && <p className={classes.err}>Select a product!</p>} */}
+                            {productHasErr && <p className={classes.err}>Select a product!</p>}
                   </div>
                   <div className={modelClasses}>
                     <label htmlFor="model">Model</label>
@@ -872,7 +826,7 @@ export default function MasterCreation() {
                                 ]}
                                 name="model"
                             /> */}
-                            {/* {modelHasErr && <p className={classes.err}>Select a model!</p>} */}
+                            {modelHasErr && <p className={classes.err}>Select a model!</p>}
                   </div>
                   <div className={sizeClasses}>
                     <label htmlFor="size">Size</label>
@@ -914,7 +868,7 @@ export default function MasterCreation() {
                                 ]}
                                 name="size"
                             /> */}
-                        {/* {sizeHasErr && <p className={classes.err}>Select a size!</p>} */}
+                        {sizeHasErr && <p className={classes.err}>Select a size!</p>}
                   </div>
                   <div className={workerClasses}>
                     <label htmlFor="worker">Worker</label>
@@ -956,7 +910,7 @@ export default function MasterCreation() {
                                     }
                                 ]}
                             /> */}
-                      {/* {workerHasErr && <p className={classes.err}>Select one worker!</p>} */}
+                      {workerHasErr && <p className={classes.err}>Select one worker!</p>}
                   </div>
                   <div className={piecesClasses} style={{ maxWidth: "10%" }}>
                     <label htmlFor="pieces">Pcs</label>
@@ -970,82 +924,82 @@ export default function MasterCreation() {
                       name="pieces"
                       placeholder="Enter Pcs"
                     />
-                    {/* {piecesHasErr && <p className={classes.err}>Enter valid number!</p>} */}
+                    {piecesHasErr && <p className={classes.err}>Enter valid number!</p>}
                   </div>
-                  <div className={grossWeightClasses}>
-                    <label htmlFor="grossWeight">Gross Wt</label>
+                  <div className={gross_weightClasses}>
+                    <label htmlFor="gross_weight">Gross Wt</label>
                     <input
-                      value={grossWeight}
-                      onBlur={grossWeightHandleBlur}
-                      onChange={grossWeightHandleChange}
-                      id="grossWeight"
+                      value={gross_weight}
+                      onBlur={gross_weightHandleBlur}
+                      onChange={gross_weightHandleChange}
+                      id="gross_weight"
                       type="number"
-                      name="grossWeight"
+                      name="gross_weight"
                       placeholder="Enter Gross Wt"
                       width="100%"
                       height="2rem"
                     />
-                    {/* {grossWeightHasErr && <p className={classes.err}>Enter valid gross wt!</p>} */}
+                    {gross_weightHasErr && <p className={classes.err}>Enter valid gross wt!</p>}
                   </div>
-                  <div className={stoneWeightClasses}>
-                    <label htmlFor="stoneWeight">stone Wt</label>
+                  <div className={stone_weightClasses}>
+                    <label htmlFor="stone_weight">stone Wt</label>
                     <input
-                      value={stoneWeight}
-                      onBlur={stoneWeightHandleBlur}
-                      onChange={stoneWeightHandleChange}
-                      id="stoneWeight"
-                      name="stoneWeight"
+                      value={stone_weight}
+                      onBlur={stone_weightHandleBlur}
+                      onChange={stone_weightHandleChange}
+                      id="stone_weight"
+                      name="stone_weight"
                       placeholder="Enter stone Wt"
                       width="100%"
                       type="number"
                       height="2rem"
                     />
-                    {/* {stoneWeightHasErr && <p className={classes.err}>Enter valid stone wt!</p>} */}
+                    {stone_weightHasErr && <p className={classes.err}>Enter valid stone wt!</p>}
                   </div>
-                  <div className={netWeightClasses}>
-                    <label htmlFor="netWeight">Net Wt</label>
+                  <div className={net_weightClasses}>
+                    <label htmlFor="net_weight">Net Wt</label>
                     <input
-                      value={netWeight}
-                      onBlur={netWeightHandleBlur}
-                      onChange={netWeightHandleChange}
-                      id="netWeight"
-                      name="netWeight"
+                      value={net_weight}
+                      onBlur={net_weightHandleBlur}
+                      onChange={net_weightHandleChange}
+                      id="net_weight"
+                      name="net_weight"
                       type="number"
                       placeholder="Enter Net Wt"
                       width="100%"
                       height="2rem"
                     />
-                    {/* {netWeightHasErr && <p className={classes.err}>Enter valid net wt!</p>} */}
+                    {net_weightHasErr && <p className={classes.err}>Enter valid net wt!</p>}
                   </div>
-                  <div className={componentWeightClasses}>
-                    <label htmlFor="componentWeight">Com- Wt</label>
+                  <div className={component_weightClasses}>
+                    <label htmlFor="component_weight">Com- Wt</label>
                     <input
-                      value={componentWeight}
-                      onBlur={componentWeightHandleBlur}
-                      onChange={componentWeightHandleChange}
-                      id="componentWeight"
+                      value={component_weight}
+                      onBlur={component_weightHandleBlur}
+                      onChange={component_weightHandleChange}
+                      id="component_weight"
                       type="number"
-                      name="componentWeight"
+                      name="component_weight"
                       placeholder="Enter Com- Wt"
                       width="100%"
                       height="2rem"
                     />
-                    {/* {componentWeightHasErr && <p className={classes.err}>Enter valid com- wt!</p>} */}
+                    {component_weightHasErr && <p className={classes.err}>Enter valid com- wt!</p>}
                   </div>
-                  <div className={ghatWtClasses}>
-                    <label htmlFor="ghatWt">Ghat Wt</label>
+                  <div className={ghat_weightClasses}>
+                    <label htmlFor="ghat_weight">Ghat Wt</label>
                     <input
-                      value={ghatWt}
-                      onBlur={ghatWtHandleBlur}
-                      onChange={ghatWtHandleChange}
-                      id="ghatWt"
-                      name="ghatWt"
+                      value={ghat_weight}
+                      onBlur={ghat_weightHandleBlur}
+                      onChange={ghat_weightHandleChange}
+                      id="ghat_weight"
+                      name="ghat_weight"
                       placeholder="Enter Ghat Wt"
                       width="100%"
                       height="2rem"
                       type="number"
                     />
-                    {/* {ghatWtHasErr && <p className={classes.err}>Enter valid ghat wt!</p>} */}
+                    {ghat_weightHasErr && <p className={classes.err}>Enter valid ghat wt!</p>}
                   </div>
                   <div className={remarkClasses}>
                     <label htmlFor="remarks">Remarks</label>
@@ -1059,7 +1013,7 @@ export default function MasterCreation() {
                         placeholder="Description"
                         name="remarks"
                       />
-                      {/* {remarkHasErr && <p className={classes.err}>Enter valid description!</p>} */}
+                      {remarkHasErr && <p className={classes.err}>Enter valid description!</p>}
                     </div>
                   </div>
                   <div className={typeClasses} style={{ minWidth: "20%" }}>
@@ -1102,16 +1056,16 @@ export default function MasterCreation() {
                                     }
                                 ]}
                             /> */}
-                        {/* {typeHasErr && <p className={classes.err}>Select a type!</p>} */}
+                        {typeHasErr && <p className={classes.err}>Select a type!</p>}
                   </div>
-                  <div className={stoneGroupClasses} style={{ minWidth: "20%" }}>
-                    <label htmlFor="stoneGroup">Stone Group</label>
+                  <div className={stone_groupClasses} style={{ minWidth: "20%" }}>
+                    <label htmlFor="stone_group">Stone Group</label>
                     <select
-                      value={stoneGroup}
-                      onBlur={stoneGroupHandleBlur}
-                      onChange={stoneGroupHandleChange}
-                      id="stoneGroup"
-                      name="stoneGroup"
+                      value={stone_group}
+                      onBlur={stone_groupHandleBlur}
+                      onChange={stone_groupHandleChange}
+                      id="stone_group"
+                      name="stone_group"
                       placeholder={"Select stone group"}
                     >
                       <option value="Stone Group 1">Stone Group 1</option>
@@ -1123,11 +1077,11 @@ export default function MasterCreation() {
                     
                     {/* <SelectComponent
                               placeholder={"Select stone group"}
-                                name={"stoneGroup"}
-                                onChangeFn={stoneGroupHandleChange}
-                                onBlurFn ={stoneGroupHandleBlur}
-                                value={stoneGroup}
-                                id='stoneGroup'
+                                name={"stone_group"}
+                                onChangeFn={stone_groupHandleChange}
+                                onBlurFn ={stone_groupHandleBlur}
+                                value={stone_group}
+                                id='stone_group'
                                 options={[
                                     {
                                         value: "Stone Group 1",
@@ -1139,7 +1093,7 @@ export default function MasterCreation() {
                                     },
                                 ]}
                             /> */}
-                      {/* {stoneGroupHasErr && <p className={classes.err}>Select a stone group!</p>} */}
+                      {stone_groupHasErr && <p className={classes.err}>Select a stone group!</p>}
                   </div>
                   <div className={pieces1Classes} style={{ maxWidth: "10%" }}>
                     <label htmlFor="pieces1">Pcs</label>
@@ -1153,21 +1107,21 @@ export default function MasterCreation() {
                       width="100%"
                       height="2rem"
                     />
-                    {/* {pieces1HasErr && <p className={classes.err}>Enter valid number!</p>} */}
+                    {pieces1HasErr && <p className={classes.err}>Enter valid number!</p>}
                   </div>
-                  <div className={stoneWeight1Classes}>
-                    <label htmlFor="stoneWeight1">Weight</label>
+                  <div className={stone_weight1Classes}>
+                    <label htmlFor="stone_weight1">Weight</label>
                     <input
-                      value={stoneWeight1}
-                      onBlur={stoneWeight1HandleBlur}
-                      onChange={stoneWeight1HandleChange}
-                      id="stoneWeight1"
-                      name="stoneWeight1"
+                      value={stone_weight1}
+                      onBlur={stone_weight1HandleBlur}
+                      onChange={stone_weight1HandleChange}
+                      id="stone_weight1"
+                      name="stone_weight1"
                       placeholder="Enter Gross Wt"
                       width="100%"
                       height="2rem"
                     />
-                    {/* {stoneWeight1HasErr && <p className={classes.err}>Select a stone wt!</p>} */}
+                    {stone_weight1HasErr && <p className={classes.err}>Select a stone wt!</p>}
                   </div>
                   <div className={classes["button-container"]}>
                     <button onClick={handleAdd}>ADD</button>
@@ -1175,15 +1129,15 @@ export default function MasterCreation() {
                 </section>
               </div>
               <CreationTable rowDataArr={rowDataArr} />
-              <div className={classes.actions}>
+              <div className={classes.actions}>                 
                 <Button className={classes.button} onClick={handleAddImage} style={{ marginRight: "3rem" }}>Add Image</Button>
                 <Button className={classes.button} onClick={handleSave}>Save</Button>
                 <Button className={classes.button} onClick={ResetAll}>Clear</Button>
-                <Button className={classes.button} onClick={handleExit}>Exit</Button>
+                <Button className={classes.button} onClick={handleExit}>Exit</Button>              
               </div>
             </fieldset>
             <div className={classes.image}>
-              <ImageComponent key={images} imagesList={images}/>
+              <ImageComponent images={images}/>
             </div>
           </div>
         </div>
@@ -1192,7 +1146,7 @@ export default function MasterCreation() {
         title="ADD IMAGES"
         placement="right"
         open={isDrawerOpen}
-        width={"60%"}
+        width={"80%"}
         closable={true}
         onClose={handleCloseDrawer}
       >

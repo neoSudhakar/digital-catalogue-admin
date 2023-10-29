@@ -1,14 +1,30 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import classes from "./ImageComponent.module.css";
 import UploadImage from "../../../assets/upload-image.png";
 
-export default function ImageComponent({fileList}){
-      let  images= [
-            {image: UploadImage},
-            // {image: UploadImage},
-            {image: "https://picsum.photos/536/302"},
-            {image: "https://picsum.photos/536/303"},
-      ]
+export default function ImageComponent({imagesList}){
+      // let  images= [
+      //       {image: UploadImage},
+      //       // {image: UploadImage},
+      //       {image: "https://picsum.photos/536/302"},
+      //       {image: "https://picsum.photos/536/303"},
+      // ]
+
+      // let [images, setImages] = useState([]);
+
+      let images = [];
+
+      // useEffect(()=>{
+        if(imagesList){
+          images = imagesList.map((imageItem)=>{
+            return {
+              image: imageItem.previewUrl,
+              // previewUrl: imageItem.image,
+              // isDefault: false
+            }
+          })
+        }
+      // }, [imagesList, images]);
 
       const updatedDesignImagesArr= useMemo(()=>{
         return images.map((eachItem, index)=>{

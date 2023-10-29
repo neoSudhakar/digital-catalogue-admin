@@ -2,6 +2,7 @@ import { useState } from "react";
 import classes from "./DesignFields.module.css";
 import ModalComponent from "./ModalComponent";
 import UpdateFieldsForm from "./UpdateFieldsForm";
+import axios from "axios";
 
 export default function DesignFields({ cardItem }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -16,6 +17,14 @@ export default function DesignFields({ cardItem }) {
 
   function handleUpdateAction(updatedData){
     console.log("updated Fields Data", updatedData);
+    console.log(cardItem.id);
+    fetch(`http://localhost:8080/api/designs/${cardItem.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",  
+      },
+      body: JSON.stringify(updatedData),
+    });
   }
 
   return (
