@@ -18,12 +18,26 @@ import {
   AiOutlineCodepenCircle,
   AiOutlineLogout,
 } from "react-icons/ai";
+import { useEffect, useState } from "react";
+import { loggedInPerson1, loggedInPerson2 } from "../util/user";
 
 export default function Sidebar() {
   const dispatch = useDispatch();
   const navigate= useNavigate();
   const submit = useSubmit();
   const token = useRouteLoaderData("root");
+
+  const [isManufacturer, setIsManufacturer] = useState(false);
+  const [isRetailer, setIsRetailer] = useState(false);
+
+  useEffect(()=>{
+    if(loggedInPerson2.isManufacturer){
+      setIsManufacturer(true);
+    }
+    else{
+      setIsRetailer(true);
+    }
+  },[loggedInPerson1]);
 
   function handleLogout() {
     submit(null, { method: "post", action: "/logout" });

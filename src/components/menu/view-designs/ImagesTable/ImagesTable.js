@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import classes from "./ImagesTable.module.css";
 
 const ImagesTable = ({ imagesArr, cardItem }) => {
-  console.log("hello",imagesArr);
+  // console.log("hello",imagesArr);
   const [isChecked, setIsChecked] = useState(
     imagesArr.map((image) => image.isDefault)
   );

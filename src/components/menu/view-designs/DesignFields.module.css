@@ -123,7 +123,61 @@
     margin-right: 2rem;
 }
  
-  
+.assigned-retailers{
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+.assigned-retailer{
+    display: flex;
+    background-color: rgb(210, 224, 233);
+    padding: 0.75rem 0.75rem;
+    border-radius: 0.5rem;
+    gap: 2rem;
+    align-items: center;
+    border-left: 10px solid rgb(95, 145, 95);
+}
+.assigned-retailer span{
+    font-weight: 600;
+}
+.assigned-retailer p{
+    padding: 0;
+    margin: 0;
+    font-size: 0.85rem;
+}
+.assign-actions{
+    display: flex;
+    gap: 0.5rem;
+}
+
+.edit-assign{
+    padding: 0.25rem 0.5rem;
+    color: white;
+    border: none;
+    background-color: rgb(44, 173, 233);
+    border-radius: 0.25rem;
+}
+.edit-assign:hover{
+    cursor: pointer;
+    background-color:  rgb(4, 133, 192);
+    flex: 1;
+}
+.remove-assign{
+    padding: 0.25rem 0.5rem;
+    color: white;
+    flex: 1;
+    border: none;
+    background-color: rgb(231, 56, 25);
+    border-radius: 0.25rem;
+}
+.remove-assign:hover{
+    cursor: pointer;
+    background-color: rgb(196, 34, 5);
+}
   
 
 @media screen and (max-width:767px) {

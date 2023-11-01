@@ -6,6 +6,7 @@ import DesignFields from "./DesignFields";
 import DesignTanbleJSX from "./DesignTableJSX";
 import { useSelector } from "react-redux";
 import ImagesTable from "./ImagesTable/ImagesTable";
+import AssignRetailer from "./AssignRetailer";
 
 export default function DesignDetails({cardItem, onGoBack}){
 
@@ -43,7 +44,17 @@ export default function DesignDetails({cardItem, onGoBack}){
           }
         });
         setImageItems(updatedImageItems);
-      }
+    }
+
+    const [isStartAssign, setIsStartAssign] = useState(false);
+
+    function handleStartAssign(){
+      setIsStartAssign(true);
+    }
+
+    function handleCloseAssign(){
+      setIsStartAssign(false);
+    };
 
 
     return <motion.div
@@ -63,7 +74,11 @@ export default function DesignDetails({cardItem, onGoBack}){
       Back
     </motion.button>
     </div>
-    <h1>Design {cardItem.id} Details</h1>
+    <div className={classes["header-content"]}>
+      <h1>Design {cardItem.id} Details</h1>
+      <button className={classes["assign-btn"]} onClick={handleStartAssign}>Assign Retailer</button>
+    </div>
+    <AssignRetailer cardItem={cardItem} isModalOpen={isStartAssign} onCloseModal={handleCloseAssign}  />
     <div className={`${classes["card-details"]}  ${isDashboardOpen ? classes.full : ""}`}>
       <div className={classes["above-table"]}>
         <div className={classes.carousel}>

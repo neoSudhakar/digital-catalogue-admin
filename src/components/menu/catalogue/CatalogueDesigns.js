@@ -47,7 +47,7 @@ export default function CatalogueDesigns() {
 
 
   let content = (
-    <DesignCards handleShowDetails={handleShowDetails}/>
+    <DesignCards handleShowDetails={handleShowDetails} catalogue/>
   );
 
   if (isDesignDetailsOpen) {
