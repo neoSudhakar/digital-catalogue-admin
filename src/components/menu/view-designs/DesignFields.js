@@ -162,23 +162,23 @@ export default function DesignFields({ cardItem }) {
           </div>
           <div>
             <span>Gross Weight: </span>
-            <p>{cardItem.grossWeight}</p>
+            <p>{cardItem.grossWeight} grms</p>
           </div>
           <div>
             <span>Stone Weight: </span>
-            <p>{cardItem.stoneWeight}</p>
+            <p>{cardItem.stoneWeight} grms</p>
           </div>
           <div>
             <span>Net Weight: </span>
-            <p>{cardItem.netWeight}</p>
+            <p>{cardItem.netWeight} grms</p>
           </div>
           <div>
             <span>Component Weight: </span>
-            <p>{cardItem.componentWeight}</p>
+            <p>{cardItem.componentWeight} grms</p>
           </div>
           <div>
             <span>Ghat Weight: </span>
-            <p>{cardItem.ghatWt}</p>
+            <p>{cardItem.ghatWt} grms</p>
           </div>
         </div>
       </section>
