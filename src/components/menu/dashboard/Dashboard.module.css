@@ -1,11 +1,14 @@
 .whole{
     padding : 1rem 1rem;
     padding-right: 2rem;
+    width: 100%;
 }
 .whole h1{
     text-align: center;
     color: brown;
-    margin-bottom: 2rem;
+    margin: 0;
+    padding: 0;
+    margin: 1rem 0 2rem;
 }
 .whole-tiles-and-charts{
     width: 100%;
@@ -20,30 +23,22 @@
     gap: 1rem;
     flex-wrap: wrap;
 }
-.each-tile{
-    min-width: 23%;
-    max-width: 23.5%;
-    flex: 1;
-    padding: 1rem;
+.whole-charts{
+    width: 100%;
     display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    align-items: center;
-    text-align: center;
-    border: 1px solid #ccc;
-    border-radius: 0.5rem;
+    gap: 1rem;
+    flex-wrap: wrap;
 }
-.title{
-    font-size: 1.25rem;
-}
-.count{
-    font-size: 2.25rem;
-    font-weight: 500;
-}
-.filter{
-    display: flex;
-    gap: 0.5rem;
-    font-size: 0.75rem;
-    align-items: center;
+
+@media screen and (max-width: 767px){
+    .whole{
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        padding-right: 2.5rem;
+    }
+    .whole h1{
+        margin-top: 2rem;
+    }
 }
 
