@@ -1,0 +1,92 @@
+.fields{
+    margin-left: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+/* .title-container{
+    border-bottom: 1px solid #ccc;
+    padding: 1rem 0 2rem;
+} */
+.title-container h2{
+    /* font-size: 1.25rem; */
+    margin: 0;
+    padding:0;
+}
+.price{
+    font-size: 1.1rem;
+    padding: 0;
+    margin: 0;
+}
+.price span{
+    font-weight: bold;
+    /* font-size: 1.25rem; */
+}
+.quantity-container{
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+.quantity-actions{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.quantity-actions span{
+    font-size: 1rem;
+    color: brown;
+}
+.quantity-actions span:hover{
+    cursor: pointer;
+}
+.quantity-actions input{
+    padding: 0.5rem 0rem 0.5rem 0.5rem;
+    border: 2px solid brown;
+    outline: none;
+    min-width: 3rem;
+    width: 4rem;
+    text-align: center;
+}
+.actions{
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    /* margin: 2rem 0; */
+}
+.actions button{
+    /* flex: 1; */
+    font-size: 1.25rem;
+    text-transform: uppercase;
+    padding: 0.5rem 2.5rem;
+    border-radius: 1.5rem;
+}
+.actions button:hover{
+    cursor: pointer;
+}
+
+.add-to-cart{
+    color: brown;
+    /* background-color: rgb(221, 36, 159); */
+    background-color: white;
+    border: 1px solid rgb(156, 18, 18);
+}
+.buy{
+    color: white;
+    background-color: brown;
+    border: none;
+}
+.buy:hover{
+    background-color:rgb(136, 7, 7);
+}
+
+.info-container{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.info{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+}
