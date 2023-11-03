@@ -67,7 +67,7 @@ export default function AssignRetailerForm({cardItem, onAction, onCloseModal, pr
         id="days"
         name="days"
         type="number"
-        defaultValue={prevRetailerData ? prevRetailerData.days : 1}
+        defaultValue={prevRetailerData ? prevRetailerData.activeTillDate : 1}
         min={1}
         step={1}
         required

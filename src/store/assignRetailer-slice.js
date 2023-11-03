@@ -33,17 +33,17 @@ const assignRetailerSlice = createSlice({
                 });
 
                 if(existingRetailerDataIndex > -1){
-                    state.assignedDesigns[existingDesignIndex].retailersDataList[existingRetailerDataIndex].days = days;
+                    state.assignedDesigns[existingDesignIndex].retailersDataList[existingRetailerDataIndex].activeTillDate = days;
                     return ;
                 }
                 else{
-                    state.assignedDesigns[existingDesignIndex].retailersDataList.push({retailerId: retailer, days});
+                    state.assignedDesigns[existingDesignIndex].retailersDataList.push({retailerId: retailer, activeTillDate: days});
                 }
             }
             else{
                 const updatedData = {
                     designId,
-                    retailersDataList: [{retailerId: retailer, days}],
+                    retailersDataList: [{retailerId: retailer, activeTillDate: days}],
                 }
                 state.assignedDesigns.push(updatedData);
             }
@@ -62,7 +62,7 @@ const assignRetailerSlice = createSlice({
                 });
 
                 if(existingRetailerDataIndex > -1){
-                    state.assignedDesigns[existingDesignIndex].retailersDataList[existingRetailerDataIndex] = {retailerId:retailer, days};
+                    state.assignedDesigns[existingDesignIndex].retailersDataList[existingRetailerDataIndex] = {retailerId: retailer, activeTillDate: days};
                     return ;
                 }
             }

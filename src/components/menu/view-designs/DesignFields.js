@@ -90,7 +90,7 @@ export default function DesignFields({ cardItem }) {
             {assignRetailersListData.map((retailerData)=>{
                 return <li key={retailerData.retailerId} className={classes["assigned-retailer"]}>
                   <p><span>Assigned Retailer : </span>{getRetailerName(retailerData.retailerId)}</p>
-                  <p><span>Active Days : </span>{retailerData.days}</p>
+                  <p><span>Active Days : </span>{retailerData.activeTillDate}</p>
                   <div className={classes["assign-actions"]}>
                     <button
                       className={classes["edit-assign"]}
