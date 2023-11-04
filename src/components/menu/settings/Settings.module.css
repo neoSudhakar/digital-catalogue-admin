@@ -5,7 +5,9 @@
   }
   
 .menuBar {
-    background-color: '#fcf2f3';
+    background-color: #fcf2f3;
+    display: 'flex';
+    justify-content: center;
   }
   
 .menuItem {
@@ -16,21 +18,31 @@
     font-size: 18px;
   }
   
-.menu-item.active {
+/*.menu-item.active {
     background-color: #3498db;
     color: #fff;
-  }
+  }*/
 
-.head{
+/*.head{
     color: brown;
     text-align: center;
     margin: 1rem;
-  }
+  }*/
 
 .button{
     margin: 2rem 0;
-    align-items: start;
-    justify-content: start;
+    background-color: #631e27;
+    width: 200px;
+    height: 50px;
+    color: white;
+    padding: 0.85rem;
 }
 
-  
+
+
+@media screen and (max-width:767px) {
+  .button{
+    width: 120px;
+    text-align: center;
+  }
+}

@@ -18,8 +18,8 @@ export default function Settings(){
   ]);
 
   const [userData, setUserData]= useState([
-    { userId: 1,firstName: 'Tom', lastName: 'Kate', email: 'tom@example.com' , account: 'Retailer', userRole: 'Retail User'},
-    { userId: 2,firstName: 'john', lastName: 'Mathew', email: 'john@example.com' , account: 'Manufacturer', userRole: 'Admin'},
+    { userId: 1,firstName: 'Tom', lastName: 'Kate', email: 'tom@example.com' , account: 'tom', userRole: 'Retail User'},
+    { userId: 2,firstName: 'john', lastName: 'Mathew', email: 'john@example.com' , account: 'john', userRole: 'Admin'},
   ]);
 
   const updateAccountData = (data) => {
@@ -44,9 +44,8 @@ export default function Settings(){
 
   return (
     <div className={classes.settings}>
-        <h1 className={classes.head}>Settings</h1>
 
-        <Menu mode="horizontal" defaultSelectedKeys={['account']} style={{backgroundColor: '#fcf2f3'}}>
+        <Menu mode="horizontal" defaultSelectedKeys={['account']} className={classes.menuBar}>
             <Menu.Item key="account" onClick={categoryHandler.bind(this, 'account')} className={classes.menuItem}>
             Account
             </Menu.Item>
@@ -65,12 +64,15 @@ export default function Settings(){
           {/* You can add your account settings components here */}
           <Modal
             title={selectedCategory === 'account' ? "ADD ACCOUNT" : "ADD USER"}
-            visible={isModalOpen}
+            open={isModalOpen}
             onCancel={handleCloseModal}
             okButtonProps={{style:{display: "none"}}}
             cancelButtonProps={{style: {display: 'none'}}}
           >
-            {selectedCategory === 'account' ? <Account updateAccountData={updateAccountData}/> : <User updateUserData={updateUserData}/>}
+            {selectedCategory === 'account' ? 
+              <Account updateAccountData={updateAccountData} index={accountData.length}/> : 
+              <User updateUserData={updateUserData} accountData={accountData} index={userData.length}/>
+            }
           </Modal>
         
       </div>

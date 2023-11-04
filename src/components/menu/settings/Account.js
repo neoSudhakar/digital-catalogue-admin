@@ -3,7 +3,7 @@ import classes from "./Account.module.css";
 
 import { useState } from "react";
 
-export default function Account({updateAccountData}) {
+export default function Account({updateAccountData, index}) {
   /*const [formData, setFormData] = useState({
     name: '',
     address1: '',
@@ -14,8 +14,9 @@ export default function Account({updateAccountData}) {
     state: '',
     role: 'manufacturer', // Default value for role
   });*/
+  
+  //const [accountData, setAccountData]= useState([]);
 
-  const [accountData, setAccountData]= useState([]);
 
   const {
     inputVal: name,
@@ -133,13 +134,13 @@ export default function Account({updateAccountData}) {
     const formData = Object.fromEntries(form);
 
     console.log(formData);
-    console.log("hi");
+    //console.log("hi");
 
-    const index= 3;
-    console.log(index);
+    //const index= index+1;
+    //console.log(index);
 
     const tableData={
-      accountId: index,
+      accountId: index+1,
       name:name,
       phoneNum: phoneNum,
       email: email,
@@ -147,10 +148,10 @@ export default function Account({updateAccountData}) {
     };
     console.log(tableData);
 
-    setAccountData([...accountData, tableData]);
+    //setAccountData([...accountData, tableData]);
 
     updateAccountData(tableData);
-    console.log(accountData);
+    //console.log(accountData);
   
 
     nameResetFn();
@@ -166,8 +167,10 @@ export default function Account({updateAccountData}) {
 
     return (
       <div>
-        <form onSubmit={handleSubmit}>
-          <div>
+        <form onSubmit={handleSubmit} className={classes.form}>
+        <section className={classes.fields}>
+
+        <div className={classes.field}>
             <label htmlFor="name">Name</label>
             <div>
               <input
@@ -178,12 +181,13 @@ export default function Account({updateAccountData}) {
                 value={name}
                 onBlur={handleNameBlur}
                 onChange={handleNameChange}
+                className={classes.select}
               />
               {nameHasErr && <p className={classes.err}>Enter valid name</p>}
             </div>
           </div>
 
-          <div>
+          <div className={classes.field}>
             <label htmlFor="email">E-Mail</label>
             <div>
               <input
@@ -199,7 +203,7 @@ export default function Account({updateAccountData}) {
             </div>
           </div>
 
-          <div>
+          <div className={classes.field}>
           <label htmlFor="phoneNum">Phone Number</label>
             <div>
               <input
@@ -215,7 +219,7 @@ export default function Account({updateAccountData}) {
             </div>
           </div>
 
-          <div>
+          <div className={classes.field}>
             <label htmlFor="address1">Address Line 1</label>
             <div>
               <input
@@ -231,7 +235,7 @@ export default function Account({updateAccountData}) {
             </div>
           </div>
 
-          <div>
+          <div className={classes.field}>
             <label htmlFor="address2">Address Line 2</label>
             <div>
               <input
@@ -247,7 +251,7 @@ export default function Account({updateAccountData}) {
             </div>
           </div>
 
-          <div>
+          <div className={classes.field}>
             <label htmlFor="city">City</label>
             <div>
               <input
@@ -263,7 +267,7 @@ export default function Account({updateAccountData}) {
             </div>
           </div>
 
-          <div>
+          <div className={classes.field}>
             <label htmlFor="state">State</label>
             <div>
               <input
@@ -279,7 +283,7 @@ export default function Account({updateAccountData}) {
             </div>
           </div>
 
-          <div>
+          <div className={classes.field}>
             <label htmlFor="accountType">Type</label>
                 <select
                   id="accountType"
@@ -298,9 +302,10 @@ export default function Account({updateAccountData}) {
                 </select>
                 {accountTypeHasErr && <p className={classes.err}>Select one account type</p>}
           </div>
-          <div>
-            <input type="submit" value="Save" />
-          </div>
+        </section>
+        <div className={classes.button}>
+            <input type="submit" value="Save"/>
+        </div>
       </form>
       </div>
         

@@ -1,29 +1,39 @@
-import { AgGridReact } from 'ag-grid-react'; 
+import { AgGridReact } from 'ag-grid-react';
+import { useMemo } from 'react'; 
+import "./Account.module.css";
 
 import 'ag-grid-community/styles/ag-grid.css'; 
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 
-import classes from "./Account.module.css";
 
 const AccountTable = ({data}) => {
 
     const columnDefs=[
-        { headerName: 'Id', field: 'accountId' },
+        { headerName: 'Id', field: 'accountId', width: 100, minWidth: 100, maxWidth: 100 },
         { headerName: 'Name', field: 'name' },
         { headerName: 'Phone Number', field: 'phoneNum' },
         { headerName: 'Email', field: 'email' },
-        { headerName: 'Type', field: 'accountType' }
+        { headerName: 'Type', field: 'accountType'}
     ];
 
+    const defaultColDef = useMemo(() => {
+        return {
+          resizable: true,
+          sortable: true,
+    
+        };
+      }, []);
     
 
     return(
-        <div className={classes.table}>
+        <div style={{margin: 15}}>
             <div className="ag-theme-alpine"  style={{width: "100%", height: 200}}>
 
                 <AgGridReact
                     columnDefs={columnDefs}
                     rowData={data}
+                    defaultColDef={defaultColDef}
+                    animateRows={true}
                 />
             </div>
         </div>

@@ -1,7 +1,7 @@
 import useInput from "../../../hooks/use-input";
 import classes from "./User.module.css";
 
-export default function User({updateUserData}) {
+export default function User({updateUserData, accountData, index}) {
 
   const {
     inputVal: firstName,
@@ -110,11 +110,12 @@ export default function User({updateUserData}) {
 
     const form = new FormData(event.target);
     const formData = Object.fromEntries(form);
+    console.log(formData);
 
-    const index=2;
+    //const index=2;
 
     const tableData={
-      userId: index,
+      userId: index+1,
       firstName: firstName,
       lastName: lastName,
       email: email,
@@ -137,156 +138,159 @@ export default function User({updateUserData}) {
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-    
-      <div>
-        <label htmlFor="firstName">First Name</label>
-        <div>
-          <input
-            type="text"
-            name="firstName"
-            id="firstName"
-            placeholder="Enter First Name"
-            value={firstName}
-            onChange={handleFirstNameChange}
-            onBlur={handleFirstNameBlur}
-          />
-          {firstNameHasErr && (
-            <p className={classes.err}>Enter a valid first name!</p>
-          ) }
+      <form onSubmit={handleSubmit} className={classes.form}>
+      <section className={classes.fields}>
+        <div className={classes.field}>
+          <label htmlFor="firstName">First Name</label>
+          <div>
+            <input
+              type="text"
+              name="firstName"
+              id="firstName"
+              placeholder="Enter First Name"
+              value={firstName}
+              onChange={handleFirstNameChange}
+              onBlur={handleFirstNameBlur}
+            />
+            {firstNameHasErr && (
+              <p className={classes.err}>Enter a valid first name!</p>
+            ) }
+          </div>
         </div>
-      </div>
 
-      <div>
-        <label htmlFor="lastName">Last Name</label>
-        <div>
-          <input
-            type="text"
-            name="lastName"
-            id="lastName"
-            value={lastName}
-            placeholder="Enter Last Name"
-            onChange={handleLastNameChange}
-            onBlur={handleLastNameBlur}
-          />
-          {lastNameHasErr && (
-            <p className={classes.err}>Enter a valid last name!</p>
-          )}
+        <div className={classes.field}>
+          <label htmlFor="lastName">Last Name</label>
+          <div>
+            <input
+              type="text"
+              name="lastName"
+              id="lastName"
+              value={lastName}
+              placeholder="Enter Last Name"
+              onChange={handleLastNameChange}
+              onBlur={handleLastNameBlur}
+            />
+            {lastNameHasErr && (
+              <p className={classes.err}>Enter a valid last name!</p>
+            )}
+          </div>
         </div>
-      </div>
-    
-      <div>
-        <label htmlFor="email">Email</label>
-        <div>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={email}
-            onBlur={handleEmailBlur}
-            onChange={handleEmailChange}
-            placeholder="Enter email address"
-          />
-          {emailHasErr && (
-            <p className={classes.err}>Enter a valid email address!</p>
-          )}
+      
+        <div className={classes.field}>
+          <label htmlFor="email">Email</label>
+          <div>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={email}
+              onBlur={handleEmailBlur}
+              onChange={handleEmailChange}
+              placeholder="Enter email address"
+            />
+            {emailHasErr && (
+              <p className={classes.err}>Enter a valid email address!</p>
+            )}
+          </div>
         </div>
-      </div>
 
-      <div>
-        <label htmlFor="address">Address</label>
-        <div>
-          <input
-            type="text"
-            name="address"
-            id="address"
-            placeholder="Enter address"
-            value={address}
-            onBlur={handleAddressBlur}
-            onChange={handleAddressChange}
-          />
-          {addressHasErr && (
-            <p className={classes.err}>Enter a valid address!</p>
-          )}
+        <div className={classes.field}>
+          <label htmlFor="address">Address</label>
+          <div>
+            <input
+              type="text"
+              name="address"
+              id="address"
+              placeholder="Enter address"
+              value={address}
+              onBlur={handleAddressBlur}
+              onChange={handleAddressChange}
+            />
+            {addressHasErr && (
+              <p className={classes.err}>Enter a valid address!</p>
+            )}
+          </div>
         </div>
-      </div>
 
-      <div>
-        <label htmlFor="userName">User Name</label>
-        <div>
-          <input
-            type="text"
-            name="userName"
-            id="userName"
-            placeholder="Enter User Name"
-            value={userName}
-            onChange={handleUserNameChange}
-            onBlur={handleUserNameBlur}
-          />
-          {userNameHasErr && (
-            <p className={classes.err}>Enter a valid user name!</p>
-          )}
+        <div className={classes.field}>
+          <label htmlFor="userName">User Name</label>
+          <div>
+            <input
+              type="text"
+              name="userName"
+              id="userName"
+              placeholder="Enter User Name"
+              value={userName}
+              onChange={handleUserNameChange}
+              onBlur={handleUserNameBlur}
+            />
+            {userNameHasErr && (
+              <p className={classes.err}>Enter a valid user name!</p>
+            )}
+          </div>
         </div>
-      </div>
-      <div>
-        <label htmlFor="password">Password</label>
-        <div>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={password}
-            onBlur={handlePasswordBlur}
-            onChange={handlePasswordChange}
-            placeholder="Enter password"
-          />
-          {passwordHasErr && <p className={classes.err}>Enter a valid password!</p>}
+        <div className={classes.field}>
+          <label htmlFor="password">Password</label>
+          <div>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={password}
+              onBlur={handlePasswordBlur}
+              onChange={handlePasswordChange}
+              placeholder="Enter password"
+            />
+            {passwordHasErr && <p className={classes.err}>Enter a valid password!</p>}
+          </div>
         </div>
-      </div>
 
-      <div>
-        <label htmlFor="account">Account Type</label>
-        <select
-          id="account"
-          name="account"
-          placeholder={"Select account"}
-          value={account}
-          onBlur={accountHandleBlur}
-          //  defaultValue="Manufacturer"
-          onChange={accountHandleChange}
-          >
-            <option value="" disabled hidden>
-              Select an option
-            </option>
-            <option value="Manufacturer">Manufacturer</option>
-            <option value="Retailer">Retailer</option>
-        </select>
-        {accountHasErr && <p className={classes.err}>Select one account</p>}
-      </div>
+        <div className={classes.field}>
+          <label htmlFor="account">Account</label>
+          <select
+            id="account"
+            name="account"
+            placeholder={"Select account"}
+            value={account}
+            onBlur={accountHandleBlur}
+            //  defaultValue="Manufacturer"
+            onChange={accountHandleChange}
+            >
+              <option value="" disabled hidden>
+                Select an option
+              </option>
+              {accountData.map((item, index) =>(
+              <option key={item.id} value={item.name}>
+                {item.name}
+              </option>
+              ))}
+          </select>
+          {accountHasErr && <p className={classes.err}>Select one account</p>}
+        </div>
 
-      <div>
-        <label htmlFor="userRole">User Role</label>
-        <select
-          id="userRole"
-          name="userRole"
-          placeholder={"Select role"}
-          value={userRole}
-          onBlur={userRoleHandleBlur}
-          //  defaultValue="Manufacturer"
-          onChange={userRoleHandleChange}
-          >
-            <option value="" disabled hidden>
-              Select an option
-            </option>
-            <option value="Admin">Admin</option>
-            <option value="Designer">Designer</option>
-            <option value="Manager">Manager</option>
-            <option value="RetailUser">Retail User</option>
-        </select>
-        {userRoleHasErr && <p className={classes.err}>Select one role</p>}
-      </div>
-
-      <div>
+        <div className={classes.field}>
+          <label htmlFor="userRole">Role</label>
+          <select
+            id="userRole"
+            name="userRole"
+            placeholder={"Select role"}
+            value={userRole}
+            onBlur={userRoleHandleBlur}
+            //  defaultValue="Manufacturer"
+            onChange={userRoleHandleChange}
+            >
+              <option value="" disabled hidden>
+                Select an option
+              </option>
+              <option value="Admin">Admin</option>
+              <option value="Designer">Designer</option>
+              <option value="Manager">Manager</option>
+              <option value="RetailUser">Retail User</option>
+          </select>
+          {userRoleHasErr && <p className={classes.err}>Select one role</p>}
+        </div>
+      </section>
+      <div className={classes.button}>
         <input type="submit" value="Save" />
       </div>
     </form>
