@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import classes from "./ImagesTable.module.css";
 
 const ImagesTable = ({ imagesArr, cardItem }) => {
-  // console.log("hello",imagesArr);
+  console.log("images array is",imagesArr);
   const [isChecked, setIsChecked] = useState(
     imagesArr.map((image) => image.isDefault)
   );
@@ -14,7 +14,7 @@ const ImagesTable = ({ imagesArr, cardItem }) => {
   };
 
   function handleDeleteImage(id){
-    fetch(`http://localhost:8080/designs/${cardItem.id}/images/${id}`, {
+    fetch(`http://localhost:8080/api/designs/${cardItem.id}/images/${id}`, {
       method: "DELETE",
     });
   }
@@ -31,7 +31,7 @@ const ImagesTable = ({ imagesArr, cardItem }) => {
         </thead>
         <tbody>
           {imagesArr.map((image, index) => (
-            <tr key={index}>
+            <tr key={image.id}>
               <td>
                 <img src={image.imageUrl} alt={`Image ${index + 1}`} />
               </td>
@@ -45,7 +45,7 @@ const ImagesTable = ({ imagesArr, cardItem }) => {
                 <label htmlFor={index}>Default</label>
               </td>
               <td>
-                <button className={classes["delete-button"]} onClick={handleDeleteImage.bind(this, image.id)}>Delete</button>
+                <button className={classes["delete-button"]} onClick={()=>handleDeleteImage(image.id)}>Delete</button>
               </td>
             </tr>
           ))}

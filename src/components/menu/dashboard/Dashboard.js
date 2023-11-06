@@ -7,7 +7,7 @@ import Tile from "./Tile";
 
 export default function Dashboard(){
     return <div className={classes["whole"]}>
-        <h1>My Dashboard</h1>
+        {/* <h1>My Dashboard</h1> */}
         <menu className={classes["whole-tiles-and-charts"]}>
             <section className={classes["whole-tiles"]}>
                 <Tile title="Completed tasks" count={0} filterCount={1} />

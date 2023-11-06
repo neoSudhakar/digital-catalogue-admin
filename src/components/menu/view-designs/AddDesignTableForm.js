@@ -10,6 +10,7 @@ export default function AddDesignTableForm({onCloseModal, formData, onAction}){
     const initialStoneGroupVal= formData ? formData.stoneGroup : "";
     const initialPiecesVal= formData ? formData.pieces : "";
     const initialStoneWtVal= formData ? formData.stoneWeight: "";
+    const initialUOM = formData ? formData.unitOfMeasurement : "";
 
     const {
     inputVal: type,
@@ -51,9 +52,16 @@ export default function AddDesignTableForm({onCloseModal, formData, onAction}){
     handleBlur: handleStoneWtBlur,
     } = useInputSpcl((inputValue) => inputValue, initialStoneWtVal);
 
+    const {
+        inputVal: unitOfMeasurement,
+        handleChange: handleUnitOfMeasurementChange,
+        isValid: unitOfMeasurementIsValid,
+        resetFn: unitOfMeasurementResetFn,
+    } = useInputSpcl((inputValue) => inputValue, initialUOM);
+
     let isFormValid = false;
 
-    if (typeIsValid && stoneGroupIsValid && pcsIsValid && stoneWtIsValid) {
+    if (typeIsValid && stoneGroupIsValid && pcsIsValid && stoneWtIsValid && unitOfMeasurementIsValid) {
     isFormValid = true;
     }
 
@@ -74,6 +82,7 @@ export default function AddDesignTableForm({onCloseModal, formData, onAction}){
         stoneGroupResetFn();
         pcsResetFn();
         stoneWtResetFn();
+        unitOfMeasurementResetFn();
 
         onCloseModal();
     
@@ -144,6 +153,16 @@ export default function AddDesignTableForm({onCloseModal, formData, onAction}){
                     value={stoneWt}
                     onChange={handleStoneWtChange}
                 />
+            </div>
+            <div className={classes["input-grp"]}>
+                <label htmlFor="unitOfMeasurement">UOM</label>
+                <select name="unitOfMeasurement" id="unitOfMeasurement" onChange={handleUnitOfMeasurementChange} defaultValue={unitOfMeasurement} >
+                    {!formData && <option value="" disabled hidden>
+                        Select an option
+                      </option>}
+                    <option value="cts">cts</option>
+                    <option value="grms">grms</option>
+                </select>
             </div>
             <div className={classes.actions}>
                 <div>

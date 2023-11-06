@@ -14,13 +14,15 @@ import "ag-grid-community/styles/ag-theme-alpine.css"; // Optional theme CSS
 import ModalComponent from "./ModalComponent";
 import AddDesignTableForm from "./AddDesignTableForm";
 
-const DesignTable = ({ rowDataArr }) => {
+const DesignTable = ({ rowDataArr, cardItem }) => {
   const [isModelOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState();
   //   const gridRef = useRef(); // Optional - for accessing Grid's API
   const [gridApi, setGridApi] = useState(null);
 
   const [rowData, setRowData] = useState([]); //Set rowData to Array of Objects, one Object per Row
+
+  const [detailsId, setDetailsId] = useState(null);
 
   useEffect(() => {
     setRowData(rowDataArr);
@@ -29,8 +31,11 @@ const DesignTable = ({ rowDataArr }) => {
 
   function handleStartUpdateRow(data){
     setFormData(data);
+    // console.log(data);
     // const {data} = params;
     console.log(data);
+    console.log(data.id);
+    setDetailsId(data.id);
 
     // const {type, stoneGroup, pieces, stoneWeight} = data;
     setIsModalOpen(true);
@@ -38,6 +43,13 @@ const DesignTable = ({ rowDataArr }) => {
 
   function handleUpdateAction(updatedData){
     console.log("UpdatedData", updatedData);
+    fetch(`http://localhost:8080/api/designs/${cardItem.id}/details/${detailsId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedData),
+    });
   }
 
   function handleCancelUpdateRow(){
@@ -45,13 +57,15 @@ const DesignTable = ({ rowDataArr }) => {
     setIsModalOpen(false);
   }
 
-  function handleDeleteRow(value){
+  function handleDeleteRow(data){
     // const {value}=params;
-    console.log(value);
+    console.log(data);
     const confirm= window.confirm("Are you sure?");
 
     if(confirm){
-      alert("Deleted");
+      fetch(`http://localhost:8080/api/designs/${cardItem.id}/details/${data.id}`, {
+        method: "DELETE",
+      });
     }
   }
 
@@ -78,7 +92,7 @@ const DesignTable = ({ rowDataArr }) => {
       cellRenderer: (params) => (
         <div>
           <button className={classes.update} onClick={handleStartUpdateRow.bind(this,params.data)} >Update</button>
-          <button className={classes.delete} onClick={handleDeleteRow.bind(this,params.value)}>Delete</button>
+          <button className={classes.delete} onClick={handleDeleteRow.bind(this,params.data)}>Delete</button>
         </div>
       ),
     },
@@ -88,7 +102,7 @@ const DesignTable = ({ rowDataArr }) => {
   const defaultColDef = useMemo(() => {
     return {
       resizable: true,
-      sortable: true,
+      // sortable: true,
     };
   }, []);
 

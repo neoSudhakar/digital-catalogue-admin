@@ -7,11 +7,14 @@ import AddDesignTableForm from "./AddDesignTableForm";
 
 export default function DesignTanbleJSX({ cardItem}) {
     const {detailsSet} = cardItem;
+    console.log(detailsSet);
 
     const rowDataArr= detailsSet.map((eachItem, index)=>{
-      const {type, stoneGroup, pieces, stoneWeight, unitOfMeasurement} = eachItem;
+      const {id, isActive, type, stoneGroup, pieces, stoneWeight, unitOfMeasurement} = eachItem;
       return {
         "Sno": index+1,
+        id,
+        isActive,
         type,
         stoneGroup,
         pieces,
@@ -32,6 +35,15 @@ export default function DesignTanbleJSX({ cardItem}) {
 
   function handleADDAction(addedData){
     console.log("AddedData", addedData);
+    fetch(`http://localhost:8080/api/designs/${cardItem.id}/details`,
+    {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(addedData),
+      // body: addedData,
+    });
   }
 
 
@@ -41,7 +53,7 @@ export default function DesignTanbleJSX({ cardItem}) {
         <button className={classes.button} onClick={handleStartAddDesign}>Add Description</button>
       </div>
       <div className={classes.table}>
-        <DesignTable rowDataArr={rowDataArr} />
+        <DesignTable key={detailsSet} rowDataArr={rowDataArr} cardItem={cardItem} />
       </div>
 
       {isModelOpen && <ModalComponent
