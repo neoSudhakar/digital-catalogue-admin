@@ -132,7 +132,7 @@ export default function User({accountData,roleData}) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(formData),
-    }).then(response => response.json())
+    })
     .then(result => console.log('Data sent successfully!'))
     .catch(error => console.log('error occurred!'));
 

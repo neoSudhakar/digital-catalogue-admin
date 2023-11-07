@@ -19,16 +19,23 @@ const UserTable = ({data}) => {
         { headerName: 'First Name', field: 'firstName' },
         { headerName: 'Last Name', field: 'lastName' },
         { headerName: 'Email', field: 'email' },
-        { headerName: 'Account', field: 'account' },
         {
             headerName: 'Role',
             field: 'userRole',
             valueGetter: (params) => {
-              // Assuming each user can have multiple roles, and you want to display them all
               const roles = params.data.roleSet.map((role) => role.role);
-              return roles.join(', '); // Display all roles as a comma-separated string
+              return roles.join(', '); 
             }
-          }
+        },
+        {
+            headerName: 'Account',
+            field: 'account',
+            valueGetter: (params) => {
+                if (params.data.account && params.data.account.name) {
+                    return params.data.account.name; 
+                }
+            }
+        }
     ];
 
     const defaultColDef = useMemo(() => {

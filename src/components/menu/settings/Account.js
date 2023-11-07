@@ -155,7 +155,7 @@ export default function Account({updateAccountData}) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
-      }).then(response => response.json())
+      })
       .then(result => console.log('Data sent sucessfully!'))
       .catch(error => console.log('error occurred!'));
 
