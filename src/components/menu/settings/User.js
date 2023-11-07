@@ -1,7 +1,10 @@
 import useInput from "../../../hooks/use-input";
 import classes from "./User.module.css";
+import { useState } from "react";
 
-export default function User({updateUserData, accountData, index}) {
+export default function User({accountData,roleData}) {
+
+  //console.log(roleData);
 
   const {
     inputVal: firstName,
@@ -112,18 +115,28 @@ export default function User({updateUserData, accountData, index}) {
     const formData = Object.fromEntries(form);
     console.log(formData);
 
-    //const index=2;
-
-    const tableData={
+    /*const tableData={
       userId: index+1,
       firstName: firstName,
       lastName: lastName,
       email: email,
       account: account,
       userRole: userRole
-    };
+    };*/
 
-    updateUserData(tableData);
+    //updateUserData(formData);
+
+    fetch('http://localhost:8080/api/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    }).then(response => response.json())
+    .then(result => console.log('Data sent successfully!'))
+    .catch(error => console.log('error occurred!'));
+
+
 
     userNameResetFn();
     passwordResetFn();
@@ -249,7 +262,7 @@ export default function User({updateUserData, accountData, index}) {
           <label htmlFor="account">Account</label>
           <select
             id="account"
-            name="account"
+            name="accountId"
             placeholder={"Select account"}
             value={account}
             onBlur={accountHandleBlur}
@@ -260,7 +273,7 @@ export default function User({updateUserData, accountData, index}) {
                 Select an option
               </option>
               {accountData.map((item, index) =>(
-              <option key={item.id} value={item.name}>
+              <option key={item.id} value={item.id}>
                 {item.name}
               </option>
               ))}
@@ -268,7 +281,7 @@ export default function User({updateUserData, accountData, index}) {
           {accountHasErr && <p className={classes.err}>Select one account</p>}
         </div>
 
-        <div className={classes.field}>
+        {/*<div className={classes.field}>
           <label htmlFor="userRole">Role</label>
           <select
             id="userRole"
@@ -286,6 +299,29 @@ export default function User({updateUserData, accountData, index}) {
               <option value="Designer">Designer</option>
               <option value="Manager">Manager</option>
               <option value="RetailUser">Retail User</option>
+          </select>
+          {userRoleHasErr && <p className={classes.err}>Select one role</p>}
+              </div>*/}
+
+        <div className={classes.field}>
+          <label htmlFor="userRole">Role</label>
+          <select
+            id="userRole"
+            name="roleId"
+            placeholder={"Select role"}
+            value={userRole}
+            onBlur={userRoleHandleBlur}
+            //  defaultValue="Manufacturer"
+            onChange={userRoleHandleChange}
+            >
+              <option value="" disabled hidden>
+                Select an option
+              </option>
+              {roleData.map((item, index) =>(
+              <option key={item.id} value={item.id}>
+                {item.role}
+              </option>
+              ))}
           </select>
           {userRoleHasErr && <p className={classes.err}>Select one role</p>}
         </div>

@@ -9,9 +9,9 @@ import 'ag-grid-community/styles/ag-theme-alpine.css';
 const AccountTable = ({data}) => {
 
     const columnDefs=[
-        { headerName: 'Id', field: 'accountId', width: 100, minWidth: 100, maxWidth: 100 },
+        { headerName: 'Id', field: 'id', width: 100, minWidth: 100, maxWidth: 100 },
         { headerName: 'Name', field: 'name' },
-        { headerName: 'Phone Number', field: 'phoneNum' },
+        { headerName: 'Phone Number', field: 'phoneNumber' },
         { headerName: 'Email', field: 'email' },
         { headerName: 'Type', field: 'accountType'}
     ];
@@ -27,7 +27,7 @@ const AccountTable = ({data}) => {
 
     return(
         <div style={{margin: 15}}>
-            <div className="ag-theme-alpine"  style={{width: "100%", height: 200}}>
+            <div className="ag-theme-alpine"  style={{width: "100%", height: 300}}>
 
                 <AgGridReact
                     columnDefs={columnDefs}

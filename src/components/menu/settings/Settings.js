@@ -5,30 +5,90 @@ import AccountTable from "./AccountTable";
 import UserTable from "./UserTable";
 
 import { Menu, Modal,Button } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Settings(){
 
-  const [selectedCategory, setSelectedCategory] = useState('account'); // State to track the selected category
+  const [selectedCategory, setSelectedCategory] = useState('account');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [accountData, setAccountData] = useState([
-    { accountId: 1,name: 'Tom', phoneNum: '9876543210', email: 'tom@example.com' , accountType: 'Retailer'},
-    { accountId: 2,name: 'john', phoneNum: '9876543211', email: 'john@example.com' , accountType: 'Manufacturer'},
+    //{ id: 1,name: 'Tom', phoneNumber: '9876543210', email: 'tom@example.com' , accountType: 'Retailer'},
+    //{ id: 2,name: 'john', phoneNumber: '9876543211', email: 'john@example.com' , accountType: 'Manufacturer'},
   ]);
 
   const [userData, setUserData]= useState([
-    { userId: 1,firstName: 'Tom', lastName: 'Kate', email: 'tom@example.com' , account: 'tom', userRole: 'Retail User'},
-    { userId: 2,firstName: 'john', lastName: 'Mathew', email: 'john@example.com' , account: 'john', userRole: 'Admin'},
+    //{ userId: 1,firstName: 'Tom', lastName: 'Kate', email: 'tom@example.com' , account: 'tom', userRole: 'Retail User'},
+    //{ userId: 2,firstName: 'john', lastName: 'Mathew', email: 'john@example.com' , account: 'john', userRole: 'Admin'},
   ]);
 
-  const updateAccountData = (data) => {
-    setAccountData([...accountData, data]);
+  const [roleData, setRoleData] = useState([]);
+
+  const fetchRoleData = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/api/roles');
+      if (response.ok) {
+        const data = await response.json();
+        setRoleData(data); // Update state with the fetched data
+      } 
+      else {
+        console.error('Failed to fetch data:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
-  const updateUserData =(data) => {
-    setUserData([...userData, data]);
+  //const updateAccountData = (data) => {
+  //  setAccountData([...accountData, data]);
+  //};
+
+  //const updateUserData =(data) => {
+//setUserData([...userData, data]);
+  //};
+
+  const fetchAccountData = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/api/accounts');
+      if (response.ok) {
+        const data = await response.json();
+        setAccountData(data); // Update state with the fetched data
+      } else {
+        console.error('Failed to fetch data:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
+
+  const fetchUserData = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/api/users');
+      console.log("response is",response)
+      if (response.ok) {
+        const data = await response.json();
+        console.log("data is", data)
+        setUserData(data); // Update state with the fetched data
+      } 
+      else if(response.status === 400){
+        throw new Error("no data to fetch ")
+      }
+      else {
+        console.error('Failed to fetch data:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      console.log("error msg", error.message);
+    }
+  };
+  
+
+  useEffect(() =>{
+    fetchAccountData();
+    fetchUserData();
+    fetchRoleData();
+  },[]);
+  
 
     function addAccountHandler() {
         setIsModalOpen(true);
@@ -60,8 +120,7 @@ export default function Settings(){
             </Button>
 
             {selectedCategory === 'account' ? <AccountTable data={accountData}/>: <UserTable data={userData}/>}
-          {/* Content for Account settings */}
-          {/* You can add your account settings components here */}
+          
           <Modal
             title={selectedCategory === 'account' ? "ADD ACCOUNT" : "ADD USER"}
             open={isModalOpen}
@@ -70,8 +129,10 @@ export default function Settings(){
             cancelButtonProps={{style: {display: 'none'}}}
           >
             {selectedCategory === 'account' ? 
-              <Account updateAccountData={updateAccountData} index={accountData.length}/> : 
-              <User updateUserData={updateUserData} accountData={accountData} index={userData.length}/>
+              <Account/> :
+              //<Account updateAccountData={updateAccountData} index={accountData.length}/> : 
+              <User accountData={accountData} key={accountData} roleData={roleData}/>
+              //<User updateUserData={updateUserData} accountData={accountData} index={userData.length}/>
             }
           </Modal>
         

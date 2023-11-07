@@ -3,7 +3,7 @@ import classes from "./Account.module.css";
 
 import { useState } from "react";
 
-export default function Account({updateAccountData, index}) {
+export default function Account({updateAccountData}) {
   /*const [formData, setFormData] = useState({
     name: '',
     address1: '',
@@ -15,7 +15,8 @@ export default function Account({updateAccountData, index}) {
     role: 'manufacturer', // Default value for role
   });*/
   
-  //const [accountData, setAccountData]= useState([]);
+  const [accountData, setAccountData]= useState([]);
+  console.log(accountData);
 
 
   const {
@@ -39,13 +40,13 @@ export default function Account({updateAccountData, index}) {
   } = useInput((inputValue) => inputValue.includes("@"));
 
   const {
-    inputVal: phoneNum,
-    isValid: phoneNumIsValid,
-    hasErr: phoneNumHasErr,
-    touchFn: phoneNumTouchFn,
-    resetFn: phoneNumResetFn,
-    handleBlur: handlePhoneNumBlur,
-    handleChange: handlePhoneNumChange,
+    inputVal: phoneNumber,
+    isValid: phoneNumberIsValid,
+    hasErr: phoneNumberHasErr,
+    touchFn: phoneNumberTouchFn,
+    resetFn: phoneNumberResetFn,
+    handleBlur: handlePhoneNumberBlur,
+    handleChange: handlePhoneNumberChange,
   } = useInput((inputValue) => inputValue.trim().length === 10);
 
   const {
@@ -101,7 +102,7 @@ export default function Account({updateAccountData, index}) {
 
   let isFormValid = false;
 
-  if (nameIsValid && emailIsValid && phoneNumIsValid && address1IsValid && address2IsValid && cityIsValid && stateIsValid && accountTypeIsValid) {
+  if (nameIsValid && emailIsValid && phoneNumberIsValid && address1IsValid && address2IsValid && cityIsValid && stateIsValid && accountTypeIsValid) {
     isFormValid = true;
   }
 
@@ -119,7 +120,7 @@ export default function Account({updateAccountData, index}) {
     
     nameTouchFn();
     emailTouchFn();
-    phoneNumTouchFn();
+    phoneNumberTouchFn();
     address1TouchFn();
     address2TouchFn();
     cityTouchFn();
@@ -135,11 +136,9 @@ export default function Account({updateAccountData, index}) {
 
     console.log(formData);
     //console.log("hi");
-
     //const index= index+1;
     //console.log(index);
-
-    const tableData={
+    /*const tableData={
       accountId: index+1,
       name:name,
       phoneNum: phoneNum,
@@ -147,16 +146,29 @@ export default function Account({updateAccountData, index}) {
       accountType: accountType
     };
     console.log(tableData);
+    */
 
-    //setAccountData([...accountData, tableData]);
 
-    updateAccountData(tableData);
-    //console.log(accountData);
+      fetch('http://localhost:8080/api/accounts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      }).then(response => response.json())
+      .then(result => console.log('Data sent sucessfully!'))
+      .catch(error => console.log('error occurred!'));
+
+  
+
+    //setAccountData([...accountData, formData]);
+
+    //updateAccountData(formData);
   
 
     nameResetFn();
     emailResetFn();
-    phoneNumResetFn();
+    phoneNumberResetFn();
     address1ResetFn();
     address2ResetFn();
     cityResetFn();
@@ -204,18 +216,19 @@ export default function Account({updateAccountData, index}) {
           </div>
 
           <div className={classes.field}>
-          <label htmlFor="phoneNum">Phone Number</label>
+          <label htmlFor="phoneNumber">Phone Number</label>
             <div>
               <input
-                type="tel"
-                name="phoneNum" 
-                value={phoneNum}
-                id="phoneNum"
+                type="number"
+                maxLength={10}
+                name="phoneNumber"
+                value={phoneNumber}
+                id="phoneNumber"
                 placeholder="Enter phone number"
-                onBlur={handlePhoneNumBlur}
-                onChange={handlePhoneNumChange}
+                onBlur={handlePhoneNumberBlur}
+                onChange={handlePhoneNumberChange}
               />
-              {phoneNumHasErr && <p className={classes.err}>Enter valid phone number</p>}
+              {phoneNumberHasErr && <p className={classes.err}>Enter valid phone number</p>}
             </div>
           </div>
 
