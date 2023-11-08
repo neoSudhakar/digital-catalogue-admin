@@ -97,7 +97,7 @@
     /* height: 20rem; */
     z-index: 0;
     align-self: center;
-    object-fit: fill;
+    object-fit: cover;
 }
 
 .left-images-container{

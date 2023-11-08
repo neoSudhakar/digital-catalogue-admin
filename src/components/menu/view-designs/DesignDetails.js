@@ -111,8 +111,8 @@ export default function DesignDetails({cardItem, onGoBack, onAnyUpdateAction}){
       <div className={classes["above-table"]}>
         <div className={classes.carousel}>
         <div className={classes["default-image"]}>
-          {/* <img src={defaultImageItem ? defaultImageItem.preSignedURL : ""} /> */}
-          <ReactImageMagnify {...{
+          <img src={defaultImageItem ? defaultImageItem.preSignedURL : ""} />
+          {/* <ReactImageMagnify {...{
                       smallImage: {
                           alt: 'Wristwatch by Ted Baker London',
                           isFluidWidth: true,
@@ -130,7 +130,7 @@ export default function DesignDetails({cardItem, onGoBack, onAnyUpdateAction}){
                           width:"100%",
                           height:"100%"
                       }
-            }} />
+            }} /> */}
           </div>
           <ul className={classes["left-images-container"]}>
             {imageItems.map((item)=>{

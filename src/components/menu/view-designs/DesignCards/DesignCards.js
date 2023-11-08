@@ -653,12 +653,19 @@ export default function DesignCards({ handleShowDetails, catalogue, updatedCardI
       // console.log("response status: " + response.status)
       if(response.ok){
         const resData = await response.json();
-        setDesignList(resData);
-        if(updatedCardId){
-          const updatedCard = resData.find(card => card.id === updatedCardId);
-          // console.log('updated card is:',updatedCard);
-          handleShowDetails(updatedCard);
-          setUpdatedCardId();
+        console.log("res is list of designs: ", resData);
+        if(resData.errorCode){
+          console.log("has error code");
+        }
+        else{
+          console.log("NO error code");
+          setDesignList(resData);
+          if(updatedCardId){
+            const updatedCard = resData.find(card => card.id === updatedCardId);
+            // console.log('updated card is:',updatedCard);
+            handleShowDetails(updatedCard);
+            setUpdatedCardId();
+          }
         }
         setLoad[false];
       }

@@ -88,7 +88,7 @@ export default function AssignRetailer({cardItem, onAnyUpdateAction, assignRetai
     <>
         {isModalOpen && <ModalComponent
             isOpen={isModalOpen}
-            title={"ASSIGN RETAILER"}
+            title={"ASSIGN"}
             // onSave={handleUpdateFields}
             style={{ maxWidth: "90%", minWidth: "35%", }}
             // onCancel={handleCancelUpdate}

@@ -123,7 +123,7 @@ export default function AssignRetailerForm({cardItem, assignRetailersListData , 
           Cancel
         </Button>
         <Button key="submit" style={saveStyleObj} type="submit">
-          Update
+          {edit ? "Update" : "Assign" }
         </Button>
       </div>
     </div>
