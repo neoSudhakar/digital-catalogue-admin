@@ -225,7 +225,7 @@
     flex-wrap: wrap;
     list-style: none;
     margin: 0;
-    padding: 0;
+    padding: 0.5rem 0 1rem;
     /* padding: 0 1rem; */
     width: 100%;
     margin: 0 auto;
@@ -249,7 +249,7 @@
 .card img{
     height: 15rem;
     width:100%;
-    object-fit: cover;
+    object-fit: contain;
     border-top-right-radius: 0.35rem;
     border-top-left-radius: 0.35rem;
 }

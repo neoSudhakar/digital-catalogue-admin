@@ -36,7 +36,7 @@ export default function CatalogueDesignDetails({cardItem, onGoBack}){
     function handleSelectImage(imageItem){
         // setSelectedImageItem(imageItem.image);
         const updatedImageItems=imageItems.map((item)=>{
-          if(item.imageUrl===imageItem.imageUrl){
+          if(item.preSignedURL===imageItem.preSignedURL){
             return {...item, isDefault: true};
           }
           else{
@@ -63,18 +63,18 @@ export default function CatalogueDesignDetails({cardItem, onGoBack}){
       <div className={classes["above-table"]}>
         <div className={classes.carousel}>
         <div className={classes["default-image"]}>
-          {/* <img src={defaultImageItem.imageUrl} /> */}
+          {/* <img src={defaultImageItem? defaultImageItem.preSignedURL : ""} /> */}
           <ReactImageMagnify {...{
                       smallImage: {
                           alt: 'Wristwatch by Ted Baker London',
                           isFluidWidth: true,
-                          src: defaultImageItem.imageUrl,
+                          src: defaultImageItem? defaultImageItem.preSignedURL : "",
                         //   width:"100%",
                           zIndex:0,
                         //   height: 1000,
                       },
                       largeImage: {
-                          src: defaultImageItem.imageUrl,
+                          src: defaultImageItem? defaultImageItem.preSignedURL : "",
                           width: 1200,
                           height: 500
                       },
@@ -86,8 +86,8 @@ export default function CatalogueDesignDetails({cardItem, onGoBack}){
           </div>
           <ul className={classes["left-images-container"]} style={!isDashboardOpen ? {maxWidth:"80%"} : {}} >
             {imageItems.map((item)=>{
-              return <li className={`${classes["left-image"]} ${item.isDefault ? classes.active : "" }`} onMouseOver={()=>handleSelectImage(item)} key={item.imageUrl}>
-                  <img src={item.imageUrl}/>
+              return <li className={`${classes["left-image"]} ${item.isDefault ? classes.active : "" }`} onMouseOver={()=>handleSelectImage(item)} key={item.id}>
+                  <img src={item?.preSignedURL}/>
               </li>
             })}
           </ul>

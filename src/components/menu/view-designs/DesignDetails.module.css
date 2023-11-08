@@ -90,7 +90,7 @@
     z-index: 0;
     flex: 2;
     align-self: stretch;
-    object-fit: cover;
+    object-fit: contain;
 }
 
 .left-images-container{

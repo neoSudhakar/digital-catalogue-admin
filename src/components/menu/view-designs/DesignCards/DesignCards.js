@@ -586,7 +586,7 @@ const today = new Date().toISOString().slice(0, 10);
 //   },
 // ];
 
-const retailerId = "r2";
+const accountId = 2;
 
 export default function DesignCards({ handleShowDetails, catalogue, updatedCardId, setUpdatedCardId }) {
   const dispatch = useDispatch();
@@ -601,13 +601,35 @@ export default function DesignCards({ handleShowDetails, catalogue, updatedCardI
 
   const selectedFilters = useSelector((state) => state.ui.selectedFilters);
 
+  useEffect(() =>{
+    async function fetchDesigns(){
+      const response = await fetch(`http://localhost:8080/api/design-account/${accountId}/designs`);
+      console.log("response is: ", response);
+      if(response.ok){
+        const resData = await response.json();
+        setDesignList(resData);
+        console.log("res data of assigned designs: ", resData);
+      }
+      else{
+        console.log("response status: " + response.status);
+        // const resData = await response.json();
+        // console.log("res data of assigned designs: " + resData);
+      }
+    }
+    if(catalogue){
+      fetchDesigns();
+    }
+  },[accountId]);
+
   const [designList, setDesignList] = useState([]);
 
   const [load, setLoad] = useState(false);
 
   useEffect(() => {
-    getVeiwDesign();
-    setLoad[true];
+    if(!catalogue){
+      getVeiwDesign();
+      setLoad[true];
+    }
   },[]);
 
   // const getVeiwDesign = async () => {
@@ -836,25 +858,8 @@ export default function DesignCards({ handleShowDetails, catalogue, updatedCardI
   let filteredList = [];
   // designList
   if(designList.length > 0){
-    // console.log(designList);
-    // let DUMMY_FILTERED_LIST = DUMMY_LIST;
-    let DUMMY_FILTERED_LIST = designList;
 
-    if(catalogue){
-      // console.log("Catalogue");
-      // console.log(assignedDesigns);
-      DUMMY_FILTERED_LIST = designList.filter((item)=>{
-
-        const matchingDesign = assignedDesigns.find(
-          (design) => design.designId === item.id && design.retailersDataList.find((eachRetailerData)=>eachRetailerData.retailerId === retailerId)
-        );
-  
-        return matchingDesign !== undefined;
-      })
-      // console.log("DUMMy filt: ", DUMMY_FILTERED_LIST);
-    }
-
-    filteredList = DUMMY_FILTERED_LIST.filter((item) => {
+    filteredList = designList.filter((item) => {
       const isMainGroupMatch =
         Object.values(mainGrpFilters).every((value) => value === false) ||
         mainGrpFilters[item.mainGroup];
@@ -1862,7 +1867,8 @@ export default function DesignCards({ handleShowDetails, catalogue, updatedCardI
                       key={item.id}
                       className={classes.card}
                     >
-                      <img src={item.designImages[0]?.preSignedURL} alt={item.title} />
+                      {item.designImages.length > 0 && <img src={item.designImages[0].preSignedURL} alt={item.title} />}
+                      {item.designImages.length === 0 && <img alt={item.title} />}
                       <p className={classes.title}>Design {item.id}</p>
                       <p>Gross Weight: {item.grossWeight} Grms</p>
                     </motion.li>
