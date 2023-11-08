@@ -8,12 +8,13 @@ import classes from "./User.module.css";
 
 const UserTable = ({data}) => {
 
-    const [rowData, setRowData] = useState([]);
+    const [rowData, setRowData] = useState(data);
 
-    useEffect(()=>{
-        setRowData(data);
-    },[]);
+    //useEffect(()=>{
+    //    setRowData(data);
+    //},[]);
 
+    console.log("rowdata is:",rowData);
     const columnDefs=[
         { headerName: 'Id', field: 'id',width: 100, minWidth: 100, maxWidth: 100 },
         { headerName: 'First Name', field: 'firstName' },
@@ -23,8 +24,10 @@ const UserTable = ({data}) => {
             headerName: 'Role',
             field: 'userRole',
             valueGetter: (params) => {
-              const roles = params.data.roleSet.map((role) => role.role);
-              return roles.join(', '); 
+                if(params.data.roleSet){
+                    const roles = params.data.roleSet.map((role) => role.role);
+                    return roles.join(', '); 
+                }
             }
         },
         {

@@ -2,7 +2,7 @@ import useInput from "../../../hooks/use-input";
 import classes from "./User.module.css";
 import { useState } from "react";
 
-export default function User({accountData,roleData}) {
+export default function User({refetchUserData,accountData,roleData}) {
 
   //console.log(roleData);
 
@@ -133,7 +133,9 @@ export default function User({accountData,roleData}) {
       },
       body: JSON.stringify(formData),
     })
-    .then(result => console.log('Data sent successfully!'))
+    .then(result => {
+      refetchUserData();
+      console.log('Data sent successfully!')})
     .catch(error => console.log('error occurred!'));
 
 
@@ -272,7 +274,7 @@ export default function User({accountData,roleData}) {
               <option value="" disabled hidden>
                 Select an option
               </option>
-              {accountData.map((item, index) =>(
+              {accountData && accountData.map((item, index) =>(
               <option key={item.id} value={item.id}>
                 {item.name}
               </option>
@@ -317,7 +319,7 @@ export default function User({accountData,roleData}) {
               <option value="" disabled hidden>
                 Select an option
               </option>
-              {roleData.map((item, index) =>(
+              {roleData && roleData.map((item, index) =>(
               <option key={item.id} value={item.id}>
                 {item.role}
               </option>

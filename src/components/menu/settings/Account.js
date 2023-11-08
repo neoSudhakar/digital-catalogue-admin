@@ -3,7 +3,7 @@ import classes from "./Account.module.css";
 
 import { useState } from "react";
 
-export default function Account({updateAccountData}) {
+export default function Account({refetchAccountData}) {
   /*const [formData, setFormData] = useState({
     name: '',
     address1: '',
@@ -156,7 +156,9 @@ export default function Account({updateAccountData}) {
         },
         body: JSON.stringify(formData),
       })
-      .then(result => console.log('Data sent sucessfully!'))
+      .then(result => {
+        refetchAccountData();
+        console.log('Data sent sucessfully!')})
       .catch(error => console.log('error occurred!'));
 
   
@@ -219,8 +221,7 @@ export default function Account({updateAccountData}) {
           <label htmlFor="phoneNumber">Phone Number</label>
             <div>
               <input
-                type="number"
-                maxLength={10}
+                type="tel"
                 name="phoneNumber"
                 value={phoneNumber}
                 id="phoneNumber"
