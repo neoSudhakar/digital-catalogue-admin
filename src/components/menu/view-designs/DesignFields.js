@@ -7,36 +7,37 @@ import { useDispatch, useSelector } from "react-redux";
 import AssignRetailer from "./AssignRetailer";
 import { assignRetailerSliceActions } from "../../../store/assignRetailer-slice";
 
-export default function DesignFields({ cardItem, onAnyUpdateAction }) {
+export default function DesignFields({ cardItem, onAnyUpdateAction, assignRetailersListData }) {
   const dispatch = useDispatch();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [assignRetailersListData, setAssignRetailersListData] = useState();
+  // const [assignRetailersListData, setAssignRetailersListData] = useState([]);
 
-  const assignedDesigns = useSelector((state)=>state.assignRetailer.assignedDesigns);
+  // const assignedDesigns = useSelector((state)=>state.assignRetailer.assignedDesigns);
   // console.log("assignedDesigns are:", assignedDesigns);
 
+  // const [assignedRetailers, setAssignedRetailers] = useState([]);
   
   const RETAILERS = useSelector((state)=>state.assignRetailer.retailers);
   // console.log("RETAILers : ", RETAILERS);
   
-  useEffect(()=>{
+  // useEffect(()=>{
 
-    const assignedDesignIndex = assignedDesigns.findIndex((assignedDesign)=>{
-      return assignedDesign.designId === cardItem.id;
-    })
+  //   const assignedDesignIndex = assignedDesigns.findIndex((assignedDesign)=>{
+  //     return assignedDesign.designId === cardItem.id;
+  //   })
 
-    if(assignedDesignIndex > -1){
-      const assignedDesign = assignedDesigns[assignedDesignIndex];
-      // console.log("assignedDesign is: ", assignedDesign);
-      const {retailersDataList} = assignedDesign;
+  //   if(assignedDesignIndex > -1){
+  //     const assignedDesign = assignedDesigns[assignedDesignIndex];
+  //     // console.log("assignedDesign is: ", assignedDesign);
+  //     const {retailersDataList} = assignedDesign;
 
-      // console.log("retalers data list is: ", retailersDataList);
+  //     // console.log("retalers data list is: ", retailersDataList);
 
-      setAssignRetailersListData(retailersDataList);
-    }
-  }, [assignedDesigns, cardItem]);
+  //     setAssignRetailersListData(retailersDataList);
+  //   }
+  // }, [assignedDesigns, cardItem]);
 
   function handleStartUpdateFields() {
     setIsModalOpen(true);
@@ -59,6 +60,8 @@ export default function DesignFields({ cardItem, onAnyUpdateAction }) {
 
     if(response.ok){
       onAnyUpdateAction(cardItem.id);
+      const resData = await response.json();
+      console.log("res data is:",resData);
     }
   }
 
@@ -86,17 +89,28 @@ export default function DesignFields({ cardItem, onAnyUpdateAction }) {
     setIsEditAssignModalOpen(false);
   }
 
-  function handleRemoveAssign(retailerData){
-    dispatch(assignRetailerSliceActions.removeAssignDesign({designId: cardItem.id, retailerId: retailerData.retailerId}));
+  async function handleRemoveAssign(retailerData){
+    const response = await fetch(`http://localhost:8080/api/design-account/${retailerData.id}`, {
+      method: "DELETE",
+    })
+
+    if(response.ok){
+      onAnyUpdateAction(cardItem.id);
+      const resMsg = await response.json();
+      console.log("res msg: " + resMsg)
+
+      dispatch(assignRetailerSliceActions.removeAssignDesign({designId: cardItem.id, retailerId: retailerData.retailerId}));
+    }
   }
 
   return (
     <>
       <section className={classes.content}>
-        {assignRetailersListData && (
+        {assignRetailersListData.length > 0 && (
+          <>
           <ul className={classes["assigned-retailers"]}>
             {assignRetailersListData.map((retailerData)=>{
-                return <li key={retailerData.retailerId} className={classes["assigned-retailer"]}>
+                return <li key={retailerData.id} className={classes["assigned-retailer"]}>
                   <p><span>Assigned Retailer : </span>{getRetailerName(retailerData.retailerId)}</p>
                   <p><span>Active Days : </span>{retailerData.activeTillDate}</p>
                   <div className={classes["assign-actions"]}>
@@ -118,9 +132,10 @@ export default function DesignFields({ cardItem, onAnyUpdateAction }) {
               })
             }
           </ul>
+        </>
         )}
-        <AssignRetailer cardItem={cardItem} isModalOpen={isEditAssignModalOpen} onCloseModal={handleCancelEditAssign} edit prevRetailerData={prevRetailerData} />
-
+        {isEditAssignModalOpen && <AssignRetailer onAnyUpdateAction={onAnyUpdateAction} cardItem={cardItem} assignRetailersListData={assignRetailersListData} isModalOpen={isEditAssignModalOpen} onCloseModal={handleCancelEditAssign} edit prevRetailerData={prevRetailerData} />
+}
         <button
           className={classes["update-fields"]}
           onClick={handleStartUpdateFields}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import classes from "./ViewDesign.module.css";
 import { useRouteLoaderData } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";

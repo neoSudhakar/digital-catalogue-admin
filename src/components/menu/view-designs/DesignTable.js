@@ -53,6 +53,8 @@ const DesignTable = ({ rowDataArr, cardItem, onAnyUpdateAction }) => {
 
     if(response.ok){
       onAnyUpdateAction(cardItem.id);
+      const resData = await response.json();
+      console.log("res data is: ", resData);
     }
   }
 
@@ -73,6 +75,8 @@ const DesignTable = ({ rowDataArr, cardItem, onAnyUpdateAction }) => {
 
       if(response.ok){
         onAnyUpdateAction(cardItem.id);
+        const resMsg = await response.json();
+        console.log("res msg is: ", resMsg);
       }
     }
   }

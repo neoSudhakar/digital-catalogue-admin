@@ -4,10 +4,10 @@ import ModalComponent from './ModalComponent'
 import { useDispatch } from 'react-redux'
 import { assignRetailerSliceActions } from '../../../store/assignRetailer-slice';
 
-export default function AssignRetailer({cardItem, isModalOpen, onCloseModal, edit, prevRetailerData}) {
+export default function AssignRetailer({cardItem, onAnyUpdateAction, assignRetailersListData, isModalOpen, onCloseModal, edit, prevRetailerData}) {
   const dispatch = useDispatch();
   
-  function handleAssignRetailerAction(formData){
+  async function handleAssignRetailerAction(formData){
     // console.log("formData is :", formData);
     const {retailer, days} = formData;
 
@@ -32,7 +32,7 @@ export default function AssignRetailer({cardItem, isModalOpen, onCloseModal, edi
     // console.log("Retailer Assigned Data:",updatedData);
 
     if(edit){
-      fetch(`http://localhost:8080/api/design-account/accounts/${prevRetailerData.retailerId}/designs/${cardItem.id}`, {
+      const response = await fetch(`http://localhost:8080/api/design-account/accounts/${prevRetailerData.retailerId}/designs/${cardItem.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",  
@@ -40,16 +40,41 @@ export default function AssignRetailer({cardItem, isModalOpen, onCloseModal, edi
         body: JSON.stringify(formattedDataPUT),
       });
 
+      if(response.ok){
+        onAnyUpdateAction(cardItem.id);
+        const resData = await response.json();
+        console.log("res data is:",resData);
+      }
+
       dispatch(assignRetailerSliceActions.editAssignDesign({design: updatedData, prevRetailerId: prevRetailerData.retailerId}));
     }else{
-      fetch(`http://localhost:8080/api/design-account`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",  
-        },
-        body: JSON.stringify(formattedDataPOST),
-      });
+      try{
+        const response = await fetch(`http://localhost:8080/api/design-account`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",  
+          },
+          body: JSON.stringify(formattedDataPOST),
+        });
+
+        console.log("response is: ", response);
+
+        if(response.ok){
+          onAnyUpdateAction(cardItem.id);
+          const resData = await response.json();
+          // console.log("res data is:",resData);
+        }
+        else{
+          // console.log("response status: ", response.status);
+          const resData = await response.json();
+          console.log("response data is:",resData);
+        }
+      }
+      catch(err){
+        console.log("error is:",err);
+      }
       
+
       dispatch(assignRetailerSliceActions.assignDesign(updatedData));
     }
     
@@ -68,7 +93,7 @@ export default function AssignRetailer({cardItem, isModalOpen, onCloseModal, edi
             style={{ maxWidth: "90%", minWidth: "35%", }}
             // onCancel={handleCancelUpdate}
         >
-            <AssignRetailerForm onAction={handleAssignRetailerAction} cardItem={cardItem} onCloseModal={handleCancelAssign} prevRetailerData={prevRetailerData} edit={edit} />
+            <AssignRetailerForm onAction={handleAssignRetailerAction} assignRetailersListData={assignRetailersListData} cardItem={cardItem} onCloseModal={handleCancelAssign} prevRetailerData={prevRetailerData} edit={edit} />
         </ModalComponent>}
     </>
   )

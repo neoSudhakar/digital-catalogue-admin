@@ -40,8 +40,8 @@ const ImagesTable = ({ imagesArr, cardItem, onAnyUpdateAction }) => {
           {imagesArr.map((image, index) => (
             <tr key={image.id}>
               <td>
-                {image.isActive && <img src={image.imageUrl} alt={`Image ${index + 1}`} />}
-                {!image.isActive && <img alt={`Image ${index + 1}`} />}
+                {image && <img src={image.preSignedURL} alt={`Image ${index + 1}`} />}
+                {!image && <img alt={`Image ${index + 1}`} />}
               </td>
               <td>
                 <input

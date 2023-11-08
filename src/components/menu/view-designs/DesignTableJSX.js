@@ -47,6 +47,8 @@ export default function DesignTanbleJSX({ cardItem, onAnyUpdateAction}) {
 
     if(response.ok){
       onAnyUpdateAction(cardItem.id);
+      const resData = await response.json();
+      console.log("res data is: ", resData);
     }
 
   }

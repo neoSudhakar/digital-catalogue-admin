@@ -6,29 +6,41 @@ import { useSelector } from "react-redux";
 
 
 
-export default function AssignRetailerForm({cardItem, onAction, onCloseModal, prevRetailerData, edit}){
+export default function AssignRetailerForm({cardItem, assignRetailersListData , onAction, onCloseModal, prevRetailerData, edit}){
   const [retailerIdsList, setRetailerIdsList] = useState([]);
+
+  console.log("assign retailersListData is: ", assignRetailersListData);
 
   const RETAILERS = useSelector((state)=>state.assignRetailer.retailers);
 
-  const assignedDesigns = useSelector((state)=>state.assignRetailer.assignedDesigns);
-
   useEffect(()=>{
-    const assignedDesignIndex = assignedDesigns.findIndex((assignedDesign)=>{
-      return assignedDesign.designId === cardItem.id;
-    })
-  
-    if(assignedDesignIndex > -1){
-      const retailersDataList = assignedDesigns[assignedDesignIndex].retailersDataList;
-      const retailerIds = retailersDataList.map((retailerData)=>{
+    if(assignRetailersListData.length > 0){
+      const formattedList = assignRetailersListData.map((retailerData)=>{
         return retailerData.retailerId;
       })
+      console.log("formatted list of ids: ", formattedList);
+      setRetailerIdsList(formattedList)
+  }
+  },[assignRetailersListData]);
 
-      // console.log("retailer ids:", retailerIds);
+  // const assignedDesigns = useSelector((state)=>state.assignRetailer.assignedDesigns);
+
+  // useEffect(()=>{
+  //   const assignedDesignIndex = assignedDesigns.findIndex((assignedDesign)=>{
+  //     return assignedDesign.designId === cardItem.id;
+  //   })
   
-      setRetailerIdsList(retailerIds);
-    }
-  }, [assignedDesigns]);
+  //   if(assignedDesignIndex > -1){
+  //     const retailersDataList = assignedDesigns[assignedDesignIndex].retailersDataList;
+  //     const retailerIds = retailersDataList.map((retailerData)=>{
+  //       return retailerData.retailerId;
+  //     })
+
+  //     // console.log("retailer ids:", retailerIds);
+  
+  //     setRetailerIdsList(retailerIds);
+  //   }
+  // }, [assignedDesigns]);
 
     // const [selectedOptions, setSelectedOptions] = useState([]);
 

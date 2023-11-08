@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import classes from "./DesignDetails.module.css";
 import ReactImageMagnify from "react-image-magnify";
 import DesignFields from "./DesignFields";
@@ -11,6 +11,32 @@ import AssignRetailer from "./AssignRetailer";
 export default function DesignDetails({cardItem, onGoBack, onAnyUpdateAction}){
 
   const isDashboardOpen = useSelector((state)=>state.ui.isDashboardOpen);
+
+  const [assignRetailersListData, setAssignRetailersListData] = useState([]);
+
+  useEffect(()=>{
+    async function getAssignedRetailers(){
+      const response = await fetch(`http://localhost:8080/api/design-account/${cardItem.id}/accounts`);
+      if(response.ok){
+        const resData = await response.json();
+        console.log("res data is list of assigned retailers:", resData);
+
+        const formattedList = resData.map((eachObj)=>{
+          return {
+            id: eachObj.id,
+            activeTillDate: eachObj.activeTillDate,
+            retailerId: eachObj.account.id,
+          }
+        });
+
+        console.log("formattedList is:", formattedList);
+
+        setAssignRetailersListData(formattedList);
+      }
+    }
+
+    getAssignedRetailers();
+  }, [cardItem]);
 
     const updatedDesignImagesArr= useMemo(()=>{
       return cardItem.designImages.map((eachItem, index)=>{
@@ -36,7 +62,7 @@ export default function DesignDetails({cardItem, onGoBack, onAnyUpdateAction}){
     function handleSelectImage(imageItem){
         // setSelectedImageItem(imageItem.image);
         const updatedImageItems=imageItems.map((item)=>{
-          if(item.imageUrl===imageItem.imageUrl){
+          if(item.preSignedURL===imageItem.preSignedURL){
             return {...item, isDefault: true};
           }
           else{
@@ -78,7 +104,9 @@ export default function DesignDetails({cardItem, onGoBack, onAnyUpdateAction}){
       <h1>Design {cardItem.id} Details</h1>
       <button className={classes["assign-btn"]} onClick={handleStartAssign}>Assign Retailer</button>
     </div>
-    <AssignRetailer cardItem={cardItem} isModalOpen={isStartAssign} onCloseModal={handleCloseAssign}  />
+
+    {isStartAssign && <AssignRetailer assignRetailersListData={assignRetailersListData} onAnyUpdateAction={onAnyUpdateAction} cardItem={cardItem} isModalOpen={isStartAssign} onCloseModal={handleCloseAssign}  />}
+    
     <div className={`${classes["card-details"]}  ${isDashboardOpen ? classes.full : ""}`}>
       <div className={classes["above-table"]}>
         <div className={classes.carousel}>
@@ -88,13 +116,13 @@ export default function DesignDetails({cardItem, onGoBack, onAnyUpdateAction}){
                       smallImage: {
                           alt: 'Wristwatch by Ted Baker London',
                           isFluidWidth: true,
-                          src: defaultImageItem ? defaultImageItem.imageUrl : null,
+                          src: defaultImageItem ? defaultImageItem.preSignedURL : null,
                           // width:"100%",
                           zIndex:0,
                           // height: "100%",
                       },
                       largeImage: {
-                          src: defaultImageItem ? defaultImageItem.imageUrl : null,
+                          src: defaultImageItem ? defaultImageItem.preSignedURL : null,
                           width: 1000,
                           height: 1000
                       },
@@ -107,7 +135,7 @@ export default function DesignDetails({cardItem, onGoBack, onAnyUpdateAction}){
           <ul className={classes["left-images-container"]}>
             {imageItems.map((item)=>{
               return <li className={`${classes["left-image"]} ${item.isDefault ? classes.active : "" }`} onMouseOver={()=>handleSelectImage(item)} key={item.id}>
-                {item && <img src={item.imageUrl}/>}
+                {item && <img src={item.preSignedURL}/>}
                 {!item && <img alt={"image"+item.id}/>}
               </li>
             })}
@@ -115,7 +143,7 @@ export default function DesignDetails({cardItem, onGoBack, onAnyUpdateAction}){
           
         </div>
 
-        <DesignFields cardItem={cardItem} onAnyUpdateAction={onAnyUpdateAction} />
+        <DesignFields assignRetailersListData={assignRetailersListData} cardItem={cardItem} onAnyUpdateAction={onAnyUpdateAction} />
 
       </div>
       <DesignTanbleJSX cardItem={cardItem} onAnyUpdateAction={onAnyUpdateAction}/>

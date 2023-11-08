@@ -623,24 +623,37 @@ export default function DesignCards({ handleShowDetails, catalogue, updatedCardI
   //   setDesignList("res data is:",res.data);
   //   setLoad[false];
   // }
-  const getVeiwDesign = () => {
+  const getVeiwDesign = async () => {
     
     try {
-    axios.get('http://localhost:8080/api/designs')
-      .then((res) =>  {
-        console.log('response is list Designs: ',res.data)
-        if(typeof res.data !== 'string'){
-          setDesignList(res.data);
-          if(updatedCardId){
-            const updatedCard = res.data.find(card => card.id === updatedCardId);
-            // console.log('updated card is:',updatedCard);
-            handleShowDetails(updatedCard);
-            setUpdatedCardId();
-          }
+      const response = await fetch('http://localhost:8080/api/designs');
+
+      // console.log("response status: " + response.status)
+      if(response.ok){
+        const resData = await response.json();
+        setDesignList(resData);
+        if(updatedCardId){
+          const updatedCard = resData.find(card => card.id === updatedCardId);
+          // console.log('updated card is:',updatedCard);
+          handleShowDetails(updatedCard);
+          setUpdatedCardId();
         }
         setLoad[false];
-      })
-        .catch((err) => console.log('error is : ', err))
+      }
+      // .then((res) =>  {
+      //   console.log('response is list Designs: ',res.data)
+      //   if(typeof res.data !== 'string'){
+      //     setDesignList(res.data);
+      //     if(updatedCardId){
+      //       const updatedCard = res.data.find(card => card.id === updatedCardId);
+      //       // console.log('updated card is:',updatedCard);
+      //       handleShowDetails(updatedCard);
+      //       setUpdatedCardId();
+      //     }
+      //   }
+      //   setLoad[false];
+      // })
+      //   .catch((err) => console.log('error is : ', err))
     }
     catch (err){
       console.log(err);
@@ -1849,7 +1862,7 @@ export default function DesignCards({ handleShowDetails, catalogue, updatedCardI
                       key={item.id}
                       className={classes.card}
                     >
-                      <img src={item.designImages[0]?.imageUrl} alt={item.title} />
+                      <img src={item.designImages[0]?.preSignedURL} alt={item.title} />
                       <p className={classes.title}>Design {item.id}</p>
                       <p>Gross Weight: {item.grossWeight} Grms</p>
                     </motion.li>
