@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import classes from "./ImagesTable.module.css";
 
-const ImagesTable = ({ imagesArr, cardItem }) => {
-  console.log("images array is",imagesArr);
+const ImagesTable = ({ imagesArr, cardItem, onAnyUpdateAction }) => {
+  // console.log("images array is", imagesArr);
   const [isChecked, setIsChecked] = useState(
     imagesArr.map((image) => image.isDefault)
   );
@@ -13,10 +13,17 @@ const ImagesTable = ({ imagesArr, cardItem }) => {
     setIsChecked(newCheckedState);
   };
 
-  function handleDeleteImage(id){
-    fetch(`http://localhost:8080/api/designs/${cardItem.id}/images/${id}`, {
-      method: "DELETE",
-    });
+  async function handleDeleteImage(id) {
+    const response = await fetch(
+      `http://localhost:8080/api/designs/${cardItem.id}/images/${id}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    if (response.ok) {
+      onAnyUpdateAction(cardItem.id);
+    }
   }
 
   return (
@@ -33,7 +40,8 @@ const ImagesTable = ({ imagesArr, cardItem }) => {
           {imagesArr.map((image, index) => (
             <tr key={image.id}>
               <td>
-                <img src={image.imageUrl} alt={`Image ${index + 1}`} />
+                {image.isActive && <img src={image.imageUrl} alt={`Image ${index + 1}`} />}
+                {!image.isActive && <img alt={`Image ${index + 1}`} />}
               </td>
               <td>
                 <input
@@ -45,7 +53,12 @@ const ImagesTable = ({ imagesArr, cardItem }) => {
                 <label htmlFor={index}>Default</label>
               </td>
               <td>
-                <button className={classes["delete-button"]} onClick={()=>handleDeleteImage(image.id)}>Delete</button>
+                <button
+                  className={classes["delete-button"]}
+                  onClick={() => handleDeleteImage(image.id)}
+                >
+                  Delete
+                </button>
               </td>
             </tr>
           ))}
@@ -56,4 +69,3 @@ const ImagesTable = ({ imagesArr, cardItem }) => {
 };
 
 export default ImagesTable;
-

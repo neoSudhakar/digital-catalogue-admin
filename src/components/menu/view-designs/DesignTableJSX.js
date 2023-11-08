@@ -5,9 +5,9 @@ import classes from "./DesignTableJSX.module.css";
 import ModalComponent from "./ModalComponent";
 import AddDesignTableForm from "./AddDesignTableForm";
 
-export default function DesignTanbleJSX({ cardItem}) {
+export default function DesignTanbleJSX({ cardItem, onAnyUpdateAction}) {
     const {detailsSet} = cardItem;
-    console.log(detailsSet);
+    // console.log(detailsSet);
 
     const rowDataArr= detailsSet.map((eachItem, index)=>{
       const {id, isActive, type, stoneGroup, pieces, stoneWeight, unitOfMeasurement} = eachItem;
@@ -33,9 +33,9 @@ export default function DesignTanbleJSX({ cardItem}) {
     setIsModalOpen(false);
   }
 
-  function handleADDAction(addedData){
-    console.log("AddedData", addedData);
-    fetch(`http://localhost:8080/api/designs/${cardItem.id}/details`,
+  async function handleADDAction(addedData){
+    // console.log("AddedData", addedData);
+    const response = await fetch(`http://localhost:8080/api/designs/${cardItem.id}/details`,
     {
       method: 'POST',
       headers: {
@@ -44,6 +44,11 @@ export default function DesignTanbleJSX({ cardItem}) {
       body: JSON.stringify(addedData),
       // body: addedData,
     });
+
+    if(response.ok){
+      onAnyUpdateAction(cardItem.id);
+    }
+
   }
 
 
@@ -53,7 +58,7 @@ export default function DesignTanbleJSX({ cardItem}) {
         <button className={classes.button} onClick={handleStartAddDesign}>Add Description</button>
       </div>
       <div className={classes.table}>
-        <DesignTable key={detailsSet} rowDataArr={rowDataArr} cardItem={cardItem} />
+        <DesignTable key={detailsSet} rowDataArr={rowDataArr} cardItem={cardItem} onAnyUpdateAction={onAnyUpdateAction} />
       </div>
 
       {isModelOpen && <ModalComponent

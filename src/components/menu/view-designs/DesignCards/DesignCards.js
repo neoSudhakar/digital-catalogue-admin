@@ -588,7 +588,7 @@ const today = new Date().toISOString().slice(0, 10);
 
 const retailerId = "r2";
 
-export default function DesignCards({ setCardItem, handleShowDetails, catalogue }) {
+export default function DesignCards({ handleShowDetails, catalogue, updatedCardId, setUpdatedCardId }) {
   const dispatch = useDispatch();
 
   const assignedDesigns = useSelector((state)=>state.assignRetailer.assignedDesigns); 
@@ -629,7 +629,15 @@ export default function DesignCards({ setCardItem, handleShowDetails, catalogue 
     axios.get('http://localhost:8080/api/designs')
       .then((res) =>  {
         console.log('response is list Designs: ',res.data)
-        setDesignList(res.data);
+        if(typeof res.data !== 'string'){
+          setDesignList(res.data);
+          if(updatedCardId){
+            const updatedCard = res.data.find(card => card.id === updatedCardId);
+            // console.log('updated card is:',updatedCard);
+            handleShowDetails(updatedCard);
+            setUpdatedCardId();
+          }
+        }
         setLoad[false];
       })
         .catch((err) => console.log('error is : ', err))
@@ -820,8 +828,8 @@ export default function DesignCards({ setCardItem, handleShowDetails, catalogue 
     let DUMMY_FILTERED_LIST = designList;
 
     if(catalogue){
-      console.log("Catalogue");
-      console.log(assignedDesigns);
+      // console.log("Catalogue");
+      // console.log(assignedDesigns);
       DUMMY_FILTERED_LIST = designList.filter((item)=>{
 
         const matchingDesign = assignedDesigns.find(
@@ -830,7 +838,7 @@ export default function DesignCards({ setCardItem, handleShowDetails, catalogue 
   
         return matchingDesign !== undefined;
       })
-      console.log("DUMMy filt: ", DUMMY_FILTERED_LIST);
+      // console.log("DUMMy filt: ", DUMMY_FILTERED_LIST);
     }
 
     filteredList = DUMMY_FILTERED_LIST.filter((item) => {

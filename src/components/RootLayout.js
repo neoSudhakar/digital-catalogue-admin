@@ -7,16 +7,16 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect } from "react";
 
 export default function RootLayout(){
-    // function handleContextMenu(event){
-    //     event.preventDefault();
-    // }
-    // onContextMenu={handleContextMenu}
+    function handleContextMenu(event){
+        event.preventDefault();
+    }
+    
 
     const token = useLoaderData();
 
     const isDashboardOpen= useSelector(state=>state.ui.isDashboardOpen);
  //key="sidebar" key="right"
-    return <motion.div  className={`${classes.root} ${!token ? classes.auth : ""}`}>
+    return <motion.div  className={`${classes.root} ${!token ? classes.auth : ""}`} onContextMenu={handleContextMenu}>
                 <Header/>
                 { token && (
                     <>

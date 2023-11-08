@@ -7,6 +7,7 @@ import { uiActions } from "../../../store/ui-slice";
 import DesignDetails from "./DesignDetails";
 import axios from "axios";
 import DesignCards from "./DesignCards/DesignCards";
+import GetAccounts from "../../../util/accounts";
 
 export default function ViewDesign() {
 
@@ -15,35 +16,43 @@ const token = useRouteLoaderData("root");
 
   // const [isShow, setIsShow] = useState(false);
 
-  const [cardItem, setCardItem] = useState(null);
+  const [cardItem, setCardItem] = useState();
+  const [updatedCardId, setUpdatedCardId] = useState();
 
   const isDesignDetailsOpen = useSelector((state)=>state.ui.isDesignDetailsOpen);
 
   function handleShowDetails(item) {
-    console.log(item);
+    // console.log(item);
     setCardItem(item);
     // setIsShow(true);
     dispatch(uiActions.openDesignDetails());
   }
   function handleGoBack() {
     // setIsShow(false);
+    setCardItem();
     dispatch(uiActions.closeDesignDetails());
+  }
+
+  function handleAnyUpdateAction(id){
+    setUpdatedCardId(id);
+    setCardItem();
   }
 
 
 
   let content = (
-    <DesignCards handleShowDetails={handleShowDetails} setCardItem={setCardItem}/>
+    <DesignCards handleShowDetails={handleShowDetails} updatedCardId={updatedCardId} setUpdatedCardId={setUpdatedCardId} />
   );
 
-  if (isDesignDetailsOpen) {
+  if (cardItem) {
     content = (
-      <DesignDetails onGoBack={handleGoBack} cardItem={cardItem}/>
+      <DesignDetails onGoBack={handleGoBack} cardItem={cardItem} onAnyUpdateAction={handleAnyUpdateAction} />
     );
   }
 
   return (
     <>
+      <GetAccounts/>
       <AnimatePresence mode="wait">{content}</AnimatePresence>
     </>
   );

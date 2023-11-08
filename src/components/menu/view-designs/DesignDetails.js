@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import ImagesTable from "./ImagesTable/ImagesTable";
 import AssignRetailer from "./AssignRetailer";
 
-export default function DesignDetails({cardItem, onGoBack}){
+export default function DesignDetails({cardItem, onGoBack, onAnyUpdateAction}){
 
   const isDashboardOpen = useSelector((state)=>state.ui.isDashboardOpen);
 
@@ -88,13 +88,13 @@ export default function DesignDetails({cardItem, onGoBack}){
                       smallImage: {
                           alt: 'Wristwatch by Ted Baker London',
                           isFluidWidth: true,
-                          src: defaultImageItem.imageUrl,
+                          src: defaultImageItem ? defaultImageItem.imageUrl : null,
                           // width:"100%",
                           zIndex:0,
                           // height: "100%",
                       },
                       largeImage: {
-                          src: defaultImageItem.imageUrl,
+                          src: defaultImageItem ? defaultImageItem.imageUrl : null,
                           width: 1000,
                           height: 1000
                       },
@@ -106,19 +106,20 @@ export default function DesignDetails({cardItem, onGoBack}){
           </div>
           <ul className={classes["left-images-container"]}>
             {imageItems.map((item)=>{
-              return <li className={`${classes["left-image"]} ${item.isDefault ? classes.active : "" }`} onMouseOver={()=>handleSelectImage(item)} key={item.imageUrl}>
-                  <img src={item.imageUrl}/>
+              return <li className={`${classes["left-image"]} ${item.isDefault ? classes.active : "" }`} onMouseOver={()=>handleSelectImage(item)} key={item.id}>
+                {item && <img src={item.imageUrl}/>}
+                {!item && <img alt={"image"+item.id}/>}
               </li>
             })}
           </ul>
           
         </div>
 
-        <DesignFields cardItem={cardItem}/>
+        <DesignFields cardItem={cardItem} onAnyUpdateAction={onAnyUpdateAction} />
 
       </div>
-      <DesignTanbleJSX cardItem={cardItem}/>
-      <ImagesTable imagesArr={imageItems} cardItem={cardItem} />
+      <DesignTanbleJSX cardItem={cardItem} onAnyUpdateAction={onAnyUpdateAction}/>
+      <ImagesTable imagesArr={imageItems} cardItem={cardItem} onAnyUpdateAction={onAnyUpdateAction} />
       
     </div>
   </motion.div>

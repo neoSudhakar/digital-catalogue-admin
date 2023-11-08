@@ -1,18 +1,18 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 
-const DUMMY_RETAILERS = [
-    {accountId:"r1", name: "Retailer 1"},
-    {accountId:"r2", name: "Retailer 2"},
-    {accountId:"r3", name: "Retailer 3"},
-    {accountId:"r4", name: "Retailer 4"},
-    {accountId:"r5", name: "Retailer 5"},
-    {accountId:"r6", name: "Retailer 6"},
-]
+// const DUMMY_RETAILERS = [
+//     {accountId:"r1", name: "Retailer 1"},
+//     {accountId:"r2", name: "Retailer 2"},
+//     {accountId:"r3", name: "Retailer 3"},
+//     {accountId:"r4", name: "Retailer 4"},
+//     {accountId:"r5", name: "Retailer 5"},
+//     {accountId:"r6", name: "Retailer 6"},
+// ]
 
 const initialState = {
     assignedDesigns : [],
-    retailers : DUMMY_RETAILERS,
+    retailers : [],
 };
 
 const assignRetailerSlice = createSlice({
@@ -80,6 +80,10 @@ const assignRetailerSlice = createSlice({
 
                 state.assignedDesigns[existingDesignIndex].retailersDataList.splice(retailerIdIndex, 1);
             }
+        },
+        setRetailerAccounts(state, action){
+            const accounts = action.payload;
+            state.retailers = accounts;
         }
     }
 })

@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import AssignRetailer from "./AssignRetailer";
 import { assignRetailerSliceActions } from "../../../store/assignRetailer-slice";
 
-export default function DesignFields({ cardItem }) {
+export default function DesignFields({ cardItem, onAnyUpdateAction }) {
   const dispatch = useDispatch();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -18,8 +18,8 @@ export default function DesignFields({ cardItem }) {
   // console.log("assignedDesigns are:", assignedDesigns);
 
   
-  const DUMMY_RETAILERS = useSelector((state)=>state.assignRetailer.retailers);
-  // console.log("DUMMY_RETAILers : ", DUMMY_RETAILERS);
+  const RETAILERS = useSelector((state)=>state.assignRetailer.retailers);
+  // console.log("RETAILers : ", RETAILERS);
   
   useEffect(()=>{
 
@@ -29,10 +29,10 @@ export default function DesignFields({ cardItem }) {
 
     if(assignedDesignIndex > -1){
       const assignedDesign = assignedDesigns[assignedDesignIndex];
-      console.log("assignedDesign is: ", assignedDesign);
+      // console.log("assignedDesign is: ", assignedDesign);
       const {retailersDataList} = assignedDesign;
 
-      console.log("retalers data list is: ", retailersDataList);
+      // console.log("retalers data list is: ", retailersDataList);
 
       setAssignRetailersListData(retailersDataList);
     }
@@ -46,21 +46,29 @@ export default function DesignFields({ cardItem }) {
     setIsModalOpen(false);
   }
 
-  function handleUpdateAction(updatedData){
-    console.log("updated Fields Data", updatedData);
-    console.log(cardItem.id);
-    fetch(`http://localhost:8080/api/designs/${cardItem.id}`, {
+  async function handleUpdateAction(updatedData){
+    // console.log("updated Fields Data", updatedData);
+    // console.log(cardItem.id);
+    const response = await fetch(`http://localhost:8080/api/designs/${cardItem.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",  
       },
       body: JSON.stringify(updatedData),
     });
+
+    if(response.ok){
+      onAnyUpdateAction(cardItem.id);
+    }
   }
 
   function getRetailerName(id){
-    const retailerObj = DUMMY_RETAILERS.find((eachObj)=>{
-      return eachObj.accountId === id;
+    // console.log("id is " + id);
+    // console.log("type of id is ", typeof id);
+
+    const retailerObj = RETAILERS.find((eachObj)=>{
+      // console.log(eachObj);
+      return eachObj.id === id;
     })
     // console.log("Retailer Object : ", retailerObj);
     return retailerObj.name;
@@ -134,7 +142,7 @@ export default function DesignFields({ cardItem }) {
           </div>
           <div>
             <span>Created Date: </span>
-            <p>{cardItem.createdDate}</p>
+            <p>{cardItem.createdDate.slice(0,10)}</p>
           </div>
           <div>
             <span>Style: </span>

@@ -275,6 +275,7 @@
     }
     .head-content h1{
         padding-top: 1rem;
+        font-size: 1.25rem;
     }
     .weight-range{
         flex-direction: column;

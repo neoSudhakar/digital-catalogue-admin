@@ -26,3 +26,9 @@
     cursor: pointer;
     background-color: rgb(38, 170, 231);
 }
+
+@media screen and (max-width: 767px){
+    .head{
+        font-size: 1.25rem;
+    }
+}

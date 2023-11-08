@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Button from "../../../UI/Button";
-import classes from "./DesignFields.module.css";
+// import classes from "./DesignFields.module.css";
+import classes from "./AddDesignTableForm.module.css"
 import { useSelector } from "react-redux";
 
 
@@ -8,7 +9,7 @@ import { useSelector } from "react-redux";
 export default function AssignRetailerForm({cardItem, onAction, onCloseModal, prevRetailerData, edit}){
   const [retailerIdsList, setRetailerIdsList] = useState([]);
 
-  const DUMMY_RETAILERS = useSelector((state)=>state.assignRetailer.retailers);
+  const RETAILERS = useSelector((state)=>state.assignRetailer.retailers);
 
   const assignedDesigns = useSelector((state)=>state.assignRetailer.assignedDesigns);
 
@@ -22,6 +23,8 @@ export default function AssignRetailerForm({cardItem, onAction, onCloseModal, pr
       const retailerIds = retailersDataList.map((retailerData)=>{
         return retailerData.retailerId;
       })
+
+      // console.log("retailer ids:", retailerIds);
   
       setRetailerIdsList(retailerIds);
     }
@@ -78,10 +81,10 @@ export default function AssignRetailerForm({cardItem, onAction, onCloseModal, pr
       <label htmlFor="retailer">Retailer</label>
       <select name="retailer" id="retailer" required defaultValue={prevRetailerData ? prevRetailerData.retailerId : ""}>
         <option value="" disabled hidden>Select an option</option>
-        {DUMMY_RETAILERS.map((retailer) => (
-          <option key={retailer.accountId} value={retailer.accountId} disabled={
-              (!edit && retailerIdsList.includes(retailer.accountId)) ||
-              (edit && retailerIdsList.includes(retailer.accountId) && retailer.accountId !== prevRetailerData.retailerId)
+        {RETAILERS.map((retailer) => (
+          <option key={retailer.id} value={retailer.id} disabled={
+              (!edit && retailerIdsList.includes(retailer.id)) ||
+              (edit && retailerIdsList.includes(retailer.id) && retailer.id !== prevRetailerData.retailerId)
             }
           >
             {retailer.name}

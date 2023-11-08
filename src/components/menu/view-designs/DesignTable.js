@@ -14,7 +14,7 @@ import "ag-grid-community/styles/ag-theme-alpine.css"; // Optional theme CSS
 import ModalComponent from "./ModalComponent";
 import AddDesignTableForm from "./AddDesignTableForm";
 
-const DesignTable = ({ rowDataArr, cardItem }) => {
+const DesignTable = ({ rowDataArr, cardItem, onAnyUpdateAction }) => {
   const [isModelOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState();
   //   const gridRef = useRef(); // Optional - for accessing Grid's API
@@ -33,23 +33,27 @@ const DesignTable = ({ rowDataArr, cardItem }) => {
     setFormData(data);
     // console.log(data);
     // const {data} = params;
-    console.log(data);
-    console.log(data.id);
+    // console.log(data);
+    // console.log(data.id);
     setDetailsId(data.id);
 
     // const {type, stoneGroup, pieces, stoneWeight} = data;
     setIsModalOpen(true);
   }
 
-  function handleUpdateAction(updatedData){
-    console.log("UpdatedData", updatedData);
-    fetch(`http://localhost:8080/api/designs/${cardItem.id}/details/${detailsId}`, {
+  async function handleUpdateAction(updatedData){
+    // console.log("UpdatedData", updatedData);
+    const response = await fetch(`http://localhost:8080/api/designs/${cardItem.id}/details/${detailsId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(updatedData),
     });
+
+    if(response.ok){
+      onAnyUpdateAction(cardItem.id);
+    }
   }
 
   function handleCancelUpdateRow(){
@@ -57,15 +61,19 @@ const DesignTable = ({ rowDataArr, cardItem }) => {
     setIsModalOpen(false);
   }
 
-  function handleDeleteRow(data){
+  async function handleDeleteRow(data){
     // const {value}=params;
-    console.log(data);
+    // console.log(data);
     const confirm= window.confirm("Are you sure?");
 
     if(confirm){
-      fetch(`http://localhost:8080/api/designs/${cardItem.id}/details/${data.id}`, {
+      const response = await fetch(`http://localhost:8080/api/designs/${cardItem.id}/details/${data.id}`, {
         method: "DELETE",
       });
+
+      if(response.ok){
+        onAnyUpdateAction(cardItem.id);
+      }
     }
   }
 
