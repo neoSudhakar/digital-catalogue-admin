@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import classes from "./ImagesTable.module.css";
 
-const ImagesTable = ({ imagesArr, cardItem, onAnyUpdateAction }) => {
-  // console.log("images array is", imagesArr);
+const ImagesTable = ({ imagesArr1, cardItem, onAnyUpdateAction, setDesignImages }) => {
+  console.log("images array is", imagesArr1);
+  const [imagesArr, setImagesArr] = useState(imagesArr1);
   const [isChecked, setIsChecked] = useState(
     imagesArr.map((image) => image.isDefault)
   );
@@ -22,7 +23,11 @@ const ImagesTable = ({ imagesArr, cardItem, onAnyUpdateAction }) => {
     );
 
     if (response.ok) {
-      onAnyUpdateAction(cardItem.id);
+      // onAnyUpdateAction(cardItem.id);
+      const prevImagesArr = [...imagesArr];
+      const newImagesArrAfterDel = prevImagesArr.filter(imageObj=>imageObj.id !== id);
+      setImagesArr(newImagesArrAfterDel);
+      setDesignImages(newImagesArrAfterDel)
     }
   }
 

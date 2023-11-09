@@ -7,37 +7,14 @@ import { useDispatch, useSelector } from "react-redux";
 import AssignRetailer from "./AssignRetailer";
 import { assignRetailerSliceActions } from "../../../store/assignRetailer-slice";
 
-export default function DesignFields({ cardItem, onAnyUpdateAction, assignRetailersListData }) {
+export default function DesignFields({ cardItem1, onAnyUpdateAction, assignRetailersListData, setMsg }) {
+
+  const [cardItem, setCardItem] = useState(cardItem1);
   const dispatch = useDispatch();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  // const [assignRetailersListData, setAssignRetailersListData] = useState([]);
-
-  // const assignedDesigns = useSelector((state)=>state.assignRetailer.assignedDesigns);
-  // console.log("assignedDesigns are:", assignedDesigns);
-
-  // const [assignedRetailers, setAssignedRetailers] = useState([]);
   
   const RETAILERS = useSelector((state)=>state.assignRetailer.retailers);
-  // console.log("RETAILers : ", RETAILERS);
-  
-  // useEffect(()=>{
-
-  //   const assignedDesignIndex = assignedDesigns.findIndex((assignedDesign)=>{
-  //     return assignedDesign.designId === cardItem.id;
-  //   })
-
-  //   if(assignedDesignIndex > -1){
-  //     const assignedDesign = assignedDesigns[assignedDesignIndex];
-  //     // console.log("assignedDesign is: ", assignedDesign);
-  //     const {retailersDataList} = assignedDesign;
-
-  //     // console.log("retalers data list is: ", retailersDataList);
-
-  //     setAssignRetailersListData(retailersDataList);
-  //   }
-  // }, [assignedDesigns, cardItem]);
 
   function handleStartUpdateFields() {
     setIsModalOpen(true);
@@ -59,8 +36,9 @@ export default function DesignFields({ cardItem, onAnyUpdateAction, assignRetail
     });
 
     if(response.ok){
-      onAnyUpdateAction(cardItem.id);
+      // onAnyUpdateAction(cardItem.id);
       const resData = await response.json();
+      setCardItem(resData);
       console.log("res data is:",resData);
     }
   }
@@ -95,9 +73,10 @@ export default function DesignFields({ cardItem, onAnyUpdateAction, assignRetail
     })
 
     if(response.ok){
-      onAnyUpdateAction(cardItem.id);
+      // onAnyUpdateAction(cardItem.id);
       const resMsg = await response.json();
-      console.log("res msg: " + resMsg)
+      setMsg("Deleted Successfully");
+      console.log("del res msg: " + resMsg)
 
       dispatch(assignRetailerSliceActions.removeAssignDesign({designId: cardItem.id, retailerId: retailerData.retailerId}));
     }
@@ -134,7 +113,7 @@ export default function DesignFields({ cardItem, onAnyUpdateAction, assignRetail
           </ul>
         </>
         )}
-        {isEditAssignModalOpen && <AssignRetailer onAnyUpdateAction={onAnyUpdateAction} cardItem={cardItem} assignRetailersListData={assignRetailersListData} isModalOpen={isEditAssignModalOpen} onCloseModal={handleCancelEditAssign} edit prevRetailerData={prevRetailerData} />
+        {isEditAssignModalOpen && <AssignRetailer setMsg={setMsg} onAnyUpdateAction={onAnyUpdateAction} cardItem={cardItem} assignRetailersListData={assignRetailersListData} isModalOpen={isEditAssignModalOpen} onCloseModal={handleCancelEditAssign} edit prevRetailerData={prevRetailerData} />
 }
         <button
           className={classes["update-fields"]}

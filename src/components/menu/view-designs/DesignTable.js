@@ -14,7 +14,7 @@ import "ag-grid-community/styles/ag-theme-alpine.css"; // Optional theme CSS
 import ModalComponent from "./ModalComponent";
 import AddDesignTableForm from "./AddDesignTableForm";
 
-const DesignTable = ({ rowDataArr, cardItem, onAnyUpdateAction }) => {
+const DesignTable = ({ rowDataArr, cardItem, onAnyUpdateAction, setDetailsSet }) => {
   const [isModelOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState();
   //   const gridRef = useRef(); // Optional - for accessing Grid's API
@@ -52,9 +52,13 @@ const DesignTable = ({ rowDataArr, cardItem, onAnyUpdateAction }) => {
     });
 
     if(response.ok){
-      onAnyUpdateAction(cardItem.id);
+      // onAnyUpdateAction(cardItem.id);
       const resData = await response.json();
       console.log("res data is: ", resData);
+      const updatedItemIndex = rowDataArr.findIndex((item)=>item.id === resData.id);
+      const prevDetailsSet = [...rowDataArr];
+      prevDetailsSet[updatedItemIndex] = resData;
+      setDetailsSet(prevDetailsSet);
     }
   }
 
@@ -74,9 +78,12 @@ const DesignTable = ({ rowDataArr, cardItem, onAnyUpdateAction }) => {
       });
 
       if(response.ok){
-        onAnyUpdateAction(cardItem.id);
+        // onAnyUpdateAction(cardItem.id);
         const resMsg = await response.json();
-        console.log("res msg is: ", resMsg);
+        console.log("details set del res msg is: ", resMsg);
+        const prevDetailsSet = [...rowDataArr];
+        const newDetailsAfterDel = prevDetailsSet.filter((item)=>item.id !== data.id);
+        setDetailsSet(newDetailsAfterDel);
       }
     }
   }

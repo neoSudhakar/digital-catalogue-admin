@@ -486,7 +486,7 @@ export default function MasterCreation() {
       netWeight: netWeight,
       componentWeight: componentWeight,
       ghatWt: ghatWt,
-      remark: remark,
+      remarks: remark,
       designDetails: enteredRowData,
     };
 

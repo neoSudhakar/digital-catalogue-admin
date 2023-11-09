@@ -6,7 +6,8 @@ import ModalComponent from "./ModalComponent";
 import AddDesignTableForm from "./AddDesignTableForm";
 
 export default function DesignTanbleJSX({ cardItem, onAnyUpdateAction}) {
-    const {detailsSet} = cardItem;
+    // const {detailsSet} = cardItem;
+    const [detailsSet, setDetailsSet] = useState(cardItem.detailsSet);
     // console.log(detailsSet);
 
     const rowDataArr= detailsSet.map((eachItem, index)=>{
@@ -46,9 +47,10 @@ export default function DesignTanbleJSX({ cardItem, onAnyUpdateAction}) {
     });
 
     if(response.ok){
-      onAnyUpdateAction(cardItem.id);
+      // onAnyUpdateAction(cardItem.id);
       const resData = await response.json();
-      console.log("res data is: ", resData);
+      setDetailsSet(prev=>[...prev, resData])
+      console.log("details set post res data is: ", resData);
     }
 
   }
@@ -60,7 +62,7 @@ export default function DesignTanbleJSX({ cardItem, onAnyUpdateAction}) {
         <button className={classes.button} onClick={handleStartAddDesign}>Add Description</button>
       </div>
       <div className={classes.table}>
-        <DesignTable key={detailsSet} rowDataArr={rowDataArr} cardItem={cardItem} onAnyUpdateAction={onAnyUpdateAction} />
+        <DesignTable key={detailsSet} setDetailsSet={setDetailsSet} rowDataArr={rowDataArr} cardItem={cardItem} onAnyUpdateAction={onAnyUpdateAction} />
       </div>
 
       {isModelOpen && <ModalComponent

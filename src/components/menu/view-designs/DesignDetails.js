@@ -13,6 +13,7 @@ export default function DesignDetails({cardItem, onGoBack, onAnyUpdateAction}){
   const isDashboardOpen = useSelector((state)=>state.ui.isDashboardOpen);
 
   const [assignRetailersListData, setAssignRetailersListData] = useState([]);
+  const [msg, setMsg] = useState();
 
   useEffect(()=>{
     async function getAssignedRetailers(){
@@ -32,24 +33,41 @@ export default function DesignDetails({cardItem, onGoBack, onAnyUpdateAction}){
         console.log("formattedList is:", formattedList);
 
         setAssignRetailersListData(formattedList);
+        setMsg();
       }
     }
 
     getAssignedRetailers();
-  }, [cardItem]);
+  }, [cardItem, msg]);
 
-    const updatedDesignImagesArr= useMemo(()=>{
-      return cardItem.designImages.map((eachItem, index)=>{
-        if(index===0){
-          return {...eachItem, isDefault: true};
-        }
-        else{
-          return {...eachItem, isDefault: false};
-        }
-      });
-    })
+  const [designImages, setDesignImages] = useState(cardItem.designImages);
 
-    const [imageItems, setImageItems]= useState(updatedDesignImagesArr);
+  let updatedDesignImagesArr=[];
+  const [imageItems, setImageItems]= useState(updatedDesignImagesArr);
+
+  useEffect(()=>{
+    updatedDesignImagesArr = designImages.map((eachItem, index)=>{
+      if(index===0){
+        return {...eachItem, isDefault: true};
+      }
+      else{
+        return {...eachItem, isDefault: false};
+      }
+    });
+    setImageItems(updatedDesignImagesArr);
+  },[designImages]);
+
+    // const updatedDesignImagesArr= useMemo(()=>{
+    //   return designImages.map((eachItem, index)=>{
+    //     if(index===0){
+    //       return {...eachItem, isDefault: true};
+    //     }
+    //     else{
+    //       return {...eachItem, isDefault: false};
+    //     }
+    //   });
+    // },[designImages]);
+
 
     const defaultImageItem=imageItems.find((item)=>{
         return item.isDefault;
@@ -105,7 +123,7 @@ export default function DesignDetails({cardItem, onGoBack, onAnyUpdateAction}){
       <button className={classes["assign-btn"]} onClick={handleStartAssign}>Assign Retailer</button>
     </div>
 
-    {isStartAssign && <AssignRetailer assignRetailersListData={assignRetailersListData} onAnyUpdateAction={onAnyUpdateAction} cardItem={cardItem} isModalOpen={isStartAssign} onCloseModal={handleCloseAssign}  />}
+    {isStartAssign && <AssignRetailer setMsg={setMsg} assignRetailersListData={assignRetailersListData} onAnyUpdateAction={onAnyUpdateAction} cardItem={cardItem} isModalOpen={isStartAssign} onCloseModal={handleCloseAssign}  />}
     
     <div className={`${classes["card-details"]}  ${isDashboardOpen ? classes.full : ""}`}>
       <div className={classes["above-table"]}>
@@ -143,11 +161,11 @@ export default function DesignDetails({cardItem, onGoBack, onAnyUpdateAction}){
           
         </div>
 
-        <DesignFields assignRetailersListData={assignRetailersListData} cardItem={cardItem} onAnyUpdateAction={onAnyUpdateAction} />
+        <DesignFields setMsg={setMsg} assignRetailersListData={assignRetailersListData} cardItem1={cardItem} onAnyUpdateAction={onAnyUpdateAction} />
 
       </div>
       <DesignTanbleJSX cardItem={cardItem} onAnyUpdateAction={onAnyUpdateAction}/>
-      <ImagesTable imagesArr={imageItems} cardItem={cardItem} onAnyUpdateAction={onAnyUpdateAction} />
+      <ImagesTable key={imageItems} setDesignImages={setDesignImages} imagesArr1={imageItems} cardItem={cardItem} onAnyUpdateAction={onAnyUpdateAction} />
       
     </div>
   </motion.div>

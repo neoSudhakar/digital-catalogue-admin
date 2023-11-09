@@ -4,7 +4,7 @@ import ModalComponent from './ModalComponent'
 import { useDispatch } from 'react-redux'
 import { assignRetailerSliceActions } from '../../../store/assignRetailer-slice';
 
-export default function AssignRetailer({cardItem, onAnyUpdateAction, assignRetailersListData, isModalOpen, onCloseModal, edit, prevRetailerData}) {
+export default function AssignRetailer({cardItem, onAnyUpdateAction, assignRetailersListData, isModalOpen, onCloseModal, edit, prevRetailerData, setMsg}) {
   const dispatch = useDispatch();
   
   async function handleAssignRetailerAction(formData){
@@ -24,6 +24,7 @@ export default function AssignRetailer({cardItem, onAnyUpdateAction, assignRetai
     }
 
     let formattedDataPUT = {
+      accountId: +retailer,
       activeTillDate: +days,
     }
 
@@ -41,9 +42,10 @@ export default function AssignRetailer({cardItem, onAnyUpdateAction, assignRetai
       });
 
       if(response.ok){
-        onAnyUpdateAction(cardItem.id);
+        // onAnyUpdateAction(cardItem.id);
         const resData = await response.json();
-        console.log("res data is:",resData);
+        console.log("assigned retailer put res data is:",resData);
+        setMsg("Put method applied");
       }
 
       dispatch(assignRetailerSliceActions.editAssignDesign({design: updatedData, prevRetailerId: prevRetailerData.retailerId}));
@@ -60,9 +62,10 @@ export default function AssignRetailer({cardItem, onAnyUpdateAction, assignRetai
         console.log("response is: ", response);
 
         if(response.ok){
-          onAnyUpdateAction(cardItem.id);
+          // onAnyUpdateAction(cardItem.id);
           const resData = await response.json();
-          // console.log("res data is:",resData);
+          console.log("post res data is:",resData);
+          setMsg("Post method applied");
         }
         else{
           // console.log("response status: ", response.status);
