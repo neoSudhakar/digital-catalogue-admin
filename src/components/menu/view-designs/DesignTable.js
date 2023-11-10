@@ -17,7 +17,12 @@ import { useMutation } from "@tanstack/react-query";
 import { updateDesignSet } from "../../../util/http";
 import ErrorBlock from "../../../UI/ErrorBlock";
 
-const DesignTable = ({ rowDataArr, cardItem, onAnyUpdateAction, setDetailsSet }) => {
+const DesignTable = ({
+  rowDataArr,
+  cardItem,
+  onAnyUpdateAction,
+  setDetailsSet,
+}) => {
   const [isModelOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState();
   //   const gridRef = useRef(); // Optional - for accessing Grid's API
@@ -32,7 +37,7 @@ const DesignTable = ({ rowDataArr, cardItem, onAnyUpdateAction, setDetailsSet })
     setFormData();
   }, [rowDataArr]);
 
-  function handleStartUpdateRow(data){
+  function handleStartUpdateRow(data) {
     setFormData(data);
     // console.log(data);
     // const {data} = params;
@@ -46,51 +51,72 @@ const DesignTable = ({ rowDataArr, cardItem, onAnyUpdateAction, setDetailsSet })
 
   const [updateDesignSetErr, setUpdateDesignSetErr] = useState(false);
 
-  const {mutate, data: updateDesignSetData, isPending: updateDesignSetIsPending, isError: updateDesignSetIsError, error: updateDesignSetError} = useMutation({
-    mutationFn: updateDesignSet
-  })
+  const {
+    mutate,
+    data: updateDesignSetData,
+    isPending: updateDesignSetIsPending,
+    isError: updateDesignSetIsError,
+    error: updateDesignSetError,
+  } = useMutation({
+    mutationFn: updateDesignSet,
+    // onError : ()=>{
+    //   setUpdateDesignSetErr(true);
+    // }
+  });
 
-  useEffect(()=>{
-    if(updateDesignSetData){
-      const updatedItemIndex = rowDataArr.findIndex((item)=>item.id === updateDesignSetData.id);
+  useEffect(() => {
+    if (updateDesignSetData) {
+      const updatedItemIndex = rowDataArr.findIndex(
+        (item) => item.id === updateDesignSetData.id
+      );
       const prevDetailsSet = [...rowDataArr];
       prevDetailsSet[updatedItemIndex] = updateDesignSetData;
       setDetailsSet(prevDetailsSet);
       setIsModalOpen(false);
     }
 
-    if(updateDesignSetIsError){
+    if (updateDesignSetIsError) {
       setUpdateDesignSetErr(true);
     }
-  },[updateDesignSetData, updateDesignSetIsError]);
+  }, [updateDesignSetData, updateDesignSetIsError]);
 
-  async function handleUpdateAction(updatedData){
+  async function handleUpdateAction(updatedData) {
     // console.log("UpdatedData", updatedData);
-   mutate({cardItemId: cardItem.id, updatedData, detailsId})
+    mutate({ cardItemId: cardItem.id, updatedData, detailsId });
   }
 
-  function handleCancelUpdateRow(){
+  function handleCancelUpdateRow() {
     setFormData();
     setIsModalOpen(false);
     setUpdateDesignSetErr(false);
   }
 
-  async function handleDeleteRow(data){
+  // const {mutate: deleteMutate} = useMutation({
+  //   mutationFn: ,
+  //   onSuccess: 
+  // })
+
+  async function handleDeleteRow(data) {
     // const {value}=params;
     // console.log(data);
-    const confirm= window.confirm("Are you sure?");
+    const confirm = window.confirm("Are you sure?");
 
-    if(confirm){
-      const response = await fetch(`http://localhost:8080/api/designs/${cardItem.id}/details/${data.id}`, {
-        method: "DELETE",
-      });
+    if (confirm) {
+      const response = await fetch(
+        `http://localhost:8080/api/designs/${cardItem.id}/details/${data.id}`,
+        {
+          method: "DELETE",
+        }
+      );
 
-      if(response.ok){
+      if (response.ok) {
         // onAnyUpdateAction(cardItem.id);
         const resMsg = await response.json();
         console.log("details set del res msg is: ", resMsg);
         const prevDetailsSet = [...rowDataArr];
-        const newDetailsAfterDel = prevDetailsSet.filter((item)=>item.id !== data.id);
+        const newDetailsAfterDel = prevDetailsSet.filter(
+          (item) => item.id !== data.id
+        );
         setDetailsSet(newDetailsAfterDel);
       }
     }
@@ -118,8 +144,18 @@ const DesignTable = ({ rowDataArr, cardItem, onAnyUpdateAction, setDetailsSet })
       // minWidth: 300,
       cellRenderer: (params) => (
         <div>
-          <button className={classes.update} onClick={handleStartUpdateRow.bind(this,params.data)} >Update</button>
-          <button className={classes.delete} onClick={handleDeleteRow.bind(this,params.data)}>Delete</button>
+          <button
+            className={classes.update}
+            onClick={handleStartUpdateRow.bind(this, params.data)}
+          >
+            Update
+          </button>
+          <button
+            className={classes.delete}
+            onClick={handleDeleteRow.bind(this, params.data)}
+          >
+            Delete
+          </button>
         </div>
       ),
     },
@@ -133,10 +169,9 @@ const DesignTable = ({ rowDataArr, cardItem, onAnyUpdateAction, setDetailsSet })
     };
   }, []);
 
-
   const onGridReady = (params) => {
-    setGridApi(params)
-  }
+    setGridApi(params);
+  };
 
   // Example of consuming Grid Event
   // const cellClickedListener = useCallback((event) => {
@@ -174,14 +209,30 @@ const DesignTable = ({ rowDataArr, cardItem, onAnyUpdateAction, setDetailsSet })
           onGridReady={onGridReady}
         />
       </div>
-      {isModelOpen && <ModalComponent
-        title="UPDATE DESCRIPTION"
-        isOpen={isModelOpen}
-        style={{ minWidth: "45%", maxWidth: "90%" }}
-      >
-        {updateDesignSetErr && !updateDesignSetIsPending && <ErrorBlock title="Error occurred!" message={updateDesignSetError?.info?.message || "Failed to update design set!" }/> }
-        <AddDesignTableForm designSetData={updateDesignSetData} designSetIsPending={updateDesignSetIsPending} onCloseModal={handleCancelUpdateRow} formData={formData} onAction={handleUpdateAction} />
-      </ModalComponent>}
+      {isModelOpen && (
+        <ModalComponent
+          title="UPDATE DESCRIPTION"
+          isOpen={isModelOpen}
+          style={{ minWidth: "45%", maxWidth: "90%" }}
+        >
+          {updateDesignSetErr && !updateDesignSetIsPending && (
+            <ErrorBlock
+              title="Error occurred!"
+              message={
+                updateDesignSetError?.info?.errorMessage ||
+                "Failed to update design set!"
+              }
+            />
+          )}
+          <AddDesignTableForm
+            designSetData={updateDesignSetData}
+            designSetIsPending={updateDesignSetIsPending}
+            onCloseModal={handleCancelUpdateRow}
+            formData={formData}
+            onAction={handleUpdateAction}
+          />
+        </ModalComponent>
+      )}
     </div>
   );
 };

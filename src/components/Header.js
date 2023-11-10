@@ -38,8 +38,8 @@ export default function Header() {
   useEffect(()=>{
     if(token){
       const fullNameObj = localStorage.getItem('fullName');
-      const parsedFullNameObj= JSON.parse(fullNameObj)
-      setUserName(parsedFullNameObj.fName + " " + parsedFullNameObj.lName);
+      // const parsedFullNameObj= JSON.parse(fullNameObj)
+      setUserName(fullNameObj);
     }
   })
 

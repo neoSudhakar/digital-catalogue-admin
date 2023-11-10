@@ -9,11 +9,12 @@ import "./styles.css";
 import AuthForm from "./components/Register/AuthForm";
 
 import { action as logoutAction } from "./components/Register/Logout";
-import { authTokenLoader, checkAuthLoader } from "./util/auth";
+import { authTokenLoader, checkAuthLoader, checkManufacturerAuthLoader, checkRetailerAuthLoader } from "./util/auth";
 import MasterCreation from "./components/menu/master-design/MasterCreation";
 import CatalogueDesigns from "./components/menu/catalogue/CatalogueDesigns";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClientObj } from "./util/http";
+import Settings from "./components/menu/settings/Settings";
 
 const router= createBrowserRouter([
   {
@@ -25,16 +26,13 @@ const router= createBrowserRouter([
         index: true, element: <Dashboard/>,  loader: checkAuthLoader,
       },
       {
-        path: "/master-design", element: <MasterDesign/>, loader: checkAuthLoader
+        path: "/master-design", element: <MasterDesign/>, loader: checkManufacturerAuthLoader
       },
       {
-        path: "/view-designs", element: <ViewDesign/>, loader: checkAuthLoader
+        path: "/view-designs", element: <ViewDesign/>, loader: checkManufacturerAuthLoader
       },
       {
-        path: "/order-form", element: <OrderForm/>, loader: checkAuthLoader
-      },
-      {
-        path: "/customers", element: <Customers/>, loader: checkAuthLoader
+        path: "/order-form", element: <OrderForm/>, loader: checkManufacturerAuthLoader
       },
       {
         path:"/auth", element:<AuthForm/>,
@@ -43,10 +41,13 @@ const router= createBrowserRouter([
         path:"/logout", action: logoutAction,
       },
       {
-        path:"/master-design/creation",  element:<MasterCreation/>, loader: checkAuthLoader
+        path:"/master-design/creation",  element:<MasterCreation/>, loader: checkManufacturerAuthLoader
       },
       {
-        path: "catalogue", element: <CatalogueDesigns/>, loader: checkAuthLoader,
+        path: "catalogue", element: <CatalogueDesigns/>, loader: checkRetailerAuthLoader,
+      },
+      {
+        path: "/settings", element: <Settings/>, loader: checkManufacturerAuthLoader,
       }
     ]
   },

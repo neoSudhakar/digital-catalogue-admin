@@ -11,12 +11,11 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchAllDesigns, fetchCatalogueDesigns } from "../../../../util/http";
 import LoadingIndicator from "../../../../UI/LoadingIndicator";
 import ErrorBlock from "../../../../UI/ErrorBlock";
+import { getAccountLoader } from "../../../../util/auth";
 
 const today = new Date().toISOString().slice(0, 10);
 
-const accountId = 2;
-
-export default function DesignCards({ handleShowDetails, catalogue, updatedCardId, setUpdatedCardId }) {
+export default function DesignCards({ handleShowDetails, catalogue, updatedCardId, setUpdatedCardId, accountId }) {
   const dispatch = useDispatch();
 
   const [isDrawerOPen, setIsDrawerOPen] = useState(false);
@@ -305,7 +304,7 @@ export default function DesignCards({ handleShowDetails, catalogue, updatedCardI
   }
 
   if(isError){
-    content = <ErrorBlock title="Error occured!" message={error.info?.message || "Failed to fetch designs!"}  />
+    content = <ErrorBlock title="Error occured!" message={error.info?.errorMessage || "Failed to fetch designs!"}  />
   }
 
   useEffect(()=>{

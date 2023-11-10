@@ -20,6 +20,7 @@
 }
 .input-grp{
     display: flex;
+    
     align-items: center;
     gap: 1rem;
     margin-bottom: 0.85rem;
@@ -73,6 +74,11 @@
     cursor: pointer;
     background-color: rgb(138, 4, 4);
 }
+.form-actions .button:disabled:hover, .form-actions .button:disabled{
+    cursor: not-allowed;
+    background-color:rgb(190, 190, 190);
+    color:rgb(58, 59, 59);
+}
 .form-actions .alternative{
     background-color: transparent;
     color: rgb(46, 181, 243);
@@ -104,5 +110,8 @@
     }
     h1{
         font-size: 2rem;
+    }
+    .input-grp{
+        flex-direction: column;
     }
   }

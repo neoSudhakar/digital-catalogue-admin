@@ -9,8 +9,9 @@ export async function fetchAllDesigns(){
         console.log("response status: " + response.status);
         const error = new Error("Failed to load all designs");
         error.code = response.status;
-        console.log("res data of all designs FAILED: ", response.json());
-        error.info = await response.json();
+        const resData = await response.json();
+        console.log("res data of all designs FAILED: ", resData);
+        error.info = resData;
         throw error;
     }
 
@@ -26,8 +27,9 @@ export async function fetchCatalogueDesigns({accountId, signal}){
         console.log("response status: " + response.status);
         const error = new Error("Failed to load catalogue designs");
         error.code = response.status;
-        console.log("res data of all designs FAILED: ", response.json());
-        error.info = await response.json();
+        const resData = await response.json();
+        console.log("res data of all designs FAILED: ", resData);
+        error.info = resData;
         throw error;
     }
 
@@ -43,8 +45,9 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
         console.log("response status: " + response.status);
         const error = new Error("Failed to load assigned retailers");
         error.code = response.status;
-        console.log("res data of assigned retailers for particular design FAILED: ", response.json());
-        error.info = await response.json();
+        const resData = await response.json();
+        console.log("res data of assigned retailers for particular design FAILED: ", resData);
+        error.info = resData;
         throw error;
     }
 
@@ -67,8 +70,9 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
         console.log("response status: " + response.status);
         const error = new Error("Failed to  update design fields");
         error.code = response.status;
-        // console.log("res data of assigned retailers for particular design FAILED: ", response.json());
-        // error.info = await response.json();
+        const resData = await response.json();
+        console.log("res data of Failed to  update design fields: ", resData);
+        error.info = resData;
         throw error;
     }
 
@@ -92,8 +96,9 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
         console.log("response status: " + response.status);
         const error = new Error("Failed to add design set");
         error.code = response.status;
-        // console.log("res data of assigned retailers for particular design FAILED: ", response.json());
-        // error.info = await response.json();
+        const resData = await response.json();
+        console.log("res data of Failed to add design set: ", resData);
+        error.info = resData;
         throw error;
     }
 
@@ -114,15 +119,16 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
 
     if(!response.ok){
         console.log("response status: " + response.status);
-        const error = new Error("Failed to add design set");
+        const error = new Error("Failed to update design set");
         error.code = response.status;
-        // console.log("res data of assigned retailers for particular design FAILED: ", response.json());
-        // error.info = await response.json();
+        const resData = await response.json();
+        console.log("res data of Failed to update design set: ", resData);
+        error.info = resData;
         throw error;
     }
 
     const resData = await response.json();
-    console.log("res data of add design set: ", resData);
+    console.log("res data of update design set: ", resData);
     return resData;
   }
 
@@ -148,13 +154,66 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
         console.log("response status: " + response.status);
         const error = new Error("Failed to add design set");
         error.code = response.status;
-        // console.log("res data of assigned retailers for particular design FAILED: ", response.json());
-        // error.info = await response.json();
+        const resData = await response.json();
+        console.log("res data of assigned retailers for particular design FAILED: ", resData);
+        error.info = resData;
         throw error;
     }
 
     const resData = await response.json();
     console.log("res data of add design set: ", resData);
+    return resData;
+  }
+
+
+  export async function removeRetailer(retailerId){
+    const response = await fetch(
+      `http://localhost:8080/api/design-account/${retailerId}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    if(!response.ok){
+        console.log("response status: " + response.status);
+        const error = new Error("Failed to remove assigned retailer");
+        error.code = response.status;
+        const resData = await response.json();
+        console.log("res data of Failed to remove assigned retailer: ", resData);
+        error.info = resData;
+        throw error;
+    }
+
+    const resData = await response.json();
+    console.log("res data remove assigned retailer: ", resData);
+    return resData;
+  }
+
+
+  export async function accountLogin(retailerId){
+    const response = await fetch(
+      `http://localhost:8080/api/login`,
+      {
+        method: "POST",
+        headers:{
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(),
+      }
+    );
+
+    if(!response.ok){
+        console.log("response status: " + response.status);
+        const error = new Error("Failed to remove assigned retailer");
+        error.code = response.status;
+        const resData = await response.json();
+        console.log("res data of Failed to remove assigned retailer: ", resData);
+        error.info = resData;
+        throw error;
+    }
+
+    const resData = await response.json();
+    console.log("res data remove assigned retailer: ", resData);
     return resData;
   }
   

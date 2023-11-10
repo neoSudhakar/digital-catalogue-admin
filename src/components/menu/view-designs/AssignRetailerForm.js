@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 
 
 
-export default function AssignRetailerForm({cardItem, assignRetailersListData , onAction, onCloseModal, prevRetailerData, edit, isPending}){
+export default function AssignRetailerForm({cardItem, assignRetailersListData , onAction, onCloseModal, prevRetailerData, edit, isPending, isErrorBlock, onCloseErrModal}){
   const [retailerIdsList, setRetailerIdsList] = useState([]);
 
   console.log("assign retailersListData is: ", assignRetailersListData);
@@ -14,14 +14,14 @@ export default function AssignRetailerForm({cardItem, assignRetailersListData , 
   const RETAILERS = useSelector((state)=>state.assignRetailer.retailers);
 
   useEffect(()=>{
-    if(assignRetailersListData.length > 0){
+    if(!isErrorBlock && assignRetailersListData.length > 0){
       const formattedList = assignRetailersListData.map((retailerData)=>{
         return retailerData.retailerId;
       })
       console.log("formatted list of ids: ", formattedList);
       setRetailerIdsList(formattedList)
   }
-  },[assignRetailersListData]);
+  },[assignRetailersListData, isErrorBlock]);
 
   
 
@@ -34,6 +34,11 @@ export default function AssignRetailerForm({cardItem, assignRetailersListData , 
         onAction(formData);
 
     }
+
+    function handleCloseErrModal(event){
+      event.preventDefault();
+      onCloseErrModal();
+    }
     
     const cancelStyleObj = {
         backgroundColor: "white",
@@ -42,54 +47,72 @@ export default function AssignRetailerForm({cardItem, assignRetailersListData , 
     };
     const saveStyleObj = { backgroundColor: "blue" };
 
-    return <form className={classes.form} onSubmit={handleSubmit} style={{paddingTop: "0.5rem"}}>
+    let content = (
+      <form className={classes.form} onSubmit={handleSubmit} style={{paddingTop: "0.5rem"}}>
 
-    <div className={classes["input-grp"]}>
-      <label htmlFor="days">Days</label>
-      <input
-        id="days"
-        name="days"
-        type="number"
-        defaultValue={prevRetailerData ? prevRetailerData.activeTillDate : 1}
-        min={1}
-        step={1}
-        required
-      />
-    </div>
+      <div className={classes["input-grp"]}>
+        <label htmlFor="days">Days</label>
+        <input
+          id="days"
+          name="days"
+          type="number"
+          defaultValue={prevRetailerData ? prevRetailerData.activeTillDate : 1}
+          min={1}
+          step={1}
+          required
+        />
+      </div>
 
-    <div className={classes["input-grp"]}>
-      <label htmlFor="retailer">Retailer</label>
-      <select name="retailer" id="retailer" required defaultValue={prevRetailerData ? prevRetailerData.retailerId : ""}>
-        <option value="" disabled hidden>Select an option</option>
-        {RETAILERS.map((retailer) => (
-          <option key={retailer.id} value={retailer.id} disabled={
-              (!edit && retailerIdsList.includes(retailer.id)) ||
-              (edit && retailerIdsList.includes(retailer.id) && retailer.id !== prevRetailerData.retailerId)
-            }
+      <div className={classes["input-grp"]}>
+        <label htmlFor="retailer">Retailer</label>
+        <select name="retailer" id="retailer" required defaultValue={prevRetailerData ? prevRetailerData.retailerId : ""}>
+          <option value="" disabled hidden>Select an option</option>
+          {RETAILERS.map((retailer) => (
+            <option key={retailer.id} value={retailer.id} disabled={
+                (!edit && retailerIdsList.includes(retailer.id)) ||
+                (edit && retailerIdsList.includes(retailer.id) && retailer.id !== prevRetailerData.retailerId)
+              }
+            >
+              {retailer.name}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className={classes.actions}>
+        {!isPending && <div>
+          <Button
+            key="back"
+            type="button"
+            style={cancelStyleObj}
+            onClick={onCloseModal}
           >
-            {retailer.name}
-          </option>
-        ))}
-      </select>
-    </div>
+            Cancel
+          </Button>
+          <Button key="submit" style={saveStyleObj} type="submit">
+            {edit ? "Update" : "Assign" }
+          </Button>
+        </div>}
+        {isPending && <p>{edit ? "Updating..." : "Assigning..."}</p>}
+      </div>
+    </form>
+    )
 
-    <div className={classes.actions}>
-      {!isPending && <div>
-        <Button
-          key="back"
-          type="button"
-          style={cancelStyleObj}
-          onClick={onCloseModal}
-        >
-          Cancel
-        </Button>
-        <Button key="submit" style={saveStyleObj} type="submit">
-          {edit ? "Update" : "Assign" }
-        </Button>
-      </div>}
-      {isPending && <p>{edit ? "Updating..." : "Assigning..."}</p>}
-    </div>
-  </form>
+    if(isErrorBlock){
+      content = (
+        <form className={classes.form} onSubmit={handleCloseErrModal} style={{padding: "0rem"}}>
+          <div className={classes.actions} style={{marginTop: "0"}}>
+          <Button key="submit" style={saveStyleObj} type="submit">
+            Okay
+          </Button>
+          </div>
+        </form>
+      )
+    }
+
+    return (
+      <>{content}</> 
+  )
 }
 
 

@@ -76,7 +76,7 @@ export default function DesignTanbleJSX({ cardItem, onAnyUpdateAction}) {
         isOpen={isModelOpen}
         style={{ minWidth: "45%", maxWidth: "90%" }}
       >
-        {addDesignSetErr && !addDesignSetIsPending && <ErrorBlock title="Error occurred!" message={addDesignSetError?.info?.message || "Failed to add design set!" }/> }
+        {addDesignSetErr && !addDesignSetIsPending && <ErrorBlock title="Error occurred!" message={addDesignSetError?.info?.errorMessage || "Failed to add design set!" }/> }
         <AddDesignTableForm designSetData={addDesignSetData} designSetErr={addDesignSetErr} designSetIsPending={addDesignSetIsPending} onCloseModal={handleCancelAddDesign} onAction={handleADDAction} />
       </ModalComponent>}
     </>

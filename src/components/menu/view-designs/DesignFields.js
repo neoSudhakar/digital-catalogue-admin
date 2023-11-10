@@ -5,11 +5,11 @@ import UpdateFieldsForm from "./UpdateFieldsForm";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import AssignRetailer from "./AssignRetailer";
-import { assignRetailerSliceActions } from "../../../store/assignRetailer-slice";
 import ErrorBlock from "../../../UI/ErrorBlock";
 import LoadingIndicator from "../../../UI/LoadingIndicator";
 import { useMutation } from "@tanstack/react-query";
-import { updateDesignFields } from "../../../util/http";
+import { queryClientObj, removeRetailer, updateDesignFields } from "../../../util/http";
+import ErrorModal from "./ErrorModal";
 
 export default function DesignFields({
   cardItem1,
@@ -21,7 +21,6 @@ export default function DesignFields({
   refetchAssignedRetailers,
 }) {
   const [cardItem, setCardItem] = useState(cardItem1);
-  const dispatch = useDispatch();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -54,21 +53,6 @@ export default function DesignFields({
 
   async function handleUpdateAction(updatedData) {
     mutate({ updatedData: updatedData, cardItemId: cardItem.id });
-    // console.log("updated Fields Data", updatedData);
-    // console.log(cardItem.id);
-    // const response = await fetch(`http://localhost:8080/api/designs/${cardItem.id}`, {
-    //   method: "PUT",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(updatedData),
-    // });
-
-    // if(response.ok){
-    //   const resData = await response.json();
-    //   setCardItem(resData);
-    //   console.log("res data is:",resData);
-    // }
   }
 
   function getRetailerName(id) {
@@ -95,26 +79,36 @@ export default function DesignFields({
     setIsEditAssignModalOpen(false);
   }
 
-  async function handleRemoveAssign(retailerData) {
-    const response = await fetch(
-      `http://localhost:8080/api/design-account/${retailerData.id}`,
-      {
-        method: "DELETE",
-      }
-    );
+  const [errModalIsOpen, setErrModalIsOpen] = useState(false);
+  // const [removeRetailerErr, setRemoveRetailerErr] = useState(false);
 
-    if (response.ok) {
-      const resMsg = await response.json();
-      refetchAssignedRetailers();
-      console.log("del res msg: " + resMsg);
+  function handleCloseErrModal(){
+    setErrModalIsOpen(false);
+  }
 
-      dispatch(
-        assignRetailerSliceActions.removeAssignDesign({
-          designId: cardItem.id,
-          retailerId: retailerData.retailerId,
-        })
-      );
+  const {mutate: removeRetailerMutate, error: removeRetailerError, isPending: removeRetailerIsPending} = useMutation({
+    mutationFn: removeRetailer,
+    onSuccess: ()=>{
+      setRemovingRetailerId(null);
+      queryClientObj.invalidateQueries({
+        queryKey: ["assignedRetailers"],
+      })
+    },
+    onError: ()=>{
+      // setRemoveRetailerErr(true);
+      console.log("removeRetailer failed");
+      setErrModalIsOpen(true);
     }
+  })
+
+  const [removingRetailerId, setRemovingRetailerId] = useState(null);
+
+  async function handleRemoveAssign(retailerData) {
+    // const confirm = window.confirm("Are you sure you want to remove retailer?");
+    setRemovingRetailerId(retailerData.id);
+    // if(confirm){
+      removeRetailerMutate(retailerData.id);
+    // }
   }
 
   let content;
@@ -132,6 +126,13 @@ export default function DesignFields({
     );
   }
 
+  let content2;
+  if(errModalIsOpen){
+    content2 = (
+      <ErrorModal errModalIsOpen={errModalIsOpen} err={removeRetailerError} onCloseErrModal={handleCloseErrModal}/>
+    )
+  }
+
   if (assignRetailersListData.length > 0) {
     content = (
       <ul className={classes["assigned-retailers"]}>
@@ -147,18 +148,23 @@ export default function DesignFields({
                 {retailerData.activeTillDate}
               </p>
               <div className={classes["assign-actions"]}>
-                <button
-                  className={classes["edit-assign"]}
-                  onClick={() => handleStartEditAssign(retailerData)}
-                >
-                  Edit
-                </button>
-                <button
-                  className={classes["remove-assign"]}
-                  onClick={() => handleRemoveAssign(retailerData)}
-                >
-                  Remove
-                </button>
+                {removingRetailerId!==retailerData.id && (
+                  <>
+                    <button
+                      className={classes["edit-assign"]}
+                      onClick={() => handleStartEditAssign(retailerData)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className={classes["remove-assign"]}
+                      onClick={() => handleRemoveAssign(retailerData)}
+                    >
+                      Remove
+                    </button>
+                  </>
+                )}
+                {removeRetailerIsPending && removingRetailerId==retailerData.id && <p>Removing...</p>}
               </div>
             </li>
           );
@@ -171,6 +177,7 @@ export default function DesignFields({
     <>
       <section className={classes.content}>
         {content}
+        {content2}
 
         {isEditAssignModalOpen && (
           <AssignRetailer
@@ -285,6 +292,7 @@ export default function DesignFields({
           />
         </ModalComponent>
       )}
+      {/* {content2} */}
     </>
   );
 }

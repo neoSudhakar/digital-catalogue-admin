@@ -1,28 +1,25 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useState } from "react";
 import classes from "../view-designs/ViewDesign.module.css";
-import { useRouteLoaderData } from "react-router-dom";
+import { redirect, useNavigate, useRouteLoaderData } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import DesignCards from "../view-designs/DesignCards/DesignCards";
 import CatalogueDesignDetails from "./CatalogueDesignDetails";
 import { uiActions } from "../../../store/ui-slice";
+import { getAccountLoader } from "../../../util/auth";
 
 export default function CatalogueDesigns() {
+  const navigate = useNavigate();
 
-  // const [designList, setDesignList] = useState([]);
+  const account = getAccountLoader();
 
-  // useEffect(() => {
-  //   getVeiwDesign();
-  // },[]);
+  const accountId = account?.id;
 
-  // const getVeiwDesign = () => {
-  //   axios.get('http://18.204.204.183:8080/api/designs')
-  //     .then((res) =>  {
-  //       console.log('response is list Designs: ',res.data)
-  //       setDesignList(res.data);
-  //     })
-  //       .catch((err) => console.log('error is : ', err))
-  // }
+  // useLayoutEffect(()=>{
+  //   if(accountType === "Manufacturer"){
+  //     navigate("/");
+  //   }
+  // }, [accountType]);
 
   const token = useRouteLoaderData("root");
   const dispatch = useDispatch();
@@ -47,7 +44,7 @@ export default function CatalogueDesigns() {
 
 
   let content = (
-    <DesignCards handleShowDetails={handleShowDetails} catalogue/>
+    <DesignCards handleShowDetails={handleShowDetails} get catalogue accountId={accountId}/>
   );
 
   if (isDesignDetailsOpen) {

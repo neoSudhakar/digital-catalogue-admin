@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import AssignRetailerForm from "./AssignRetailerForm";
 import ModalComponent from "./ModalComponent";
-import { useDispatch } from "react-redux";
-import { assignRetailerSliceActions } from "../../../store/assignRetailer-slice";
 import { useMutation } from "@tanstack/react-query";
-import { assignRetailer } from "../../../util/http";
+import { assignRetailer, queryClientObj } from "../../../util/http";
 import ErrorBlock from "../../../UI/ErrorBlock";
 
 export default function AssignRetailer({
@@ -14,9 +12,7 @@ export default function AssignRetailer({
   onCloseModal,
   edit,
   prevRetailerData,
-  refetchAssignedRetailers,
 }) {
-  const dispatch = useDispatch();
 
   const {
     mutate,
@@ -26,17 +22,21 @@ export default function AssignRetailer({
     error: assignRetailerError,
   } = useMutation({
     mutationFn: assignRetailer,
+    onSuccess : ()=>{
+            queryClientObj.invalidateQueries({
+              queryKey: ["assignedRetailers"] // we can see this key inside DesignDetails.js
+            });
+            onCloseModal();
+    },
+
+    onError : ()=>{
+            setAssignRetailerErr(true);
+    }
   });
 
   async function handleAssignRetailerAction(formData) {
     // console.log("formData is :", formData);
     const { retailer, days } = formData;
-
-    let updatedData = {
-      designId: cardItem.id,
-      retailer: +retailer,
-      days: +days,
-    };
 
     let formattedDataPOST = {
       designId: cardItem.id,
@@ -50,7 +50,6 @@ export default function AssignRetailer({
     };
 
     // console.log("formattedData is: ", formattedDataPOST);
-    // console.log("Retailer Assigned Data:",updatedData);
 
     if (edit) {
       mutate({
@@ -70,28 +69,6 @@ export default function AssignRetailer({
 
   const [assignRetailerErr, setAssignRetailerErr] = useState(false);
 
-  useEffect(() => {
-    if (assignRetailerData) {
-      // if (edit) {
-      //   dispatch(
-      //     assignRetailerSliceActions.editAssignDesign({
-      //       design: assignRetailerData,
-      //       prevRetailerId: prevRetailerData.retailerId,
-      //     })
-      //   );
-      // } else {
-      //   dispatch(assignRetailerSliceActions.assignDesign(assignRetailerData));
-      // }
-      refetchAssignedRetailers();
-      
-      onCloseModal();
-    }
-
-    if(assignRetailerIsError){
-      setAssignRetailerErr(true);
-    }
-  }, [assignRetailerData, assignRetailerIsError]);
-
   function handleCancelAssign() {
     onCloseModal();
     setAssignRetailerErr(false);
@@ -109,7 +86,7 @@ export default function AssignRetailer({
             <ErrorBlock
               title="Error occurred!"
               message={
-                assignRetailerError?.info?.message || edit ? "Failed to update assigned retailer!" : "Failed to assign retailer!"
+                assignRetailerError?.info?.errorMessage || edit ? "Failed to update assigned retailer!" : "Failed to assign retailer!"
               }
             />
           )}

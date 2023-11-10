@@ -20,24 +20,20 @@ import {
 } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import { loggedInPerson1, loggedInPerson2 } from "../util/user";
+import { getAccountLoader } from "../util/auth";
 
 export default function Sidebar() {
   const dispatch = useDispatch();
   const navigate= useNavigate();
   const submit = useSubmit();
   const token = useRouteLoaderData("root");
+  const account = getAccountLoader();
 
-  const [isManufacturer, setIsManufacturer] = useState(false);
-  const [isRetailer, setIsRetailer] = useState(false);
+  console.log(account);
 
-  useEffect(()=>{
-    if(loggedInPerson2.isManufacturer){
-      setIsManufacturer(true);
-    }
-    else{
-      setIsRetailer(true);
-    }
-  },[loggedInPerson1]);
+  const accountType = account?.accountType;
+
+  console.log("account type is", accountType);
 
   function handleLogout() {
     submit(null, { method: "post", action: "/logout" });
@@ -48,8 +44,7 @@ export default function Sidebar() {
       <section
         className={classes["fields"]}
         style={{
-          margin: "2rem",
-          margin: "0",
+          marginTop: "1rem",
           padding: "0",
           display: "flex",
           alignItems: "center",
@@ -67,7 +62,7 @@ export default function Sidebar() {
             alignItems: "center",
             justifyContent: "flex-start",
             flexDirection: "row",
-            margin: "0.7rem 0",
+            margin: "0rem 0",
             padding: "0.7rem 0",
             width: "100%",
             borderRadius: "1rem",
@@ -86,7 +81,7 @@ export default function Sidebar() {
             Dashboard
           </span>
         </NavLink>
-        <NavLink
+        {accountType === "Manufacturer" && <NavLink
           onClick={() => dispatch(uiActions.toggleDashboard())}
           to="/master-design"
           className={({ isActive }) => (isActive ? classes.active : "")}
@@ -95,7 +90,7 @@ export default function Sidebar() {
             alignItems: "center",
             justifyContent: "flex-start",
             flexDirection: "row",
-            margin: "0.7rem 0",
+            margin: "0rem 0",
             padding: "0.7rem 0",
             width: "100%",
             borderRadius: "1rem",
@@ -113,8 +108,8 @@ export default function Sidebar() {
           >
             Mater Design
           </span>
-        </NavLink>
-        <NavLink
+        </NavLink>}
+        {accountType === "Retailer" && <NavLink
           onClick={() => {
             dispatch(uiActions.closeCatalogueDesignDetails());
             dispatch(uiActions.toggleDashboard());
@@ -126,7 +121,7 @@ export default function Sidebar() {
             alignItems: "center",
             justifyContent: "flex-start",
             flexDirection: "row",
-            margin: "0.7rem 0",
+            margin: "0rem 0",
             padding: "0.7rem 0",
             width: "100%",
             borderRadius: "1rem",
@@ -144,8 +139,8 @@ export default function Sidebar() {
           >
             Catalogue
           </span>
-        </NavLink>
-        <NavLink
+        </NavLink>}
+        {accountType === "Manufacturer" && <NavLink
           onClick={() => {
             dispatch(uiActions.closeDesignDetails());
             dispatch(uiActions.toggleDashboard());
@@ -157,7 +152,7 @@ export default function Sidebar() {
             alignItems: "center",
             justifyContent: "flex-start",
             flexDirection: "row",
-            margin: "0.7rem 0",
+            margin: "0rem 0",
             padding: "0.7rem 0",
             width: "100%",
             borderRadius: "1rem",
@@ -175,8 +170,8 @@ export default function Sidebar() {
           >
             View Designs
           </span>
-        </NavLink>
-        <NavLink
+        </NavLink>}
+        {accountType === "Manufacturer" && <NavLink
           onClick={() => dispatch(uiActions.toggleDashboard())}
           to="/order-form"
           className={({ isActive }) => (isActive ? classes.active : "")}
@@ -185,7 +180,7 @@ export default function Sidebar() {
             alignItems: "center",
             justifyContent: "flex-start",
             flexDirection: "row",
-            margin: "0.7rem 0",
+            margin: "0rem 0",
             padding: "0.7rem 0",
             width: "100%",
             borderRadius: "1rem",
@@ -203,7 +198,35 @@ export default function Sidebar() {
           >
             Order Form
           </span>
-        </NavLink>
+        </NavLink>}
+        {accountType === "Manufacturer" && <NavLink
+          onClick={() => dispatch(uiActions.toggleDashboard())}
+          to="/settings"
+          className={({ isActive }) => (isActive ? classes.active : "")}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-start",
+            flexDirection: "row",
+            margin: "0rem 0",
+            padding: "0.7rem 0",
+            width: "100%",
+            borderRadius: "1rem",
+          }}
+        >
+          <AiOutlineCodepenCircle style={{ padding: "0 1rem 0 0" }} />
+          <span
+            style={{
+              fontSize: "20px",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              padding: "0 0 0 0.5rem",
+            }}
+          >
+            Settings
+          </span>
+        </NavLink>}
 
         <Link
           onClick={handleLogout}
@@ -212,7 +235,7 @@ export default function Sidebar() {
             alignItems: "center",
             justifyContent: "flex-start",
             flexDirection: "row",
-            margin: "0.7rem 0",
+            margin: "0rem 0",
             padding: "0.7rem 0",
             width: "100%",
             borderRadius: "1rem",
