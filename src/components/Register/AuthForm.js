@@ -150,38 +150,6 @@ return response.json();
   console.error('Error occurred:', error);
 });
 
-/*fetch('http://localhost:8080/apilink', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify(formData),
-})
-.then(response => {
-  if (!response.ok) {
-    if (response.status === 404) {
-      console.log('Username does not exist');
-      // Handle the case where the username does not exist in the database
-    } else if (response.status === 401) {
-      console.log('Invalid password');
-      // Handle the case where the password is wrong
-    } else {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-  }
-  return response.json();
-})
-.then(data => {
-  // Handle the data received upon a successful response
-  console.log('Login successful');
-  localStorage.setItem("TOKEN", "loggedIn");
-  localStorage.setItem("fullName", data.userName);
-  navigate("/");
-})
-.catch(error => {
-  console.error('Error occurred:', error);
-  // Handle network errors or exceptions
-});
 
     /*.then(result => {
       console.log('Data sent successfully!');
