@@ -20,6 +20,7 @@
 }
 .input-grp{
     display: flex;
+    
     align-items: center;
     gap: 1rem;
     margin-bottom: 0.85rem;
@@ -104,5 +105,8 @@
     }
     h1{
         font-size: 2rem;
+    }
+    .input-grp{
+        flex-direction: column;
     }
   }
