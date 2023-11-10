@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 
 
 
-export default function AssignRetailerForm({cardItem, assignRetailersListData , onAction, onCloseModal, prevRetailerData, edit}){
+export default function AssignRetailerForm({cardItem, assignRetailersListData , onAction, onCloseModal, prevRetailerData, edit, isPending}){
   const [retailerIdsList, setRetailerIdsList] = useState([]);
 
   console.log("assign retailersListData is: ", assignRetailersListData);
@@ -23,31 +23,7 @@ export default function AssignRetailerForm({cardItem, assignRetailersListData , 
   }
   },[assignRetailersListData]);
 
-  // const assignedDesigns = useSelector((state)=>state.assignRetailer.assignedDesigns);
-
-  // useEffect(()=>{
-  //   const assignedDesignIndex = assignedDesigns.findIndex((assignedDesign)=>{
-  //     return assignedDesign.designId === cardItem.id;
-  //   })
   
-  //   if(assignedDesignIndex > -1){
-  //     const retailersDataList = assignedDesigns[assignedDesignIndex].retailersDataList;
-  //     const retailerIds = retailersDataList.map((retailerData)=>{
-  //       return retailerData.retailerId;
-  //     })
-
-  //     // console.log("retailer ids:", retailerIds);
-  
-  //     setRetailerIdsList(retailerIds);
-  //   }
-  // }, [assignedDesigns]);
-
-    // const [selectedOptions, setSelectedOptions] = useState([]);
-
-    // const handleSelectChange = (event) => {
-    //     const selectedValues = Array.from(event.target.selectedOptions).map((option) => option.value);
-    //     setSelectedOptions(selectedValues);
-    // };
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -55,16 +31,8 @@ export default function AssignRetailerForm({cardItem, assignRetailersListData , 
         const form = new FormData(event.target);
         let formData = Object.fromEntries(form.entries());
 
-        // formData = {
-        //   ...formData,
-        //   retailers: selectedOptions
-        // }
-
         onAction(formData);
 
-        onCloseModal();
-    
-        alert("Updated");
     }
     
     const cancelStyleObj = {
@@ -74,7 +42,7 @@ export default function AssignRetailerForm({cardItem, assignRetailersListData , 
     };
     const saveStyleObj = { backgroundColor: "blue" };
 
-    return <form className={classes.form} onSubmit={handleSubmit} style={{paddingTop: "2rem"}}>
+    return <form className={classes.form} onSubmit={handleSubmit} style={{paddingTop: "0.5rem"}}>
 
     <div className={classes["input-grp"]}>
       <label htmlFor="days">Days</label>
@@ -103,17 +71,10 @@ export default function AssignRetailerForm({cardItem, assignRetailersListData , 
           </option>
         ))}
       </select>
-      {/* <select multiple name="retailers" id="retailer" onChange={handleSelectChange} value={selectedOptions}>
-        {DUMMY_RETAILERS.map((retailer) => (
-          <option key={retailer.id} value={retailer.name}>
-            {retailer.name}
-          </option>
-        ))}
-      </select> */}
     </div>
 
     <div className={classes.actions}>
-      <div>
+      {!isPending && <div>
         <Button
           key="back"
           type="button"
@@ -125,7 +86,8 @@ export default function AssignRetailerForm({cardItem, assignRetailersListData , 
         <Button key="submit" style={saveStyleObj} type="submit">
           {edit ? "Update" : "Assign" }
         </Button>
-      </div>
+      </div>}
+      {isPending && <p>{edit ? "Updating..." : "Assigning..."}</p>}
     </div>
   </form>
 }

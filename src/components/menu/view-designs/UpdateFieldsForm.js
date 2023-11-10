@@ -1,7 +1,8 @@
 import Button from "../../../UI/Button";
+import ErrorBlock from "../../../UI/ErrorBlock";
 import classes from "./DesignFields.module.css";
 
-export default function UpdateFieldsForm({cardItem, onAction, onCloseModal}){
+export default function UpdateFieldsForm({cardItem, onAction, onCloseModal, updateDesignFieldsIsPending}){
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -11,9 +12,7 @@ export default function UpdateFieldsForm({cardItem, onAction, onCloseModal}){
 
         onAction(formData);
 
-        onCloseModal();
-    
-        alert("Updated");
+        // onCloseModal();
     }
     
     const cancelStyleObj = {
@@ -23,7 +22,9 @@ export default function UpdateFieldsForm({cardItem, onAction, onCloseModal}){
     };
     const saveStyleObj = { backgroundColor: "blue" };
 
-    return <form className={classes.form} onSubmit={handleSubmit} style={{paddingTop: "2rem"}}>
+    return(
+    <>
+    <form className={classes.form} onSubmit={handleSubmit} style={{paddingTop: "2rem"}}>
     <div className={classes["input-grp"]}>
       <label htmlFor="designNumber">Design Number</label>
       <input
@@ -184,7 +185,7 @@ export default function UpdateFieldsForm({cardItem, onAction, onCloseModal}){
       />
     </div>
     <div className={classes.actions}>
-      <div>
+      {!updateDesignFieldsIsPending && <div>
         <Button
           key="back"
           type="button"
@@ -196,7 +197,10 @@ export default function UpdateFieldsForm({cardItem, onAction, onCloseModal}){
         <Button key="submit" style={saveStyleObj} type="submit">
           Update
         </Button>
-      </div>
+      </div>}
+      {updateDesignFieldsIsPending && <p>Updating...</p>}
     </div>
   </form>
+  </>
+  )
 }

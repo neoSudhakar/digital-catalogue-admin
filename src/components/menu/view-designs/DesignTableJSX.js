@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../../../UI/Button";
 import DesignTable from "./DesignTable";
 import classes from "./DesignTableJSX.module.css";
 import ModalComponent from "./ModalComponent";
 import AddDesignTableForm from "./AddDesignTableForm";
+import { useMutation } from "@tanstack/react-query";
+import { addDesignSet } from "../../../util/http";
+import ErrorBlock from "../../../UI/ErrorBlock";
 
 export default function DesignTanbleJSX({ cardItem, onAnyUpdateAction}) {
     // const {detailsSet} = cardItem;
@@ -30,30 +33,33 @@ export default function DesignTanbleJSX({ cardItem, onAnyUpdateAction}) {
     setIsModalOpen(true);
   }
 
+  const [addDesignSetErr, setAddDesignSetErr] = useState(false);
+
   function handleCancelAddDesign() {
     setIsModalOpen(false);
+    setAddDesignSetErr(false);
   }
+
+
+  const {mutate, data: addDesignSetData, isPending: addDesignSetIsPending, isError: addDesignSetIsError, error: addDesignSetError } = useMutation({
+    mutationFn: addDesignSet
+  })
 
   async function handleADDAction(addedData){
     // console.log("AddedData", addedData);
-    const response = await fetch(`http://localhost:8080/api/designs/${cardItem.id}/details`,
-    {
-      method: 'POST',
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(addedData),
-      // body: addedData,
-    });
-
-    if(response.ok){
-      // onAnyUpdateAction(cardItem.id);
-      const resData = await response.json();
-      setDetailsSet(prev=>[...prev, resData])
-      console.log("details set post res data is: ", resData);
-    }
+    mutate({addedData: addedData, cardItemId: cardItem.id})
 
   }
+
+  useEffect(()=>{
+    if(addDesignSetData){
+      setDetailsSet(prev=>[...prev, addDesignSetData]);
+      setIsModalOpen(false);
+    }
+    if(addDesignSetIsError){
+      setAddDesignSetErr(true);
+    }
+  }, [addDesignSetData, addDesignSetIsError])
 
 
   return (
@@ -70,7 +76,8 @@ export default function DesignTanbleJSX({ cardItem, onAnyUpdateAction}) {
         isOpen={isModelOpen}
         style={{ minWidth: "45%", maxWidth: "90%" }}
       >
-        <AddDesignTableForm onCloseModal={handleCancelAddDesign} onAction={handleADDAction} />
+        {addDesignSetErr && !addDesignSetIsPending && <ErrorBlock title="Error occurred!" message={addDesignSetError?.info?.message || "Failed to add design set!" }/> }
+        <AddDesignTableForm designSetData={addDesignSetData} designSetErr={addDesignSetErr} designSetIsPending={addDesignSetIsPending} onCloseModal={handleCancelAddDesign} onAction={handleADDAction} />
       </ModalComponent>}
     </>
   );

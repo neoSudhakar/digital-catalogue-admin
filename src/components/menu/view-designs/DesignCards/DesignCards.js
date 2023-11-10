@@ -7,687 +7,29 @@ import { uiActions } from "../../../../store/ui-slice";
 import classes from "../ViewDesign.module.css";
 import WrongIcon from "../../../../icons/wrong-icon";
 import axios from "axios";
-import { loggedInPerson2 } from "../../../../util/user";
+import { useQuery } from "@tanstack/react-query";
+import { fetchAllDesigns, fetchCatalogueDesigns } from "../../../../util/http";
+import LoadingIndicator from "../../../../UI/LoadingIndicator";
+import ErrorBlock from "../../../../UI/ErrorBlock";
 
 const today = new Date().toISOString().slice(0, 10);
-
-// const DUMMY_LIST = [
-//   {
-//     id: "1",
-//     // title: "Design "+id,
-//     // description: "This is the first Design.",
-//     // price: 300,
-//     mainGroup: "Diamond",
-//     category: "Diamond Jewelery",
-//     designNumber: 1,
-//     createdDate: today,
-//     style: "Style2",
-//     product: "Product2",
-//     model: "Model2",
-//     size: "Size2",
-//     worker: "Worker2",
-//     pieces: 1,
-//     grossWeight: 200,
-//     stoneWeight: 130,
-//     netWeight: 140,
-//     componentWeight: 150,
-//     ghatWt: 160,
-//     remark: "Remarks description...",
-//     detailsSet: [
-//       {
-//         type: "Composite",
-//         stoneGroup: "StoneGroup1",
-//         pieces: 122,
-//         stoneWeight: 12,
-//         unitOfMeasurement: "Grm/Cts",
-//       },
-//       {
-//         type: "Stone",
-//         stoneGroup: "StoneGroup2",
-//         pieces: 150,
-//         stoneWeight: 19,
-//         unitOfMeasurement: "Grm/Cts",
-//       },
-//     ],
-//     designImages: [
-//       { imageUrl: "https://picsum.photos/536/354" },
-//       { imageUrl: "https://picsum.photos/536/301" },
-//       { imageUrl: "https://picsum.photos/536/302" },
-//       { imageUrl: "https://picsum.photos/536/303" },
-//     ],
-//   },
-//   {
-//     id: "2",
-//     // title: "Design 2",
-//     // description: "This is the second Design.",
-//     // price: 350,
-//     mainGroup: "Gold",
-//     category: "Gold Jewelery",
-//     designNumber: 2,
-//     createdDate: today,
-//     style: "Style3",
-//     product: "Product3",
-//     model: "Model3",
-//     size: "Size3",
-//     worker: "Worker3",
-//     pieces: 1,
-//     grossWeight: 130,
-//     stoneWeight: 130,
-//     netWeight: 140,
-//     componentWeight: 150,
-//     ghatWt: 160,
-//     remark: "Remarks description...",
-//     detailsSet: [
-//       {
-//         type: "Composite",
-//         stoneGroup: "StoneGroup1",
-//         pieces: 122,
-//         stoneWeight: 12,
-//         unitOfMeasurement: "Grm/Cts",
-//       },
-//       {
-//         type: "Stone",
-//         stoneGroup: "StoneGroup2",
-//         pieces: 150,
-//         stoneWeight: 19,
-//         unitOfMeasurement: "Grm/Cts",
-//       },
-//     ],
-//     designImages: [
-//       { imageUrl: "https://picsum.photos/536/355" },
-//       { imageUrl: "https://picsum.photos/536/304" },
-//       { imageUrl: "https://picsum.photos/536/305" },
-//       { imageUrl: "https://picsum.photos/536/306" },
-//     ],
-//   },
-//   {
-//     id: "3",
-//     // title: "Design 3",
-//     // description: "This is the third Design.",
-//     // price: 390,
-//     mainGroup: "Diamond",
-//     category: "Diamond Jewelery",
-//     designNumber: 1,
-//     createdDate: today,
-//     style: "Style2",
-//     product: "Product2",
-//     model: "Model2",
-//     size: "Size2",
-//     worker: "Worker2",
-//     pieces: 1,
-//     grossWeight: 210,
-//     stoneWeight: 130,
-//     netWeight: 140,
-//     componentWeight: 150,
-//     ghatWt: 160,
-//     remark: "Remarks description...",
-//     detailsSet: [
-//       {
-//         type: "Composite",
-//         stoneGroup: "StoneGroup1",
-//         pieces: 122,
-//         stoneWeight: 12,
-//         unitOfMeasurement: "Grm/Cts",
-//       },
-//       {
-//         type: "Stone",
-//         stoneGroup: "StoneGroup2",
-//         pieces: 150,
-//         stoneWeight: 19,
-//         unitOfMeasurement: "Grm/Cts",
-//       },
-//     ],
-//     designImages: [
-//       { imageUrl: "https://picsum.photos/536/353" },
-//       { imageUrl: "https://picsum.photos/536/307" },
-//       { imageUrl: "https://picsum.photos/536/308" },
-//       { imageUrl: "https://picsum.photos/536/309" },
-//     ],
-//   },
-//   {
-//     id: "4",
-//     // title: "Design 4",
-//     // description: "This is the fourth Design.",
-//     // price: 400,
-//     mainGroup: "Gold",
-//     category: "Gold Jewelery",
-//     designNumber: 2,
-//     createdDate: today,
-//     style: "Style1",
-//     product: "Product1",
-//     model: "Model1",
-//     size: "Size1",
-//     worker: "Worker1",
-//     pieces: 1,
-//     grossWeight: 250,
-//     stoneWeight: 130,
-//     netWeight: 140,
-//     componentWeight: 150,
-//     ghatWt: 160,
-//     remark: "Remarks description...",
-//     detailsSet: [
-//       {
-//         type: "Composite",
-//         stoneGroup: "StoneGroup1",
-//         pieces: 122,
-//         stoneWeight: 12,
-//         unitOfMeasurement: "Grm/Cts",
-//       },
-//       {
-//         type: "Stone",
-//         stoneGroup: "StoneGroup2",
-//         pieces: 150,
-//         stoneWeight: 19,
-//         unitOfMeasurement: "Grm/Cts",
-//       },
-//     ],
-//     designImages: [
-//       { imageUrl: "https://picsum.photos/536/352" },
-//       { imageUrl: "https://picsum.photos/536/310" },
-//       { imageUrl: "https://picsum.photos/536/311" },
-//       { imageUrl: "https://picsum.photos/536/312" },
-//     ],
-//   },
-//   {
-//     id: "5",
-//     // title: "Design 5",
-//     // description: "This is the fifth Design.",
-//     // price: 450,
-//     mainGroup: "Diamond",
-//     category: "Diamond Jewelery",
-//     designNumber: 1,
-//     createdDate: today,
-//     style: "Style2",
-//     product: "Product2",
-//     model: "Model2",
-//     size: "Size2",
-//     worker: "Worker2",
-//     pieces: 1,
-//     grossWeight: 190,
-//     stoneWeight: 130,
-//     netWeight: 140,
-//     componentWeight: 150,
-//     ghatWt: 160,
-//     remark: "Remarks description...",
-//     detailsSet: [
-//       {
-//         type: "Composite",
-//         stoneGroup: "StoneGroup1",
-//         pieces: 122,
-//         stoneWeight: 12,
-//         unitOfMeasurement: "Grm/Cts",
-//       },
-//       {
-//         type: "Stone",
-//         stoneGroup: "StoneGroup2",
-//         pieces: 150,
-//         stoneWeight: 19,
-//         unitOfMeasurement: "Grm/Cts",
-//       },
-//     ],
-//     designImages: [
-//       { imageUrl: "https://picsum.photos/536/351" },
-//       { imageUrl: "https://picsum.photos/536/313" },
-//       { imageUrl: "https://picsum.photos/536/314" },
-//       { imageUrl: "https://picsum.photos/536/315" },
-//     ],
-//   },
-//   {
-//     id: "6",
-//     // title: "Design 6",
-//     // description: "This is the sixth Design.",
-//     // price: 500,
-//     mainGroup: "Gold",
-//     category: "Gold Jewelery",
-//     designNumber: 2,
-//     createdDate: today,
-//     style: "Style3",
-//     product: "Product3",
-//     model: "Model3",
-//     size: "Size3",
-//     worker: "Worker3",
-//     pieces: 1,
-//     grossWeight: 140,
-//     stoneWeight: 130,
-//     netWeight: 140,
-//     componentWeight: 150,
-//     ghatWt: 160,
-//     remark: "Remarks description...",
-//     detailsSet: [
-//       {
-//         type: "Composite",
-//         stoneGroup: "StoneGroup1",
-//         pieces: 122,
-//         stoneWeight: 12,
-//         unitOfMeasurement: "Grm/Cts",
-//       },
-//       {
-//         type: "Stone",
-//         stoneGroup: "StoneGroup2",
-//         pieces: 150,
-//         stoneWeight: 19,
-//         unitOfMeasurement: "Grm/Cts",
-//       },
-//     ],
-//     designImages: [
-//       { imageUrl: "https://picsum.photos/536/356" },
-//       { imageUrl: "https://picsum.photos/536/316" },
-//       { imageUrl: "https://picsum.photos/536/317" },
-//       { imageUrl: "https://picsum.photos/536/318" },
-//     ],
-//   },
-//   {
-//     id: "7",
-//     // title: "Design 7",
-//     // description: "This is the seventh Design.",
-//     // price: 550,
-//     mainGroup: "Diamond",
-//     category: "Diamond Jewelery",
-//     designNumber: 2,
-//     createdDate: today,
-//     style: "Style2",
-//     product: "Product2",
-//     model: "Model2",
-//     size: "Size2",
-//     worker: "Worker2",
-//     pieces: 1,
-//     grossWeight: 90,
-//     stoneWeight: 130,
-//     netWeight: 140,
-//     componentWeight: 150,
-//     ghatWt: 160,
-//     remark: "Remarks description...",
-//     detailsSet: [
-//       {
-//         type: "Composite",
-//         stoneGroup: "StoneGroup1",
-//         pieces: 122,
-//         stoneWeight: 12,
-//         unitOfMeasurement: "Grm/Cts",
-//       },
-//       {
-//         type: "Stone",
-//         stoneGroup: "StoneGroup2",
-//         pieces: 150,
-//         stoneWeight: 19,
-//         unitOfMeasurement: "Grm/Cts",
-//       },
-//     ],
-//     designImages: [
-//       { imageUrl: "https://picsum.photos/536/357" },
-//       { imageUrl: "https://picsum.photos/536/319" },
-//       { imageUrl: "https://picsum.photos/536/320" },
-//       { imageUrl: "https://picsum.photos/536/321" },
-//     ],
-//   },
-//   {
-//     id: "8",
-//     // title: "Design 8",
-//     // description: "This is the eighth Design.",
-//     // price: 600,
-//     mainGroup: "Gold",
-//     category: "Gold Jewelery",
-//     designNumber: 1,
-//     createdDate: today,
-//     style: "Style3",
-//     product: "Product3",
-//     model: "Model3",
-//     size: "Size3",
-//     worker: "Worker3",
-//     pieces: 1,
-//     grossWeight: 40,
-//     stoneWeight: 130,
-//     netWeight: 140,
-//     componentWeight: 150,
-//     ghatWt: 160,
-//     remark: "Remarks description...",
-//     detailsSet: [
-//       {
-//         type: "Composite",
-//         stoneGroup: "StoneGroup1",
-//         pieces: 122,
-//         stoneWeight: 12,
-//         unitOfMeasurement: "Grm/Cts",
-//       },
-//       {
-//         type: "Stone",
-//         stoneGroup: "StoneGroup2",
-//         pieces: 150,
-//         stoneWeight: 19,
-//         unitOfMeasurement: "Grm/Cts",
-//       },
-//     ],
-//     designImages: [
-//       { imageUrl: "https://picsum.photos/536/358" },
-//       { imageUrl: "https://picsum.photos/536/322" },
-//       { imageUrl: "https://picsum.photos/536/323" },
-//       { imageUrl: "https://picsum.photos/536/324" },
-//     ],
-//   },
-//   {
-//     id: "9",
-//     // title: "Design 9",
-//     // description: "This is the ninth Design.",
-//     // price: 650,
-//     mainGroup: "Diamond",
-//     category: "Diamond Jewelery",
-//     designNumber: 2,
-//     createdDate: today,
-//     style: "Style1",
-//     product: "Product1",
-//     model: "Model1",
-//     size: "Size1",
-//     worker: "Worker1",
-//     pieces: 1,
-//     grossWeight: 140,
-//     stoneWeight: 130,
-//     netWeight: 140,
-//     componentWeight: 150,
-//     ghatWt: 160,
-//     remark: "Remarks description...",
-//     detailsSet: [
-//       {
-//         type: "Composite",
-//         stoneGroup: "StoneGroup1",
-//         pieces: 122,
-//         stoneWeight: 12,
-//         unitOfMeasurement: "Grm/Cts",
-//       },
-//       {
-//         type: "Stone",
-//         stoneGroup: "StoneGroup2",
-//         pieces: 150,
-//         stoneWeight: 19,
-//         unitOfMeasurement: "Grm/Cts",
-//       },
-//     ],
-//     designImages: [
-//       { imageUrl: "https://picsum.photos/536/359" },
-//       { imageUrl: "https://picsum.photos/536/325" },
-//       { imageUrl: "https://picsum.photos/536/326" },
-//       { imageUrl: "https://picsum.photos/536/327" },
-//     ],
-//   },
-//   {
-//     id: "10",
-//     // title: "Design 10",
-//     // description: "This is the tenth Design.",
-//     // price: 700,
-//     mainGroup: "Gold",
-//     category: "Gold Jewelery",
-//     designNumber: 1,
-//     createdDate: today,
-//     style: "Style2",
-//     product: "Product2",
-//     model: "Model2",
-//     size: "Size2",
-//     worker: "Worker2",
-//     pieces: 1,
-//     grossWeight: 120,
-//     stoneWeight: 130,
-//     netWeight: 140,
-//     componentWeight: 150,
-//     ghatWt: 160,
-//     remark: "Remarks description...",
-//     detailsSet: [
-//       {
-//         type: "Composite",
-//         stoneGroup: "StoneGroup1",
-//         pieces: 122,
-//         stoneWeight: 12,
-//         unitOfMeasurement: "Grm/Cts",
-//       },
-//       {
-//         type: "Stone",
-//         stoneGroup: "StoneGroup2",
-//         pieces: 150,
-//         stoneWeight: 19,
-//         unitOfMeasurement: "Grm/Cts",
-//       },
-//     ],
-//     designImages: [
-//       { imageUrl: "https://picsum.photos/536/328" },
-//       { imageUrl: "https://picsum.photos/536/360" },
-//       { imageUrl: "https://picsum.photos/536/329" },
-//       { imageUrl: "https://picsum.photos/536/330" },
-//     ],
-//   },
-//   {
-//     id: "11",
-//     // title: "Design 11",
-//     // description: "This is the 11th Design.",
-//     // price: 750,
-//     mainGroup: "Diamond",
-//     category: "Diamond Jewelery",
-//     designNumber: 2,
-//     createdDate: today,
-//     style: "Style1",
-//     product: "Product1",
-//     model: "Model1",
-//     size: "Size1",
-//     worker: "Worker1",
-//     pieces: 1,
-//     grossWeight: 130,
-//     stoneWeight: 130,
-//     netWeight: 140,
-//     componentWeight: 150,
-//     ghatWt: 160,
-//     remark: "Remarks description...",
-//     detailsSet: [
-//       {
-//         type: "Composite",
-//         stoneGroup: "StoneGroup1",
-//         pieces: 122,
-//         stoneWeight: 12,
-//         unitOfMeasurement: "Grm/Cts",
-//       },
-//       {
-//         type: "Stone",
-//         stoneGroup: "StoneGroup2",
-//         pieces: 150,
-//         stoneWeight: 19,
-//         unitOfMeasurement: "Grm/Cts",
-//       },
-//     ],
-//     designImages: [
-//       { imageUrl: "https://picsum.photos/536/361" },
-//       { imageUrl: "https://picsum.photos/536/331" },
-//       { imageUrl: "https://picsum.photos/536/332" },
-//       { imageUrl: "https://picsum.photos/536/333" },
-//     ],
-//   },
-//   {
-//     id: "12",
-//     // title: "Design 12",
-//     // description: "This is the 12th Design.",
-//     // price: 750,
-//     mainGroup: "Gold",
-//     category: "Gold Jewelery",
-//     designNumber: 1,
-//     createdDate: today,
-//     style: "Style2",
-//     product: "Product2",
-//     model: "Model2",
-//     size: "Size2",
-//     worker: "Worker2",
-//     pieces: 1,
-//     grossWeight: 140,
-//     stoneWeight: 130,
-//     netWeight: 140,
-//     componentWeight: 150,
-//     ghatWt: 160,
-//     remark: "Remarks description...",
-//     detailsSet: [
-//       {
-//         type: "Composite",
-//         stoneGroup: "StoneGroup1",
-//         pieces: 122,
-//         stoneWeight: 12,
-//         unitOfMeasurement: "Grm/Cts",
-//       },
-//       {
-//         type: "Stone",
-//         stoneGroup: "StoneGroup2",
-//         pieces: 150,
-//         stoneWeight: 19,
-//         unitOfMeasurement: "Grm/Cts",
-//       },
-//     ],
-//     designImages: [
-//       { imageUrl: "https://picsum.photos/536/362" },
-//       { imageUrl: "https://picsum.photos/536/334" },
-//       { imageUrl: "https://picsum.photos/536/335" },
-//       { imageUrl: "https://picsum.photos/536/336" },
-//     ],
-//   },
-//   {
-//     id: "13",
-//     // title: "Design 13",
-//     // description: "This is the 13th Design.",
-//     // price: 750,
-//     mainGroup: "Gold",
-//     category: "Gold Jewelery",
-//     designNumber: 1,
-//     createdDate: today,
-//     style: "Style3",
-//     product: "Product3",
-//     model: "Model3",
-//     size: "Size3",
-//     worker: "Worker1",
-//     pieces: 1,
-//     grossWeight: 100,
-//     stoneWeight: 100,
-//     netWeight: 100,
-//     componentWeight: 100,
-//     ghatWt: 100,
-//     remark: "Remarks description...",
-//     detailsSet: [
-//       {
-//         type: "Composite",
-//         stoneGroup: "StoneGroup1",
-//         pieces: 122,
-//         stoneWeight: 12,
-//         unitOfMeasurement: "Grm/Cts",
-//       },
-//       {
-//         type: "Stone",
-//         stoneGroup: "StoneGroup2",
-//         pieces: 150,
-//         stoneWeight: 19,
-//         unitOfMeasurement: "Grm/Cts",
-//       },
-//     ],
-//     designImages: [
-//       { imageUrl: "https://picsum.photos/536/363" },
-//       { imageUrl: "https://picsum.photos/536/337" },
-//       { imageUrl: "https://picsum.photos/536/338" },
-//       { imageUrl: "https://picsum.photos/536/339" },
-//     ],
-//   },
-// ];
 
 const accountId = 2;
 
 export default function DesignCards({ handleShowDetails, catalogue, updatedCardId, setUpdatedCardId }) {
   const dispatch = useDispatch();
 
-  const assignedDesigns = useSelector((state)=>state.assignRetailer.assignedDesigns); 
-
-  // useEffect(()=>{
-  //   setRetailerId(loggedInPerson2.retailerId);
-  // },[]);
-
   const [isDrawerOPen, setIsDrawerOPen] = useState(false);
 
   const selectedFilters = useSelector((state) => state.ui.selectedFilters);
 
-  useEffect(() =>{
-    async function fetchDesigns(){
-      const response = await fetch(`http://localhost:8080/api/design-account/${accountId}/designs`);
-      console.log("response is: ", response);
-      if(response.ok){
-        const resData = await response.json();
-        setDesignList(resData);
-        console.log("res data of assigned designs: ", resData);
-      }
-      else{
-        console.log("response status: " + response.status);
-        // const resData = await response.json();
-        // console.log("res data of assigned designs: " + resData);
-      }
-    }
-    if(catalogue){
-      fetchDesigns();
-    }
-  },[accountId]);
-
   const [designList, setDesignList] = useState([]);
 
-  const [load, setLoad] = useState(false);
+  const {data, isPending, isError, error} = useQuery({
+    queryKey:  [`${catalogue ? "catalogueDesigns" : "designs"}`],
+    queryFn: ({signal})=> (catalogue ? fetchCatalogueDesigns({signal, accountId: accountId}) : fetchAllDesigns()),
+  })
 
-  useEffect(() => {
-    if(!catalogue){
-      getVeiwDesign();
-      setLoad[true];
-    }
-  },[]);
-
-  // const getVeiwDesign = async () => {
-    
-  //   const response = await fetch('http://localhost:8080/api/designs');
-  //   console.log(response);
-  //   if(!response.ok){
-  //     console.log("ERROR");
-  //   }
-
-  //   const data = await response.json();
-  //   Console.log("res is:",data);
-  //   setDesignList("res data is:",res.data);
-  //   setLoad[false];
-  // }
-  const getVeiwDesign = async () => {
-    
-    try {
-      const response = await fetch('http://localhost:8080/api/designs');
-
-      // console.log("response status: " + response.status)
-      if(response.ok){
-        const resData = await response.json();
-        console.log("res is list of designs: ", resData);
-        if(resData.errorCode){
-          console.log("has error code");
-        }
-        else{
-          console.log("NO error code");
-          setDesignList(resData);
-          if(updatedCardId){
-            const updatedCard = resData.find(card => card.id === updatedCardId);
-            // console.log('updated card is:',updatedCard);
-            handleShowDetails(updatedCard);
-            setUpdatedCardId();
-          }
-        }
-        setLoad[false];
-      }
-      // .then((res) =>  {
-      //   console.log('response is list Designs: ',res.data)
-      //   if(typeof res.data !== 'string'){
-      //     setDesignList(res.data);
-      //     if(updatedCardId){
-      //       const updatedCard = res.data.find(card => card.id === updatedCardId);
-      //       // console.log('updated card is:',updatedCard);
-      //       handleShowDetails(updatedCard);
-      //       setUpdatedCardId();
-      //     }
-      //   }
-      //   setLoad[false];
-      // })
-      //   .catch((err) => console.log('error is : ', err))
-    }
-    catch (err){
-      console.log(err);
-    }
-  }
 
   const {
     field: mainGrpFilters,
@@ -793,17 +135,6 @@ export default function DesignCards({ handleShowDetails, catalogue, updatedCardI
     moreFilter: isMoreFilterExpanded,
   } = useSelector((state) => state.ui.filters);
 
-  //   function handleShowDetails(item) {
-  //     console.log(item);
-  //     setCardItem(item);
-  //     // setIsShow(true);
-  //     dispatch(uiActions.openDesignDetails());
-  //   }
-  //   function handleGoBack() {
-  //     // setIsShow(false);
-  //     dispatch(uiActions.closeDesignDetails());
-  //   }
-
   function handleExpandMainGrpFilter() {
     dispatch(uiActions.expandFilter("mainGrpFilter"));
   }
@@ -827,17 +158,10 @@ export default function DesignCards({ handleShowDetails, catalogue, updatedCardI
   }
 
   function handleRemoveFilter(id, event, setFn) {
-    // const filterOption= document.getElementById(id);
     const { name } = event;
     setFn((prev) => {
       return { ...prev, [name]: false };
     });
-    // console.log(event);
-    // console.log(event[id]);
-    // console.log(id1, name, checked);
-    // event[checked]=false;
-    // console.log(id1, name, checked);
-    // event[id]=false;
     dispatch(uiActions.removeFilter(id));
   }
 
@@ -852,8 +176,6 @@ export default function DesignCards({ handleShowDetails, catalogue, updatedCardI
     dispatch(uiActions.clearFilters());
   }
 
-  // console.log(selectedFilters);
-
   function handleOpenFilters() {
     setIsDrawerOPen(true);
   }
@@ -863,7 +185,6 @@ export default function DesignCards({ handleShowDetails, catalogue, updatedCardI
   }
 
   let filteredList = [];
-  // designList
   if(designList.length > 0){
 
     filteredList = designList.filter((item) => {
@@ -924,6 +245,76 @@ export default function DesignCards({ handleShowDetails, catalogue, updatedCardI
       );
     });
   }
+
+  let content =(
+    <motion.ul
+    variants={{
+      hidden: { y: -20, opacity: 0 },
+      visible: {
+        transition: { staggerChildren: 0.05 },
+        y: 0,
+        opacity: 1,
+      },
+    }}
+    initial="hidden"
+    animate="visible"
+    className={classes["cards-container"]}
+  >
+    {filteredList.length === 0 && (
+      <p
+        style={{
+          marginTop: "10rem auto",
+          width: "100%",
+          textAlign: "center",
+        }}
+      >
+        No results found!
+      </p>
+    )}
+    {filteredList.length > 0 && (
+      <AnimatePresence>
+        {filteredList.map((item) => {
+          return (
+            <motion.li
+              layout
+              variants={{
+                hidden: { opacity: 0, scale: 0.5 },
+                visible: { opacity: 1, scale: 1 },
+              }}
+              // initial="hidden"
+              // animate="visible"
+              exit={{ opacity: 1, scale: 1 }}
+              onClick={() => handleShowDetails(item)}
+              key={item.id}
+              className={classes.card}
+            >
+              {item.designImages.length > 0 && <img src={item.designImages[0].preSignedURL} alt={item.title} />}
+              {item.designImages.length === 0 && <img alt={item.title} />}
+              <p className={classes.title}>Design {item.id}</p>
+              <p>Gross Weight: {item.grossWeight} Grms</p>
+            </motion.li>
+          );
+        })}
+      </AnimatePresence>
+    )}
+  </motion.ul>
+  );
+
+  if(isPending){
+    content = <LoadingIndicator />
+  }
+
+  if(isError){
+    content = <ErrorBlock title="Error occured!" message={error.info?.message || "Failed to fetch designs!"}  />
+  }
+
+  useEffect(()=>{
+    if(data){
+      if(!data.errorCode){
+        setDesignList(data);
+      }
+    }
+  },[data]);
 
   return (
     <div key="whole-designs" className={classes["whole-designs-page"]}>
@@ -1833,57 +1224,7 @@ export default function DesignCards({ handleShowDetails, catalogue, updatedCardI
         </div>
 
         <div className={classes["outer-cards-container"]}>
-          <motion.ul
-            variants={{
-              hidden: { y: -20, opacity: 0 },
-              visible: {
-                transition: { staggerChildren: 0.05 },
-                y: 0,
-                opacity: 1,
-              },
-            }}
-            initial="hidden"
-            animate="visible"
-            className={classes["cards-container"]}
-          >
-            {filteredList.length === 0 && (
-              <p
-                style={{
-                  marginTop: "10rem auto",
-                  width: "100%",
-                  textAlign: "center",
-                }}
-              >
-                No results found!
-              </p>
-            )}
-            {filteredList.length > 0 && (
-              <AnimatePresence>
-                {filteredList.map((item) => {
-                  return (
-                    <motion.li
-                      layout
-                      variants={{
-                        hidden: { opacity: 0, scale: 0.5 },
-                        visible: { opacity: 1, scale: 1 },
-                      }}
-                      // initial="hidden"
-                      // animate="visible"
-                      exit={{ opacity: 1, scale: 1 }}
-                      onClick={() => handleShowDetails(item)}
-                      key={item.id}
-                      className={classes.card}
-                    >
-                      {item.designImages.length > 0 && <img src={item.designImages[0].preSignedURL} alt={item.title} />}
-                      {item.designImages.length === 0 && <img alt={item.title} />}
-                      <p className={classes.title}>Design {item.id}</p>
-                      <p>Gross Weight: {item.grossWeight} Grms</p>
-                    </motion.li>
-                  );
-                })}
-              </AnimatePresence>
-            )}
-          </motion.ul>
+          {content}
         </div>
       </div>
     </div>

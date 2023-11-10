@@ -247,9 +247,9 @@
 }
 
 .card img{
-    height: 15rem;
+    height: 12rem;
     width:100%;
-    object-fit: contain;
+    object-fit: cover;
     border-top-right-radius: 0.35rem;
     border-top-left-radius: 0.35rem;
 }

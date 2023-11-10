@@ -1,106 +1,129 @@
-import React, { useEffect, useState } from 'react'
-import AssignRetailerForm from './AssignRetailerForm'
-import ModalComponent from './ModalComponent'
-import { useDispatch } from 'react-redux'
-import { assignRetailerSliceActions } from '../../../store/assignRetailer-slice';
+import React, { useEffect, useState } from "react";
+import AssignRetailerForm from "./AssignRetailerForm";
+import ModalComponent from "./ModalComponent";
+import { useDispatch } from "react-redux";
+import { assignRetailerSliceActions } from "../../../store/assignRetailer-slice";
+import { useMutation } from "@tanstack/react-query";
+import { assignRetailer } from "../../../util/http";
+import ErrorBlock from "../../../UI/ErrorBlock";
 
-export default function AssignRetailer({cardItem, onAnyUpdateAction, assignRetailersListData, isModalOpen, onCloseModal, edit, prevRetailerData, setMsg}) {
+export default function AssignRetailer({
+  cardItem,
+  assignRetailersListData,
+  isModalOpen,
+  onCloseModal,
+  edit,
+  prevRetailerData,
+  refetchAssignedRetailers,
+}) {
   const dispatch = useDispatch();
-  
-  async function handleAssignRetailerAction(formData){
+
+  const {
+    mutate,
+    data: assignRetailerData,
+    isPending: assignRetailerIsPending,
+    isError: assignRetailerIsError,
+    error: assignRetailerError,
+  } = useMutation({
+    mutationFn: assignRetailer,
+  });
+
+  async function handleAssignRetailerAction(formData) {
     // console.log("formData is :", formData);
-    const {retailer, days} = formData;
+    const { retailer, days } = formData;
 
     let updatedData = {
       designId: cardItem.id,
       retailer: +retailer,
       days: +days,
-    }
+    };
 
     let formattedDataPOST = {
       designId: cardItem.id,
       accountId: +retailer,
       activeTillDate: +days,
-    }
+    };
 
     let formattedDataPUT = {
       accountId: +retailer,
       activeTillDate: +days,
-    }
+    };
 
     // console.log("formattedData is: ", formattedDataPOST);
-
     // console.log("Retailer Assigned Data:",updatedData);
 
-    if(edit){
-      const response = await fetch(`http://localhost:8080/api/design-account/accounts/${prevRetailerData.retailerId}/designs/${cardItem.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",  
-        },
-        body: JSON.stringify(formattedDataPUT),
+    if (edit) {
+      mutate({
+        cardItemId: cardItem.id,
+        formattedData: formattedDataPUT,
+        edit: true,
+        prevRetailerId: prevRetailerData.retailerId,
       });
-
-      if(response.ok){
-        // onAnyUpdateAction(cardItem.id);
-        const resData = await response.json();
-        console.log("assigned retailer put res data is:",resData);
-        setMsg("Put method applied");
-      }
-
-      dispatch(assignRetailerSliceActions.editAssignDesign({design: updatedData, prevRetailerId: prevRetailerData.retailerId}));
-    }else{
-      try{
-        const response = await fetch(`http://localhost:8080/api/design-account`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",  
-          },
-          body: JSON.stringify(formattedDataPOST),
-        });
-
-        console.log("response is: ", response);
-
-        if(response.ok){
-          // onAnyUpdateAction(cardItem.id);
-          const resData = await response.json();
-          console.log("post res data is:",resData);
-          setMsg("Post method applied");
-        }
-        else{
-          // console.log("response status: ", response.status);
-          const resData = await response.json();
-          console.log("response data is:",resData);
-        }
-      }
-      catch(err){
-        console.log("error is:",err);
-      }
-      
-
-      dispatch(assignRetailerSliceActions.assignDesign(updatedData));
+    } else {
+      mutate({
+        cardItemId: cardItem.id,
+        formattedData: formattedDataPOST,
+        edit: false,
+      });
     }
-    
   }
 
-  function handleCancelAssign(){
+  const [assignRetailerErr, setAssignRetailerErr] = useState(false);
+
+  useEffect(() => {
+    if (assignRetailerData) {
+      // if (edit) {
+      //   dispatch(
+      //     assignRetailerSliceActions.editAssignDesign({
+      //       design: assignRetailerData,
+      //       prevRetailerId: prevRetailerData.retailerId,
+      //     })
+      //   );
+      // } else {
+      //   dispatch(assignRetailerSliceActions.assignDesign(assignRetailerData));
+      // }
+      refetchAssignedRetailers();
+      
+      onCloseModal();
+    }
+
+    if(assignRetailerIsError){
+      setAssignRetailerErr(true);
+    }
+  }, [assignRetailerData, assignRetailerIsError]);
+
+  function handleCancelAssign() {
     onCloseModal();
+    setAssignRetailerErr(false);
   }
 
   return (
     <>
-        {isModalOpen && <ModalComponent
-            isOpen={isModalOpen}
-            title={"ASSIGN"}
-            // onSave={handleUpdateFields}
-            style={{ maxWidth: "90%", minWidth: "35%", }}
-            // onCancel={handleCancelUpdate}
+      {isModalOpen && (
+        <ModalComponent
+          isOpen={isModalOpen}
+          title={"ASSIGN"}
+          style={{ maxWidth: "90%", minWidth: "35%" }}
         >
-            <AssignRetailerForm onAction={handleAssignRetailerAction} assignRetailersListData={assignRetailersListData} cardItem={cardItem} onCloseModal={handleCancelAssign} prevRetailerData={prevRetailerData} edit={edit} />
-        </ModalComponent>}
+          {assignRetailerErr && !assignRetailerIsPending && (
+            <ErrorBlock
+              title="Error occurred!"
+              message={
+                assignRetailerError?.info?.message || edit ? "Failed to update assigned retailer!" : "Failed to assign retailer!"
+              }
+            />
+          )}
+          <AssignRetailerForm
+            onAction={handleAssignRetailerAction}
+            isPending={assignRetailerIsPending}
+            assignRetailersListData={assignRetailersListData}
+            cardItem={cardItem}
+            onCloseModal={handleCancelAssign}
+            prevRetailerData={prevRetailerData}
+            edit={edit}
+          />
+        </ModalComponent>
+      )}
     </>
-  )
+  );
 }
-
-
-

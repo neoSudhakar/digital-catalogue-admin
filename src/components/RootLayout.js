@@ -4,7 +4,6 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 import { useSelector } from "react-redux";
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect } from "react";
 
 export default function RootLayout(){
     function handleContextMenu(event){

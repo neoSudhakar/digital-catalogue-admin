@@ -13,6 +13,9 @@ import "ag-grid-community/styles/ag-grid.css"; // Core grid CSS, always needed
 import "ag-grid-community/styles/ag-theme-alpine.css"; // Optional theme CSS
 import ModalComponent from "./ModalComponent";
 import AddDesignTableForm from "./AddDesignTableForm";
+import { useMutation } from "@tanstack/react-query";
+import { updateDesignSet } from "../../../util/http";
+import ErrorBlock from "../../../UI/ErrorBlock";
 
 const DesignTable = ({ rowDataArr, cardItem, onAnyUpdateAction, setDetailsSet }) => {
   const [isModelOpen, setIsModalOpen] = useState(false);
@@ -41,30 +44,35 @@ const DesignTable = ({ rowDataArr, cardItem, onAnyUpdateAction, setDetailsSet })
     setIsModalOpen(true);
   }
 
+  const [updateDesignSetErr, setUpdateDesignSetErr] = useState(false);
+
+  const {mutate, data: updateDesignSetData, isPending: updateDesignSetIsPending, isError: updateDesignSetIsError, error: updateDesignSetError} = useMutation({
+    mutationFn: updateDesignSet
+  })
+
+  useEffect(()=>{
+    if(updateDesignSetData){
+      const updatedItemIndex = rowDataArr.findIndex((item)=>item.id === updateDesignSetData.id);
+      const prevDetailsSet = [...rowDataArr];
+      prevDetailsSet[updatedItemIndex] = updateDesignSetData;
+      setDetailsSet(prevDetailsSet);
+      setIsModalOpen(false);
+    }
+
+    if(updateDesignSetIsError){
+      setUpdateDesignSetErr(true);
+    }
+  },[updateDesignSetData, updateDesignSetIsError]);
+
   async function handleUpdateAction(updatedData){
     // console.log("UpdatedData", updatedData);
-    const response = await fetch(`http://localhost:8080/api/designs/${cardItem.id}/details/${detailsId}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedData),
-    });
-
-    if(response.ok){
-      // onAnyUpdateAction(cardItem.id);
-      const resData = await response.json();
-      console.log("res data is: ", resData);
-      const updatedItemIndex = rowDataArr.findIndex((item)=>item.id === resData.id);
-      const prevDetailsSet = [...rowDataArr];
-      prevDetailsSet[updatedItemIndex] = resData;
-      setDetailsSet(prevDetailsSet);
-    }
+   mutate({cardItemId: cardItem.id, updatedData, detailsId})
   }
 
   function handleCancelUpdateRow(){
     setFormData();
     setIsModalOpen(false);
+    setUpdateDesignSetErr(false);
   }
 
   async function handleDeleteRow(data){
@@ -171,7 +179,8 @@ const DesignTable = ({ rowDataArr, cardItem, onAnyUpdateAction, setDetailsSet })
         isOpen={isModelOpen}
         style={{ minWidth: "45%", maxWidth: "90%" }}
       >
-        <AddDesignTableForm onCloseModal={handleCancelUpdateRow} formData={formData} onAction={handleUpdateAction} />
+        {updateDesignSetErr && !updateDesignSetIsPending && <ErrorBlock title="Error occurred!" message={updateDesignSetError?.info?.message || "Failed to update design set!" }/> }
+        <AddDesignTableForm designSetData={updateDesignSetData} designSetIsPending={updateDesignSetIsPending} onCloseModal={handleCancelUpdateRow} formData={formData} onAction={handleUpdateAction} />
       </ModalComponent>}
     </div>
   );

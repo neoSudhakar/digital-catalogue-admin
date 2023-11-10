@@ -181,9 +181,17 @@
     cursor: pointer;
     background-color: rgb(196, 34, 5);
 }
+
+.error-block{
+    width: 50%;
+    margin: auto;
+}
   
 
 @media screen and (max-width:767px) {
+    .error-block{
+        width: 100%;
+    }
     .update-fields{
         margin-right: 0;
     }

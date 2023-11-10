@@ -12,6 +12,8 @@ import { action as logoutAction } from "./components/Register/Logout";
 import { authTokenLoader, checkAuthLoader } from "./util/auth";
 import MasterCreation from "./components/menu/master-design/MasterCreation";
 import CatalogueDesigns from "./components/menu/catalogue/CatalogueDesigns";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClientObj } from "./util/http";
 
 const router= createBrowserRouter([
   {
@@ -52,6 +54,8 @@ const router= createBrowserRouter([
 
 export default function App() {
   return (
-    <RouterProvider router={router}/>
+    <QueryClientProvider client={queryClientObj}>
+        <RouterProvider router={router}/>
+    </QueryClientProvider>
   );
 }

@@ -3,7 +3,7 @@ import Button from "../../../UI/Button";
 import useInputSpcl from "../../../hooks/use-input-spcl";
 import classes from "./AddDesignTableForm.module.css";
 
-export default function AddDesignTableForm({onCloseModal, formData, onAction}){
+export default function AddDesignTableForm({onCloseModal, formData, onAction,designSetIsPending, designSetData}){
     // console.log("Hello",formData);
 
     const initialTypeVal= formData ? formData.type : "";
@@ -78,16 +78,14 @@ export default function AddDesignTableForm({onCloseModal, formData, onAction}){
         
         onAction(fd);
 
-        typeResetFn();
-        stoneGroupResetFn();
-        pcsResetFn();
-        stoneWtResetFn();
-        unitOfMeasurementResetFn();
+        if(designSetData){
+            typeResetFn();
+            stoneGroupResetFn();
+            pcsResetFn();
+            stoneWtResetFn();
+            unitOfMeasurementResetFn();
+        }
 
-        onCloseModal();
-    
-        alert("Updated");
-        
       }
 
 
@@ -165,7 +163,7 @@ export default function AddDesignTableForm({onCloseModal, formData, onAction}){
                 </select>
             </div>
             <div className={classes.actions}>
-                <div>
+                {!designSetIsPending && <div>
                     <Button
                     type="button"
                     style={cancelStyleObj}
@@ -180,7 +178,8 @@ export default function AddDesignTableForm({onCloseModal, formData, onAction}){
                     >
                     {formData ? "Update" : "Add"}
                     </Button>
-                </div>
+                </div>}
+                {designSetIsPending && <p>Adding...</p>}
             </div>
         </form>
 }

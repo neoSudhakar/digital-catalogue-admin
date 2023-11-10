@@ -7,38 +7,35 @@ import DesignTanbleJSX from "./DesignTableJSX";
 import { useSelector } from "react-redux";
 import ImagesTable from "./ImagesTable/ImagesTable";
 import AssignRetailer from "./AssignRetailer";
+import { useQuery } from "@tanstack/react-query";
+import { fetchAssignedRetailers } from "../../../util/http";
 
 export default function DesignDetails({cardItem, onGoBack, onAnyUpdateAction}){
 
   const isDashboardOpen = useSelector((state)=>state.ui.isDashboardOpen);
 
   const [assignRetailersListData, setAssignRetailersListData] = useState([]);
-  const [msg, setMsg] = useState();
+
+  const {data, isPending, isError, error, refetch} = useQuery({
+    queryKey:  ["assignedRetailers"],
+    queryFn: ({signal})=> fetchAssignedRetailers({signal, cardItemId: cardItem.id}),
+  })
 
   useEffect(()=>{
-    async function getAssignedRetailers(){
-      const response = await fetch(`http://localhost:8080/api/design-account/${cardItem.id}/accounts`);
-      if(response.ok){
-        const resData = await response.json();
-        console.log("res data is list of assigned retailers:", resData);
+    if(data){
+      const formattedList = data.map((eachObj)=>{
+        return {
+          id: eachObj.id,
+          activeTillDate: eachObj.activeTillDate,
+          retailerId: eachObj.account.id,
+        }
+      });
 
-        const formattedList = resData.map((eachObj)=>{
-          return {
-            id: eachObj.id,
-            activeTillDate: eachObj.activeTillDate,
-            retailerId: eachObj.account.id,
-          }
-        });
+      console.log("formattedList of assigned retailers for particular design:", formattedList);
 
-        console.log("formattedList is:", formattedList);
-
-        setAssignRetailersListData(formattedList);
-        setMsg();
-      }
+      setAssignRetailersListData(formattedList);
     }
-
-    getAssignedRetailers();
-  }, [cardItem, msg]);
+  },[data]);
 
   const [designImages, setDesignImages] = useState(cardItem.designImages);
 
@@ -56,18 +53,6 @@ export default function DesignDetails({cardItem, onGoBack, onAnyUpdateAction}){
     });
     setImageItems(updatedDesignImagesArr);
   },[designImages]);
-
-    // const updatedDesignImagesArr= useMemo(()=>{
-    //   return designImages.map((eachItem, index)=>{
-    //     if(index===0){
-    //       return {...eachItem, isDefault: true};
-    //     }
-    //     else{
-    //       return {...eachItem, isDefault: false};
-    //     }
-    //   });
-    // },[designImages]);
-
 
     const defaultImageItem=imageItems.find((item)=>{
         return item.isDefault;
@@ -123,7 +108,7 @@ export default function DesignDetails({cardItem, onGoBack, onAnyUpdateAction}){
       <button className={classes["assign-btn"]} onClick={handleStartAssign}>Assign Retailer</button>
     </div>
 
-    {isStartAssign && <AssignRetailer setMsg={setMsg} assignRetailersListData={assignRetailersListData} onAnyUpdateAction={onAnyUpdateAction} cardItem={cardItem} isModalOpen={isStartAssign} onCloseModal={handleCloseAssign}  />}
+    {isStartAssign && <AssignRetailer refetchAssignedRetailers={refetch} assignRetailersListData={assignRetailersListData} onAnyUpdateAction={onAnyUpdateAction} cardItem={cardItem} isModalOpen={isStartAssign} onCloseModal={handleCloseAssign}  />}
     
     <div className={`${classes["card-details"]}  ${isDashboardOpen ? classes.full : ""}`}>
       <div className={classes["above-table"]}>
@@ -161,7 +146,7 @@ export default function DesignDetails({cardItem, onGoBack, onAnyUpdateAction}){
           
         </div>
 
-        <DesignFields setMsg={setMsg} assignRetailersListData={assignRetailersListData} cardItem1={cardItem} onAnyUpdateAction={onAnyUpdateAction} />
+        <DesignFields refetchAssignedRetailers={refetch} isPending={isPending} isError={isError} error={error} assignRetailersListData={assignRetailersListData} cardItem1={cardItem} onAnyUpdateAction={onAnyUpdateAction} />
 
       </div>
       <DesignTanbleJSX cardItem={cardItem} onAnyUpdateAction={onAnyUpdateAction}/>
