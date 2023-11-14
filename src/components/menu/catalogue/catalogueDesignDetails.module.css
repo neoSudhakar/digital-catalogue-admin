@@ -50,6 +50,11 @@
     padding-right: 3rem;
     padding-bottom: 2.5rem;
 }
+.card-details h2{
+    padding: 0;
+    margin: 0;
+    display: none;
+}
 .full{
     width: 95% !important;
     padding-left: 0;
@@ -136,4 +141,30 @@
     box-shadow: 0 0px 10px rgba(0, 0, 0, 0.25);
     position: sticky;
     bottom: 0;
+}
+
+@media screen and (max-width: 767px){
+    .above-table{
+        flex-direction: column;
+    }
+    .carousel{
+        width: 100%;
+        flex-direction: column;
+    }
+    .default-image{
+        order: 0;
+        width: 100%;
+    }
+    .left-images-container{
+        flex-direction: row;
+        width: 100%;
+    }
+    .left-image{
+        width: 6rem;
+        height: 5rem;
+    } 
+    .card-details h2{
+        display: block;
+    }
+
 }

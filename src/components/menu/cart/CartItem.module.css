@@ -1,0 +1,67 @@
+.list-item{
+    padding: 0.5rem 1.5rem;
+    background-color: rgb(221, 225, 230);
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+    width: 100%;
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.content{
+    flex: 2;
+}
+
+.content h3{
+    padding: 0;
+    margin: 0;
+    margin-bottom: 0.5rem;
+    color: rgb(6, 113, 145);
+}
+
+.below-title{
+    display: flex;
+    gap: 5rem;
+}
+
+.price{
+    font-weight: 600;
+}
+
+.qty{
+    padding : 0.15rem 0.5rem;
+    font-size: 0.65rem;
+    font-weight: 600;
+    border-radius: 0.35rem;
+    border: 1px solid #ccc;
+    background-color: rgb(240, 238, 236);
+}
+
+.actions{
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+.actions button{
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+}
+
+.minus{
+    color: red;
+}
+.plus{
+    color: green;
+}
+
+.actions button:hover{
+    cursor: pointer;
+}
+.actions button:active{
+    color: gray;
+}
+

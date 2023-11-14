@@ -12,6 +12,8 @@ import NotificationIcon from "../icons/notification-icon";
 import Image from "../assets/upload-image.png";
 import ChevronDownIcon from "../icons/chevron-down-icon";
 import { useEffect, useState } from "react";
+import { cartSliceActions } from "../store/cart-slice";
+import Cart from "./menu/cart/Cart";
 
 export default function Header() {
   const token = useRouteLoaderData("root");
@@ -19,6 +21,7 @@ export default function Header() {
   const submit = useSubmit();
   const dispatch = useDispatch();
   const isDashboardOpen = useSelector((state) => state.ui.isDashboardOpen);
+  const isCartOpen = useSelector((state) => state.cart.isCartOpen);
 
   function handleToggleDashboard() {
     dispatch(uiActions.toggleDashboard());
@@ -43,7 +46,12 @@ export default function Header() {
     }
   })
 
+  function handleOpenCart(){
+    dispatch(cartSliceActions.toggleCart());
+  }
+
   return (
+    <>
     <motion.header className={`${classes.header} ${classes.full}`}>
       <div className={classes["logo-toggler"]}>
         {token && (
@@ -65,7 +73,7 @@ export default function Header() {
             </span>
           </li>
           <li>
-            <span className={classes["click-icon"]}>
+            <span onClick={handleOpenCart} className={classes["click-icon"]}>
               <CartIcon />
             </span>
           </li>
@@ -106,7 +114,7 @@ export default function Header() {
                         </div>
                         
                         <div className={classes.fields}>
-                            <p>My Cart</p>
+                            <p onClick={handleOpenCart}>My Cart</p>
                             <p>Wishlist</p>
                         </div>
 
@@ -132,6 +140,10 @@ export default function Header() {
           </li>
         </ul>
       </nav>}
+
     </motion.header>
+      
+    {isCartOpen && <Cart/>}
+    </>
   );
 }

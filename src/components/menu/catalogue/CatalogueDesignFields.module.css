@@ -10,6 +10,7 @@
 } */
 .title-container h2{
     /* font-size: 1.25rem; */
+    display: block;
     margin: 0;
     padding:0;
 }
@@ -82,6 +83,10 @@
     background-color: white;
     border: 1px solid rgb(156, 18, 18);
 }
+.add-to-cart:active{
+    background-color:rgb(136, 7, 7);
+    color: white;
+}
 .buy{
     color: white;
     background-color: brown;
@@ -89,6 +94,10 @@
 }
 .buy:hover{
     background-color:rgb(136, 7, 7);
+}
+
+.buy:active{
+    background-color:rgb(218, 57, 57);
 }
 
 .info-container{
@@ -101,4 +110,22 @@
     align-items: center;
     gap: 0.5rem;
     font-size: 0.85rem;
+}
+
+@media screen and (max-width: 767px){
+    .fields{
+        margin: 0;
+        padding: 1rem;
+    }
+    .actions{
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+    .actions button{
+        flex:1;
+    }
+    .title-container h2{
+        display: none;
+    }
 }

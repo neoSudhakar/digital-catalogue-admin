@@ -19,6 +19,7 @@
 .left-details h2 {
     font-size: 1.35rem;
     text-align: center;
+    display: block;
 }
 .specification-heading{
     font-weight: 600;

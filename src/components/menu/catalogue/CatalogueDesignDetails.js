@@ -60,6 +60,7 @@ export default function CatalogueDesignDetails({cardItem, onGoBack}){
     </div>
     <h1>Design {cardItem.id} Details</h1>
     <div className={`${classes["card-details"]}  ${classes.full}`} style={{paddingTop: "2rem"}}>
+      <h2>Design{cardItem.id}</h2>
       <div className={classes["above-table"]}>
         <div className={classes.carousel}>
         <div className={classes["default-image"]}>

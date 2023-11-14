@@ -5,20 +5,28 @@ import classes from "./CatalogueDesignFields.module.css";
 import DiamondIcon from '../../../icons/diamond-icon';
 import ExchangeIcon from '../../../icons/exchange-icon';
 import ShippingIcon from '../../../icons/shipping-icon';
+import { useDispatch } from 'react-redux';
+import { cartSliceActions } from '../../../store/cart-slice';
 
 export default function CatalogueDesignFields({cardItem}) {
+  const dispatch = useDispatch();
+
   const [qty, setQty] = useState(1);
+
   function handleDecreaseQty(){
     setQty(prev=>+prev-1);
   }
   function handleIncreaseQty(){
     setQty(prev=>+prev+1);
   }
+
   function handleQtyChange(event){
     setQty(event.target.value);
   }
+
   function handleAddToCart(){
-    console.log(qty);
+    console.log({...cardItem, quantity:+qty});
+    dispatch(cartSliceActions.addItemToCart({...cardItem, quantity:+qty}));
   }
   return (
     <div className={classes["fields"]}>
