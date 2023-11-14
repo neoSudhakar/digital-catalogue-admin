@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import MinusIcon from '../../../icons/minus-icon'
 import PlusIcon from '../../../icons/plus-icon'
 import classes from "./CatalogueDesignFields.module.css";
@@ -7,6 +7,19 @@ import ExchangeIcon from '../../../icons/exchange-icon';
 import ShippingIcon from '../../../icons/shipping-icon';
 
 export default function CatalogueDesignFields({cardItem}) {
+  const [qty, setQty] = useState(1);
+  function handleDecreaseQty(){
+    setQty(prev=>+prev-1);
+  }
+  function handleIncreaseQty(){
+    setQty(prev=>+prev+1);
+  }
+  function handleQtyChange(event){
+    setQty(event.target.value);
+  }
+  function handleAddToCart(){
+    console.log(qty);
+  }
   return (
     <div className={classes["fields"]}>
       <div className={classes["title-container"]}>
@@ -16,13 +29,13 @@ export default function CatalogueDesignFields({cardItem}) {
       <div className={classes["quantity-container"]}>
         <span>Quantity</span>
         <div className={classes["quantity-actions"]}>
-            <span><MinusIcon circle={true} /></span>
-            <input type="number" min={1} step={1} />
-            <span><PlusIcon circle={true}/></span>
+            <button onClick={handleDecreaseQty} disabled={qty===1}><MinusIcon circle={true} /></button>
+            <input type="number" min={1} step={1} value={qty} onChange={handleQtyChange} />
+            <button onClick={handleIncreaseQty}><PlusIcon circle={true}/></button>
         </div>
       </div>
       <div className={classes["actions"]}>
-        <button className={classes["add-to-cart"]}>Add to Cart</button>
+        <button className={classes["add-to-cart"]} onClick={handleAddToCart}>Add to Cart</button>
         <button className={classes["buy"]}>Buy Now</button>
       </div>
       <div className={classes["info-container"]}>

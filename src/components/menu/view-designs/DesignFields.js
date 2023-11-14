@@ -90,14 +90,16 @@ export default function DesignFields({
     mutationFn: removeRetailer,
     onSuccess: ()=>{
       setRemovingRetailerId(null);
-      queryClientObj.invalidateQueries({
-        queryKey: ["assignedRetailers"],
-      })
     },
     onError: ()=>{
       // setRemoveRetailerErr(true);
       console.log("removeRetailer failed");
       setErrModalIsOpen(true);
+    },
+    onSettled: ()=>{
+      queryClientObj.invalidateQueries({
+        queryKey: ["assignedRetailers"],
+      })
     }
   })
 
@@ -148,7 +150,7 @@ export default function DesignFields({
                 {retailerData.activeTillDate}
               </p>
               <div className={classes["assign-actions"]}>
-                {removingRetailerId!==retailerData.id && (
+                {/* {removingRetailerId!==retailerData.id && !removeRetailerIsPending && ( */}
                   <>
                     <button
                       className={classes["edit-assign"]}
@@ -163,8 +165,8 @@ export default function DesignFields({
                       Remove
                     </button>
                   </>
-                )}
-                {removeRetailerIsPending && removingRetailerId==retailerData.id && <p>Removing...</p>}
+                {/* )} */}
+                {/* {removeRetailerIsPending && removingRetailerId===retailerData.id && <p>Removing...</p>} */}
               </div>
             </li>
           );

@@ -45,7 +45,7 @@ export default function AssignRetailerForm({cardItem, assignRetailersListData , 
         color: "blue",
         border: "1px solid blue",
     };
-    const saveStyleObj = { backgroundColor: "blue" };
+    const saveStyleObj = { backgroundColor: isErrorBlock ? "rgb(221, 36, 98)" : "blue" };
 
     let content = (
       <form className={classes.form} onSubmit={handleSubmit} style={{paddingTop: "0.5rem"}}>
@@ -68,7 +68,7 @@ export default function AssignRetailerForm({cardItem, assignRetailersListData , 
         <select name="retailer" id="retailer" required defaultValue={prevRetailerData ? prevRetailerData.retailerId : ""}>
           <option value="" disabled hidden>Select an option</option>
           {RETAILERS.map((retailer) => (
-            <option key={retailer.id} value={retailer.id} disabled={
+            retailer.accountType !== "Manufacturer" && <option key={retailer.id} value={retailer.id} disabled={
                 (!edit && retailerIdsList.includes(retailer.id)) ||
                 (edit && retailerIdsList.includes(retailer.id) && retailer.id !== prevRetailerData.retailerId)
               }

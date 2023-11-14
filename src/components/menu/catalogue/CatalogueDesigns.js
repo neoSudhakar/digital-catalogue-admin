@@ -15,16 +15,8 @@ export default function CatalogueDesigns() {
 
   const accountId = account?.id;
 
-  // useLayoutEffect(()=>{
-  //   if(accountType === "Manufacturer"){
-  //     navigate("/");
-  //   }
-  // }, [accountType]);
-
   const token = useRouteLoaderData("root");
   const dispatch = useDispatch();
-
-  // const [isShow, setIsShow] = useState(false);
 
   const [cardItem, setCardItem] = useState(null);
 
@@ -33,18 +25,16 @@ export default function CatalogueDesigns() {
   function handleShowDetails(item) {
     console.log(item);
     setCardItem(item);
-    // setIsShow(true);
     dispatch(uiActions.openCatalogueDesignDetails());
   }
   function handleGoBack() {
-    // setIsShow(false);
     dispatch(uiActions.closeCatalogueDesignDetails());
   }
 
 
 
   let content = (
-    <DesignCards handleShowDetails={handleShowDetails} get catalogue accountId={accountId}/>
+    <DesignCards handleShowDetails={handleShowDetails} catalogue accountId={accountId}/>
   );
 
   if (isDesignDetailsOpen) {

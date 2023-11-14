@@ -59,13 +59,8 @@ const DesignTable = ({
     error: updateDesignSetError,
   } = useMutation({
     mutationFn: updateDesignSet,
-    // onError : ()=>{
-    //   setUpdateDesignSetErr(true);
-    // }
-  });
-
-  useEffect(() => {
-    if (updateDesignSetData) {
+    onSuccess: (updateDesignSetData)=>{
+      console.log("data updated on success", updateDesignSetData);
       const updatedItemIndex = rowDataArr.findIndex(
         (item) => item.id === updateDesignSetData.id
       );
@@ -73,12 +68,27 @@ const DesignTable = ({
       prevDetailsSet[updatedItemIndex] = updateDesignSetData;
       setDetailsSet(prevDetailsSet);
       setIsModalOpen(false);
-    }
-
-    if (updateDesignSetIsError) {
+    },
+    onError : ()=>{
       setUpdateDesignSetErr(true);
     }
-  }, [updateDesignSetData, updateDesignSetIsError]);
+  });
+
+  // useEffect(() => {
+  //   if (updateDesignSetData) {
+  //     const updatedItemIndex = rowDataArr.findIndex(
+  //       (item) => item.id === updateDesignSetData.id
+  //     );
+  //     const prevDetailsSet = [...rowDataArr];
+  //     prevDetailsSet[updatedItemIndex] = updateDesignSetData;
+  //     setDetailsSet(prevDetailsSet);
+  //     setIsModalOpen(false);
+  //   }
+
+  //   if (updateDesignSetIsError) {
+  //     setUpdateDesignSetErr(true);
+  //   }
+  // }, [updateDesignSetData, updateDesignSetIsError]);
 
   async function handleUpdateAction(updatedData) {
     // console.log("UpdatedData", updatedData);

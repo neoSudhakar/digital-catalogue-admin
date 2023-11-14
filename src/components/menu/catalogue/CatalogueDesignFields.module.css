@@ -32,18 +32,30 @@
     align-items: center;
     gap: 0.5rem;
 }
-.quantity-actions span{
+.quantity-actions button{
     font-size: 1rem;
     color: brown;
+    border: none;
+    background-color: transparent;
 }
-.quantity-actions span:hover{
+.quantity-actions button:hover{
     cursor: pointer;
 }
+.quantity-actions button:active{
+    cursor: pointer;
+    color: gray;
+}
+.quantity-actions button:disabled, .quantity-actions button:disabled:hover, .quantity-actions button:disabled:active{
+    cursor: not-allowed;
+    color: #ccc;
+}
+
 .quantity-actions input{
     padding: 0.5rem 0rem 0.5rem 0.5rem;
     border: 2px solid brown;
     outline: none;
     min-width: 3rem;
+    font-size: large;
     width: 4rem;
     text-align: center;
 }

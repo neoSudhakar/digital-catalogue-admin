@@ -179,7 +179,7 @@ export default function AddDesignTableForm({onCloseModal, formData, onAction,des
                     {formData ? "Update" : "Add"}
                     </Button>
                 </div>}
-                {designSetIsPending && <p>Adding...</p>}
+                {designSetIsPending && <p>{formData ? "Updating..." : "Adding..."}</p>}
             </div>
         </form>
 }
