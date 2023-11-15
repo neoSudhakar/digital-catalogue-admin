@@ -84,6 +84,7 @@
 }
 .click-icon{
     display: block;
+    /* border: 2px solid red; */
 }
 
 .click-icon:hover{

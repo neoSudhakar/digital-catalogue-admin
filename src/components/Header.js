@@ -17,11 +17,12 @@ import Cart from "./menu/cart/Cart";
 
 export default function Header() {
   const token = useRouteLoaderData("root");
-  const [userName, setUserName]= useState("");
+  const [userName, setUserName] = useState("");
   const submit = useSubmit();
   const dispatch = useDispatch();
   const isDashboardOpen = useSelector((state) => state.ui.isDashboardOpen);
   const isCartOpen = useSelector((state) => state.cart.isCartOpen);
+  const totalQuantity = useSelector((state) => state.cart.totalQuantity);
 
   function handleToggleDashboard() {
     dispatch(uiActions.toggleDashboard());
@@ -38,112 +39,131 @@ export default function Header() {
     submit(null, { method: "post", action: "/logout" });
   }
 
-  useEffect(()=>{
-    if(token){
-      const fullNameObj = localStorage.getItem('fullName');
+  useEffect(() => {
+    if (token) {
+      const fullNameObj = localStorage.getItem("fullName");
       // const parsedFullNameObj= JSON.parse(fullNameObj)
       setUserName(fullNameObj);
     }
-  })
+  });
 
-  function handleOpenCart(){
+  function handleOpenCart() {
     dispatch(cartSliceActions.toggleCart());
   }
 
   return (
     <>
-    <motion.header className={`${classes.header} ${classes.full}`}>
-      <div className={classes["logo-toggler"]}>
-        {token && (
-          <p className={classes.toggler} onClick={handleToggleDashboard}>
-            <TogglerIcon />
-          </p>
-        )}
-        <div className={classes["logo-container"]}>
-          <img src={Logo} />
-          <h2>Digital Catalogue</h2>
+      <motion.header className={`${classes.header} ${classes.full}`}>
+        <div className={classes["logo-toggler"]}>
+          {token && (
+            <p className={classes.toggler} onClick={handleToggleDashboard}>
+              <TogglerIcon />
+            </p>
+          )}
+          <div className={classes["logo-container"]}>
+            <img src={Logo} />
+            <h2>Digital Catalogue</h2>
+          </div>
         </div>
-      </div>
 
-      {token && <nav>
-        <ul className={classes.list}>
-          <li>
-            <span className={classes["click-icon"]}>
-                <LikeIcon/>
-            </span>
-          </li>
-          <li>
-            <span onClick={handleOpenCart} className={classes["click-icon"]}>
-              <CartIcon />
-            </span>
-          </li>
-          <li>
-            <span className={classes["click-icon"]}>
-              <ChatIcon />
-            </span>
-          </li>
-          <li>
-            <span className={classes["click-icon"]}>
-              <NotificationIcon />
-            </span>
-          </li>
-          <li>
-            <div className={classes["user-image-text"]}>
-              <img
-                className={classes.image}
-                src={
-                  "https://media.istockphoto.com/id/1090878494/photo/close-up-portrait-of-young-smiling-handsome-man-in-blue-polo-shirt-isolated-on-gray-background.webp?b=1&s=170667a&w=0&k=20&c=c3TaqVe9-0EcHl7mjO-9YChSvGBDhvzUai6obs1Ibz4="
-                }
-              />
-              <p className={classes.para}>
-                Hi, <span className={classes.name}>{userName}</span>
-              </p>
-            </div>
-          </li>
-          <li>
-            <span className={classes.chevron} onClick={handleShowUser}>
-                <ChevronDownIcon />
-            </span>
-            {showUser && <div className={classes["user-details"]}>
-                        <div className={classes["user-container"]}>
-                            <div className={classes.icon}>M</div>
-                            <div className={classes.content}>
-                                <h3>Michael</h3>
-                                <span className={classes.email}>michael123@gmail.com</span>
-                            </div>
-                        </div>
-                        
-                        <div className={classes.fields}>
-                            <p onClick={handleOpenCart}>My Cart</p>
-                            <p>Wishlist</p>
-                        </div>
+        {token && (
+          <nav>
+            <ul className={classes.list}>
+              <li>
+                <span className={classes["click-icon"]}>
+                  <LikeIcon />
+                </span>
+              </li>
+              <li>
+                <motion.span
+                  key={totalQuantity}
+                  animate={{
+                    scale: totalQuantity > 0 ? [1, 1.5, 1] : [1],
+                    transition: {
+                      bounce: true,
+                      duration: 0.4,
+                      stiffness: 800,
+                      mass: 100,
+                    },
+                  }}
+                  onClick={handleOpenCart}
+                  className={classes["click-icon"]}
+                >
+                  <CartIcon />
+                </motion.span>
+              </li>
+              <li>
+                <span className={classes["click-icon"]}>
+                  <ChatIcon />
+                </span>
+              </li>
+              <li>
+                <span className={classes["click-icon"]}>
+                  <NotificationIcon />
+                </span>
+              </li>
+              <li>
+                <div className={classes["user-image-text"]}>
+                  <img
+                    className={classes.image}
+                    src={
+                      "https://media.istockphoto.com/id/1090878494/photo/close-up-portrait-of-young-smiling-handsome-man-in-blue-polo-shirt-isolated-on-gray-background.webp?b=1&s=170667a&w=0&k=20&c=c3TaqVe9-0EcHl7mjO-9YChSvGBDhvzUai6obs1Ibz4="
+                    }
+                  />
+                  <p className={classes.para}>
+                    Hi, <span className={classes.name}>{userName}</span>
+                  </p>
+                </div>
+              </li>
+              <li>
+                <span className={classes.chevron} onClick={handleShowUser}>
+                  <ChevronDownIcon />
+                </span>
+                {showUser && (
+                  <div className={classes["user-details"]}>
+                    <div className={classes["user-container"]}>
+                      <div className={classes.icon}>M</div>
+                      <div className={classes.content}>
+                        <h3>Michael</h3>
+                        <span className={classes.email}>
+                          michael123@gmail.com
+                        </span>
+                      </div>
+                    </div>
 
-                        <div className={classes.fields}>
-                            <p>Notifications</p>
-                            <p>Messages</p>
-                        </div>
-                        
-                        <div className={classes.fields}>
-                            <p>Public Profile</p>
-                            <p>Edit Profile</p>
-                        </div>
-                        
-                        <div className={classes.fields}>
-                            <p>Help</p>
-                            <p>Settings</p>
-                        </div>
-                        <div className={classes.actions}>
-                            <button className={classes.logout}  onClick={handleLogout}>Logout</button>
-                        </div>
-                        
-            </div>}
-          </li>
-        </ul>
-      </nav>}
+                    <div className={classes.fields}>
+                      <p onClick={handleOpenCart}>My Cart</p>
+                      <p>Wishlist</p>
+                    </div>
 
-    </motion.header>
-      
-    {isCartOpen && <Cart/>}
+                    <div className={classes.fields}>
+                      <p>Notifications</p>
+                      <p>Messages</p>
+                    </div>
+
+                    <div className={classes.fields}>
+                      <p>Public Profile</p>
+                      <p>Edit Profile</p>
+                    </div>
+
+                    <div className={classes.fields}>
+                      <p>Help</p>
+                      <p>Settings</p>
+                    </div>
+                    <div className={classes.actions}>
+                      <button className={classes.logout} onClick={handleLogout}>
+                        Logout
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </li>
+            </ul>
+          </nav>
+        )}
+      </motion.header>
+
+      {isCartOpen && <Cart />}
     </>
   );
 }

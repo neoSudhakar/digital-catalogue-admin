@@ -18,17 +18,20 @@ export default function CatalogueDesigns() {
   const token = useRouteLoaderData("root");
   const dispatch = useDispatch();
 
-  const [cardItem, setCardItem] = useState(null);
+  const [cardItem, setCardItem] = useState();
 
   const isDesignDetailsOpen = useSelector((state)=>state.ui.isCatalogueDesignDetailsOpen);
 
   function handleShowDetails(item) {
-    console.log(item);
+    // console.log(item);
     setCardItem(item);
-    dispatch(uiActions.openCatalogueDesignDetails());
+    // setIsShow(true);
+    dispatch(uiActions.openDesignDetails());
   }
   function handleGoBack() {
-    dispatch(uiActions.closeCatalogueDesignDetails());
+    // setIsShow(false);
+    setCardItem();
+    dispatch(uiActions.closeDesignDetails());
   }
 
 
@@ -37,7 +40,7 @@ export default function CatalogueDesigns() {
     <DesignCards handleShowDetails={handleShowDetails} catalogue accountId={accountId}/>
   );
 
-  if (isDesignDetailsOpen) {
+  if (cardItem) {
     content = (
       <CatalogueDesignDetails onGoBack={handleGoBack} cardItem={cardItem}/>
     );

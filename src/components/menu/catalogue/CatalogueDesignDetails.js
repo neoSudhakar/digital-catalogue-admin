@@ -7,13 +7,15 @@ import ReactImageMagnify from "react-image-magnify";
 import { useSelector } from "react-redux";
 import CatalogueDesignFields from "./CatalogueDesignFields";
 import CatalogueProductDetails from "./CatalogueProductDetails";
+import { useEffect } from "react";
 
 export default function CatalogueDesignDetails({cardItem, onGoBack}){
 
   const isDashboardOpen = useSelector((state)=>state.ui.isDashboardOpen);
 
-    const updatedDesignImagesArr= useMemo(()=>{
-      return cardItem.designImages.map((eachItem, index)=>{
+    const [updatedDesignImagesArr, setUpdatedDesignImagesArr]= useState([]);
+    useEffect(()=>{
+      const updatedArr = cardItem.designImages.map((eachItem, index)=>{
         if(index===0){
           return {...eachItem, isDefault: true};
         }
@@ -21,7 +23,8 @@ export default function CatalogueDesignDetails({cardItem, onGoBack}){
           return {...eachItem, isDefault: false};
         }
       });
-    })
+      setUpdatedDesignImagesArr(updatedArr);
+    }, [cardItem]);
 
     const [imageItems, setImageItems]= useState(updatedDesignImagesArr);
 
