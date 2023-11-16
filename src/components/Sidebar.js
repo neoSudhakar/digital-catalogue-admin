@@ -19,7 +19,6 @@ import {
   AiOutlineLogout,
 } from "react-icons/ai";
 import { useEffect, useState } from "react";
-import { loggedInPerson1, loggedInPerson2 } from "../util/user";
 import { getAccountLoader } from "../util/auth";
 
 export default function Sidebar() {

@@ -1,5 +1,14 @@
 import { redirect } from "react-router-dom";
 
+export function getUserId(){
+    const userId=JSON.parse(localStorage.getItem("USER_ID"));
+
+    if(!userId){
+        return null;
+    }
+    return userId;
+}
+
 export function getAccountLoader(){
     const account=JSON.parse(localStorage.getItem("ACCOUNT"));
 

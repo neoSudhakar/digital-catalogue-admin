@@ -77,6 +77,10 @@
     cursor: pointer;
 }
 
+.actions button:disabled, .actions button:disabled:hover, .actions button:disabled:active{
+    cursor: not-allowed;
+}
+
 .add-to-cart{
     color: brown;
     /* background-color: rgb(221, 36, 159); */
@@ -86,6 +90,12 @@
 .add-to-cart:active{
     background-color:rgb(136, 7, 7);
     color: white;
+}
+
+.add-to-cart:disabled{
+    background-color: #c9c7c7;
+    color: rgb(70, 67, 67);
+    border-color: #c9c7c7;
 }
 .buy{
     color: white;
@@ -98,6 +108,10 @@
 
 .buy:active{
     background-color:rgb(218, 57, 57);
+}
+
+.buy.ordered{
+    background-color: rgb(62, 150, 62);
 }
 
 .info-container{

@@ -10,12 +10,11 @@ import CatalogueProductDetails from "./CatalogueProductDetails";
 import { useEffect } from "react";
 
 export default function CatalogueDesignDetails({cardItem, onGoBack}){
+  console.log("carditem is", cardItem)
 
   const isDashboardOpen = useSelector((state)=>state.ui.isDashboardOpen);
-
-    const [updatedDesignImagesArr, setUpdatedDesignImagesArr]= useState([]);
-    useEffect(()=>{
-      const updatedArr = cardItem.designImages.map((eachItem, index)=>{
+    const updatedDesignImagesArr = useMemo(()=>{
+      return cardItem.designImages.map((eachItem, index)=>{
         if(index===0){
           return {...eachItem, isDefault: true};
         }
@@ -23,8 +22,20 @@ export default function CatalogueDesignDetails({cardItem, onGoBack}){
           return {...eachItem, isDefault: false};
         }
       });
-      setUpdatedDesignImagesArr(updatedArr);
     }, [cardItem]);
+
+    // const [updatedDesignImagesArr, setUpdatedDesignImagesArr]= useState([]);
+    // useLayoutEffect(()=>{
+    //   const updatedArr = cardItem.designImages.map((eachItem, index)=>{
+    //     if(index===0){
+    //       return {...eachItem, isDefault: true};
+    //     }
+    //     else{
+    //       return {...eachItem, isDefault: false};
+    //     }
+    //   });
+    //   setUpdatedDesignImagesArr(updatedArr);
+    // }, [cardItem]);
 
     const [imageItems, setImageItems]= useState(updatedDesignImagesArr);
 

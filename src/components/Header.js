@@ -122,18 +122,19 @@ export default function Header() {
                 {showUser && (
                   <div className={classes["user-details"]}>
                     <div className={classes["user-container"]}>
-                      <div className={classes.icon}>M</div>
+                      <div className={classes.icon}>{userName[0].toUpperCase()}</div>
                       <div className={classes.content}>
-                        <h3>Michael</h3>
+                        <h3>{userName}</h3>
                         <span className={classes.email}>
-                          michael123@gmail.com
+                          {userName}123@gmail.com
                         </span>
                       </div>
                     </div>
 
                     <div className={classes.fields}>
                       <p onClick={handleOpenCart}>My Cart</p>
-                      <p>Wishlist</p>
+                      <p>My Wishlist</p>
+                      <p>My Orders</p>
                     </div>
 
                     <div className={classes.fields}>

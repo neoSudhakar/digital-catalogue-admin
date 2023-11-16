@@ -86,8 +86,11 @@ return response.json();
     console.log("Login Successful!")
     localStorage.setItem("TOKEN", "loggedIn");
     localStorage.setItem("fullName", data.userName);
+    console.log("Logged in data is:", data);
+    console.log("Logged in user id is:", data.id);
     console.log("Logged in account is:", data.account);
     localStorage.setItem("ACCOUNT", JSON.stringify(data.account));
+    localStorage.setItem("USER_ID", data.id);
     navigate("/");
   }
 })

@@ -32,6 +32,15 @@ const cartSlice = createSlice({
         existingItem.quantity--;
       }
     },
+    removeWholeItemFromCart(state, action) {
+      const id = action.payload;
+      const existingItemIndex = state.items.findIndex((item) => item.id === id);
+
+      state.totalQuantity -= state.items[existingItemIndex].quantity;
+      state.items.splice(existingItemIndex, 1);
+
+
+    },
     toggleCart(state){
         state.isCartOpen = !state.isCartOpen;
     },

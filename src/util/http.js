@@ -216,4 +216,31 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
     console.log("res data remove assigned retailer: ", resData);
     return resData;
   }
+
+  export async function postOrder(data){
+    const response = await fetch(
+      `http://localhost:8080/api/orders`,
+      {
+        method: "POST",
+        headers:{
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    );
+
+    if(!response.ok){
+        console.log("response status: " + response.status);
+        const error = new Error("Failed to post order");
+        error.code = response.status;
+        const resData = await response.json();
+        console.log("res data of Failed to post order: ", resData);
+        error.info = resData;
+        throw error;
+    }
+
+    const resData = await response.json();
+    console.log("res data post order: ", resData);
+    return resData;
+  }
   

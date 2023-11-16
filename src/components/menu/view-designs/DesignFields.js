@@ -131,7 +131,7 @@ export default function DesignFields({
   let content2;
   if(errModalIsOpen){
     content2 = (
-      <ErrorModal errModalIsOpen={errModalIsOpen} err={removeRetailerError} onCloseErrModal={handleCloseErrModal}/>
+      <ErrorModal errModalIsOpen={errModalIsOpen} err={removeRetailerError} onCloseErrModal={handleCloseErrModal} fallBackErrMsg="Failed to remove assigned retailer!" />
     )
   }
 

@@ -3,7 +3,7 @@ import ModalComponent from './ModalComponent'
 import AssignRetailerForm from './AssignRetailerForm'
 import ErrorBlock from '../../../UI/ErrorBlock'
 
-export default function ErrorModal({errModalIsOpen, err, onCloseErrModal}) {
+export default function ErrorModal({errModalIsOpen, err, onCloseErrModal, fallBackErrMsg}) {
   return (
     <ModalComponent
           isOpen={errModalIsOpen}
@@ -16,7 +16,7 @@ export default function ErrorModal({errModalIsOpen, err, onCloseErrModal}) {
             title={"Error Occured!"}
             message={
                 err?.info?.errorMessage ||
-              "Failed to remove assigned retailer!"
+              fallBackErrMsg
             }
           />
 
