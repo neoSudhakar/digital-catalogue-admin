@@ -6,12 +6,16 @@ import { useDispatch, useSelector } from "react-redux";
 import DesignCards from "../view-designs/DesignCards/DesignCards";
 import CatalogueDesignDetails from "./CatalogueDesignDetails";
 import { uiActions } from "../../../store/ui-slice";
-import { getAccountLoader } from "../../../util/auth";
+import { getAccountLoader, getUserId } from "../../../util/auth";
+import { useQuery } from "@tanstack/react-query";
+import { fetchOrders } from "../../../util/http";
+import { ordersSliceActions } from "../../../store/orders-slice";
 
 export default function CatalogueDesigns() {
   const navigate = useNavigate();
 
   const account = getAccountLoader();
+  const userId = getUserId();
 
   const accountId = account?.id;
 
@@ -32,6 +36,16 @@ export default function CatalogueDesigns() {
     // setIsShow(false);
     setCardItem();
     dispatch(uiActions.closeDesignDetails());
+  }
+
+  const {data, isPending, isError, error} = useQuery({
+    queryKey: ["orders", {userId: userId}],
+    queryFn: ({signal, queryKey}) => fetchOrders({signal, userId}),
+  });
+
+  if(data){
+    console.log("Orders data is: ", data);
+    dispatch(ordersSliceActions.setOrders(data));
   }
 
 

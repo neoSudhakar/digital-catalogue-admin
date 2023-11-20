@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { cartSliceActions } from '../../../store/cart-slice';
 import { getAccountLoader, getUserId } from '../../../util/auth';
 import { useMutation } from '@tanstack/react-query';
-import { postOrder } from '../../../util/http';
+import { postOrder, queryClientObj } from '../../../util/http';
 import ErrorModal from '../view-designs/ErrorModal';
 
 export default function CatalogueDesignFields({cardItem}) {
@@ -17,6 +17,9 @@ export default function CatalogueDesignFields({cardItem}) {
 
   const cartItems = useSelector(state=>state.cart.items);
 
+  const ordersArr = useSelector(state=>state.orders.orders);
+
+  const isDesignExistInOrders = ordersArr.findIndex((order)=> order.design.id === cardItem.id) >= 0;
   const isDesignExistInCart = cartItems.findIndex((item)=> item.id === cardItem.id) >= 0;
 
   const [qty, setQty] = useState(1);
@@ -40,6 +43,11 @@ export default function CatalogueDesignFields({cardItem}) {
   const [errModalIsOpen, setErrModalIsOpen] = useState(false);
   const {mutate, isPending, isError, error, data} = useMutation({
     mutationFn: postOrder,
+    onSuccess: ()=>{
+      queryClientObj.invalidateQueries({
+        queryKey: ["orders"],
+      })
+    },
     onError: ()=>{
       setErrModalIsOpen(true);
     }
@@ -55,7 +63,7 @@ export default function CatalogueDesignFields({cardItem}) {
     const {id: accountId} = getAccountLoader();
     console.log("accountId is: ", accountId);
 
-    mutate({designId: cardItem.id, userId: userId, accountId: accountId, quantity: qty});
+    mutate({designId: cardItem.id, userId: userId, accountId: accountId, quantity: +qty});
   }
 
   let content;
@@ -80,7 +88,7 @@ export default function CatalogueDesignFields({cardItem}) {
       </div>
       <div className={classes["actions"]}>
         <button className={classes["add-to-cart"]} onClick={handleAddToCart} disabled={isDesignExistInCart}>Add to Cart</button>
-        <button className={`${classes["buy"]} ${data ? classes["ordered"] : ""}`} onClick={handleOrderNow} disabled={data}>{data ? "Ordered" : "Order Now"}</button>
+        <button className={`${classes["buy"]} ${isDesignExistInOrders ? classes["ordered"] : ""}`} onClick={handleOrderNow} disabled={isDesignExistInOrders}>{isDesignExistInOrders ? "Ordered" : "Order Now"}</button>
         {content}
       </div>
       <div className={classes["info-container"]}>

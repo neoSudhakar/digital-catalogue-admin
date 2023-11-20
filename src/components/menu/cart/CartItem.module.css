@@ -6,6 +6,7 @@
     width: 100%;
     display: flex;
     gap: 2rem;
+    overflow: hidden;
     align-items: center;
     justify-content: space-between;
 }

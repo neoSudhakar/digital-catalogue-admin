@@ -243,4 +243,24 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
     console.log("res data post order: ", resData);
     return resData;
   }
+
+  export async function fetchOrders({signal, userId}){
+    const response = await fetch(
+      `http://localhost:8080/api/orders/user/${userId}`,{signal}
+    );
+
+    if(!response.ok){
+        console.log("response status: " + response.status);
+        const error = new Error("Failed to fetch order");
+        error.code = response.status;
+        const resData = await response.json();
+        console.log("res data of Failed to fetch order: ", resData);
+        error.info = resData;
+        throw error;
+    }
+
+    const resData = await response.json();
+    console.log("res data fetch order: ", resData);
+    return resData;
+  }
   

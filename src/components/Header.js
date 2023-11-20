@@ -14,6 +14,7 @@ import ChevronDownIcon from "../icons/chevron-down-icon";
 import { useEffect, useState } from "react";
 import { cartSliceActions } from "../store/cart-slice";
 import Cart from "./menu/cart/Cart";
+import { ordersSliceActions } from "../store/orders-slice";
 
 export default function Header() {
   const token = useRouteLoaderData("root");
@@ -23,6 +24,7 @@ export default function Header() {
   const isDashboardOpen = useSelector((state) => state.ui.isDashboardOpen);
   const isCartOpen = useSelector((state) => state.cart.isCartOpen);
   const totalQuantity = useSelector((state) => state.cart.totalQuantity);
+  const isOrdersOpen = useSelector((state) => state.orders.isOrdersOpen);
 
   function handleToggleDashboard() {
     dispatch(uiActions.toggleDashboard());
@@ -49,6 +51,10 @@ export default function Header() {
 
   function handleOpenCart() {
     dispatch(cartSliceActions.toggleCart());
+  }
+  
+  function handleOpenOrders(){
+    dispatch(ordersSliceActions.toggleOrders());
   }
 
   return (
@@ -134,7 +140,7 @@ export default function Header() {
                     <div className={classes.fields}>
                       <p onClick={handleOpenCart}>My Cart</p>
                       <p>My Wishlist</p>
-                      <p>My Orders</p>
+                      {/* <p onClick={handleOpenOrders}>My Orders</p> */}
                     </div>
 
                     <div className={classes.fields}>

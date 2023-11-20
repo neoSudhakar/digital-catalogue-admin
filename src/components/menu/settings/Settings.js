@@ -9,10 +9,14 @@ import axios from "axios";
 
 import { Menu, Modal,Button } from "antd";
 import { useEffect, useState } from "react";
+import { getAccountLoader } from "../../../util/auth";
 
 export default function Settings(){
 
   const [selectedCategory, setSelectedCategory] = useState('account');
+
+  const {accountType} = getAccountLoader();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [accountData, setAccountData] = useState([
@@ -160,6 +164,12 @@ export default function Settings(){
   const categoryHandler= (category) => {
     setSelectedCategory(category);
   };
+
+  if(accountType === "Retailer"){
+    return <div>
+      <h1>Retailer Settings</h1>
+    </div>
+  }
 
   return (
     <div className={classes.settings}>

@@ -287,7 +287,7 @@ export default function DesignCards({ handleShowDetails, catalogue, updatedCardI
               key={item.id}
               className={classes.card}
             >
-              {item.designImages.length > 0 && <img src={item.designImages[0].preSignedURL} alt={item.title} />}
+              {item.designImages.length > 0 && <img src={item.designImages[0].preSignedURL} alt={item.id} />}
               {item.designImages.length === 0 && <img alt={item.title} />}
               <p className={classes.title}>Design {item.id}</p>
               <p>Gross Weight: {item.grossWeight} Grms</p>
