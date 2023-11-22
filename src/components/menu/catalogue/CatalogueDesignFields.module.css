@@ -93,9 +93,9 @@
 }
 
 .add-to-cart:disabled{
-    background-color: #c9c7c7;
-    color: rgb(70, 67, 67);
-    border-color: #c9c7c7;
+    background-color: #dbcaca;
+    color: rgb(138, 136, 136);
+    border-color: #dbcaca;
 }
 .buy{
     color: white;
@@ -111,7 +111,8 @@
 }
 
 .buy.ordered{
-    background-color: rgb(93, 177, 93);
+    background-color: rgb(123, 177, 123);
+    color: rgb(231, 230, 230);
 }
 
 .info-container{

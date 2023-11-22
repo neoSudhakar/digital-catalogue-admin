@@ -246,7 +246,7 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
 
   export async function fetchOrders({signal, userId}){
     const response = await fetch(
-      `http://localhost:8080/api/orders/user/${userId}`,{signal}
+      `http://localhost:8080/api/orders/user/${userId}/orders`,{signal}
     );
 
     if(!response.ok){
@@ -263,4 +263,149 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
     console.log("res data fetch order: ", resData);
     return resData;
   }
+
+  export async function deleteOrder({orderId, orderItemId}){
+    const response = await fetch(
+      `http://localhost:8080/api/orders/${orderId}/orderItem/${orderItemId}`,{
+        method: "DELETE",
+      }
+    );
+
+    if(!response.ok){
+        console.log("response status: " + response.status);
+        const error = new Error("Failed to delete order");
+        error.code = response.status;
+        const resData = await response.json();
+        console.log("res data of Failed to delete order: ", resData);
+        error.info = resData;
+        throw error;
+    }
+
+    const resData = await response.json();
+    console.log("res data delete order: ", resData);
+    return resData;
+  }
+
+  export async function updateOrder({orderId, orderItemId, data}){
+    const response = await fetch(
+      `http://localhost:8080/api/orders/${orderId}/orderItem/${orderItemId}`,{
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    );
+
+    if(!response.ok){
+        console.log("response status: " + response.status);
+        const error = new Error("Failed to update order");
+        error.code = response.status;
+        const resData = await response.json();
+        console.log("res data of Failed to update order: ", resData);
+        error.info = resData;
+        throw error;
+    }
+
+    const resData = await response.json();
+    console.log("res data update order: ", resData);
+    return resData;
+  }
+
+  export async function fetchCart({signal, userId}){
+    const response = await fetch(
+      `http://localhost:8080/api/carts/user/${userId}/carts`,{signal}
+    );
+
+    if(!response.ok){
+        console.log("response status: " + response.status);
+        const error = new Error("Failed to fetch cart");
+        error.code = response.status;
+        const resData = await response.json();
+        console.log("res data of Failed to fetch cart: ", resData);
+        error.info = resData;
+        throw error;
+    }
+
+    const resData = await response.json();
+    console.log("res data fetch cart: ", resData);
+    return resData;
+  }
+
+  export async function postCart(data){
+    const response = await fetch(
+      `http://localhost:8080/api/carts`,
+      {
+        method: "POST",
+        headers:{
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    );
+
+    if(!response.ok){
+        console.log("response status: " + response.status);
+        const error = new Error("Failed to post cart");
+        error.code = response.status;
+        const resData = await response.json();
+        console.log("res data of Failed to post cart: ", resData);
+        error.info = resData;
+        throw error;
+    }
+
+    const resData = await response.json();
+    console.log("res data post cart: ", resData);
+    return resData;
+  }
+
+  export async function deleteCart({cartId, cartItemId}){
+    const response = await fetch(
+      `http://localhost:8080/api/carts/${cartId}/cartItem/${cartItemId}`,{
+        method: "DELETE",
+      }
+    );
+
+    if(!response.ok){
+        console.log("response status: " + response.status);
+        const error = new Error("Failed to delete cart");
+        error.code = response.status;
+        const resData = await response.json();
+        console.log("res data of Failed to delete cart: ", resData);
+        error.info = resData;
+        throw error;
+    }
+
+    const resData = await response.json();
+    console.log("res data delete cart: ", resData);
+    return resData;
+  }
+
+  export async function updateCart({cartId, cartItemId, data}){
+    const response = await fetch(
+      `http://localhost:8080/api/carts/${cartId}/cartItem/${cartItemId}`,{
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    );
+
+    if(!response.ok){
+        console.log("response status: " + response.status);
+        const error = new Error("Failed to update cart");
+        error.code = response.status;
+        const resData = await response.json();
+        console.log("res data of Failed to update cart: ", resData);
+        error.info = resData;
+        throw error;
+    }
+
+    const resData = await response.json();
+    console.log("res data update cart: ", resData);
+    return resData;
+  }
+
+
   

@@ -38,3 +38,15 @@
     background-color:rgb(206, 14, 78);
     color: white;
 }
+
+.loading-container{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.error-container{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}

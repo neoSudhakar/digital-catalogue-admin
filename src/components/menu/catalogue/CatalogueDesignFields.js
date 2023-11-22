@@ -9,18 +9,27 @@ import { useDispatch, useSelector } from 'react-redux';
 import { cartSliceActions } from '../../../store/cart-slice';
 import { getAccountLoader, getUserId } from '../../../util/auth';
 import { useMutation } from '@tanstack/react-query';
-import { postOrder, queryClientObj } from '../../../util/http';
+import { postCart, postOrder, queryClientObj } from '../../../util/http';
 import ErrorModal from '../view-designs/ErrorModal';
 
 export default function CatalogueDesignFields({cardItem}) {
   const dispatch = useDispatch();
 
+  const {id: accountId} = getAccountLoader();
+  const userId = getUserId();
+
   const cartItems = useSelector(state=>state.cart.items);
 
   const ordersArr = useSelector(state=>state.orders.orders);
 
-  const isDesignExistInOrders = ordersArr.findIndex((order)=> order.design.id === cardItem.id) >= 0;
-  const isDesignExistInCart = cartItems.findIndex((item)=> item.id === cardItem.id) >= 0;
+  const isDesignExistInOrders = ordersArr.findIndex((order)=>{
+    const isExist = order.orderItemSet.findIndex((item)=>item.design.id ===cardItem.id ) >= 0;
+    return isExist;
+  }) >= 0;
+  const isDesignExistInCart = cartItems.findIndex((cart)=>{
+    const isExist = cart.cartItemSet.findIndex((item)=>item.design.id ===cardItem.id ) >= 0;
+    return isExist;
+  }) >= 0;
 
   const [qty, setQty] = useState(1);
 
@@ -35,9 +44,20 @@ export default function CatalogueDesignFields({cardItem}) {
     setQty(event.target.value);
   }
 
+  const {mutate: mutateCart } = useMutation({
+    mutationFn: postCart,
+    onSuccess: ()=>{
+      queryClientObj.invalidateQueries({
+        queryKey: ["cart"],
+      })
+    },
+  })
+
   function handleAddToCart(){
     console.log({...cardItem, quantity:+qty});
-    dispatch(cartSliceActions.addItemToCart({...cardItem, quantity:+qty}));
+    // dispatch(cartSliceActions.addItemToCart({...cardItem, quantity:+qty}));
+    mutateCart({userId: userId, accountId: accountId, cartItemSet: [{designId: cardItem.id, quantity: qty}]});
+
   }
 
   const [errModalIsOpen, setErrModalIsOpen] = useState(false);
@@ -63,7 +83,7 @@ export default function CatalogueDesignFields({cardItem}) {
     const {id: accountId} = getAccountLoader();
     console.log("accountId is: ", accountId);
 
-    mutate({designId: cardItem.id, userId: userId, accountId: accountId, quantity: +qty});
+    mutate({ userId: userId, accountId: accountId, orderItemSet: [{designId: cardItem.id, quantity: +qty }]});
   }
 
   let content;
@@ -87,7 +107,7 @@ export default function CatalogueDesignFields({cardItem}) {
         </div>
       </div>
       <div className={classes["actions"]}>
-        <button className={classes["add-to-cart"]} onClick={handleAddToCart} disabled={isDesignExistInCart}>Add to Cart</button>
+        <button className={classes["add-to-cart"]} onClick={handleAddToCart} disabled={isDesignExistInCart}>{isDesignExistInCart ? "Added to cart" : "Add to cart"}</button>
         <button className={`${classes["buy"]} ${isDesignExistInOrders ? classes["ordered"] : ""}`} onClick={handleOrderNow} disabled={isDesignExistInOrders}>{isDesignExistInOrders ? "Ordered" : "Order Now"}</button>
         {content}
       </div>

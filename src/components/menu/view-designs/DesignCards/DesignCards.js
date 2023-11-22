@@ -185,6 +185,7 @@ export default function DesignCards({ handleShowDetails, catalogue, updatedCardI
 
   let filteredList = [];
   if(designList.length > 0){
+    // console.log(designList[0].designImages[0].preSignedURL);
 
     filteredList = designList.filter((item) => {
       const isMainGroupMatch =

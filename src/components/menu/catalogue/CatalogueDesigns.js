@@ -8,8 +8,9 @@ import CatalogueDesignDetails from "./CatalogueDesignDetails";
 import { uiActions } from "../../../store/ui-slice";
 import { getAccountLoader, getUserId } from "../../../util/auth";
 import { useQuery } from "@tanstack/react-query";
-import { fetchOrders } from "../../../util/http";
+import { fetchCart, fetchOrders } from "../../../util/http";
 import { ordersSliceActions } from "../../../store/orders-slice";
+import { cartSliceActions } from "../../../store/cart-slice";
 
 export default function CatalogueDesigns() {
   const navigate = useNavigate();
@@ -46,6 +47,16 @@ export default function CatalogueDesigns() {
   if(data){
     console.log("Orders data is: ", data);
     dispatch(ordersSliceActions.setOrders(data));
+  }
+
+  const {data: cartData, isPending: cartIsPending, isError: cartIsError, error: cartError} = useQuery({
+    queryKey: ["cart", {userId: userId}],
+    queryFn : ({signal})=>fetchCart({signal, userId: userId}),
+  })
+
+  if(cartData){
+    console.log("Cart data is: ", cartData);
+    dispatch(cartSliceActions.setCart(cartData));
   }
 
 

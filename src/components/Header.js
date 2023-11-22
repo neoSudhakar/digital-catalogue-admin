@@ -15,6 +15,9 @@ import { useEffect, useState } from "react";
 import { cartSliceActions } from "../store/cart-slice";
 import Cart from "./menu/cart/Cart";
 import { ordersSliceActions } from "../store/orders-slice";
+import { useQuery } from "@tanstack/react-query";
+import { fetchCart } from "../util/http";
+import { getUserId } from "../util/auth";
 
 export default function Header() {
   const token = useRouteLoaderData("root");
@@ -52,10 +55,7 @@ export default function Header() {
   function handleOpenCart() {
     dispatch(cartSliceActions.toggleCart());
   }
-  
-  function handleOpenOrders(){
-    dispatch(ordersSliceActions.toggleOrders());
-  }
+
 
   return (
     <>

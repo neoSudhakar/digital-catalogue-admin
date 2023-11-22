@@ -44,6 +44,9 @@ const cartSlice = createSlice({
     toggleCart(state){
         state.isCartOpen = !state.isCartOpen;
     },
+    setCart(state, action){
+      state.items = action.payload;
+  },
   },
 });
 
