@@ -1,23 +1,21 @@
+import useInputSpcl from "../../../hooks/use-input-spcl";
 import useInput from "../../../hooks/use-input";
 import classes from "./Account.module.css";
 
 import { useState } from "react";
 
-export default function Account({refetchAccountData}) {
-  /*const [formData, setFormData] = useState({
-    name: '',
-    address1: '',
-    address2: '',
-    email: '',
-    phone: '',
-    city: '',
-    state: '',
-    role: 'manufacturer', // Default value for role
-  });*/
-  
-  const [accountData, setAccountData]= useState([]);
-  console.log(accountData);
+export default function Account({refetchAccountData, closeModal, selectedRow}) {
 
+  console.log(selectedRow);
+  const initialNameValue= selectedRow ? selectedRow.name : "";
+  const initialEmailValue= selectedRow ? selectedRow.email : "";
+  const initialPhoneNumberValue= selectedRow ? selectedRow.phoneNumber : "";
+  const initialAddress1Value= selectedRow ? selectedRow.address1 : "";
+  const initialAddress2Value= selectedRow ? selectedRow.address2 : "";
+  const initialCityValue= selectedRow ? selectedRow.city : "";
+  const initialStateValue= selectedRow ? selectedRow.state : "";
+  const initialTypeValue= selectedRow ? selectedRow.accountType : "";
+  
 
   const {
     inputVal: name,
@@ -27,7 +25,7 @@ export default function Account({refetchAccountData}) {
     resetFn: nameResetFn,
     handleBlur: handleNameBlur,
     handleChange: handleNameChange,
-  } = useInput((inputValue) => inputValue.trim().length > 0);
+  } = useInputSpcl((inputValue) => inputValue.trim().length > 0, initialNameValue);
 
   const {
     inputVal: email,
@@ -37,7 +35,7 @@ export default function Account({refetchAccountData}) {
     resetFn: emailResetFn,
     handleBlur: handleEmailBlur,
     handleChange: handleEmailChange,
-  } = useInput((inputValue) => inputValue.includes("@"));
+  } = useInputSpcl((inputValue) => inputValue.includes("@"), initialEmailValue);
 
   const {
     inputVal: phoneNumber,
@@ -47,7 +45,7 @@ export default function Account({refetchAccountData}) {
     resetFn: phoneNumberResetFn,
     handleBlur: handlePhoneNumberBlur,
     handleChange: handlePhoneNumberChange,
-  } = useInput((inputValue) => inputValue.trim().length === 10);
+  } = useInputSpcl((inputValue) => inputValue.trim().length === 10, initialPhoneNumberValue);
 
   const {
     inputVal: address1,
@@ -57,7 +55,7 @@ export default function Account({refetchAccountData}) {
     resetFn: address1ResetFn,
     handleBlur: handleAddress1Blur,
     handleChange: handleAddress1Change,
-  } = useInput((inputValue) => inputValue.trim().length > 0);
+  } = useInputSpcl((inputValue) => inputValue.trim().length > 0, initialAddress1Value);
 
   const {
     inputVal: address2,
@@ -67,7 +65,7 @@ export default function Account({refetchAccountData}) {
     resetFn: address2ResetFn,
     handleBlur: handleAddress2Blur,
     handleChange: handleAddress2Change,
-  } = useInput((inputValue) => inputValue.trim().length > 0);
+  } = useInputSpcl((inputValue) => inputValue.trim().length > 0, initialAddress2Value);
 
   const {
     inputVal: city,
@@ -77,7 +75,7 @@ export default function Account({refetchAccountData}) {
     resetFn: cityResetFn,
     handleBlur: handleCityBlur,
     handleChange: handleCityChange,
-  } = useInput((inputValue) => inputValue.trim().length > 0);
+  } = useInputSpcl((inputValue) => inputValue.trim().length > 0, initialCityValue);
 
   const {
     inputVal: state,
@@ -87,7 +85,7 @@ export default function Account({refetchAccountData}) {
     resetFn: stateResetFn,
     handleBlur: handleStateBlur,
     handleChange: handleStateChange,
-  } = useInput((inputValue) => inputValue.trim().length > 0);
+  } = useInputSpcl((inputValue) => inputValue.trim().length > 0,initialStateValue);
 
   const {
     inputVal: accountType,
@@ -97,7 +95,7 @@ export default function Account({refetchAccountData}) {
     resetFn: accountTypeResetFn,
     handleBlur: accountTypeHandleBlur,
     handleChange: accountTypeHandleChange,
-  } = useInput((inputValue) => inputValue.trim().length !== 0);
+  } = useInputSpcl((inputValue) => inputValue.trim().length !== 0, initialTypeValue);
 
 
   let isFormValid = false;
@@ -107,13 +105,6 @@ export default function Account({refetchAccountData}) {
   }
 
 
-  /*const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };*/
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -135,20 +126,8 @@ export default function Account({refetchAccountData}) {
     const formData = Object.fromEntries(form);
 
     console.log(formData);
-    //console.log("hi");
-    //const index= index+1;
-    //console.log(index);
-    /*const tableData={
-      accountId: index+1,
-      name:name,
-      phoneNum: phoneNum,
-      email: email,
-      accountType: accountType
-    };
-    console.log(tableData);
-    */
 
-
+    if(!selectedRow){
       fetch('http://localhost:8080/api/accounts', {
         method: 'POST',
         headers: {
@@ -160,13 +139,30 @@ export default function Account({refetchAccountData}) {
         refetchAccountData();
         console.log('Data sent sucessfully!')})
       .catch(error => console.log('error occurred!'));
-
-  
-
-    //setAccountData([...accountData, formData]);
-
-    //updateAccountData(formData);
-  
+      }
+    else{
+      fetch(`http://localhost:8080/api/accounts/${selectedRow.id}`, {
+        method: 'PUT', 
+        headers: {
+          'Content-Type': 'application/json',
+         
+        },
+        body: JSON.stringify(formData), 
+      })
+        .then((response) => {
+          if (!response.ok) {
+            
+            console.log('Failed to update row in the backend.');
+            
+          } else {
+            refetchAccountData();
+            console.log('Row updated in the backend.');
+          }
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+    }
 
     nameResetFn();
     emailResetFn();
@@ -176,6 +172,7 @@ export default function Account({refetchAccountData}) {
     cityResetFn();
     stateResetFn();
     accountTypeResetFn();
+    closeModal();
 
   };
 
@@ -311,14 +308,14 @@ export default function Account({refetchAccountData}) {
                   <option value="" disabled hidden>
                     Select an option
                   </option>
-                  <option value="Manufacturer">Manufacturer</option>
+                  {/*<option value="Manufacturer">Manufacturer</option>*/}
                   <option value="Retailer">Retailer</option>
                 </select>
                 {accountTypeHasErr && <p className={classes.err}>Select one account type</p>}
           </div>
         </section>
         <div className={classes.button}>
-            <input type="submit" value="Save"/>
+            {selectedRow ?  <input type="submit" value="Update"/>: <input type="submit" value="Save"/>}
         </div>
       </form>
       </div>

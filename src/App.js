@@ -17,6 +17,7 @@ import { queryClientObj } from "./util/http";
 import Settings from "./components/menu/settings/Settings";
 import Reports from "./components/menu/reports/Reports";
 import Orders from "./components/menu/orders/Orders";
+import OrdersMenu from "./components/menu/order-form/OrdersMenu";
 
 const router= createBrowserRouter([
   {
@@ -34,7 +35,7 @@ const router= createBrowserRouter([
         path: "/view-designs", element: <ViewDesign/>, loader: checkManufacturerAuthLoader
       },
       {
-        path: "/order-form", element: <OrderForm/>, loader: checkManufacturerAuthLoader
+        path: "/order-form", element: <OrdersMenu/>, loader: checkManufacturerAuthLoader
       },
       {
         path:"/auth", element:<AuthForm/>,

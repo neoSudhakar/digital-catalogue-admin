@@ -1,10 +1,20 @@
-import useInput from "../../../hooks/use-input";
+import useInputSpcl from "../../../hooks/use-input-spcl";
 import classes from "./User.module.css";
 import { useState } from "react";
 
-export default function User({refetchUserData,accountData,roleData}) {
+export default function User({refetchUserData,accountData,roleData,closeModal,selectedRow}) {
 
   //console.log(roleData);
+  console.log(selectedRow);
+  const initialFirstNameValue= selectedRow ? selectedRow.firstName : "";
+  const initialLastNameValue= selectedRow ? selectedRow.lastName : "";
+  const initialEmailValue= selectedRow ? selectedRow.email : "";
+  const initialAddressValue= selectedRow ? selectedRow.address : "";
+  const initialUserNameValue= selectedRow ? selectedRow.userName : "";
+  const initialPasswordValue= selectedRow ? selectedRow.password: "";
+  const initialAccountValue= selectedRow && selectedRow.account ? selectedRow.account.name: "";
+  const initialUserRoleValue= selectedRow && selectedRow.roleSet ? selectedRow.roleSet[0].role: "";
+
 
   const {
     inputVal: firstName,
@@ -14,7 +24,7 @@ export default function User({refetchUserData,accountData,roleData}) {
     resetFn: firstNameResetFn,
     handleBlur: handleFirstNameBlur,
     handleChange: handleFirstNameChange,
-  } = useInput((inputValue) => inputValue.trim().length > 0);
+  } = useInputSpcl((inputValue) => inputValue.trim().length > 0, initialFirstNameValue);
 
   const {
     inputVal: lastName,
@@ -24,7 +34,7 @@ export default function User({refetchUserData,accountData,roleData}) {
     resetFn: lastNameResetFn,
     handleBlur: handleLastNameBlur,
     handleChange: handleLastNameChange,
-  } = useInput((inputValue) => inputValue.trim().length > 0);
+  } = useInputSpcl((inputValue) => inputValue.trim().length > 0, initialLastNameValue);
 
   const {
     inputVal: email,
@@ -34,7 +44,7 @@ export default function User({refetchUserData,accountData,roleData}) {
     resetFn: emailResetFn,
     handleBlur: handleEmailBlur,
     handleChange: handleEmailChange,
-  } = useInput((inputValue) => inputValue.includes("@"));
+  } = useInputSpcl((inputValue) => inputValue.includes("@"), initialEmailValue);
 
   const {
     inputVal: address,
@@ -44,7 +54,7 @@ export default function User({refetchUserData,accountData,roleData}) {
     resetFn: addressResetFn,
     handleBlur: handleAddressBlur,
     handleChange: handleAddressChange,
-  } = useInput((inputValue) => inputValue.trim().length > 0);
+  } = useInputSpcl((inputValue) => inputValue.trim().length > 0, initialAddressValue);
 
 
   const {
@@ -55,7 +65,7 @@ export default function User({refetchUserData,accountData,roleData}) {
     resetFn: userNameResetFn,
     handleBlur: handleUserNameBlur,
     handleChange: handleUserNameChange,
-  } = useInput((inputValue) => inputValue.trim().length > 0);
+  } = useInputSpcl((inputValue) => inputValue.trim().length > 0, initialUserNameValue);
 
   
   const {
@@ -66,7 +76,7 @@ export default function User({refetchUserData,accountData,roleData}) {
     resetFn: passwordResetFn,
     handleBlur: handlePasswordBlur,
     handleChange: handlePasswordChange,
-  } = useInput((inputValue) => inputValue.trim().length > 6);
+  } = useInputSpcl((inputValue) => inputValue.trim().length > 6, initialPasswordValue);
 
   const {
     inputVal: account,
@@ -76,7 +86,7 @@ export default function User({refetchUserData,accountData,roleData}) {
     resetFn: accountResetFn,
     handleBlur: accountHandleBlur,
     handleChange: accountHandleChange,
-  } = useInput((inputValue) => inputValue.trim().length !== 0);
+  } = useInputSpcl((inputValue) => inputValue, initialAccountValue);
 
   const {
     inputVal: userRole,
@@ -86,7 +96,7 @@ export default function User({refetchUserData,accountData,roleData}) {
     resetFn: userRoleResetFn,
     handleBlur: userRoleHandleBlur,
     handleChange: userRoleHandleChange,
-  } = useInput((inputValue) => inputValue.trim().length !== 0);
+  } = useInputSpcl((inputValue) => inputValue, initialUserRoleValue);
 
 
   let isFormValid = false;
@@ -115,17 +125,7 @@ export default function User({refetchUserData,accountData,roleData}) {
     const formData = Object.fromEntries(form);
     console.log(formData);
 
-    /*const tableData={
-      userId: index+1,
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      account: account,
-      userRole: userRole
-    };*/
-
-    //updateUserData(formData);
-
+    if(!selectedRow){
     fetch('http://localhost:8080/api/users', {
       method: 'POST',
       headers: {
@@ -137,6 +137,30 @@ export default function User({refetchUserData,accountData,roleData}) {
       refetchUserData();
       console.log('Data sent successfully!')})
     .catch(error => console.log('error occurred!'));
+    }
+    else{
+      fetch(`http://localhost:8080/api/users/${selectedRow.id}`, {
+        method: 'PUT', 
+        headers: {
+          'Content-Type': 'application/json',
+         
+        },
+        body: JSON.stringify(formData), 
+      })
+        .then((response) => {
+          if (!response.ok) {
+            
+            console.log('Failed to update row in the backend.');
+            
+          } else {
+            refetchUserData();
+            console.log('Row updated in the backend.');
+          }
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+    }
 
 
 
@@ -148,6 +172,7 @@ export default function User({refetchUserData,accountData,roleData}) {
     lastNameResetFn();
     accountResetFn();
     userRoleResetFn();
+    closeModal();
 
   }
 
@@ -271,9 +296,11 @@ export default function User({refetchUserData,accountData,roleData}) {
             //  defaultValue="Manufacturer"
             onChange={accountHandleChange}
             >
-              <option value="" disabled hidden>
+              {!selectedRow ? <option value="" disabled hidden>
                 Select an option
-              </option>
+              </option>: <option key={selectedRow.account.id} value={selectedRow.account.id}>
+                {selectedRow.account.name}
+                </option>}
               {accountData && accountData.map((item, index) =>(
               <option key={item.id} value={item.id}>
                 {item.name}
@@ -282,28 +309,6 @@ export default function User({refetchUserData,accountData,roleData}) {
           </select>
           {accountHasErr && <p className={classes.err}>Select one account</p>}
         </div>
-
-        {/*<div className={classes.field}>
-          <label htmlFor="userRole">Role</label>
-          <select
-            id="userRole"
-            name="userRole"
-            placeholder={"Select role"}
-            value={userRole}
-            onBlur={userRoleHandleBlur}
-            //  defaultValue="Manufacturer"
-            onChange={userRoleHandleChange}
-            >
-              <option value="" disabled hidden>
-                Select an option
-              </option>
-              <option value="Admin">Admin</option>
-              <option value="Designer">Designer</option>
-              <option value="Manager">Manager</option>
-              <option value="RetailUser">Retail User</option>
-          </select>
-          {userRoleHasErr && <p className={classes.err}>Select one role</p>}
-              </div>*/}
 
         <div className={classes.field}>
           <label htmlFor="userRole">Role</label>
@@ -316,9 +321,12 @@ export default function User({refetchUserData,accountData,roleData}) {
             //  defaultValue="Manufacturer"
             onChange={userRoleHandleChange}
             >
-              <option value="" disabled hidden>
+              {!selectedRow ? <option value="" disabled hidden>
                 Select an option
-              </option>
+              </option>: 
+              <option key={selectedRow.roleSet[0].id} value={selectedRow.roleSet[0].id}>
+                {selectedRow.roleSet[0].role}
+                </option>}
               {roleData && roleData.map((item, index) =>(
               <option key={item.id} value={item.id}>
                 {item.role}
@@ -329,7 +337,7 @@ export default function User({refetchUserData,accountData,roleData}) {
         </div>
       </section>
       <div className={classes.button}>
-        <input type="submit" value="Save" />
+        {selectedRow ?  <input type="submit" value="Update"/>: <input type="submit" value="Save"/>}
       </div>
     </form>
   </div>

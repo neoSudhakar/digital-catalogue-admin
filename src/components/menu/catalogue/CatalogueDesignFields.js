@@ -19,6 +19,7 @@ export default function CatalogueDesignFields({cardItem}) {
   const userId = getUserId();
 
   const cartItems = useSelector(state=>state.cart.items);
+  console.log("cartItems is", cartItems);
 
   const ordersArr = useSelector(state=>state.orders.orders);
 
@@ -27,7 +28,7 @@ export default function CatalogueDesignFields({cardItem}) {
     return isExist;
   }) >= 0;
   const isDesignExistInCart = cartItems.findIndex((item)=>{
-    return item.design.id ===cardItem.id >= 0;
+    return item.design.id ===cardItem.id ;
   }) >= 0;
 
   const [qty, setQty] = useState(1);
@@ -43,13 +44,19 @@ export default function CatalogueDesignFields({cardItem}) {
     setQty(event.target.value);
   }
 
-  const {mutate: mutateCart } = useMutation({
+  const [err, setErr] = useState();
+
+  const {mutate: mutateCart, isError: cartIsError } = useMutation({
     mutationFn: postCart,
     onSuccess: ()=>{
       queryClientObj.invalidateQueries({
         queryKey: ["cart"],
       })
     },
+    onError: (err)=>{
+      setErrModalIsOpen(true);
+      setErr(err)
+    }
   })
 
   function handleAddToCart(){
@@ -67,8 +74,9 @@ export default function CatalogueDesignFields({cardItem}) {
         queryKey: ["orders"],
       })
     },
-    onError: ()=>{
+    onError: (err)=>{
       setErrModalIsOpen(true);
+      setErr(err)
     }
   })
 
@@ -87,8 +95,8 @@ export default function CatalogueDesignFields({cardItem}) {
 
   let content;
 
-  if(isError){
-    content = <ErrorModal errModalIsOpen={errModalIsOpen} err={error} onCloseErrModal={handleCloseErrModal} fallBackErrMsg="Failed to post order!" />
+  if(errModalIsOpen){
+    content = <ErrorModal errModalIsOpen={errModalIsOpen} err={err} onCloseErrModal={handleCloseErrModal} fallBackErrMsg={cartIsError ? "Failed to post cart!" : "Failed to post order!"} />
   }
 
   return (

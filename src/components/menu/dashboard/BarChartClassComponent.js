@@ -22,11 +22,11 @@ const data = [
   },
 ];
 
-// export default function BarChartClassComponent() {
-export default class BarChartClassComponent extends PureComponent {
-  static demoUrl = 'https://codesandbox.io/s/simple-bar-chart-tpz8r';
+export default function BarChartClassComponent() {
+// export default class BarChartClassComponent extends PureComponent {
+  // static demoUrl = 'https://codesandbox.io/s/simple-bar-chart-tpz8r';
 
-  render() {
+  // render() {
     return (
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
@@ -46,9 +46,9 @@ export default class BarChartClassComponent extends PureComponent {
           <Tooltip />
           <Legend />
           <Bar dataKey="pv" fill="#8884d8" activeBar={<Rectangle fill="pink" stroke="blue" />} />
-          <Bar dataKey="uv" fill="#82ca9d" activeBar={<Rectangle fill="gold" stroke="purple" />} />
+          {/* <Bar dataKey="uv" fill="#82ca9d" activeBar={<Rectangle fill="gold" stroke="purple" />} /> */}
         </BarChart>
       </ResponsiveContainer>
     );
-  }
+  // }
 }

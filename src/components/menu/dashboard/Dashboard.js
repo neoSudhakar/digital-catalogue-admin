@@ -1,19 +1,67 @@
 
+import { useEffect, useState } from "react";
+import { getAccountLoader, getUserId } from "../../../util/auth";
 import BarChartClassComponent from "./BarChartClassComponent";
 import Chart from "./Chart";
 import classes from "./Dashboard.module.css";
 import PieChartClassComponent from "./PieChartClassComponent";
 import Tile from "./Tile";
+import { useQuery } from "@tanstack/react-query";
+import { fetchAccounts, fetchAllDesigns, fetchCatalogueDesigns, fetchOrders, fetchOrdersForManufacturer } from "../../../util/http";
 
 export default function Dashboard(){
+    const {accountType, id: accountId} = getAccountLoader()
+    const userId = getUserId();
+
+    const isRetailer = accountType === "Retailer";
+
+
+    const {data: designsData} = useQuery({
+        queryKey:  [`${isRetailer ? "catalogueDesigns" : "designs"}`],
+        queryFn: ({signal})=> (isRetailer ? fetchCatalogueDesigns({signal, accountId: accountId}) : fetchAllDesigns()),
+    })
+
+    const [orderedDesignsCount, setOrderedDesignsCount] = useState(0)
+
+    const {data: ordersData} = useQuery({
+        queryKey: isRetailer ? ["orders", {userId: userId}] : ["manufacturer-orders"],
+        queryFn: ({signal, queryKey}) => isRetailer ? fetchOrders({signal, userId}) : fetchOrdersForManufacturer() ,
+    });
+
+    useEffect(()=>{
+        if(ordersData){
+            const count = ordersData.reduce((sum, order)=>{
+                return sum + order.orderItems.length
+            }, 0)
+            setOrderedDesignsCount(count);
+        }
+    },[ordersData])
+
+    const {data: accountsData} = useQuery({
+        queryKey: ["accounts"],
+        queryFn: fetchAccounts,
+    })
+
+    const [retailerAccountsCount, setRetailerAccountsCount] = useState(0);
+
+    useEffect(()=>{
+        if(accountsData){
+            const retailers = accountsData.filter((account)=>{
+                return account.accountType === "Retailer"
+            })
+            setRetailerAccountsCount(retailers.length);
+        }
+    },[accountsData])
+
     return <div className={classes["whole"]}>
         {/* <h1>My Dashboard</h1> */}
         <menu className={classes["whole-tiles-and-charts"]}>
             <section className={classes["whole-tiles"]}>
-                <Tile title="Completed tasks" count={0} filterCount={1} />
-                <Tile title="Incomplete tasks" count={34} filterCount={2} />
-                <Tile title="Overdue tasks" count={3} filterCount={1} />
-                <Tile title="Total tasks" count={34} />
+                <Tile title="Total designs" count={designsData ? designsData.length : 0} filterCount={1} />
+                {isRetailer && <Tile title="Ordered designs" count={orderedDesignsCount} filterCount={2} />}
+                {!isRetailer && <Tile title="Assigned designs" count={10} filterCount={2} />}
+                {!isRetailer && <Tile title="Orders" count={ordersData ? ordersData.length : 0} filterCount={1} />}
+                {!isRetailer && <Tile title="Retailers" count={retailerAccountsCount}/>}
             </section>
             <section className={classes["whole-charts"]}>
                 <Chart title="Incomplete tasks by project" chartComponent={<BarChartClassComponent/>} companyName="Tasks in catalogue" />

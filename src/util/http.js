@@ -217,6 +217,48 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
     return resData;
   }
 
+  export async function fetchAccounts(){
+    const response = await fetch(
+      `http://localhost:8080/api/accounts`
+    );
+
+    if(!response.ok){
+        console.log("response status: " + response.status);
+        const error = new Error("Failed to fetch accounts");
+        error.code = response.status;
+        const resData = await response.json();
+        console.log("res data of Failed to fetch accounts: ", resData);
+        error.info = resData;
+        throw error;
+    }
+
+    const resData = await response.json();
+    console.log("res data fetch accounts: ", resData);
+    return resData;
+  }
+
+  export async function fetchAssignedDesigns(){
+    const response = await fetch(
+      `http://localhost:8080/api/design-account`
+    );
+
+    if(!response.ok){
+        console.log("response status: " + response.status);
+        const error = new Error("Failed to fetch assigned designs");
+        error.code = response.status;
+        const resData = await response.json();
+        console.log("res data of Failed to fetch assigned designs: ", resData);
+        error.info = resData;
+        throw error;
+    }
+
+    const resData = await response.json();
+    console.log("res data fetch assigned designs: ", resData);
+    return resData;
+  }
+
+
+
   export async function postOrder(data){
     const response = await fetch(
       `http://localhost:8080/api/orders`,
@@ -261,6 +303,26 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
 
     const resData = await response.json();
     console.log("res data fetch order: ", resData);
+    return resData;
+  }
+
+  export async function fetchOrdersForManufacturer(){
+    const response = await fetch(
+      `http://localhost:8080/api/orders`
+    );
+
+    if(!response.ok){
+        console.log("response status: " + response.status);
+        const error = new Error("Failed to fetch order for manufacturer");
+        error.code = response.status;
+        const resData = await response.json();
+        console.log("res data of Failed to fetch order for manufacturer: ", resData);
+        error.info = resData;
+        throw error;
+    }
+
+    const resData = await response.json();
+    console.log("res data fetch order for manufacturer: ", resData);
     return resData;
   }
 

@@ -170,7 +170,7 @@ export default function Sidebar() {
             Orders
           </span>
         </NavLink>}
-        {accountType === "Retailer" && <NavLink
+        <NavLink
           onClick={() => {
             dispatch(uiActions.closeCatalogueDesignDetails());
             dispatch(uiActions.toggleDashboard());
@@ -200,7 +200,7 @@ export default function Sidebar() {
           >
             Reports
           </span>
-        </NavLink>}
+        </NavLink>
         {accountType === "Retailer" && <NavLink
           onClick={() => {
             dispatch(uiActions.closeCatalogueDesignDetails());
