@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { cartSliceActions } from '../../../store/cart-slice';
 import classes from "./Cart.module.css"
 import CartItem from './CartItem';
-import { getUserId } from '../../../util/auth';
-import { fetchCart } from '../../../util/http';
-import { useQuery } from '@tanstack/react-query';
+import { getAccountLoader, getUserId } from '../../../util/auth';
+import { fetchCart, postOrder, queryClientObj } from '../../../util/http';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import LoadingIndicator from '../../../UI/LoadingIndicator';
 import ErrorBlock from '../../../UI/ErrorBlock';
 
@@ -17,6 +17,7 @@ export default function Cart() {
     const [cartItems, setCartItems] = useState([]);
 
     const userId = getUserId();
+    const {id: accountId} = getAccountLoader();
 
     const {data, isPending, isError, error} = useQuery({
         queryKey: ["cart", {userId: userId}],
@@ -27,7 +28,7 @@ export default function Cart() {
         if(data){
             console.log("cart data is", data);
             const mappedList = data.flatMap(cart =>
-                cart.cartItemSet.map(item => ({ cartId: cart.id , ...item }))
+                cart.cartItems.map(item => ({ cartId: cart.id , ...item })) // change
               );
       
               console.log("mappedList of cart is: ", mappedList);
@@ -46,6 +47,29 @@ export default function Cart() {
         dispatch(cartSliceActions.toggleCart());
     }
 
+    const [errModalIsOpen, setErrModalIsOpen] = useState(false);
+    const {mutate: orderMutate, isPending: orderIsPendign, isError: orderIsError, error: orderError} = useMutation({
+        mutationFn: postOrder,
+        onSuccess: ()=>{
+            queryClientObj.invalidateQueries({
+                queryKey: ["orders"],
+            })
+            handleCloseCart();
+        },
+        onError: ()=>{
+            setErrModalIsOpen(true);
+        }
+    })
+
+    function handleOrder(){
+        const mappedList = data.flatMap(cart =>
+            cart.cartItems.map(item => ({designId: item.design.id, quantity: item.quantity}))
+          );
+
+        console.log("mappedList of ordering cart items", mappedList);
+          orderMutate({ userId: userId, accountId: accountId, orderItems: [...mappedList] });
+    }
+
     let content;
 
     if(isPending){
@@ -58,10 +82,18 @@ export default function Cart() {
                 </div>
     }
 
+    let content2;
+
+    if(errModalIsOpen){
+        content2 = <div  className={classes["error-container"]}>
+        <ErrorBlock title="An Error has occurred" message={error?.info?.message || "Failed to order cart items"}/>
+    </div>
+    }
+
     if(data){
         content = <>
         {cartItems.length > 0 && <ul  className={classes["list"]}>
-            {cartItems.map((item)=><CartItem key={item.cartId} item={item} />)}
+            {cartItems.map((item)=><CartItem key={item.id} item={item} />)}
         </ul>}
         {cartItems.length === 0 && <p className={classes["fallback"]}>No items in cart.</p>}
 
@@ -76,8 +108,12 @@ export default function Cart() {
             style={{ maxWidth: "90%", minWidth: "55%" }} >
 
             <div className={classes["cart"]}>
+                {content2}
                 {content}
-                <button  className={classes["close-btn"]} onClick={handleCloseCart}>Close</button>
+                <div className={classes["actions"]}>
+                    <button  className={classes["close-btn"]} onClick={handleCloseCart}>Close</button>
+                    {cartItems.length > 0 && <button className={classes["order-btn"]} onClick={handleOrder}>Order</button>}
+                </div>
             </div>
             
         </ModalComponent>

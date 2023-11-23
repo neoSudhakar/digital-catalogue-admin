@@ -268,6 +268,55 @@
     font-size: 0.75rem;
 }
 
+.actions button{
+    /* flex: 1; */
+    font-size: 1.25rem;
+    text-transform: uppercase;
+    padding: 0.5rem 2.5rem;
+    border-radius: 1.5rem;
+}
+.actions button:hover{
+    cursor: pointer;
+}
+
+.actions button:disabled, .actions button:disabled:hover, .actions button:disabled:active{
+    cursor: not-allowed;
+}
+
+.add-to-cart{
+    color: brown;
+    /* background-color: rgb(221, 36, 159); */
+    background-color: white;
+    border: 1px solid rgb(156, 18, 18);
+}
+.add-to-cart:active{
+    background-color:rgb(136, 7, 7);
+    color: white;
+}
+
+.add-to-cart:disabled{
+    background-color: #dbcaca;
+    color: rgb(138, 136, 136);
+    border-color: #dbcaca;
+}
+.buy{
+    color: white;
+    background-color: brown;
+    border: none;
+}
+.buy:hover{
+    background-color:rgb(136, 7, 7);
+}
+
+.buy:active{
+    background-color:rgb(218, 57, 57);
+}
+
+.buy.ordered{
+    background-color: rgb(123, 177, 123);
+    color: rgb(231, 230, 230);
+}
+
 
 @media screen and (max-width:767px) {
     .head-content{

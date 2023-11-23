@@ -54,10 +54,15 @@ export default function CatalogueDesigns() {
     queryFn : ({signal})=>fetchCart({signal, userId: userId}),
   })
 
-  if(cartData){
-    console.log("Cart data is: ", cartData);
-    dispatch(cartSliceActions.setCart(cartData));
-  }
+  useEffect(()=>{
+    if(cartData){
+      console.log("Cart data is: ", cartData);
+      const mappedList = cartData.flatMap(cart =>
+        cart.cartItems.map(item => ({ cartId: cart.id , ...item }))
+      );
+      dispatch(cartSliceActions.setCart(mappedList));
+    }
+  },[cartData]);
 
 
 
@@ -73,7 +78,9 @@ export default function CatalogueDesigns() {
 
   return (
     <>
-      <AnimatePresence mode="wait">{content}</AnimatePresence>
+      <AnimatePresence mode="wait">
+        {content}
+      </AnimatePresence>
     </>
   );
 }

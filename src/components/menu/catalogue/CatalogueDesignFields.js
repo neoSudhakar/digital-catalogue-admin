@@ -23,12 +23,11 @@ export default function CatalogueDesignFields({cardItem}) {
   const ordersArr = useSelector(state=>state.orders.orders);
 
   const isDesignExistInOrders = ordersArr.findIndex((order)=>{
-    const isExist = order.orderItemSet.findIndex((item)=>item.design.id ===cardItem.id ) >= 0;
+    const isExist = order.orderItems.findIndex((item)=>item.design.id ===cardItem.id ) >= 0;
     return isExist;
   }) >= 0;
-  const isDesignExistInCart = cartItems.findIndex((cart)=>{
-    const isExist = cart.cartItemSet.findIndex((item)=>item.design.id ===cardItem.id ) >= 0;
-    return isExist;
+  const isDesignExistInCart = cartItems.findIndex((item)=>{
+    return item.design.id ===cardItem.id >= 0;
   }) >= 0;
 
   const [qty, setQty] = useState(1);
@@ -56,7 +55,7 @@ export default function CatalogueDesignFields({cardItem}) {
   function handleAddToCart(){
     console.log({...cardItem, quantity:+qty});
     // dispatch(cartSliceActions.addItemToCart({...cardItem, quantity:+qty}));
-    mutateCart({userId: userId, accountId: accountId, cartItemSet: [{designId: cardItem.id, quantity: qty}]});
+    mutateCart({userId: userId, accountId: accountId, cartItems: [{designId: cardItem.id, quantity: qty}]});
 
   }
 
@@ -83,7 +82,7 @@ export default function CatalogueDesignFields({cardItem}) {
     const {id: accountId} = getAccountLoader();
     console.log("accountId is: ", accountId);
 
-    mutate({ userId: userId, accountId: accountId, orderItemSet: [{designId: cardItem.id, quantity: +qty }]});
+    mutate({ userId: userId, accountId: accountId, orderItems: [{designId: cardItem.id, quantity: +qty }]});
   }
 
   let content;

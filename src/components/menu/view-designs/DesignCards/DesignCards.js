@@ -7,11 +7,13 @@ import { uiActions } from "../../../../store/ui-slice";
 import classes from "../ViewDesign.module.css";
 import WrongIcon from "../../../../icons/wrong-icon";
 import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
-import { fetchAllDesigns, fetchCatalogueDesigns } from "../../../../util/http";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { fetchAllDesigns, fetchCatalogueDesigns, postCart, postOrder, queryClientObj } from "../../../../util/http";
 import LoadingIndicator from "../../../../UI/LoadingIndicator";
 import ErrorBlock from "../../../../UI/ErrorBlock";
-import { getAccountLoader } from "../../../../util/auth";
+import { getAccountLoader, getUserId } from "../../../../util/auth";
+import styles from "../../catalogue/CatalogueDesignFields.module.css"
+import ErrorModal from "../ErrorModal";
 
 const today = new Date().toISOString().slice(0, 10);
 
@@ -315,6 +317,56 @@ export default function DesignCards({ handleShowDetails, catalogue, updatedCardI
       }
     }
   },[data]);
+
+  const userId = getUserId();
+  const [errModalIsOpen, setErrModalIsOpen] = useState(false);
+  const [err, setErr] = useState();
+
+  const {mutate: orderMutate, isPending: orderIsPendign, isError: orderIsError, error: orderError} = useMutation({
+      mutationFn: postOrder,
+      onSuccess: ()=>{
+          queryClientObj.invalidateQueries({
+              queryKey: ["orders"],
+          })
+      },
+      onError: (errData)=>{
+          setErrModalIsOpen(true);
+          setErr(errData);
+      }
+  })
+
+  const {mutate: cartMutate} = useMutation({
+    mutationFn: postCart,
+    onSuccess: ()=>{
+        queryClientObj.invalidateQueries({
+            queryKey: ["cart"],
+        })
+    },
+    onError: (errData)=>{
+        setErrModalIsOpen(true);
+        setErr(errData);
+    }
+})
+
+  function handleOrder(){
+      const mappedList = filteredList.map(design => ({designId: design.id, quantity: 1})
+        );
+
+      console.log("mappedList of ordering filtered items", mappedList);
+        orderMutate({ userId: userId, accountId: accountId, orderItems: [...mappedList] });
+  }
+
+  function handleAddToCart(){
+    const mappedList = filteredList.map(design => ({designId: design.id, quantity: 1})
+        );
+
+      console.log("mappedList of adding to cart the filtered items", mappedList);
+        cartMutate({ userId: userId, accountId: accountId, cartItems: [...mappedList] });
+  }
+
+  function handleCloseErrModal(){
+    setErrModalIsOpen(false);
+  }
 
   return (
     <div key="whole-designs" className={classes["whole-designs-page"]}>
@@ -1185,6 +1237,7 @@ export default function DesignCards({ handleShowDetails, catalogue, updatedCardI
               </AnimatePresence>
             </div>
           </section>
+  
           <AnimatePresence>
             {selectedFilters.length > 0 && (
               <motion.ul
@@ -1221,10 +1274,16 @@ export default function DesignCards({ handleShowDetails, catalogue, updatedCardI
               </motion.ul>
             )}
           </AnimatePresence>
+
+          {catalogue && filteredList.length > 0 && <div className={styles["actions"]} style={{ width: "100%", display:"flex", justifyContent: "center", alignItems: "center", marginTop: "1rem"}}>
+            <button className={classes["add-to-cart"]} style={{paddingBottom: "0.25rem", paddingTop: "0.25rem"}} onClick={handleAddToCart}>Add to cart</button>
+            <button className={classes["buy"]} style={{paddingBottom: "0.25rem", paddingTop: "0.25rem"}} onClick={handleOrder}>order now</button>
+          </div>}
         </div>
 
         <div className={classes["outer-cards-container"]}>
           {content}
+          {errModalIsOpen && <ErrorModal errModalIsOpen={errModalIsOpen} err={err} onCloseErrModal={handleCloseErrModal} fallBackErrMsg={orderIsError ? "Failed to post order" : "Failed to post cart"}/>}
         </div>
       </div>
     </div>

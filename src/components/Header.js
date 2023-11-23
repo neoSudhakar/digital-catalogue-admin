@@ -26,8 +26,17 @@ export default function Header() {
   const dispatch = useDispatch();
   const isDashboardOpen = useSelector((state) => state.ui.isDashboardOpen);
   const isCartOpen = useSelector((state) => state.cart.isCartOpen);
-  const totalQuantity = useSelector((state) => state.cart.totalQuantity);
-  const isOrdersOpen = useSelector((state) => state.orders.isOrdersOpen);
+
+  const [totalQuantity, setTotalQuantity] = useState(0);
+  const cartItems = useSelector((state) => state.cart.items);
+  console.log("cartItems is", cartItems);
+  useEffect(()=>{
+    const totalQuantityCount = cartItems.reduce((sum, item)=>{
+      return sum + item.quantity;
+    }, 0);
+    setTotalQuantity(totalQuantityCount);
+  },[cartItems])
+
 
   function handleToggleDashboard() {
     dispatch(uiActions.toggleDashboard());
@@ -83,6 +92,7 @@ export default function Header() {
               <li>
                 <motion.span
                   key={totalQuantity}
+                  initial={{scale: [1]}}
                   animate={{
                     scale: totalQuantity > 0 ? [1, 1.5, 1] : [1],
                     transition: {

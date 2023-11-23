@@ -25,10 +25,10 @@ export default function Orders() {
       if(data){
         console.log("Orders data is: ", data);
         const mappedList = data.flatMap(order =>
-          order.orderItemSet.map(item => ({orderId: order.id, ...item }))
+          order.orderItems.map(item => ({orderId: order.id, ...item }))
         );
 
-        console.log("mappedList is: ", mappedList);
+        console.log("mappedList ordered designs is: ", mappedList);
 
         setOrderedDesigns(mappedList);
       }
@@ -42,14 +42,14 @@ export default function Orders() {
 
   if(isError){
       content = <div  className={styles["error-container"]}>
-                  <ErrorBlock title="An Error has occurred" message={error?.info?.message || "Failed to fetch cart"}/>
+                  <ErrorBlock title="An Error has occurred" message={error?.info?.message || "Failed to fetch orders"}/>
               </div>
   }
 
   if(data){
     content = <>
         {orderedDesigns.length > 0 && <ul className={styles["list"]}>
-            {orderedDesigns.map((item)=><OrderItem key={item.orderId} item={item} />)}
+            {orderedDesigns.map((item)=><OrderItem key={item.id} item={item} />)}
         </ul>}
         {orderedDesigns.length === 0 && <p className={styles["fallback"]}>No items has ordered.</p>}
         </>
