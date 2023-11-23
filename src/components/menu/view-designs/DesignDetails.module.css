@@ -1,0 +1,220 @@
+
+.details-container{
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: center;
+}
+.back-btn-container{
+    margin: 2rem 0 0;
+    padding-left: 1.25rem;
+    position: sticky;
+    top: 1.55rem;
+    z-index: 15;
+    display: inline-block;
+    width: 100%;
+    align-items: flex-start;
+    /* color:rgb(221, 36, 98); */
+}
+
+.header-content{
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: "center";
+    margin-bottom: 2rem;
+}
+
+.header-content h1{
+    color: brown;
+    /* text-align: center; */
+    margin: 0;
+}
+
+.card-details{
+    display: flex;
+    flex-direction: column;
+    width:85%;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    min-height: 60vh;
+    /* height: auto; */
+    align-items: center;
+    padding-bottom: 1rem;
+    flex: 1;
+    margin-bottom: 1.65rem;
+    padding-top: 1.5rem;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    border-radius: 0.5rem;
+}
+.full{
+    width: 95% !important;
+    padding-left: 0;
+    padding-right: 0;
+}
+.above-table{
+    width: 100%;
+    flex: 1;
+    display: flex;
+    align-items: stretch;
+}
+
+.carousel{
+    width:50%;
+    /* min-height: 60vh; */
+    /* height: 100%; */
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap:1rem;
+    padding: 1rem;
+    max-height: 30rem;
+}
+
+.default-image{
+    width:100%;
+    z-index: 0;
+    height: 70%;
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    object-fit: contain;
+    border: 1px solid #ccc;
+}
+.default-image img{
+    height: 100%;
+    width:100%;
+    z-index: 0;
+    flex: 2;
+    align-self: stretch;
+    object-fit: cover;
+}
+
+.left-images-container{
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0.5rem 1rem;
+    width:100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    gap:1rem;
+    flex:1;
+}
+.left-image{
+    width:24%;
+    height: 5rem;
+    object-fit: contain;
+}
+.left-image:hover{
+    cursor: pointer;
+}
+.left-image.active{
+    border: 2px solid rgb(247, 185, 13);
+}
+.left-image img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.actions{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+
+}
+.actions button, .assign-btn{
+    background-color: brown;
+    color: white;
+    padding: 0.5rem 2rem;
+    text-transform: uppercase;
+    border-radius: 0.35rem;
+    border:none;
+}
+.actions button:hover, .assign-btn:hover{
+    background-color: rgb(128, 4, 4);
+    cursor: pointer;
+}
+
+.back{
+    padding: 0.5rem 2.5rem;
+    border-radius: 0.35rem;
+    background-color: rgb(221, 36, 159);
+    /* border: 1px solid rgb(221, 36, 159); */
+    border: none;
+    color: white;
+    font-size: 1rem;
+    text-transform: uppercase;
+}
+.back:hover{
+    cursor: pointer;
+    background-color: rgb(199, 8, 135);
+}
+
+@media screen and (max-width:767px) {
+    .card-details{
+        /* flex-direction: column;
+        height: auto;
+        gap:1rem; */
+        width: 92%;
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .above-table{
+        flex-direction: column;
+        height: auto;
+        gap:1rem;
+    }
+    .carousel{
+        width:100%;
+        min-height: 35vh;
+        max-height: 50vh;
+    }
+    .content{
+        display: block;
+        text-align: center;
+        padding: 0.5rem;
+    }
+    .content{
+        width: 100%;
+    }
+    .cardItem-details div{
+        width:auto;
+        margin: 0 auto;
+    }
+    .header-content{
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+    .header-content h1{
+        font-size: 1.25rem;
+    }
+}
+
+@media screen and (min-height:1000px){
+    .card-details{
+        height: 30vh;
+    }
+    .carousel{
+        height: 30vh;
+    }
+}
+
+@media screen and (max-width:767px) and (min-height:1000px) {
+    .card-details{
+        height: auto;
+    }
+    .carousel{
+        width:100%;
+    }
+}
