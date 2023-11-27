@@ -1,0 +1,102 @@
+.list-item{
+    padding: 0 1.5rem;
+    padding-left: 0;
+    /* background-color: rgb(199, 208, 221); */
+    /* rgb(199, 208, 221) */
+    background-color: rgb(206, 252, 230);
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
+    width: 100%;
+    display: flex;
+    gap: 2rem;
+    overflow: hidden;
+    align-items: center;
+    margin: auto;
+    justify-content: space-between;
+}
+
+.image-container{
+    width: 8rem;
+    height: 7rem;
+    object-fit: contain;
+    margin-right: 0.5rem;
+}
+.image-container img{
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+.content{
+    flex: 1;
+    align-self: flex-start;
+    margin-top: 1rem;
+}
+
+.content h3{
+    padding: 0;
+    margin: 0;
+    margin-bottom: 0.5rem;
+    color: rgb(71, 116, 124);
+}
+
+.below-title{
+    display: flex;
+    gap: 5rem;
+}
+
+.price{
+    font-weight: 600;
+}
+
+.qty{
+    padding : 0.15rem 0.5rem 0.1rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 0.35rem;
+    border: 1px solid #ccc;
+    background-color: rgb(240, 238, 236);
+}
+
+.actions{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1;
+}
+.actions button{
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+}
+
+.minus{
+    color: red;
+}
+.plus{
+    color: green;
+}
+
+.actions button:hover{
+    cursor: pointer;
+}
+.actions button:active{
+    color: gray;
+}
+
+.remove-icon{
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+}
+
+.remove-icon:hover{
+    cursor: pointer;
+}
+
+.remove-icon:active{
+    color: gray;
+}
+

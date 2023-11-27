@@ -1,0 +1,72 @@
+.err{
+    color: red;
+    padding: 0;
+    margin-top: 0.25rem;
+    font-size: 0.75rem;
+    font-style: italic;
+  }
+  .form{
+    width:100%;
+    display: flex;
+    flex-direction: column;
+    gap:0.45rem;
+    margin-bottom: 1rem;
+  }
+  .fields{
+    display: flex;
+    gap:1.5rem;
+    flex-wrap: wrap;
+}
+.field{
+    display: flex;
+    flex-direction: column;
+    gap:0.5rem;
+    min-width: 30%;
+    flex: 1;
+}
+.field label{
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: rgb(112, 112, 129);
+}
+.field select{
+    padding: 0.35rem;
+    width: 100%;
+    border: 1px solid rgb(112, 112, 129);
+    outline: none;
+    border-radius: 0.2rem;
+}
+.field input{
+    padding: 0.35rem;
+    width: 100%;
+    border: 1px solid rgb(112, 112, 129);
+    outline: none;
+    border-radius: 0.2rem;
+}
+.button{
+    align-self: flex-start;
+    margin-top: 1rem;
+}
+.button input{
+    color:white;
+    background-color: rgb(64, 154, 238);
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.2rem;
+    width: 120px;
+    height: 40px;
+    font-size: 16px;
+}
+
+
+
+  @media screen and (max-width: 767px){
+    .fields{
+        flex-direction: column;
+        flex-wrap: nowrap;
+    }
+    .field{
+        min-width: 100%;
+    }
+    
+  }

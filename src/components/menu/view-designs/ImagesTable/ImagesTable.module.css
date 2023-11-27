@@ -1,0 +1,72 @@
+.table-container {
+    width: 95%;
+    margin: 0 auto;
+    margin: 2rem 1rem 0;
+  }
+  
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+  }
+  
+  .table th, .table td {
+    padding: 5px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .table th {
+    background-color: #f2f2f2;
+    font-size: 0.9rem;
+  }
+  
+  .table img {
+    margin-top: 5px;
+    width: 4rem;
+    height: 3rem;
+    object-fit: cover;
+    /* border-radius: 50%; */
+  }
+  
+  .table input[type="checkbox"] {
+    margin-right: 10px;
+  }
+  .table input[type="checkbox"]:hover{
+    cursor: pointer;
+  }
+
+  .table label:hover{
+    cursor: pointer;
+  }
+  
+  .table td:nth-child(1),
+  .table th:nth-child(1) {
+    width: 33%;
+  }
+  
+  .table td:nth-child(2),
+  .table th:nth-child(2) {
+    width: 33%;
+  }
+  
+  .table td:nth-child(3),
+  .table th:nth-child(3) {
+    width: 33%;
+  }
+  
+  .delete-button {
+    background-color: #ff0000;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .delete-button:hover {
+    background-color: #cc0000;
+  }
+  

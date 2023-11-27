@@ -1,0 +1,47 @@
+.container{
+    width:100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    object-fit: contain;
+}
+.default-img{
+    height: 70%;
+    width: 100%;
+    object-fit: contain;
+}
+
+.default-img img{
+    height: 100%;
+    width:100%;
+    border-radius: 0.25rem;
+}
+
+.normal-images-container{
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0.5rem 1rem;
+    width:100%;
+    height: 22%;
+    padding: 1.5rem 1rem;
+    justify-content: center;
+    align-items: flex-end;
+    gap:1rem;
+}
+.normal-image{
+    width:20%;
+    height: 5rem;
+    object-fit: contain;
+}
+.normal-image:hover{
+    cursor: pointer;
+}
+.normal-image.active{
+    border: 2px solid rgb(247, 185, 13);
+}
+.normal-image img{
+    width: 100%;
+    height: 100%;
+}

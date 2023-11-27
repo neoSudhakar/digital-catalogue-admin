@@ -1,0 +1,33 @@
+.root{
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+.auth{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.right{
+    margin-left: 18%;
+    display: flex;
+    flex-direction: column;
+    background-color: #fcf2f3;
+    width:82%;
+    padding: 0;
+    padding-top: 3rem;
+    overflow-y: auto;
+}
+
+.right.full{
+    width: 100%;
+    margin-left: 0;
+}
+
+@media screen and (max-width:767px) {
+    .right{
+        margin-left: 40%;
+        width:60%;
+        padding-top: 2.75rem;
+    }
+}

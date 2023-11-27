@@ -1,0 +1,117 @@
+.container{
+    width: 100%;
+    margin-top: 0.9rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    overflow-y: auto;
+}
+.container h1{
+    color: brown;
+}
+.form{
+    background-color: white;
+    width:45%;
+    padding: 2rem 3rem;
+    border-radius: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+}
+.input-grp{
+    display: flex;
+    
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.85rem;
+}
+.input-grp.invalid input{
+    background-color: rgb(253, 223, 223);
+    border-color: red;
+  }
+  .input-grp.invalid input:focus{
+    background-color: rgb(255, 235, 235);
+    border-color: rgb(248, 139, 139);
+  }
+
+.input-grp label{
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    flex: 2;
+}
+.input-grp input{
+    padding: 0.65rem;
+    display: block;
+    width: 100%;
+    outline: none;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 0.35rem;
+    flex: 6;
+}
+.input-grp input:focus{
+    background-color: rgb(227, 243, 250);
+    border-color: rgb(120, 188, 252);
+}
+.form-actions{
+    margin-top: 1.5rem;
+    display: flex;
+    width: 100%;
+    gap:2rem;
+    justify-content: flex-end;
+}
+.form-actions .button{
+    color:white;
+    background-color: brown;
+    padding: 0.5rem 2rem;
+    border-radius: 0.35rem;
+    border: none;
+    font-size: 1rem;
+}
+.form-actions .button:hover{
+    cursor: pointer;
+    background-color: rgb(138, 4, 4);
+}
+.form-actions .button:disabled:hover, .form-actions .button:disabled{
+    cursor: not-allowed;
+    background-color:rgb(190, 190, 190);
+    color:rgb(58, 59, 59);
+}
+.form-actions .alternative{
+    background-color: transparent;
+    color: rgb(46, 181, 243);
+    /* border: 1px solid rgb(46, 181, 243); */
+    padding: 0.5rem 2rem;
+    border-radius: 0.35rem;
+    font-size: 1rem;
+}
+.form-actions .alternative:hover{
+    /* background-color: rgb(86, 214, 247);
+    border-color: rgb(86, 214, 247);
+    color: white; */
+    cursor: pointer;
+}
+
+.err{
+    color: red;
+    padding: 0;
+    margin-top: 0.25rem;
+    font-size: 0.75rem;
+  }
+
+  @media screen and (max-width:767px) {
+    .form{
+        width:80%;
+    }
+    .form-actions{
+        flex-direction: column-reverse;
+    }
+    h1{
+        font-size: 2rem;
+    }
+    .input-grp{
+        flex-direction: column;
+    }
+  }

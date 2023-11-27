@@ -1,0 +1,146 @@
+.fields{
+    margin-left: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+/* .title-container{
+    border-bottom: 1px solid #ccc;
+    padding: 1rem 0 2rem;
+} */
+.title-container h2{
+    /* font-size: 1.25rem; */
+    display: block;
+    margin: 0;
+    padding:0;
+}
+.price{
+    font-size: 1.1rem;
+    padding: 0;
+    margin: 0;
+}
+.price span{
+    font-weight: bold;
+    /* font-size: 1.25rem; */
+}
+.quantity-container{
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+.quantity-actions{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.quantity-actions button{
+    font-size: 1rem;
+    color: brown;
+    border: none;
+    background-color: transparent;
+}
+.quantity-actions button:hover{
+    cursor: pointer;
+}
+.quantity-actions button:active{
+    cursor: pointer;
+    color: gray;
+}
+.quantity-actions button:disabled, .quantity-actions button:disabled:hover, .quantity-actions button:disabled:active{
+    cursor: not-allowed;
+    color: #ccc;
+}
+
+.quantity-actions input{
+    padding: 0.5rem 0rem 0.5rem 0.5rem;
+    border: 2px solid brown;
+    outline: none;
+    min-width: 3rem;
+    font-size: large;
+    width: 4rem;
+    text-align: center;
+}
+.actions{
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    /* margin: 2rem 0; */
+}
+.actions button{
+    /* flex: 1; */
+    font-size: 1.25rem;
+    text-transform: uppercase;
+    padding: 0.5rem 2.5rem;
+    border-radius: 1.5rem;
+}
+.actions button:hover{
+    cursor: pointer;
+}
+
+.actions button:disabled, .actions button:disabled:hover, .actions button:disabled:active{
+    cursor: not-allowed;
+}
+
+.add-to-cart{
+    color: brown;
+    /* background-color: rgb(221, 36, 159); */
+    background-color: white;
+    border: 1px solid rgb(156, 18, 18);
+}
+.add-to-cart:active{
+    background-color:rgb(136, 7, 7);
+    color: white;
+}
+
+.add-to-cart:disabled{
+    background-color: #dbcaca;
+    color: rgb(138, 136, 136);
+    border-color: #dbcaca;
+}
+.buy{
+    color: white;
+    background-color: brown;
+    border: none;
+}
+.buy:hover{
+    background-color:rgb(136, 7, 7);
+}
+
+.buy:active{
+    background-color:rgb(218, 57, 57);
+}
+
+.buy.ordered{
+    background-color: rgb(123, 177, 123);
+    color: rgb(231, 230, 230);
+}
+
+.info-container{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.info{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+}
+
+@media screen and (max-width: 767px){
+    .fields{
+        margin: 0;
+        padding: 1rem;
+    }
+    .actions{
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+    .actions button{
+        flex:1;
+    }
+    .title-container h2{
+        display: none;
+    }
+}
