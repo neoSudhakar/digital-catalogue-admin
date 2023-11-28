@@ -1,21 +1,23 @@
 import { AgGridReact } from 'ag-grid-react';
-import { useMemo, useState } from 'react'; 
-import classes from "./Tables.module.css";
-import UpdateModal from './UpdateModal';
-import Role from './Role';
+import { useMemo , useState} from 'react'; 
+import classes from "../Tables.module.css";
+import UpdateModal from '../UpdateModal';
+
 
 import 'ag-grid-community/styles/ag-grid.css'; 
 import 'ag-grid-community/styles/ag-theme-alpine.css';
+import Size from './Size';
 
-export default function RoleTable({data}) {
+export default function SizeTable({data}) {
 
   const [rowData, setRowData] =useState(data);
   const [selectedRow, setSelectedRow]= useState();
   const [isModalOpen, setIsModalOpen] =useState(false);
 
+
   async function refetch() {
     try {
-      const response = await fetch('http://localhost:8080/api/roles');
+      const response = await fetch('http://localhost:8080/api/sizes');
       
       if (response.status === 204) {
         
@@ -27,7 +29,7 @@ export default function RoleTable({data}) {
       console.error('Error:', error);
     }
   };
-  
+
 function handleCloseModal() {
     setIsModalOpen(false);
 };
@@ -38,7 +40,7 @@ const handleUpdateRow= (row) => {
 };
 
 const handleDeleteRow = (rowToDelete) => {
-    fetch(`http://localhost:8080/api/roles/${rowToDelete.id}`, {
+    fetch(`http://localhost:8080/api/sizes/${rowToDelete.id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -66,10 +68,10 @@ const handleDeleteRow = (rowToDelete) => {
     //console.log(data);
     const columnDefs=[
         { headerName: 'Id', field: 'id', width: 200, minWidth: 200, maxWidth: 200 },
-        { headerName: 'Role', field: 'role', width: 450 },
+        { headerName: 'Size', field: 'name', width:450 },
         {
             headerName: "Actions",
-            width: 700,
+            width:700,
             cellRenderer: (params) => (
               <div>
                 <button
@@ -109,8 +111,8 @@ const handleDeleteRow = (rowToDelete) => {
                     animateRows={true}
                 />
             </div>
-            <UpdateModal openModal={isModalOpen} closeModal= {handleCloseModal} title={"UPDATE ROLE"}>
-                <Role refetchRoleData={refetch} closeModal={handleCloseModal} selectedRow={selectedRow}/>
+            <UpdateModal openModal={isModalOpen} closeModal= {handleCloseModal} title={"UPDATE SIZE"}>
+                <Size refetchData={refetch} closeModal={handleCloseModal} selectedRow={selectedRow}/>
             </UpdateModal>
         </div>
     )

@@ -1,22 +1,22 @@
-import { AgGridReact } from 'ag-grid-react';
-import { useMemo, useState } from 'react'; 
-import classes from "./Tables.module.css";
-import UpdateModal from './UpdateModal';
+import { AgGridReact } from 'ag-grid-react'; 
+import { useMemo, useState, useEffect } from 'react';
+import UpdateModal from '../UpdateModal';
+import User from './User';
 
 import 'ag-grid-community/styles/ag-grid.css'; 
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-import Category from './Category';
 
-export default function CategoryTable({data}) {
+import classes from "../Tables.module.css";
+
+const UserTable = ({data , accountData, roleData}) => {
 
   const [rowData, setRowData] =useState(data);
   const [selectedRow, setSelectedRow]= useState();
   const [isModalOpen, setIsModalOpen] =useState(false);
 
-
   async function refetch() {
     try {
-      const response = await fetch('http://localhost:8080/api/categories');
+      const response = await fetch('http://localhost:8080/api/users');
       
       if (response.status === 204) {
         
@@ -39,7 +39,7 @@ const handleUpdateRow= (row) => {
 };
 
 const handleDeleteRow = (rowToDelete) => {
-    fetch(`http://localhost:8080/api/categories/${rowToDelete.id}`, {
+    fetch(`http://localhost:8080/api/users/${rowToDelete.id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -62,18 +62,38 @@ const handleDeleteRow = (rowToDelete) => {
         console.error('Error:', error);
         message.error('Error occurred while deleting the row.');
       });
-  };
+  };  
 
 
-    //console.log(data);
+    //console.log("rowdata is:",rowData);
     const columnDefs=[
-        { headerName: 'Id', field: 'id', width: 200, minWidth: 200, maxWidth: 200 },
-        { headerName: 'Category', field: 'name', width: 450 },
+        { headerName: 'Id', field: 'id',width: 100, minWidth: 100, maxWidth: 100 },
+        { headerName: 'First Name', field: 'firstName' },
+        { headerName: 'Last Name', field: 'lastName' },
+        { headerName: 'Email', field: 'email' },
+        {
+            headerName: 'Role',
+            field: 'userRole',
+            valueGetter: (params) => {
+                if(params.data.roleSet){
+                    const roles = params.data.roleSet.map((role) => role.role);
+                    return roles.join(', '); 
+                }
+            }
+        },
+        {
+            headerName: 'Account',
+            field: 'account',
+            valueGetter: (params) => {
+                if (params.data.account && params.data.account.name) {
+                    return params.data.account.name; 
+                }
+            }
+        },
         {
             headerName: "Actions",
-            width: 700,
             cellRenderer: (params) => (
-              <div className={classes.actions}>
+              <div>
                 <button
                   className={classes.update}
                   onClick={handleUpdateRow.bind(this, params.data)}
@@ -92,13 +112,12 @@ const handleDeleteRow = (rowToDelete) => {
     ];
 
     const defaultColDef = useMemo(() => {
-      return {
-        resizable: true,
-        sortable: true,
-  
-      };
-    }, []);
-    
+        return {
+          resizable: true,
+          sortable: true,
+        };
+      }, []);
+
 
     return(
         <div style={{margin: 15}}>
@@ -111,9 +130,13 @@ const handleDeleteRow = (rowToDelete) => {
                     animateRows={true}
                 />
             </div>
-            <UpdateModal openModal={isModalOpen} closeModal= {handleCloseModal} title={"UPDATE CATEGORY"}>
-                <Category refetchCategoryData={refetch} closeModal={handleCloseModal} selectedRow={selectedRow}/>
+            <UpdateModal openModal={isModalOpen} closeModal= {handleCloseModal} title={"UPDATE USER"}>
+                <User refetchUserData={refetch} accountData={accountData} roleData={roleData} closeModal={handleCloseModal} selectedRow={selectedRow}/>
             </UpdateModal>
         </div>
     )
+  
+  
 };
+
+export default UserTable;

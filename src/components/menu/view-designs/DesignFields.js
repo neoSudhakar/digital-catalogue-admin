@@ -206,7 +206,7 @@ export default function DesignFields({
             <p>{cardItem.designNumber}</p>
           </div>
           <div>
-            <span>Mian Group: </span>
+            <span>Main Group: </span>
             <p>{cardItem.mainGroup}</p>
           </div>
           <div>

@@ -44,6 +44,13 @@ export default function MasterCreation() {
 
   const [groupData, setGroupData] = useState([]);
   const [categoryData, setCategoryData] = useState([]);
+  const [styleData, setStyleData] = useState([]);
+    const [productData, setProductData] = useState([]);
+    const [modelData, setModelData] = useState([]);
+    const [sizeData, setSizeData] = useState([]);
+    const [workerData, setWorkerData] = useState([]);
+    const [typeData, setTypeData] = useState([]);
+    const [stoneGroupData, setStoneGroupData] = useState([]);
 
   const fetchGroupData = async () => {
     try {
@@ -79,10 +86,136 @@ export default function MasterCreation() {
     }
   };
 
+  const fetchStyleData = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/api/styles');
+      
+      if (response.status === 204) {
+       
+      } 
+      else if(response.status === 200){
+        const data = await response.json();
+        //console.log(data);
+        setStyleData(data);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const fetchProductData = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/api/products');
+      
+      if (response.status === 204) {
+       
+      } 
+      else if(response.status === 200){
+        const data = await response.json();
+        //console.log(data);
+        setProductData(data);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const fetchModelData = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/api/models');
+      
+      if (response.status === 204) {
+       
+      } 
+      else if(response.status === 200){
+        const data = await response.json();
+        //console.log(data);
+        setModelData(data);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const fetchSizeData = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/api/sizes');
+      
+      if (response.status === 204) {
+       
+      } 
+      else if(response.status === 200){
+        const data = await response.json();
+        //console.log(data);
+        setSizeData(data);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const fetchWorkerData = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/api/workers');
+      
+      if (response.status === 204) {
+       
+      } 
+      else if(response.status === 200){
+        const data = await response.json();
+        //console.log(data);
+        setWorkerData(data);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const fetchTypeData = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/api/types');
+      
+      if (response.status === 204) {
+       
+      } 
+      else if(response.status === 200){
+        const data = await response.json();
+        //console.log(data);
+        setTypeData(data);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const fetchStoneGroupData = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/api/stonegroups');
+      
+      if (response.status === 204) {
+       
+      } 
+      else if(response.status === 200){
+        const data = await response.json();
+        //console.log(data);
+        setStoneGroupData(data);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
 
   useEffect(()=> {
     fetchCategoryData();
     fetchGroupData();
+    fetchModelData();
+        fetchProductData();
+        fetchSizeData();
+        fetchStoneGroupData();
+        fetchStyleData();
+        fetchTypeData();
+        fetchWorkerData();
   },[]);
 
 
@@ -827,12 +960,14 @@ export default function MasterCreation() {
                       name="style"
                       placeholder={"Select a style"}
                     >
-                      <option value="Style1">Style1</option>
                       <option value="" disabled hidden>
                         Select an option
                       </option>
-                      <option value="Style2">Style2</option>
-                      <option value="Style3">Style3</option>
+                      {styleData && styleData.map((item, index) =>(
+                        <option key={item.id} value={item.name}>
+                          {item.name}
+                        </option>
+                        ))}
                     </select>
                     
                     {/* <SelectComponent
@@ -870,12 +1005,14 @@ export default function MasterCreation() {
                       name="product"
                       placeholder={"Select a product"}
                     >
-                      <option value="Product1">Product1</option>
                       <option value="" disabled hidden>
                         Select an option
                       </option>
-                      <option value="Product2">Product2</option>
-                      <option value="Product3">Product3</option>
+                      {productData && productData.map((item, index) =>(
+                        <option key={item.id} value={item.name}>
+                          {item.name}
+                        </option>
+                        ))}
                     </select>
                     
                     {/* <SelectComponent
@@ -913,12 +1050,14 @@ export default function MasterCreation() {
                       name="model"
                       placeholder={"Select model"}
                     >
-                      <option value="Model1">Model1</option>
                       <option value="" disabled hidden>
                         Select an option
                       </option>
-                      <option value="Model2">Model2</option>
-                      <option value="Model3">Model3</option>
+                      {modelData && modelData.map((item, index) =>(
+                        <option key={item.id} value={item.name}>
+                          {item.name}
+                        </option>
+                        ))}
                     </select>
                     {/* <SelectComponent
                                 placeholder={"Select model"}
@@ -955,12 +1094,14 @@ export default function MasterCreation() {
                       name="size"
                       placeholder={"Select size"}
                     >
-                      <option value="Size1">Size1</option>
                       <option value="" disabled hidden>
                         Select an option
                       </option>
-                      <option value="Size2">Size2</option>
-                      <option value="Size3">Size3</option>
+                      {sizeData && sizeData.map((item, index) =>(
+                        <option key={item.id} value={item.name}>
+                          {item.name}
+                        </option>
+                        ))}
                     </select>
                     {/* <SelectComponent
                                 placeholder={"Select size"}
@@ -997,12 +1138,14 @@ export default function MasterCreation() {
                       name="worker"
                       placeholder={"Select worker"}
                     >
-                      <option value="Worker1">Worker1</option>
                       <option value="" disabled hidden>
                         Select an option
                       </option>
-                      <option value="Worker2">Worker2</option>
-                      <option value="Worker3">Worker3</option>
+                      {workerData && workerData.map((item, index) =>(
+                        <option key={item.id} value={item.name}>
+                          {item.name}
+                        </option>
+                        ))}
                     </select>
                     {/* <SelectComponent
                                 placeholder={"Select worker"}
@@ -1145,9 +1288,11 @@ export default function MasterCreation() {
                       <option value="" disabled hidden>
                         Select an option
                       </option>
-                      <option value="Type1">Type1</option>
-                      <option value="Type2">Type2</option>
-                      <option value="Type3">Type3</option>
+                      {typeData && typeData.map((item, index) =>(
+                        <option key={item.id} value={item.name}>
+                          {item.name}
+                        </option>
+                        ))}
                     </select>
    
                         {/* {typeHasErr && <p className={classes.err}>Select a type!</p>} */}
@@ -1162,11 +1307,14 @@ export default function MasterCreation() {
                       name="stoneGroup"
                       placeholder={"Select stone group"}
                     >
-                      <option value="Stone Group 1">Stone Group 1</option>
                       <option value="" disabled hidden>
                         Select an option
                       </option>
-                      <option value="Stone Group 2">Stone Group 2</option>
+                      {stoneGroupData && stoneGroupData.map((item, index) =>(
+                        <option key={item.id} value={item.name}>
+                          {item.name}
+                        </option>
+                        ))}
                     </select>
                     
                     

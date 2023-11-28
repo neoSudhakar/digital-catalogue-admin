@@ -101,8 +101,33 @@ function handleRejectOrder(order) {
         });
 };
 
+function handleDeliveredOrder(order) {
+  fetch(`http://localhost:8080/api/orders/${order.id}`, {
+        method: 'PATCH', 
+        headers: {
+          'Content-Type': 'application/json',
+         
+        },
+        body: JSON.stringify({orderStatus: "delivered"}), 
+      })
+        .then((response) => {
+          if (!response.ok) {
+            
+            console.log('Failed to update row in the backend.');
+            
+          } else {
+            fetchOrders();
+            console.log('Row updated in the backend.');
+          }
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+};
 
-      const pendingOrders = rowData && rowData.filter((row) => row.orderStatus === 'pending');
+
+
+      const pendingOrders = rowData && rowData.filter((row) => row.orderStatus === 'accepted' || row.orderStatus ==='pending' || row.orderStatus === 'cancelled');
 
     return(
       <div className={classes["table-container"]}>
@@ -126,7 +151,7 @@ function handleRejectOrder(order) {
                    <td>{order.id}</td>
                    <td>
                       {order.orderItems && order.orderItems.map((item,index) => (
-                          <div>
+                          <div className={classes.designsColumn}>
                               <img src={item.design.designImages[0].preSignedURL} alt={item.design.id}/>
                               <p>{"Design "+item.design.id}</p>
                           </div>
@@ -137,7 +162,7 @@ function handleRejectOrder(order) {
                    </td>
                    <td>{order.createdDate.slice(0,10)}</td>
                    <td>
-                      {order.orderItemList && order.orderItemList.map((item,index) => (
+                      {order.orderItems && order.orderItems.map((item,index) => (
                               <p>{item.quantity}</p>
                       ))}
                    </td>
@@ -161,6 +186,12 @@ function handleRejectOrder(order) {
                             onClick={handleRejectOrder.bind(this, order)}
                           >
                             Reject
+                          </button>
+                          <button
+                            className={classes.delivered}
+                            onClick={handleDeliveredOrder.bind(this, order)}
+                          >
+                            Delivered
                           </button>
                           <button
                               className={classes.view}
@@ -192,136 +223,3 @@ function handleRejectOrder(order) {
 };
 
 
-/*const columnDefs=[
-        { headerName: 'Id', field: 'id', width: 100, minWidth: 100, maxWidth: 100 },
-        {
-          headerName: 'Ordered By',
-          field: 'user',
-          valueGetter: (params) => {
-              if (params.data.user && params.data.user.firstName && params.data.user.lastName) {
-                  return (params.data.user.firstName+params.data.user.lastName); 
-              }
-          }
-        },
-        { headerName: 'Ordered Date', field: 'createdDate',
-          valueGetter: (params) => {
-            if (params.data.createdDate) {
-                return params.data.createdDate.slice(0,10); 
-            }
-            
-      }
-        },
-        /*{ headerName: 'Design Ordered', field: 'design',
-          cellRenderer: (params) => {
-            if (params.data.orderItemSet){
-              return <div style={{height: 100}}>
-                <img src={params.data.orderItemSet[0].design.designImages[0].presignedUrl} alt={params.data.orderItemSet[0].design.id} style={{ width: '50px', height: '50px' }} />;
-                <div>{"Design"+params.data.orderItemSet[0].design.id}</div>
-                </div>
-            }
-          }
-         },
-         { headerName: 'Quantity', field: 'quantity' ,
-         valueGetter: (params) => {
-           if (params.data.orderItemList && params.data.orderItemList[0].quantity) {
-               return (params.data.orderItemList[0].quantity); 
-           }
-         }
-       },
-       { headerName: 'Order Status', field: 'orderStatus',
-         cellStyle: (params) => {
-           if (params.value === 'pending') {
-             return {color: 'orange', fontWeight: 'bold'};
-           }
-           else if (params.value === 'accepted') {
-             return {color: 'green', fontWeight: 'bold'};
-           }
-           else if (params.value === 'delivered') {
-             return {color: 'blue', fontWeight: 'bold'};
-           }
-           else if (params.value === 'rejected') {
-             return { color: 'red', fontWeight:'bold' };
-           }
-         }
-       },
-       { headerName: 'Payment Status', field: 'paymentStatus',
-         cellStyle: (params) => {
-           if (params.value === 'pending') {
-             return {color: 'orange', fontWeight: 'bold'};
-           }
-           else if (params.value === 'accepted') {
-             return {color: 'green', fontWeight: 'bold'};
-           }
-           else if (params.value === 'delivered') {
-             return {color: 'blue', fontWeight: 'bold'};
-           }
-           else if (params.value === 'rejected') {
-             return { color: 'red', fontWeight:'bold' };
-           }
-         }
-       },
-       {
-         headerName: "Actions",
-         width: 500,
-         cellRenderer: (params) => (
-           <div>
-             <button
-               className={classes.update}
-               onClick={handleAcceptOrder.bind(this, params.data)}
-             >
-               Accept
-             </button>
-             <button
-               className={classes.delete}
-               onClick={handleRejectOrder.bind(this, params.data)}
-             >
-               Reject
-             </button>
-             <button
-               className={classes.view}
-               onClick={handleOpenModal.bind(this, params.data)}
-             >
-               View Order Item
-             </button>
-           </div>
-         ),
-       }  
-   ];
-
-   const defaultColDef = useMemo(() => {
-       return {
-         resizable: true,
-         sortable: true,
-
-       };
-     }, []);
-     
-     
-     
-     
-     
-     <div style={{margin: 15, marginTop:30}}>
-            <div className="ag-theme-alpine"  style={{width: "100%", height: 300}}>
-
-                <AgGridReact
-                    columnDefs={columnDefs}
-                    rowData={pendingOrders}
-                    defaultColDef={defaultColDef}
-                    animateRows={true}
-                />
-            </div>
-            <Modal
-              title="ORDERED DESIGN"
-              open={isModalOpen}
-              onCancel={handleCloseModal}
-              okButtonProps={{style:{display: "none"}}}
-              cancelButtonProps={{style: {display: 'none'}}}
-              destroyOnClose
-            >
-            {showDesign && <ul>
-            <ViewOrderItems key={showDesign.id} item={showDesign} />
-        </ul>}
-            </Modal>
-        </div>
-     */
-   

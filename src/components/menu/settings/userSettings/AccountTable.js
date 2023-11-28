@@ -1,12 +1,12 @@
 import { AgGridReact } from 'ag-grid-react';
 import { useMemo, useState } from 'react'; 
 import { Modal } from 'antd';
-import classes from "./Tables.module.css";
+import classes from "../Tables.module.css";
 import Account from './Account';
 
 import 'ag-grid-community/styles/ag-grid.css'; 
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-import UpdateModal from './UpdateModal';
+import UpdateModal from '../UpdateModal';
 
 
 const AccountTable = ({data, refetchData}) => {

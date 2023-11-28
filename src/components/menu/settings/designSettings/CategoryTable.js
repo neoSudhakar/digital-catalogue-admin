@@ -1,13 +1,13 @@
 import { AgGridReact } from 'ag-grid-react';
-import { useMemo , useState} from 'react'; 
-import classes from "./Tables.module.css";
-import UpdateModal from './UpdateModal';
-import Group from './Group';
+import { useMemo, useState } from 'react'; 
+import classes from "../Tables.module.css";
+import UpdateModal from '../UpdateModal';
 
 import 'ag-grid-community/styles/ag-grid.css'; 
 import 'ag-grid-community/styles/ag-theme-alpine.css';
+import Category from './Category';
 
-export default function GroupTable({data}) {
+export default function CategoryTable({data}) {
 
   const [rowData, setRowData] =useState(data);
   const [selectedRow, setSelectedRow]= useState();
@@ -16,7 +16,7 @@ export default function GroupTable({data}) {
 
   async function refetch() {
     try {
-      const response = await fetch('http://localhost:8080/api/groups');
+      const response = await fetch('http://localhost:8080/api/categories');
       
       if (response.status === 204) {
         
@@ -39,7 +39,7 @@ const handleUpdateRow= (row) => {
 };
 
 const handleDeleteRow = (rowToDelete) => {
-    fetch(`http://localhost:8080/api/groups/${rowToDelete.id}`, {
+    fetch(`http://localhost:8080/api/categories/${rowToDelete.id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -64,15 +64,16 @@ const handleDeleteRow = (rowToDelete) => {
       });
   };
 
+
     //console.log(data);
     const columnDefs=[
         { headerName: 'Id', field: 'id', width: 200, minWidth: 200, maxWidth: 200 },
-        { headerName: 'Group', field: 'name', width:450 },
+        { headerName: 'Category', field: 'name', width: 450 },
         {
             headerName: "Actions",
-            width:700,
+            width: 700,
             cellRenderer: (params) => (
-              <div>
+              <div className={classes.actions}>
                 <button
                   className={classes.update}
                   onClick={handleUpdateRow.bind(this, params.data)}
@@ -91,12 +92,12 @@ const handleDeleteRow = (rowToDelete) => {
     ];
 
     const defaultColDef = useMemo(() => {
-        return {
-          resizable: true,
-          sortable: true,
-    
-        };
-      }, []);
+      return {
+        resizable: true,
+        sortable: true,
+  
+      };
+    }, []);
     
 
     return(
@@ -110,8 +111,8 @@ const handleDeleteRow = (rowToDelete) => {
                     animateRows={true}
                 />
             </div>
-            <UpdateModal openModal={isModalOpen} closeModal= {handleCloseModal} title={"UPDATE GROUP"}>
-                <Group refetchGroupData={refetch} closeModal={handleCloseModal} selectedRow={selectedRow}/>
+            <UpdateModal openModal={isModalOpen} closeModal= {handleCloseModal} title={"UPDATE CATEGORY"}>
+                <Category refetchData={refetch} closeModal={handleCloseModal} selectedRow={selectedRow}/>
             </UpdateModal>
         </div>
     )

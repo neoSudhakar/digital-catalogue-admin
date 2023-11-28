@@ -7,9 +7,8 @@ export default function ViewOrderItems({items}) {
 
   return (
     <>
-        <ul>
-            {items.map((item)=>{
-                return <li className={classes["list-item"]}>
+        {items.map((item)=>{
+            return <li key={item.id} className={classes["list-item"]}>
                 <div className={classes["image-container"]}>
                     <img src={item.design.designImages[0].preSignedURL} alt={`Design ${item.design.id}`} />
                 </div>
@@ -19,9 +18,9 @@ export default function ViewOrderItems({items}) {
                         <span className={classes["price"]}>₹30,499.00</span>
                     </div>
                 </div>
-        </li>
-            })}
-        </ul>
+            </li>
+        })}
+
         {/* <hr></hr>
             <div className={classes["cardItem-details"]}>
             <div>

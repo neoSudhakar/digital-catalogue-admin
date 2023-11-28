@@ -1,7 +1,7 @@
-import useInputSpcl from "../../../hooks/use-input-spcl";
-import classes from "./Account.module.css";
+import useInputSpcl from "../../../../hooks/use-input-spcl";
+import classes from "../Account.module.css";
 
-export default function Category({refetchCategoryData, closeModal, selectedRow}) {
+export default function Category({refetchData, closeModal, selectedRow}) {
 
   console.log(selectedRow);
     const initialNameValue= selectedRow ? selectedRow.name: ""; 
@@ -47,7 +47,7 @@ export default function Category({refetchCategoryData, closeModal, selectedRow})
         body: JSON.stringify(formData),
         })//.then(response=> response.json())
         .then(result => {
-          refetchCategoryData();
+          refetchData();
           console.log('Data sent sucessfully!')})
         .catch(error => console.log('error occured!'));
         }
@@ -66,7 +66,7 @@ export default function Category({refetchCategoryData, closeModal, selectedRow})
             console.log('Failed to update row in the backend.');
             
           } else {
-            refetchCategoryData();
+            refetchData();
             console.log('Row updated in the backend.');
           }
         })

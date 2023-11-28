@@ -1,7 +1,7 @@
-import useInputSpcl from "../../../hooks/use-input-spcl";
-import classes from "./Account.module.css";
+import useInputSpcl from "../../../../hooks/use-input-spcl";
+import classes from "../Account.module.css";
 
-export default function Group({refetchGroupData, closeModal, selectedRow}) {
+export default function Size({refetchData, closeModal, selectedRow}) {
 
   console.log(selectedRow);
   const initialNameValue= selectedRow ? selectedRow.name: ""; 
@@ -38,7 +38,7 @@ export default function Group({refetchGroupData, closeModal, selectedRow}) {
         console.log(formData);
 
         if(!selectedRow){
-        fetch('http://localhost:8080/api/groups', {
+        fetch('http://localhost:8080/api/sizes', {
             method: 'POST',
             headers: {
           'Content-Type': 'application/json',
@@ -46,12 +46,12 @@ export default function Group({refetchGroupData, closeModal, selectedRow}) {
         body: JSON.stringify(formData),
         })//.then(response=> response.json())
         .then(result => {
-          refetchGroupData();
+          refetchData();
           console.log('Data sent sucessfully!')})
         .catch(error => console.log('error occured!'));
         }
         else{
-          fetch(`http://localhost:8080/api/groups/${selectedRow.id}`, {
+          fetch(`http://localhost:8080/api/sizes/${selectedRow.id}`, {
         method: 'PUT', 
         headers: {
           'Content-Type': 'application/json',
@@ -65,7 +65,7 @@ export default function Group({refetchGroupData, closeModal, selectedRow}) {
             console.log('Failed to update row in the backend.');
             
           } else {
-            refetchGroupData();
+            refetchData();
             console.log('Row updated in the backend.');
           }
         })

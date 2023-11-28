@@ -1,25 +1,25 @@
-import useInputSpcl from "../../../hooks/use-input-spcl";
-import classes from "./Account.module.css";
+import useInputSpcl from "../../../../hooks/use-input-spcl";
+import classes from "../Account.module.css";
 
-export default function Role({refetchRoleData, closeModal, selectedRow}) {
+export default function Type({refetchData, closeModal, selectedRow}) {
 
   console.log(selectedRow);
-    const initialRoleValue= selectedRow ? selectedRow.role: "";  
+  const initialNameValue= selectedRow ? selectedRow.name: ""; 
 
     const {
-        inputVal: role,
-        isValid: roleIsValid,
-        hasErr: roleHasErr,
-        touchFn: roleTouchFn,
-        resetFn: roleResetFn,
-        handleBlur: handleRoleBlur,
-        handleChange: handleRoleChange,
-      } = useInputSpcl((inputValue) => inputValue.trim().length > 0, initialRoleValue);
+        inputVal: name,
+        isValid: nameIsValid,
+        hasErr: nameHasErr,
+        touchFn: nameTouchFn,
+        resetFn: nameResetFn,
+        handleBlur: handleNameBlur,
+        handleChange: handleNameChange,
+      } = useInputSpcl((inputValue) => inputValue.trim().length > 0, initialNameValue);
     
 
       let isFormValid = false;
 
-      if (roleIsValid) {
+      if (nameIsValid) {
         isFormValid = true;
       };
 
@@ -27,7 +27,7 @@ export default function Role({refetchRoleData, closeModal, selectedRow}) {
       const handleSubmit = (event) => {
         event.preventDefault();
         
-        roleTouchFn();
+        nameTouchFn();
 
         if (!isFormValid) {
             return;
@@ -38,7 +38,7 @@ export default function Role({refetchRoleData, closeModal, selectedRow}) {
         console.log(formData);
 
         if(!selectedRow){
-        fetch('http://localhost:8080/api/roles', {
+        fetch('http://localhost:8080/api/types', {
             method: 'POST',
             headers: {
           'Content-Type': 'application/json',
@@ -46,11 +46,12 @@ export default function Role({refetchRoleData, closeModal, selectedRow}) {
         body: JSON.stringify(formData),
         })//.then(response=> response.json())
         .then(result => {
-          refetchRoleData();
+          refetchData();
           console.log('Data sent sucessfully!')})
         .catch(error => console.log('error occured!'));
-        }else{
-          fetch(`http://localhost:8080/api/roles/${selectedRow.id}`, {
+        }
+        else{
+          fetch(`http://localhost:8080/api/types/${selectedRow.id}`, {
         method: 'PUT', 
         headers: {
           'Content-Type': 'application/json',
@@ -64,7 +65,7 @@ export default function Role({refetchRoleData, closeModal, selectedRow}) {
             console.log('Failed to update row in the backend.');
             
           } else {
-            refetchRoleData();
+            refetchData();
             console.log('Row updated in the backend.');
           }
         })
@@ -72,12 +73,9 @@ export default function Role({refetchRoleData, closeModal, selectedRow}) {
           console.error('Error:', error);
         });
         }
-      
 
-    
-        roleResetFn();
+        nameResetFn();
         closeModal();
-
     };
 
     return (
@@ -85,22 +83,23 @@ export default function Role({refetchRoleData, closeModal, selectedRow}) {
           <form onSubmit={handleSubmit} className={classes.form}>
           <section className={classes.fields}>
   
-            <div className={classes.field}>
-              <label htmlFor="role">Name</label>
-              <div>
-                <input
-                  type="text"
-                  name="role"
-                  id="role"
-                  placeholder="Enter Name"
-                  value={role}
-                  onBlur={handleRoleBlur}
-                  onChange={handleRoleChange}
-                  className={classes.select}
-                />
-                {roleHasErr && <p className={classes.err}>Enter valid name</p>}
-              </div>
-            </div>
+                <div className={classes.field}>
+                    <label htmlFor="name">Name</label>
+                    <div>
+                    <input
+                        type="text"
+                        name="name"
+                        id="name"
+                        placeholder="Enter Name"
+                        value={name}
+                        onBlur={handleNameBlur}
+                        onChange={handleNameChange}
+                        className={classes.select}
+                    />
+                    {nameHasErr && <p className={classes.err}>Enter valid name</p>}
+                    </div>
+                </div>
+
             </section>
             <div className={classes.button}>
               {selectedRow ?  <input type="submit" value="Update"/>: <input type="submit" value="Save"/>}

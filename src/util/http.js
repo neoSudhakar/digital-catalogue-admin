@@ -469,5 +469,45 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
     return resData;
   }
 
+  export async function fetchAssignedDesignsForManufacturer(){
+    const response = await fetch(
+      `http://localhost:8080/api/design-account/designs-assigned-by-manufacturer`
+    );
+
+    if(!response.ok){
+        console.log("response status: " + response.status);
+        const error = new Error("Failed to fetch Assigned Designs for manufacturer");
+        error.code = response.status;
+        const resData = await response.json();
+        console.log("res data of Failed to fetch Assigned Designs for manufacturer: ", resData);
+        error.info = resData;
+        throw error;
+    }
+
+    const resData = await response.json();
+    console.log("res data fetch Assigned Designs for manufacturer: ", resData);
+    return resData;
+  }
+
+  export async function fetchAccountOrdersForManufacturer(){
+    const response = await fetch(
+      `http://localhost:8080/api/orders/account-orders`
+    );
+
+    if(!response.ok){
+        console.log("response status: " + response.status);
+        const error = new Error("Failed to fetch account orders for manufacturer");
+        error.code = response.status;
+        const resData = await response.json();
+        console.log("res data of Failed to fetch account orders for manufacturer: ", resData);
+        error.info = resData;
+        throw error;
+    }
+
+    const resData = await response.json();
+    console.log("res data fetch account orders for manufacturer: ", resData);
+    return resData;
+  }
+
 
   

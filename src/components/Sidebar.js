@@ -105,7 +105,7 @@ export default function Sidebar() {
               padding: "0 0 0 0.5rem",
             }}
           >
-            Mater Design
+            Master Design
           </span>
         </NavLink>}
         {accountType === "Retailer" && <NavLink
@@ -170,68 +170,7 @@ export default function Sidebar() {
             Orders
           </span>
         </NavLink>}
-        <NavLink
-          onClick={() => {
-            dispatch(uiActions.closeCatalogueDesignDetails());
-            dispatch(uiActions.toggleDashboard());
-          }}
-          to="/reports"
-          className={({ isActive }) => (isActive ? classes.active : "")}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "flex-start",
-            flexDirection: "row",
-            margin: "0rem 0",
-            padding: "0.7rem 0",
-            width: "100%",
-            borderRadius: "1rem",
-          }}
-        >
-          <AiFillCodeSandboxSquare style={{ padding: "0 1rem 0 0" }} />
-          <span
-            style={{
-              fontSize: "20px",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              padding: "0 0 0 0.5rem",
-            }}
-          >
-            Reports
-          </span>
-        </NavLink>
-        {accountType === "Retailer" && <NavLink
-          onClick={() => {
-            dispatch(uiActions.closeCatalogueDesignDetails());
-            dispatch(uiActions.toggleDashboard());
-          }}
-          to="/settings"
-          className={({ isActive }) => (isActive ? classes.active : "")}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "flex-start",
-            flexDirection: "row",
-            margin: "0rem 0",
-            padding: "0.7rem 0",
-            width: "100%",
-            borderRadius: "1rem",
-          }}
-        >
-          <AiFillCodeSandboxSquare style={{ padding: "0 1rem 0 0" }} />
-          <span
-            style={{
-              fontSize: "20px",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              padding: "0 0 0 0.5rem",
-            }}
-          >
-            Settings
-          </span>
-        </NavLink>}
+        
         {accountType === "Manufacturer" && <NavLink
           onClick={() => {
             dispatch(uiActions.closeDesignDetails());
@@ -291,7 +230,69 @@ export default function Sidebar() {
             Order Form
           </span>
         </NavLink>}
-        {accountType === "Manufacturer" && <NavLink
+        <NavLink
+          onClick={() => {
+            dispatch(uiActions.closeCatalogueDesignDetails());
+            dispatch(uiActions.toggleDashboard());
+          }}
+          to="/reports"
+          className={({ isActive }) => (isActive ? classes.active : "")}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-start",
+            flexDirection: "row",
+            margin: "0rem 0",
+            padding: "0.7rem 0",
+            width: "100%",
+            borderRadius: "1rem",
+          }}
+        >
+          <AiFillCodeSandboxSquare style={{ padding: "0 1rem 0 0" }} />
+          <span
+            style={{
+              fontSize: "20px",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              padding: "0 0 0 0.5rem",
+            }}
+          >
+            Reports
+          </span>
+        </NavLink>
+        {/* {accountType === "Retailer" && <NavLink
+          onClick={() => {
+            dispatch(uiActions.closeCatalogueDesignDetails());
+            dispatch(uiActions.toggleDashboard());
+          }}
+          to="/settings"
+          className={({ isActive }) => (isActive ? classes.active : "")}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-start",
+            flexDirection: "row",
+            margin: "0rem 0",
+            padding: "0.7rem 0",
+            width: "100%",
+            borderRadius: "1rem",
+          }}
+        >
+          <AiFillCodeSandboxSquare style={{ padding: "0 1rem 0 0" }} />
+          <span
+            style={{
+              fontSize: "20px",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              padding: "0 0 0 0.5rem",
+            }}
+          >
+            Settings
+          </span>
+        </NavLink>} */}
+        <NavLink
           onClick={() => dispatch(uiActions.toggleDashboard())}
           to="/settings"
           className={({ isActive }) => (isActive ? classes.active : "")}
@@ -318,7 +319,7 @@ export default function Sidebar() {
           >
             Settings
           </span>
-        </NavLink>}
+        </NavLink>
 
         <Link
           onClick={handleLogout}

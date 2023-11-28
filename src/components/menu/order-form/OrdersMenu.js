@@ -2,7 +2,7 @@ import { Menu } from "antd";
 import { useState } from "react";
 import OrderForm from "./OrderForm";
 import History from "./History";
-import classes from "../settings/Settings.module.css";
+import classes from "./OrderForm.module.css";
 
 export default function OrdersMenu() {
 const [selectedTab, setselectedTab] = useState('orders');

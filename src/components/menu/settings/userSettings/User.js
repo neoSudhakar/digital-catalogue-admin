@@ -1,4 +1,4 @@
-import useInputSpcl from "../../../hooks/use-input-spcl";
+import useInputSpcl from "../../../../hooks/use-input-spcl";
 import classes from "./User.module.css";
 import { useState } from "react";
 
