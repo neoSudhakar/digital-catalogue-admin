@@ -78,3 +78,12 @@
     margin-right: 1.2rem;
     border-radius: 1%;
   }
+
+  .filters div Button{
+    background-color: rgb(8, 117, 219);
+    color: white;
+  }
+.filters div Button:hover{
+  cursor: pointer;
+  background-color: rgb(53, 91, 128);
+}

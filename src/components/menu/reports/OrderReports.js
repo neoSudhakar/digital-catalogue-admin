@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'; 
-import { Select } from 'antd';
+import { Select, Button, DatePicker, Calendar} from 'antd';
 import classes from "./Reports.module.css";
 
 import { Reorder } from 'framer-motion';
@@ -11,6 +11,7 @@ export default function OrderReports() {
   const [rowData, setRowData] =useState([]);
 
   const [retailerFilter, setRetailerFilter] = useState(0);
+  const [dateFilter, setDateFilter] = useState(null);
   const [dateRangeFilter, setDateRangeFilter] = useState(0);
   const [orderStatusFilter, setOrderStatusFilter] = useState(null);
   const [paymentStatusFilter, setPaymentStatusFilter] = useState(null);
@@ -25,6 +26,7 @@ export default function OrderReports() {
       const queryParams = new URLSearchParams({
         accountId: retailerFilter || 0,
         days: dateRangeFilter || 0,
+        date: dateFilter || null,
         orderStatus: orderStatusFilter || null,
         paymentStatus: paymentStatusFilter || null
       });
@@ -52,10 +54,18 @@ export default function OrderReports() {
     }
   };
 
-
+  function onPickDate(value) {
+    if(value){
+      setDateFilter(value.format("YYYY-MM-DD"));
+    }
+    else{
+      setDateFilter(null);
+    }
+  }
+  console.log(dateFilter);
   useEffect(() =>{
     fetchOrders();
-  },[retailerFilter, dateRangeFilter, orderStatusFilter, paymentStatusFilter]);
+  },[]);
 
     return(
       <div>
@@ -80,9 +90,16 @@ export default function OrderReports() {
           </div>
 
           <div>
-            <label htmlFor="dateRange">Date Range:</label>
+            <label htmlFor="datePicked">Date:</label>
+            <DatePicker
+              id='datePicked' 
+              onChange={onPickDate}/>
+            {/*<Calendar
+            id="datePicked"
+            onChange={(value) => setDateFilter(value)}
+            />
             <Select
-              id="dateRange"
+              id="datePicked"
               defaultValue=""
               onChange={(value) => setDateRangeFilter(value)}
               style={{width: 150}}
@@ -90,7 +107,7 @@ export default function OrderReports() {
               <Select.Option value="">All</Select.Option>
               <Select.Option value={7}>Last 7 Days</Select.Option>
               <Select.Option value={30}>Last 30 Days</Select.Option>
-            </Select>
+                  </Select>*/}
           </div>
 
           <div>
@@ -127,9 +144,18 @@ export default function OrderReports() {
           </Select>
               </div>
 
-
+          <div>
+            <Button onClick={fetchOrders}>
+              Get Reports
+            </Button>
+          </div>
       </div>
+
         <hr style={{width: '98%', color: '#000000'}}></hr>
+
+        <div>
+          <Button className={classes.download}>Download Reports</Button>
+        </div>
 
         <div className={classes["table-container"]}>
         {rowData.length === 0 ? <h4>No orders to show</h4>:

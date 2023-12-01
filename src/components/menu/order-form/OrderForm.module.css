@@ -139,6 +139,11 @@
     object-fit: cover;
     /* border-radius: 50%; */
   }
+  .table button:disabled:hover,  button:disabled{
+    cursor: not-allowed;
+    background-color:rgb(190, 190, 190);
+    color:rgb(58, 59, 59);
+}
 
   .view{
     padding: 0.25rem 0.75rem;
