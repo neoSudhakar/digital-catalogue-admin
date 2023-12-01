@@ -145,8 +145,35 @@ export default function DesignCards({ handleShowDetails, catalogue, updatedCardI
       fetchSizeData();
     },[])
 
+    const mainGroupsDefault = groupData.reduce((acc, item) => {
+      acc[item.name] = false;
+      return acc;
+    }, {});
 
+    const cateoriesDefault = categoryData.reduce((acc, item) => {
+      acc[item.name] = false;
+      return acc;
+    }, {});
 
+    const stylesDefault = styleData.reduce((acc, item) => {
+      acc[item.name] = false;
+      return acc;
+    }, {});
+
+    const productsDefault = productData.reduce((acc, item) => {
+      acc[item.name] = false;
+      return acc;
+    }, {});
+
+    const sizesDefault = sizeData.reduce((acc, item) => {
+      acc[item.name] = false;
+      return acc;
+    }, {});
+
+    const modelsDefault = modelData.reduce((acc, item) => {
+      acc[item.name] = false;
+      return acc;
+    }, {});
 
 
   const {data, isPending, isError, error} = useQuery({
@@ -158,24 +185,12 @@ export default function DesignCards({ handleShowDetails, catalogue, updatedCardI
   const {
     field: mainGrpFilters,
     handleFieldCheckChange: handleMainGroupCheckChange,
-  } = useCheck(
-    {
-      Gold: false,
-      Diamond: false,
-    },
-    handleCloseFilters
-  );
+  } = useCheck( mainGroupsDefault, handleCloseFilters);
 
   const {
     field: categoryFilters,
     handleFieldCheckChange: handleCategoryCheckChange,
-  } = useCheck(
-    {
-      "Gold Jewelery": false,
-      "Diamond Jewelery": false,
-    },
-    handleCloseFilters
-  );
+  } = useCheck( cateoriesDefault ,handleCloseFilters);
 
   const {
     field: designNumFilters,
@@ -191,48 +206,20 @@ export default function DesignCards({ handleShowDetails, catalogue, updatedCardI
   const {
     field: styleFilters,
     handleFieldCheckChange: handleStyleCheckChange,
-  } = useCheck(
-    {
-      "Style 1": false,
-      Style2: false,
-      Style3: false,
-    },
-    handleCloseFilters
-  );
+  } = useCheck( stylesDefault,handleCloseFilters );
 
   const {
     field: productFilters,
     handleFieldCheckChange: handleProductCheckChange,
-  } = useCheck(
-    {
-      Product1: false,
-      Product2: false,
-      Product3: false,
-    },
-    handleCloseFilters
-  );
+  } = useCheck( productsDefault,handleCloseFilters );
 
   const {
     field: modelFilters,
     handleFieldCheckChange: handleModelCheckChange,
-  } = useCheck(
-    {
-      Model1: false,
-      Model2: false,
-      Model3: false,
-    },
-    handleCloseFilters
-  );
+  } = useCheck(modelsDefault, handleCloseFilters );
 
   const { field: sizeFilters, handleFieldCheckChange: handleSizeCheckChange } =
-    useCheck(
-      {
-        Size1: false,
-        Size2: false,
-        Size3: false,
-      },
-      handleCloseFilters
-    );
+  useCheck( sizesDefault,handleCloseFilters );
 
   const {
     field: weightRangeFilters,
