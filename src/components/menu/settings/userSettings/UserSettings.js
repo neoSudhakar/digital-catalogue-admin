@@ -145,7 +145,7 @@ export default function UserSettings(){
             }
           </Modal>
         
-      </div>
+        </div>
     </div>
   );
 }

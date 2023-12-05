@@ -178,6 +178,7 @@ function handleDeliveredOrder(order) {
                           <button
                             className={classes.accept}
                             onClick={handleAcceptOrder.bind(this, order)}
+                            disabled={order.orderStatus === 'accepted'}
                           >
                             Accept
                           </button>
@@ -221,5 +222,3 @@ function handleDeliveredOrder(order) {
     </div>
     )
 };
-
-

@@ -7,8 +7,10 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 
 import classes from "../Tables.module.css";
+import { getAccountLoader } from '../../../../util/auth';
 
 const UserTable = ({data , accountData, roleData}) => {
+  const accountObj = getAccountLoader();
 
   const [rowData, setRowData] =useState(data);
   const [selectedRow, setSelectedRow]= useState();
@@ -16,7 +18,11 @@ const UserTable = ({data , accountData, roleData}) => {
 
   async function refetch() {
     try {
-      const response = await fetch('http://localhost:8080/api/users');
+      let url = 'http://localhost:8080/api/users';
+      if(accountObj.accountType === "Retailer"){
+        url = `http://localhost:8080/api/users/filters?accountId=${accountObj.id}`;
+      }
+      const response = await fetch(url);
       
       if (response.status === 204) {
         

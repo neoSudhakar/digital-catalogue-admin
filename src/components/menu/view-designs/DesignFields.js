@@ -100,6 +100,9 @@ export default function DesignFields({
       queryClientObj.invalidateQueries({
         queryKey: ["assignedRetailers"],
       })
+      queryClientObj.invalidateQueries({
+        queryKey: ["accountsVsAssignedDesigns"]
+      });
     }
   })
 

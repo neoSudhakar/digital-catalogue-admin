@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import React, { PureComponent, useEffect, useState } from 'react';
 import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { fetchAccountOrdersForManufacturer } from '../../../util/http';
+import { fetchAccountOrdersForManufacturer, fetchAssignedDesignsVsAccounts } from '../../../util/http';
 
 // const data = [
 //   {
@@ -24,31 +24,45 @@ import { fetchAccountOrdersForManufacturer } from '../../../util/http';
 //   },
 // ];
 
-export default function BarChartClassComponent() {
+export default function BarChartClassComponent({designReports, dashboard, orderReports}) {
 // export default class BarChartClassComponent extends PureComponent {
   // static demoUrl = 'https://codesandbox.io/s/simple-bar-chart-tpz8r';
 
   const [chartData, setChartData] = useState();
+  const [accountsVsAssignedDesignsChartData, setAccountsVsAssignedDesignsChartData] = useState();
 
   const {data: accountOrdersData} = useQuery({
     queryKey: ["accountOrders"],
     queryFn: fetchAccountOrdersForManufacturer,
   })
 
+  const {data: accountsVsAssignedDesignsData} = useQuery({
+    queryKey: ["accountsVsAssignedDesigns"],
+    queryFn: fetchAssignedDesignsVsAccounts,
+  })
+
   useEffect(()=>{
     if(accountOrdersData){
       console.log("accountOrders data is", accountOrdersData);
       const mappedList = accountOrdersData.map((eachObj)=>{
-        return {name: eachObj.account.name, orders: eachObj.orders.length, amt: 1}
+        return {name: eachObj.account.name, orders: eachObj.objects.length, amt: 1}
       })
       setChartData([...mappedList]);
     }
-  },[accountOrdersData])
 
-  // render() {
-    return (
-      <ResponsiveContainer width="100%" height="100%">
-        <BarChart
+    if(accountsVsAssignedDesignsData){
+      console.log("accountsVsAssignedDesignsData is", accountsVsAssignedDesignsData);
+      const mappedList = accountsVsAssignedDesignsData.map((eachObj)=>{
+        return {name: eachObj.account.name, "assigned designs": eachObj.objects.length, amt: 1}
+      })
+      setAccountsVsAssignedDesignsChartData([...mappedList])
+    }
+  },[accountOrdersData,accountsVsAssignedDesignsData])
+
+  let content = <p>Bar Chart</p>
+  
+  if((dashboard || orderReports) && accountOrdersData){
+    content = <BarChart
           width={500}
           height={300}
           data={chartData}
@@ -66,7 +80,36 @@ export default function BarChartClassComponent() {
           <Legend />
           <Bar dataKey="orders" fill="#8884d8" activeBar={<Rectangle fill="pink" stroke="blue" />} />
           {/* <Bar dataKey="uv" fill="#82ca9d" activeBar={<Rectangle fill="gold" stroke="purple" />} /> */}
+  </BarChart>
+  }
+  
+
+  if(designReports && accountsVsAssignedDesignsData){
+    content = <BarChart
+          width={500}
+          height={300}
+          data={accountsVsAssignedDesignsChartData}
+          margin={{
+            top: 5,
+            right: 30,
+            left: 20,
+            bottom: 5,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="assigned designs" fill="#8884d8" activeBar={<Rectangle fill="pink" stroke="blue" />} />
+          {/* <Bar dataKey="uv" fill="#82ca9d" activeBar={<Rectangle fill="gold" stroke="purple" />} /> */}
         </BarChart>
+  }
+
+  // render() {
+    return (
+      <ResponsiveContainer width="100%" height="100%">
+        {content}
       </ResponsiveContainer>
     );
   // }

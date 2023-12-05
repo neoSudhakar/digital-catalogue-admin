@@ -4,13 +4,21 @@ import { useState } from "react";
 import classes from "./Reports.module.css";
 import DesignReports from "./DesignReports";
 import OrderReports from "./OrderReports";
+import { getAccountLoader } from "../../../util/auth";
 
 export default function Reports() {
+const {accountType} = getAccountLoader();
 const [selectedTab, setselectedTab] = useState('designs');
 
 const tabHandler= (tab) => {
     setselectedTab(tab);
-  };
+};
+
+if(accountType === "Retailer"){
+    return <>
+        <h1>Retailer Reports</h1>
+    </>
+}
 
 return (
     <div className={classes.reportsMenu}>

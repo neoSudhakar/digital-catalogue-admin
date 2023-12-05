@@ -1,19 +1,52 @@
 import { useEffect, useMemo, useState } from 'react'; 
-import { Select } from 'antd';
+import { Select, Button, DatePicker, Calendar, Input} from 'antd';
 import classes from "./Reports.module.css";
+import { SearchOutlined } from '@ant-design/icons';
+import styles from "../dashboard/Dashboard.module.css"
 
 import { Reorder } from 'framer-motion';
+import { usePDF } from 'react-to-pdf';
+import { useSelector } from 'react-redux';
+import Chart from '../dashboard/Chart';
+import BarChartClassComponent from '../dashboard/BarChartClassComponent';
+import Tile from '../dashboard/Tile';
+import { useQuery } from '@tanstack/react-query';
+import { fetchAccounts, fetchOrdersForManufacturer } from '../../../util/http';
 
 const { Option } = Select;
 
 export default function OrderReports() {
+  const isDashboardOpen = useSelector(state => state.ui.isDashboardOpen);
+
+  const {toPDF, targetRef} = usePDF({filename: 'order-report.pdf'});
 
   const [rowData, setRowData] =useState([]);
 
   const [retailerFilter, setRetailerFilter] = useState(0);
+  const [dateFilter, setDateFilter] = useState(null);
   const [dateRangeFilter, setDateRangeFilter] = useState(0);
   const [orderStatusFilter, setOrderStatusFilter] = useState(null);
   const [paymentStatusFilter, setPaymentStatusFilter] = useState(null);
+
+  const [searchText, setSearchText] = useState('');
+
+  function handleSearch() {
+    if (searchText.trim() === '') {
+      fetchOrders();
+    }
+    const filtered = rowData.filter(item => {
+      return (
+        item.account && item.account.name.toLowerCase().includes(searchText.toLowerCase()) ||
+        item.user && item.user.firstName.toLowerCase().includes(searchText.toLowerCase()) ||
+        item.user && item.user.lastName.toLowerCase().includes(searchText.toLowerCase()) ||
+        item.orderStatus.toLowerCase().includes(searchText.toLowerCase()) ||
+        item.paymentStatus.toLowerCase().includes(searchText.toLowerCase()) ||
+        item.createdDate.includes(searchText)
+      );
+    });
+  
+    setRowData(filtered);
+  }
 
 
   const fetchOrders= async() => {
@@ -25,6 +58,7 @@ export default function OrderReports() {
       const queryParams = new URLSearchParams({
         accountId: retailerFilter || 0,
         days: dateRangeFilter || 0,
+        date: dateFilter || null,
         orderStatus: orderStatusFilter || null,
         paymentStatus: paymentStatusFilter || null
       });
@@ -52,15 +86,66 @@ export default function OrderReports() {
     }
   };
 
+  function onPickDate(value) {
+    if(value){
+      setDateFilter(value.format("YYYY-MM-DD"));
+    }
+    else{
+      setDateFilter(null);
+    }
+  }
+  console.log(dateFilter);
 
   useEffect(() =>{
     fetchOrders();
-  },[retailerFilter, dateRangeFilter, orderStatusFilter, paymentStatusFilter]);
+  },[searchText]);
+
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
+    
+  };
+
+
+  const {data: ordersData} = useQuery({
+    queryKey: ["manufacturer-orders"],
+    queryFn: fetchOrdersForManufacturer ,
+});
+
+const {data: accountsData} = useQuery({
+    queryKey: ["accounts"],
+    queryFn: fetchAccounts,
+})
+
+const [retailerAccountsCount, setRetailerAccountsCount] = useState(0);
+
+    useEffect(()=>{
+        if(accountsData){
+            const retailers = accountsData.filter((account)=>{
+                return account.accountType === "Retailer"
+            })
+            setRetailerAccountsCount(retailers.length);
+        }
+    },[accountsData])
+
 
     return(
-      <div>
-        <div className={classes.filters}>
-          <div>
+      <div style={{paddingTop: "1rem"}}>
+      <div style={{display:"flex", justifyContent:"flex-end"}}>
+        <label htmlFor="search">Search:</label>
+        <Input
+          id="search"
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+          suffix={<SearchOutlined onClick={handleSearch} style={{ cursor: 'pointer' }} />}
+          onPressEnter={handleKeyPress}
+          placeholder='type and press enter...'
+          style={{ width: 200 , marginRight: 20}}
+        />
+      </div>
+      <div className={`${classes["filters"]} ${isDashboardOpen ? classes["full"] : ""}`}>
+          <div className={classes[`${isDashboardOpen ? "full" : ""}`]}>
             <label htmlFor="retailer">Retailer:</label>
             <Select
               id="retailer"
@@ -79,10 +164,17 @@ export default function OrderReports() {
             </Select>
           </div>
 
-          <div>
-            <label htmlFor="dateRange">Date Range:</label>
+          <div className={classes[`${isDashboardOpen ? "full" : ""}`]}>
+            <label htmlFor="datePicked">Date:</label>
+            <DatePicker
+              id='datePicked' 
+              onChange={onPickDate}/>
+            {/*<Calendar
+            id="datePicked"
+            onChange={(value) => setDateFilter(value)}
+            />
             <Select
-              id="dateRange"
+              id="datePicked"
               defaultValue=""
               onChange={(value) => setDateRangeFilter(value)}
               style={{width: 150}}
@@ -90,10 +182,10 @@ export default function OrderReports() {
               <Select.Option value="">All</Select.Option>
               <Select.Option value={7}>Last 7 Days</Select.Option>
               <Select.Option value={30}>Last 30 Days</Select.Option>
-            </Select>
+                  </Select>*/}
           </div>
 
-          <div>
+          <div className={classes[`${isDashboardOpen ? "full" : ""}`]}>
             <label htmlFor="orderStatus">Order Status:</label>
             <Select
               id="orderStatus"
@@ -111,7 +203,7 @@ export default function OrderReports() {
             </Select>
           </div>
 
-          <div>
+          <div className={classes[`${isDashboardOpen ? "full" : ""}`]}>
             <label htmlFor="paymentStatus">Payment Status:</label>
             <Select
               id="paymentStatus"
@@ -127,59 +219,75 @@ export default function OrderReports() {
           </Select>
               </div>
 
-
+            <Button className={classes["button"]} onClick={fetchOrders}>
+              Get Reports
+            </Button>
+          <button style={{alignSelf: "flex-end"}} onClick={toPDF} className={classes["download-btn"]}>Download Report</button>
       </div>
+
         <hr style={{width: '98%', color: '#000000'}}></hr>
+
+
+        <div className={styles["whole"]} style={{marginTop:"0", paddingTop: "0", marginLeft: "0rem", marginRight:"0rem"}}>
+          <menu className={styles["whole-tiles-and-charts"]}>
+            <section className={styles["whole-charts"]} style={{alignItems:"flex-start"}}>
+                <Chart title="Orders by retailers" chartComponent={<BarChartClassComponent orderReports />} companyName="Tasks in catalogue" />
+                <Tile title="Orders" count={ordersData ? ordersData.length : 0} filterCount={1}  />
+                <Tile title="Retailers" count={retailerAccountsCount} filterCount={2} />
+            </section>
+          </menu> 
+        </div>
 
         <div className={classes["table-container"]}>
         {rowData.length === 0 ? <h4>No orders to show</h4>:
-        <table className={classes["table"]}>
-          <thead>
-            <tr>
-              <th>Id</th>
-              <th>Designs</th>
-              <th>Ordered By</th>
-              <th>Ordered Date</th>
-              <th>Quantity</th>
-              <th>Order Status</th>
-              <th>Payment Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rowData && rowData.map((order,index)=>(
-                <tr key={order.id}>
-                    <td>{order.id}</td>
-                    <td>
-                        {order.orderItems && order.orderItems.map((item,index) => (
-                            <div>
-                                <span><img src={item.design.designImages[0].preSignedURL} alt={item.design.id}/></span>
-                                <p>{"Design "+item.design.id}</p>
-                            </div>
-                        ))}
-                    </td>
-                    <td>
-                        {order.user && <p>{order.user.firstName+order.user.lastName}</p>}
-                    </td>
-                    <td>{order.createdDate.slice(0,10)}</td>
-                    <td>
-                        {order.orderItems && order.orderItems.map((item,index) => (
-                                <p>{item.quantity}</p>
-                        ))}
-                    </td>
-                    <td style={{ color: order.orderStatus === 'accepted' ? 'green' :
-                        order.orderStatus === 'rejected' ? 'red' : 
-                            order.orderStatus === 'delivered' ? 'blue' : 'orange'
-                    , fontWeight: 'bold'}}>
-                        {order.orderStatus}
-                    </td>
-                    <td>{order.paymentStatus}</td>
-                </tr>
-            ))}
-          </tbody>
-        </table>}   
+        <>
+          <table ref={targetRef} className={classes["table"]}>
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Designs</th>
+                <th>Ordered By</th>
+                <th>Ordered Date</th>
+                <th>Quantity</th>
+                <th>Order Status</th>
+                <th>Payment Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rowData && rowData.map((order,index)=>(
+                  <tr key={order.id}>
+                      <td>{order.id}</td>
+                      <td>
+                          {order.orderItems && order.orderItems.map((item,index) => (
+                              <div>
+                                  <span><img src={item.design.designImages[0].preSignedURL} alt={item.design.id}/></span>
+                                  <p>{"Design "+item.design.id}</p>
+                              </div>
+                          ))}
+                      </td>
+                      <td>
+                          {order.user && <p>{order.user.firstName+order.user.lastName}</p>}
+                      </td>
+                      <td>{order.createdDate.slice(0,10)}</td>
+                      <td>
+                          {order.orderItems && order.orderItems.map((item,index) => (
+                                  <p>{item.quantity}</p>
+                          ))}
+                      </td>
+                      <td style={{ color: order.orderStatus === 'accepted' ? 'green' :
+                          order.orderStatus === 'rejected' ? 'red' : 
+                              order.orderStatus === 'delivered' ? 'blue' : 'orange'
+                      , fontWeight: 'bold'}}>
+                          {order.orderStatus}
+                      </td>
+                      <td>{order.paymentStatus}</td>
+                  </tr>
+              ))}
+            </tbody>
+          </table>
+        </>
+        }   
       </div>
     </div>
     )
 };
-
-
