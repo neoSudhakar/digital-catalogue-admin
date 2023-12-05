@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'; 
-import { Select, Button, DatePicker, Calendar} from 'antd';
+import { Select, Button, DatePicker, Input} from 'antd';
+import { SearchOutlined } from '@ant-design/icons';
 import classes from "./Reports.module.css";
 
 import { Reorder } from 'framer-motion';
@@ -15,6 +16,27 @@ export default function OrderReports() {
   const [dateRangeFilter, setDateRangeFilter] = useState(0);
   const [orderStatusFilter, setOrderStatusFilter] = useState(null);
   const [paymentStatusFilter, setPaymentStatusFilter] = useState(null);
+
+  const [searchText, setSearchText] = useState('');
+
+  function handleSearch() {
+    if (searchText.trim() === '') {
+      fetchOrders();
+    }
+    const filtered = rowData.filter(item => {
+      return (
+        item.account && item.account.name.toLowerCase().includes(searchText.toLowerCase()) ||
+        item.user && item.user.firstName.toLowerCase().includes(searchText.toLowerCase()) ||
+        item.user && item.user.lastName.toLowerCase().includes(searchText.toLowerCase()) ||
+        item.orderStatus.toLowerCase().includes(searchText.toLowerCase()) ||
+        item.paymentStatus.toLowerCase().includes(searchText.toLowerCase()) ||
+        item.createdDate.includes(searchText)
+      );
+    });
+  
+    setRowData(filtered);
+  }
+
 
 
   const fetchOrders= async() => {
@@ -62,10 +84,18 @@ export default function OrderReports() {
       setDateFilter(null);
     }
   }
-  console.log(dateFilter);
+  //console.log(dateFilter);
+
   useEffect(() =>{
     fetchOrders();
-  },[]);
+  },[searchText]);
+
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
+    
+  };
 
     return(
       <div>
@@ -154,6 +184,18 @@ export default function OrderReports() {
         <hr style={{width: '98%', color: '#000000'}}></hr>
 
         <div>
+        
+          <label htmlFor="search">Search:</label>
+          <Input
+            id="search"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            suffix={<SearchOutlined onClick={handleSearch} style={{ cursor: 'pointer' }} />}
+            onKeyPress={handleKeyPress}
+            placeholder='type and press enter...'
+            style={{ width: 200 , marginRight: 20}}
+          />
+        
           <Button className={classes.download}>Download Reports</Button>
         </div>
 
