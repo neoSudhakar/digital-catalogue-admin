@@ -93,6 +93,7 @@ export default function Header() {
               {accountType1 && accountType1 === "Retailer" && <li>
                 <span className={classes["click-icon"]}>
                   <LikeIcon />
+                  <label>2</label>
                 </span>
               </li>}
               {accountType1 && accountType1 === "Retailer" && <li>

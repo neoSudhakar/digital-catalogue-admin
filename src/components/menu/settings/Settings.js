@@ -17,14 +17,14 @@ const tabHandler= (tab) => {
 
 if(accountType === "Retailer"){
     return <div className={classes.settings}>
-    <Menu mode="horizontal" defaultSelectedKeys={['manageUsers']} className={classes.menuBar}>
-            <Menu.Item key="manageUsers" onClick={tabHandler.bind(this, 'manageUsers')} className={classes.menuItem}>
+    <Menu mode="horizontal" className={classes.menuBar}>
+            <Menu.Item key="manageRetailerUsers" className={classes.menuItem}>
                 User Management
             </Menu.Item>
     </Menu>
 
     <div>
-        {selectedTab === 'manageUsers' && <RetailerUserSettings/>}
+        <RetailerUserSettings/>
     </div>
 </div>
 }

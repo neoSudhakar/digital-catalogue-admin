@@ -18,7 +18,7 @@ const UserTable = ({data , accountData, roleData}) => {
 
   async function refetch() {
     try {
-      let url = 'http://localhost:8080/api/users';
+      let url = 'http://localhost:8080/api/users/filters';
       if(accountObj.accountType === "Retailer"){
         url = `http://localhost:8080/api/users/filters?accountId=${accountObj.id}`;
       }
