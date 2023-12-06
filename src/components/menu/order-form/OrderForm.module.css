@@ -44,12 +44,17 @@
 
 .below-title{
     display: flex;
-    gap: 5rem;
+    flex-direction: column;
+    gap: 0.3rem;
 }
 
 .price{
     font-weight: 600;
     color: green;
+}
+
+.below-title Button {
+  width: 130px;
 }
 
 .image-container{
@@ -81,7 +86,7 @@
     min-width:48%;
     max-width: 49%;
     text-align: center;
-    /*background-color: rgb(246, 246, 247);*/
+    background-color: rgb(246, 246, 247);
     padding: 0.75rem;
     gap: 0.75rem;
     border-radius: 0.8rem;
@@ -201,4 +206,19 @@
 
 .buttons{
     flex-direction: row;
+}
+
+@media screen and (max-width: 767px){
+  .image-container{
+    margin-right: 0;
+    width: 100%;
+    height: 10rem;
+  }
+  .list-item{
+    flex-direction: column;
+    justify-content: center;
+  }
+  .content{
+    margin-bottom: 1rem;
+}
 }

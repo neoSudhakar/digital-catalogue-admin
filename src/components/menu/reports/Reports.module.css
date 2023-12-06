@@ -87,3 +87,14 @@
   cursor: pointer;
   background-color: rgb(53, 91, 128);
 }
+
+
+@media screen and (max-width: 767px){
+  .filters{
+    flex-direction: column;
+  }
+  .filters div{
+    margin-bottom: 0.3rem;
+  }
+  
+}
