@@ -24,7 +24,7 @@ export default function PieChartClassComponent() {
         return <li className={classes[`${!isDashboardOpen ? classes["full"] : ""}`]} key={order.id}>
           <Carousel showThumbs={false} className={classes["carousel"]}>
             {order.orderItems.map((item)=>{
-              return <div key={item.id}>
+              return <div className={classes["image-container"]} key={item.id}>
                 <img src={item.design.designImages[0]?.preSignedURL} />
               </div>
             })}

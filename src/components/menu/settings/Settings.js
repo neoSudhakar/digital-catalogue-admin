@@ -11,16 +11,35 @@ export default function Settings() {
 const {accountType} = getAccountLoader(); 
 const [selectedTab, setselectedTab] = useState('manageUsers');
 
+const items = [
+    {
+      label: 'User Management',
+      key: 'manageUsers',
+      style: {fontSize: '20px'}
+    },
+    {
+      label: 'Design Management',
+      key: 'manageDesigns',
+      style: {fontSize: '20px'}
+    }
+]
+
+const retailerItems =[
+    {
+        label: 'User Management',
+        key: 'manageRetailerUsers',
+        style: {fontSize: '18px'}
+    }
+]
+
 const tabHandler= (tab) => {
-    setselectedTab(tab);
+    setselectedTab(tab.key);
   };
+
 
 if(accountType === "Retailer"){
     return <div className={classes.settings}>
-    <Menu mode="horizontal" className={classes.menuBar}>
-            <Menu.Item key="manageRetailerUsers" className={classes.menuItem}>
-                User Management
-            </Menu.Item>
+    <Menu mode="horizontal" items={retailerItems} className={classes.menuBar}>
     </Menu>
 
     <div>
@@ -31,13 +50,7 @@ if(accountType === "Retailer"){
 
 return (
     <div className={classes.settings}>
-        <Menu mode="horizontal" defaultSelectedKeys={['manageUsers']} className={classes.menuBar}>
-                <Menu.Item key="manageUsers" onClick={tabHandler.bind(this, 'manageUsers')} className={classes.menuItem}>
-                User Management
-                </Menu.Item>
-                <Menu.Item key="manageDesigns" onClick={tabHandler.bind(this, 'manageDesigns')} className={classes.menuItem}>
-                Design Management
-                </Menu.Item>
+        <Menu mode="horizontal" defaultSelectedKeys={['manageUsers']} onClick={tabHandler} items={items} className={classes.menuBar}>
         </Menu>
 
         <div>

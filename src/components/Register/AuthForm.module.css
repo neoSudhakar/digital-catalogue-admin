@@ -113,5 +113,6 @@
     }
     .input-grp{
         flex-direction: column;
+        gap: 0;
     }
   }

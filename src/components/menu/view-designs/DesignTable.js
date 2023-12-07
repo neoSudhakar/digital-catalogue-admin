@@ -109,9 +109,9 @@ const DesignTable = ({
   async function handleDeleteRow(data) {
     // const {value}=params;
     // console.log(data);
-    const confirm = window.confirm("Are you sure?");
+    // const confirm = window.confirm("Are you sure?");
 
-    if (confirm) {
+    // if (confirm) {
       const response = await fetch(
         `http://localhost:8080/api/designs/${cardItem.id}/details/${data.id}`,
         {
@@ -129,7 +129,7 @@ const DesignTable = ({
         );
         setDetailsSet(newDetailsAfterDel);
       }
-    }
+    // }
   }
 
   // Each Column Definition results in one Column.

@@ -8,8 +8,11 @@ import PieChartClassComponent from "./PieChartClassComponent";
 import Tile from "./Tile";
 import { useQuery } from "@tanstack/react-query";
 import { fetchAccountOrdersForManufacturer, fetchAccounts, fetchAllDesigns, fetchAssignedDesignsForManufacturer, fetchCatalogueDesigns, fetchOrderedDesignsForUser, fetchOrders, fetchOrdersForManufacturer } from "../../../util/http";
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard(){
+    const navigate = useNavigate()
+
     const {accountType, id: accountId} = getAccountLoader()
     const userId = getUserId();
 
@@ -59,18 +62,44 @@ export default function Dashboard(){
     }
 
 
+    function handleClick(identifier){
+        if(identifier === "total-designs"){
+            if(isRetailer){
+                navigate("/catalogue");
+            }
+            else{
+                navigate("/view-designs");
+            }
+        }
+
+        if(identifier === "orders"){
+            navigate("/order-form");
+        }
+
+        if(identifier === "retailers"){
+            navigate("/settings");
+        }
+
+        if(identifier === "orders-by-retailers"){
+            if(!isRetailer){
+                navigate("/order-form");
+            }
+        }
+    }
+
+
     return <div className={classes["whole"]}>
         {/* <h1>My Dashboard</h1> */}
         <menu className={classes["whole-tiles-and-charts"]}>
             <section className={classes["whole-tiles"]}>
-                <Tile title="Total designs" count={designsData ? designsData.length : 0} filterCount={1} />
+                <Tile title="Total designs" count={designsData ? designsData.length : 0} filterCount={1} onClick={()=>handleClick("total-designs")} />
                 {isRetailer && <Tile title="Ordered designs" count={orderedDesignsForUser ? orderedDesignsForUser.length : 0} filterCount={2} />}
                 {!isRetailer && <Tile title="Assigned designs" count={assignedDesignsData ? assignedDesignsData.length : 0} filterCount={2} />}
-                {!isRetailer && <Tile title="Orders" count={ordersData ? ordersData.length : 0} filterCount={1} />}
-                {!isRetailer && <Tile title="Retailers" count={retailerAccountsCount}/>}
+                {!isRetailer && <Tile title="Orders" count={ordersData ? ordersData.length : 0} filterCount={1} onClick={()=>handleClick("orders")} />}
+                {!isRetailer && <Tile title="Retailers" count={retailerAccountsCount}  onClick={()=>handleClick("retailers")}/>}
             </section>
             <section className={classes["whole-charts"]}>
-                <Chart title="Orders by retailers" chartComponent={<BarChartClassComponent dashboard/>} companyName="Tasks in catalogue" />
+                <Chart title="Orders by retailers" chartComponent={<BarChartClassComponent dashboard/>} companyName="Tasks in catalogue" onClick={()=>handleClick("orders-by-retailers")} />
                 <Chart title="Recent orders" chartComponent={<PieChartClassComponent/>} filterCount={1} companyName="Tasks in catalogue" />
             </section>
         </menu>

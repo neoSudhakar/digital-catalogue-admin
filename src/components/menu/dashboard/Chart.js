@@ -3,7 +3,7 @@ import classes from "./Chart.module.css"
 import styles from "./Tile.module.css"
 import FilterIcon from '../../../icons/filter-icon'
 
-export default function Chart({title, chartComponent, filterCount, companyName}) {
+export default function Chart({title, chartComponent, filterCount, companyName , onClick}) {
     let filterText = "No Filters";
 
     if(filterCount && filterCount === 1 ){
@@ -13,7 +13,7 @@ export default function Chart({title, chartComponent, filterCount, companyName})
         filterText = `${filterCount} Filters`;
     }
   return (
-    <section className={classes["chart-container"]}>
+    <section className={classes["chart-container"]} onClick={onClick}>
         <h4>{title}</h4>
         <div className={classes["chart"]}>
             {chartComponent}

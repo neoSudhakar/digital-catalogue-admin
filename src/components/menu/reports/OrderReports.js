@@ -227,7 +227,8 @@ const [retailerAccountsCount, setRetailerAccountsCount] = useState(0);
 
         <hr style={{width: '98%', color: '#000000'}}></hr>
 
-
+        <div ref={targetRef} style={{paddingTop: "1rem"}}>
+        <span className={classes["download-heading"]}>Orders Report</span>
         <div className={styles["whole"]} style={{marginTop:"0", paddingTop: "0", marginLeft: "0rem", marginRight:"0rem"}}>
           <menu className={styles["whole-tiles-and-charts"]}>
             <section className={styles["whole-charts"]} style={{alignItems:"flex-start"}}>
@@ -241,7 +242,7 @@ const [retailerAccountsCount, setRetailerAccountsCount] = useState(0);
         <div className={classes["table-container"]}>
         {rowData.length === 0 ? <h4>No orders to show</h4>:
         <>
-          <table ref={targetRef} className={classes["table"]}>
+          <table className={classes["table"]}>
             <thead>
               <tr>
                 <th>Id</th>
@@ -288,6 +289,7 @@ const [retailerAccountsCount, setRetailerAccountsCount] = useState(0);
         </>
         }   
       </div>
+    </div>
     </div>
     )
 };

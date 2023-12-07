@@ -122,4 +122,24 @@
   cursor: pointer;
   background-color: rgb(193, 223, 253);
 }
+.search{
+    flex: 1;
+    margin: 0.8rem;
+    gap:0.5rem;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: row;
+    align-items: center;
+}
+.search.full{
+  flex-direction: column;
+}
 
+@media screen and (max-width: 767px){
+  .filters{
+    flex-direction: column;
+  }
+  .search{
+    justify-content: center;
+  }
+}
