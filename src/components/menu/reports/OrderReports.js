@@ -41,7 +41,7 @@ export default function OrderReports() {
         item.user && item.user.lastName.toLowerCase().includes(searchText.toLowerCase()) ||
         item.orderStatus.toLowerCase().includes(searchText.toLowerCase()) ||
         item.paymentStatus.toLowerCase().includes(searchText.toLowerCase()) ||
-        item.createdDate.includes(searchText)
+        item.createdDate.slice(0,10).includes(searchText)
       );
     });
   
@@ -259,7 +259,7 @@ const [retailerAccountsCount, setRetailerAccountsCount] = useState(0);
                       <td>{order.id}</td>
                       <td>
                           {order.orderItems && order.orderItems.map((item,index) => (
-                              <div>
+                              <div key={item.design.id}>
                                   <span><img src={item.design.designImages[0].preSignedURL} alt={item.design.id}/></span>
                                   <p>{"Design "+item.design.id}</p>
                               </div>

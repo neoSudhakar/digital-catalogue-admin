@@ -71,7 +71,7 @@ export default function Dashboard(){
             </section>
             <section className={classes["whole-charts"]}>
                 <Chart title="Orders by retailers" chartComponent={<BarChartClassComponent dashboard/>} companyName="Tasks in catalogue" />
-                <Chart title="Tasks by completion status this month" chartComponent={<PieChartClassComponent/>} filterCount={1} companyName="Tasks in catalogue" />
+                <Chart title="Recent orders" chartComponent={<PieChartClassComponent/>} filterCount={1} companyName="Tasks in catalogue" />
             </section>
         </menu>
         

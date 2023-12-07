@@ -22,25 +22,31 @@ export default function DesignReports() {
 
   const [retailerData, setRetailerData] =useState([]);
 
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState();
 
   function handleSearch() {
     if (searchText.trim() === '') {
       fetchDesigns();
     }
     const filtered = rowData.filter(item => {
+      console.log(item.mainGroup);
+      console.log(item.category);
+      console.log(item.netWeight);
+      console.log(item.pieces);
+      console.log(item.createdDate);
       return (
+        ("Design "+item.id).toLowerCase().includes(searchText.toLowerCase()) ||
         item.mainGroup.toLowerCase().includes(searchText.toLowerCase()) ||
         item.category.toLowerCase().includes(searchText.toLowerCase()) ||
         // item.detailsSet[0].unitOfMeasurement.toLowerCase().includes(searchText.toLowerCase()) ||
-        //item.style.toLowerCase().includes(searchText.toLowerCase()) ||
-        //item.product.toLowerCase().includes(searchText.toLowerCase()) ||
-        //item.model.toLowerCase().includes(searchText.toLowerCase()) ||
-        //item.worker.toLowerCase().includes(searchText.toLowerCase()) ||
-        //item.size.toLowerCase().includes(searchText.toLowerCase()) ||
+        // item.style.toLowerCase().includes(searchText.toLowerCase()) ||
+        // item.product.toLowerCase().includes(searchText.toLowerCase()) ||
+        // item.model.toLowerCase().includes(searchText.toLowerCase()) ||
+        // item.worker.toLowerCase().includes(searchText.toLowerCase()) ||
+        // item.size.toLowerCase().includes(searchText.toLowerCase()) ||
         item.netWeight.toString().includes(searchText) ||
         item.pieces.toString().includes(searchText) ||
-        item.createdDate.includes(searchText)
+        item.createdDate.slice(0,10).includes(searchText)
       );
     });
   

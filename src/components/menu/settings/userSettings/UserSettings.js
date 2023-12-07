@@ -44,7 +44,7 @@ export default function UserSettings(){
 
   const fetchUserData = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/users');
+      const response = await fetch('http://localhost:8080/api/users/filters');
       //console.log("response is",response);
       
       if (response.status === 204) {

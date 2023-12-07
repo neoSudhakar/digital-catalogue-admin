@@ -43,7 +43,6 @@ const toggleDetails = (itemId) => {
                     </div>
                 </div>
                 </div>
-                <hr/>
                 {expandedItemId === item.id && (
                         
                     <div className={classes["cardItem-details"]}>

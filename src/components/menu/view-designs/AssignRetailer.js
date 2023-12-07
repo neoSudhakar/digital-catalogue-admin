@@ -60,7 +60,7 @@ export default function AssignRetailer({
         formattedData: formattedDataPUT,
         edit: true,
         prevRetailerId: prevRetailerData.retailerId,
-        // designAccountId: prevRetailerData.id,
+        designAccountId: prevRetailerData.id,
       });
     } else {
       mutate({

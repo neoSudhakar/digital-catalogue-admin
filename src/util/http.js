@@ -133,12 +133,14 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
   }
 
 
-  export async function assignRetailer({cardItemId, formattedData, edit, prevRetailerId}){
+  export async function assignRetailer({cardItemId, formattedData, edit, prevRetailerId, designAccountId}){
     let url = `http://localhost:8080/api/design-account`;
     let method = "POST";
 
     if(edit){
-        url = `http://localhost:8080/api/design-account/accounts/${prevRetailerId}/designs/${cardItemId}`;
+        // url = `http://localhost:8080/api/design-account/accounts/${prevRetailerId}/designs/${cardItemId}`;
+        url = `http://localhost:8080/api/design-account/${designAccountId}`;
+
         method = "PUT";
     }
 
@@ -303,6 +305,26 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
 
     const resData = await response.json();
     console.log("res data fetch order: ", resData);
+    return resData;
+  }
+
+  export async function fetchRecentOrders({signal,max}){
+    const response = await fetch(
+      `http://localhost:8080/api/orders/?pageSize=${max}`,{signal}
+    );
+
+    if(!response.ok){
+        console.log("response status: " + response.status);
+        const error = new Error("Failed to fetch recent order");
+        error.code = response.status;
+        const resData = await response.json();
+        console.log("res data of Failed to fetch recent order: ", resData);
+        error.info = resData;
+        throw error;
+    }
+
+    const resData = await response.json();
+    console.log("res data fetch recent order: ", resData);
     return resData;
   }
 

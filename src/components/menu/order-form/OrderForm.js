@@ -151,7 +151,7 @@ function handleDeliveredOrder(order) {
                    <td>{order.id}</td>
                    <td>
                       {order.orderItems && order.orderItems.map((item,index) => (
-                          <div className={classes.designsColumn}>
+                          <div key={item.design.id} className={classes.designsColumn}>
                               <img src={item.design.designImages[0].preSignedURL} alt={item.design.id}/>
                               <p>{"Design "+item.design.id}</p>
                           </div>
@@ -163,7 +163,7 @@ function handleDeliveredOrder(order) {
                    <td>{order.createdDate.slice(0,10)}</td>
                    <td>
                       {order.orderItems && order.orderItems.map((item,index) => (
-                              <p>{item.quantity}</p>
+                              <p key={item.id}>{item.quantity}</p>
                       ))}
                    </td>
                    <td style={{ color: order.orderStatus === 'accepted' ? 'green' :
