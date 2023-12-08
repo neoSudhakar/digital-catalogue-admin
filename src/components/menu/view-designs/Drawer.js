@@ -4,9 +4,130 @@ import classes from "./Drawer.module.css";
 
 const DrawerComponent = ({isOpen, onCloseDrawer}) => {
 
+  const [groupData, setGroupData] = useState([]);
+  const [categoryData, setCategoryData] = useState([]);
+  const [styleData, setStyleData] = useState([]);
+    const [productData, setProductData] = useState([]);
+    const [modelData, setModelData] = useState([]);
+    const [sizeData, setSizeData] = useState([]);
+
+    const fetchGroupData = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/api/groups');
+        
+        if (response.status === 204) {
+         
+        } 
+        else if(response.status === 200){
+          const data = await response.json();
+          //console.log(data);
+          setGroupData(data);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+  
+    const fetchCategoryData = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/api/categories');
+        
+        if (response.status === 204) {
+         
+        } 
+        else if(response.status === 200){
+          const data = await response.json();
+          //console.log(data);
+          setCategoryData(data);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+  
+    const fetchStyleData = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/api/styles');
+        
+        if (response.status === 204) {
+         
+        } 
+        else if(response.status === 200){
+          const data = await response.json();
+          //console.log(data);
+          setStyleData(data);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+  
+    const fetchProductData = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/api/products');
+        
+        if (response.status === 204) {
+         
+        } 
+        else if(response.status === 200){
+          const data = await response.json();
+          //console.log(data);
+          setProductData(data);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+  
+    const fetchModelData = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/api/models');
+        
+        if (response.status === 204) {
+         
+        } 
+        else if(response.status === 200){
+          const data = await response.json();
+          //console.log(data);
+          setModelData(data);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+  
+    const fetchSizeData = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/api/sizes');
+        
+        if (response.status === 204) {
+         
+        } 
+        else if(response.status === 200){
+          const data = await response.json();
+          //console.log(data);
+          setSizeData(data);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    useEffect(()=>{
+      fetchGroupData();
+      fetchCategoryData();
+      fetchStyleData();
+      fetchProductData();
+      fetchModelData();
+      fetchSizeData();
+    },[])
+
+
   const onClose = () => {
     onCloseDrawer();
   };
+
+
   return (
     <>
       <Drawer title="Filter By" placement="bottom" onClose={onClose} open={isOpen}>
@@ -32,26 +153,18 @@ const DrawerComponent = ({isOpen, onCloseDrawer}) => {
                     exit={{ y: -20, opacity: 0 }}
                     className={classes["filter-options"]}
                   >
-                    <p className={classes["checkbox-grp"]}>
-                      <input
-                        type="checkbox"
-                        id="Diamond"
-                        name="Diamond"
-                        checked={mainGrpFilters["Diamond"]}
-                        onChange={handleMainGroupCheckChange}
-                      />
-                      <label htmlFor="Diamond">Diamond</label>
-                    </p>
-                    <p className={classes["checkbox-grp"]}>
-                      <input
-                        type="checkbox"
-                        id="Gold"
-                        name="Gold"
-                        checked={mainGrpFilters["Gold"]}
-                        onChange={handleMainGroupCheckChange}
-                      />
-                      <label htmlFor="Gold">Gold</label>
-                    </p>
+                    {groupData.map((option) => (
+                      <p key={option.id} className={classes["checkbox-grp"]}>
+                          <input
+                            type="checkbox"
+                            id={option.name}
+                            name={option.name}
+                            checked={mainGrpFilters[option.name] || false}
+                            onChange={handleMainGroupCheckChange}
+                            />
+                          <label htmlFor={option.name}>{option.name}</label>
+                      </p>
+                    ))}
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -78,26 +191,18 @@ const DrawerComponent = ({isOpen, onCloseDrawer}) => {
                     exit={{ y: -20, opacity: 0 }}
                     className={classes["filter-options"]}
                   >
-                    <p className={classes["checkbox-grp"]}>
-                      <input
-                        type="checkbox"
-                        id="Diamond Jewelery"
-                        name="Diamond Jewelery"
-                        checked={categoryFilters["Diamond Jewelery"]}
-                        onChange={handleCategoryCheckChange}
-                      />
-                      <label htmlFor="Diamond Jewelery">Diamond Jewelery</label>
-                    </p>
-                    <p className={classes["checkbox-grp"]}>
-                      <input
-                        type="checkbox"
-                        id="Gold Jewelery"
-                        name="Gold Jewelery"
-                        checked={categoryFilters["Gold Jewelery"]}
-                        onChange={handleCategoryCheckChange}
-                      />
-                      <label htmlFor="Gold Jewelery">GOLD Jewelery</label>
-                    </p>
+                    {categoryData.map((option) => (
+                          <p key={option.id} className={classes["checkbox-grp"]}>
+                              <input
+                                type="checkbox"
+                                id={option.name}
+                                name={option.name}
+                                checked={categoryFilters[option.name] || false}
+                                onChange={handleCategoryCheckChange}
+                                />
+                              <label htmlFor={option.name}>{option.name}</label>
+                          </p>
+                        ))}
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -170,36 +275,18 @@ const DrawerComponent = ({isOpen, onCloseDrawer}) => {
                     exit={{ y: -20, opacity: 0 }}
                     className={classes["filter-options"]}
                   >
-                    <p className={classes["checkbox-grp"]}>
-                      <input
-                        type="checkbox"
-                        id="Style 1"
-                        name="Style 1"
-                        checked={styleFilters["Style 1"]}
-                        onChange={handleStyleCheckChange}
-                      />
-                      <label htmlFor="Style 1">Style 1</label>
-                    </p>
-                    <p className={classes["checkbox-grp"]}>
-                      <input
-                        type="checkbox"
-                        id="Style 2"
-                        name="Style 2"
-                        checked={styleFilters["Style 2"]}
-                        onChange={handleStyleCheckChange}
-                      />
-                      <label htmlFor="Style 2">Style 2</label>
-                    </p>
-                    <p className={classes["checkbox-grp"]}>
-                      <input
-                        type="checkbox"
-                        id="Style 3"
-                        name="Style 3"
-                        checked={styleFilters["Style 3"]}
-                        onChange={handleStyleCheckChange}
-                      />
-                      <label htmlFor="Style 3">Style 3</label>
-                    </p>
+                    {styleData.map((option) => (
+                          <p key={option.id} className={classes["checkbox-grp"]}>
+                              <input
+                                type="checkbox"
+                                id={option.name}
+                                name={option.name}
+                                checked={styleFilters[option.name] || false}
+                                onChange={handleStyleCheckChange}
+                                />
+                              <label htmlFor={option.name}>{option.name}</label>
+                          </p>
+                        ))}
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -226,36 +313,18 @@ const DrawerComponent = ({isOpen, onCloseDrawer}) => {
                     exit={{ y: -20, opacity: 0 }}
                     className={classes["filter-options"]}
                   >
-                    <p className={classes["checkbox-grp"]}>
-                      <input
-                        type="checkbox"
-                        id="Product 1"
-                        name="Product 1"
-                        checked={productFilters["Product 1"]}
-                        onChange={handleProductCheckChange}
-                      />
-                      <label htmlFor="Product 1">Product 1</label>
-                    </p>
-                    <p className={classes["checkbox-grp"]}>
-                      <input
-                        type="checkbox"
-                        id="Product 2"
-                        name="Product 2"
-                        checked={productFilters["Product 2"]}
-                        onChange={handleProductCheckChange}
-                      />
-                      <label htmlFor="Product 2">Product 2</label>
-                    </p>
-                    <p className={classes["checkbox-grp"]}>
-                      <input
-                        type="checkbox"
-                        id="Product 3"
-                        name="Product 3"
-                        checked={productFilters["Product 3"]}
-                        onChange={handleProductCheckChange}
-                      />
-                      <label htmlFor="Product 3">Product 3</label>
-                    </p>
+                    {productData.map((option) => (
+                          <p key={option.id} className={classes["checkbox-grp"]}>
+                              <input
+                                type="checkbox"
+                                id={option.name}
+                                name={option.name}
+                                checked={productFilters[option.name] || false}
+                                onChange={handleProductCheckChange}
+                                />
+                              <label htmlFor={option.name}>{option.name}</label>
+                          </p>
+                        ))}
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -349,67 +418,31 @@ const DrawerComponent = ({isOpen, onCloseDrawer}) => {
                     className={classes["filter-options"]}
                   >
                     <p className={classes.opt}>Model</p>
-                    <p className={classes["checkbox-grp"]}>
-                      <input
-                        type="checkbox"
-                        id="Model 1"
-                        name="Model 1"
-                        checked={modelFilters["Model 1"]}
-                        onChange={handleModelCheckChange}
-                      />
-                      <label htmlFor="Model 1">Model 1</label>
-                    </p>
-                    <p className={classes["checkbox-grp"]}>
-                      <input
-                        type="checkbox"
-                        id="Model 2"
-                        name="Model 2"
-                        checked={modelFilters["Model 2"]}
-                        onChange={handleModelCheckChange}
-                      />
-                      <label htmlFor="Model 2">Model 2</label>
-                    </p>
-                    <p className={classes["checkbox-grp"]}>
-                      <input
-                        type="checkbox"
-                        id="Model 3"
-                        name="Model 3"
-                        checked={modelFilters["Model 3"]}
-                        onChange={handleModelCheckChange}
-                      />
-                      <label htmlFor="Model 3">Model 3</label>
-                    </p>
-                    <p className={classes.opt}>Size</p>
-                    <p className={classes["checkbox-grp"]}>
-                      <input
-                        type="checkbox"
-                        id="Size 1"
-                        name="Size 1"
-                        checked={sizeFilters["Size 1"]}
-                        onChange={handleSizeCheckChange}
-                      />
-                      <label htmlFor="Size 1">Size 1</label>
-                    </p>
-                    <p className={classes["checkbox-grp"]}>
-                      <input
-                        type="checkbox"
-                        id="Size 2"
-                        name="Size 2"
-                        checked={sizeFilters["Size 2"]}
-                        onChange={handleSizeCheckChange}
-                      />
-                      <label htmlFor="Size 2">Size 2</label>
-                    </p>
-                    <p className={classes["checkbox-grp"]}>
-                      <input
-                        type="checkbox"
-                        id="Size 3"
-                        name="Size 3"
-                        checked={sizeFilters["Size 3"]}
-                        onChange={handleSizeCheckChange}
-                      />
-                      <label htmlFor="Size 3">Size 3</label>
-                    </p>
+                          {modelData.map((option) => (
+                            <p key={option.id} className={classes["checkbox-grp"]}>
+                                <input
+                                  type="checkbox"
+                                  id={option.name}
+                                  name={option.name}
+                                  checked={modelFilters[option.name] || false}
+                                  onChange={handleModelCheckChange}
+                                  />
+                                <label htmlFor={option.name}>{option.name}</label>
+                            </p>
+                          ))}
+                          <p className={classes.opt}>Size</p>
+                          {sizeData.map((option) => (
+                            <p key={option.id} className={classes["checkbox-grp"]}>
+                                <input
+                                  type="checkbox"
+                                  id={option.name}
+                                  name={option.name}
+                                  checked={sizeFilters[option.name] || false}
+                                  onChange={handleSizeCheckChange}
+                                  />
+                                <label htmlFor={option.name}>{option.name}</label>
+                            </p>
+                          ))}
                   </motion.div>
                 )}
               </AnimatePresence>

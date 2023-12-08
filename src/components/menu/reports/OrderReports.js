@@ -119,21 +119,49 @@ const {data: accountsData} = useQuery({
 })
 
 const [retailerAccountsCount, setRetailerAccountsCount] = useState(0);
-const [retailerAccounts, setRetailerAccounts] = useState([]);
 
-console.log(retailerAccounts)
-
-    useEffect(()=>{
+ useEffect(()=>{
         if(accountsData){
             const retailers = accountsData.filter((account)=>{
                 return account.accountType === "Retailer"
             })
             setRetailerAccountsCount(retailers.length);
-            setRetailerAccounts(retailers);
         }
     },[accountsData])
 
 
+  const [retailersWithOrders, setRetailersWithOrders] =useState([]);
+  const fetchRetailerswithOrders= async() => {
+
+    try {
+      
+      let apiUrl = 'http://localhost:8080/api/orders';
+
+      const response = await fetch(apiUrl);
+      
+      if (!response.ok) {
+      
+        console.log(response.status);
+       
+      } 
+      else{
+        const data = await response.json();
+        console.log(data);
+        //console.error('Failed to fetch data:', response.statusText);
+        setRetailersWithOrders(data);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  useEffect(()=> {
+    fetchRetailerswithOrders();
+  },[])
+
+    const uniqueRetailers= [...new Set(retailersWithOrders.map(item => item.account.id))].map((accountId) => {
+      return retailersWithOrders.find(item => item.account.id === accountId).account;
+    });
 
     return(
       <div style={{paddingTop: "1rem"}}>
@@ -159,13 +187,11 @@ console.log(retailerAccounts)
               style={{width: 150}}
             >
               <Select.Option value="">All</Select.Option>
-                {[...new Set(rowData.map(item => item.account.id))].map((accountId) => {
-                  const retailer = rowData.find(item => item.account.id === accountId);
-                  return (
-                    <Select.Option key={retailer.account.id} value={retailer.account.id}>
-                      {retailer.account.name}
-                    </Select.Option>
-                  )})}
+                  {uniqueRetailers && uniqueRetailers.map((retailer) => (
+                    <Select.Option key={retailer.id} value={retailer.id}>
+                    {retailer.name}
+                  </Select.Option>
+                  ))}
             </Select>
           </div>
 
