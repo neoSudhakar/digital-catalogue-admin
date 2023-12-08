@@ -9,7 +9,8 @@ import { useMutation } from '@tanstack/react-query'
 import { deleteCart, queryClientObj, updateCart } from '../../../util/http'
 import ErrorModal from '../view-designs/ErrorModal'
 
-export default function CartItem({item}) {
+export default function CartItem({item, cartId}) {
+    console.log('cart id is:', cartId)
     const dispatch = useDispatch()
 
     const [isErrModalOpen, setIsErrModalOpen] = useState(false);
@@ -48,25 +49,23 @@ export default function CartItem({item}) {
     function handleMinus(){
         // dispatch(cartSliceActions.removeItemFromCart(item.id));
         const updatedQuantity = item.quantity - 1;
-        updateMutate({cartId: item.cartId, cartItemId: item.id, data: {designId: item.design.id, quantity: updatedQuantity}})
+        console.log("design id is:", item.design.id);
+        console.log("updating data is:", {cartId, cartItemId: item.id, data: {designId: item.design.id, quantity: updatedQuantity}})
+        updateMutate({cartId, cartItemId: item.id, data: {designId: item.design.id, quantity: updatedQuantity}})
     }
 
     function handlePlus() {
         // dispatch(cartSliceActions.addItemToCart({...item, quantity: 1}));
         const updatedQuantity = item.quantity + 1;
-        updateMutate({cartId: item.cartId, cartItemId: item.id, data: {designId: item.design.id, quantity: updatedQuantity}})
+        console.log("design id is:", item.design.id);
+        console.log("updating data is:", {cartId, cartItemId: item.id, data: {designId: item.design.id, quantity: updatedQuantity}})
+        updateMutate({cartId, cartItemId: item.id, data: {designId: item.design.id, quantity: updatedQuantity}})
     }
 
     function handleRemoveWholeItemFromCart(){
         // dispatch(cartSliceActions.removeWholeItemFromCart(item.id));
-        mutate({cartId: item.cartId, cartItemId: item.id})
+        mutate({cartId, cartItemId: item.id})
     }
-
-    // let content2 ;
-
-    // if(isErrModalOpen){
-    //     content2 = 
-    // }
 
   return (
     <li className={classes["list-item"]}>

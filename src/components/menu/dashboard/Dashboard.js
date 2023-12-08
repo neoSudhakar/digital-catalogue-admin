@@ -7,9 +7,12 @@ import classes from "./Dashboard.module.css";
 import PieChartClassComponent from "./PieChartClassComponent";
 import Tile from "./Tile";
 import { useQuery } from "@tanstack/react-query";
-import { fetchAccounts, fetchAllDesigns, fetchCatalogueDesigns, fetchOrders, fetchOrdersForManufacturer } from "../../../util/http";
+import { fetchAccountOrdersForManufacturer, fetchAccounts, fetchAllDesigns, fetchAssignedDesignsForManufacturer, fetchCatalogueDesigns, fetchOrderedDesignsForUser, fetchOrders, fetchOrdersForManufacturer } from "../../../util/http";
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard(){
+    const navigate = useNavigate()
+
     const {accountType, id: accountId} = getAccountLoader()
     const userId = getUserId();
 
@@ -21,21 +24,10 @@ export default function Dashboard(){
         queryFn: ({signal})=> (isRetailer ? fetchCatalogueDesigns({signal, accountId: accountId}) : fetchAllDesigns()),
     })
 
-    const [orderedDesignsCount, setOrderedDesignsCount] = useState(0)
-
     const {data: ordersData} = useQuery({
-        queryKey: isRetailer ? ["orders", {userId: userId}] : ["manufacturer-orders"],
-        queryFn: ({signal, queryKey}) => isRetailer ? fetchOrders({signal, userId}) : fetchOrdersForManufacturer() ,
+        queryKey: ["manufacturer-orders"],
+        queryFn: fetchOrdersForManufacturer ,
     });
-
-    useEffect(()=>{
-        if(ordersData){
-            const count = ordersData.reduce((sum, order)=>{
-                return sum + order.orderItems.length
-            }, 0)
-            setOrderedDesignsCount(count);
-        }
-    },[ordersData])
 
     const {data: accountsData} = useQuery({
         queryKey: ["accounts"],
@@ -53,19 +45,62 @@ export default function Dashboard(){
         }
     },[accountsData])
 
+    const {data: assignedDesignsData} = useQuery({
+        queryKey: ["assignedDesigns"],
+        queryFn: fetchAssignedDesignsForManufacturer,
+    })
+
+    const {data: orderedDesignsForUser} = useQuery({
+        queryKey: ["ordered-designs", {userId: userId}],
+        queryFn: ({signal})=>fetchOrderedDesignsForUser({signal, userId}),
+    })
+
+
+
+    if(assignedDesignsData){
+        console.log("assignedDesignsData is", assignedDesignsData);
+    }
+
+
+    function handleClick(identifier){
+        if(identifier === "total-designs"){
+            if(isRetailer){
+                navigate("/catalogue");
+            }
+            else{
+                navigate("/view-designs");
+            }
+        }
+
+        if(identifier === "orders"){
+            navigate("/order-form");
+        }
+
+        if(identifier === "retailers"){
+            navigate("/settings");
+        }
+
+        if(identifier === "orders-by-retailers"){
+            if(!isRetailer){
+                navigate("/order-form");
+            }
+        }
+    }
+
+
     return <div className={classes["whole"]}>
         {/* <h1>My Dashboard</h1> */}
         <menu className={classes["whole-tiles-and-charts"]}>
             <section className={classes["whole-tiles"]}>
-                <Tile title="Total designs" count={designsData ? designsData.length : 0} filterCount={1} />
-                {isRetailer && <Tile title="Ordered designs" count={orderedDesignsCount} filterCount={2} />}
-                {!isRetailer && <Tile title="Assigned designs" count={10} filterCount={2} />}
-                {!isRetailer && <Tile title="Orders" count={ordersData ? ordersData.length : 0} filterCount={1} />}
-                {!isRetailer && <Tile title="Retailers" count={retailerAccountsCount}/>}
+                <Tile title="Total designs" count={designsData ? designsData.length : 0} filterCount={1} onClick={()=>handleClick("total-designs")} />
+                {isRetailer && <Tile title="Ordered designs" count={orderedDesignsForUser ? orderedDesignsForUser.length : 0} filterCount={2} />}
+                {!isRetailer && <Tile title="Assigned designs" count={assignedDesignsData ? assignedDesignsData.length : 0} filterCount={2} />}
+                {!isRetailer && <Tile title="Orders" count={ordersData ? ordersData.length : 0} filterCount={1} onClick={()=>handleClick("orders")} />}
+                {!isRetailer && <Tile title="Retailers" count={retailerAccountsCount}  onClick={()=>handleClick("retailers")}/>}
             </section>
             <section className={classes["whole-charts"]}>
-                <Chart title="Incomplete tasks by project" chartComponent={<BarChartClassComponent/>} companyName="Tasks in catalogue" />
-                <Chart title="Tasks by completion status this month" chartComponent={<PieChartClassComponent/>} filterCount={1} companyName="Tasks in catalogue" />
+                <Chart title="Orders by retailers" chartComponent={<BarChartClassComponent dashboard/>} companyName="Tasks in catalogue" onClick={()=>handleClick("orders-by-retailers")} />
+                <Chart title="Recent orders" chartComponent={<PieChartClassComponent/>} filterCount={1} companyName="Tasks in catalogue" />
             </section>
         </menu>
         

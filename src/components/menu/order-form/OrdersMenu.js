@@ -7,19 +7,27 @@ import classes from "./OrderForm.module.css";
 export default function OrdersMenu() {
 const [selectedTab, setselectedTab] = useState('orders');
 
+const items = [
+    {
+      label: 'Orders',
+      key: 'orders',
+      style: {fontSize: '20px'}
+    },
+    {
+      label: 'History',
+      key: 'history',
+      style: {fontSize: '20px'}
+    }
+]
+
+
 const tabHandler= (tab) => {
-    setselectedTab(tab);
+    setselectedTab(tab.key);
   };
 
 return (
     <div className={classes.ordersMenu}>
-        <Menu mode="horizontal" defaultSelectedKeys={['orders']} className={classes.menuBar}>
-                <Menu.Item key="orders" onClick={tabHandler.bind(this, 'orders')} className={classes.menuItem}>
-                Orders
-                </Menu.Item>
-                <Menu.Item key="history" onClick={tabHandler.bind(this, 'history')} className={classes.menuItem}>
-                History
-                </Menu.Item>
+        <Menu mode="horizontal" selectedKeys={[selectedTab]} onClick={tabHandler} items={items} className={classes.menuBar}>
         </Menu>
 
         <div>

@@ -17,10 +17,12 @@ import Cart from "./menu/cart/Cart";
 import { ordersSliceActions } from "../store/orders-slice";
 import { useQuery } from "@tanstack/react-query";
 import { fetchCart } from "../util/http";
-import { getUserId } from "../util/auth";
+import { getAccountLoader, getUserId } from "../util/auth";
 
 export default function Header() {
   const token = useRouteLoaderData("root");
+  const [accountType1 , setAccountType1] = useState();
+ 
   const [userName, setUserName] = useState("");
   const submit = useSubmit();
   const dispatch = useDispatch();
@@ -58,6 +60,10 @@ export default function Header() {
       const fullNameObj = localStorage.getItem("fullName");
       // const parsedFullNameObj= JSON.parse(fullNameObj)
       setUserName(fullNameObj);
+
+      const {accountType} = getAccountLoader();
+
+      setAccountType1(accountType);
     }
   });
 
@@ -84,12 +90,13 @@ export default function Header() {
         {token && (
           <nav>
             <ul className={classes.list}>
-              <li>
+              {accountType1 && accountType1 === "Retailer" && <li>
                 <span className={classes["click-icon"]}>
                   <LikeIcon />
+                  {/* <label>2</label> */}
                 </span>
-              </li>
-              <li>
+              </li>}
+              {accountType1 && accountType1 === "Retailer" && <li>
                 <motion.span
                   key={totalQuantity}
                   initial={{scale: [1]}}
@@ -107,7 +114,7 @@ export default function Header() {
                 >
                   <CartIcon />
                 </motion.span>
-              </li>
+              </li>}
               <li>
                 <span className={classes["click-icon"]}>
                   <ChatIcon />
@@ -147,11 +154,11 @@ export default function Header() {
                       </div>
                     </div>
 
-                    <div className={classes.fields}>
+                    {accountType1 === "Retailer" && <div className={classes.fields}>
                       <p onClick={handleOpenCart}>My Cart</p>
                       <p>My Wishlist</p>
                       {/* <p onClick={handleOpenOrders}>My Orders</p> */}
-                    </div>
+                    </div>}
 
                     <div className={classes.fields}>
                       <p>Notifications</p>

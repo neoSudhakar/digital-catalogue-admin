@@ -7,8 +7,10 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 
 import classes from "../Tables.module.css";
+import { getAccountLoader } from '../../../../util/auth';
 
 const UserTable = ({data , accountData, roleData}) => {
+  const accountObj = getAccountLoader();
 
   const [rowData, setRowData] =useState(data);
   const [selectedRow, setSelectedRow]= useState();
@@ -16,7 +18,11 @@ const UserTable = ({data , accountData, roleData}) => {
 
   async function refetch() {
     try {
-      const response = await fetch('http://localhost:8080/api/users');
+      let url = 'http://localhost:8080/api/users/filters';
+      if(accountObj.accountType === "Retailer"){
+        url = `http://localhost:8080/api/users/filters?accountId=${accountObj.id}`;
+      }
+      const response = await fetch(url);
       
       if (response.status === 204) {
         
@@ -49,18 +55,14 @@ const handleDeleteRow = (rowToDelete) => {
       .then((response) => {
         if (response.ok) {
           console.log('Row deleted from the backend:', rowToDelete);
-          // Update the state to reflect the deletion
           const updatedRows = rowData.filter((row) => row.id !== rowToDelete.id);
           setRowData(updatedRows);
         } else {
-          // Handle errors if any
           console.error('Failed to delete row from the backend.');
-          message.error('Failed to delete row from the backend.');
         }
       })
       .catch((error) => {
         console.error('Error:', error);
-        message.error('Error occurred while deleting the row.');
       });
   };  
 

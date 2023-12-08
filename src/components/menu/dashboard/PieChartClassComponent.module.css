@@ -1,0 +1,60 @@
+.list{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.list li{
+    width: 95%;
+    margin: auto;
+    height: 5rem;
+    display: flex;
+    gap: 2rem;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(204, 197, 245);
+    border-radius: 0.35rem;
+    overflow: hidden;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+}
+.list li.full{
+    justify-content: flex-start;
+    width: 100%;
+}
+.list li .carousel{
+    width: 6rem;
+}
+.image-container{
+    /* object-fit: ; */
+    width:6rem;
+    height: 5rem;
+}
+.list img{
+    width: 6rem;
+    height: 5rem;
+    object-fit: fill;
+}
+
+.field{
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    align-items: center;
+}
+
+.field.full{
+    /* gap: 0.45rem;
+    flex-direction: row; */
+    color:black;
+}
+
+span{
+    font-size: 0.8rem;
+}
+label{
+    font-size: 0.85rem;
+    font-weight: bold;
+    text-transform: capitalize;
+}

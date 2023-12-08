@@ -1,4 +1,4 @@
-
+import { useState, useEffect } from "react";
 import Button from "../../../UI/Button";
 import useInputSpcl from "../../../hooks/use-input-spcl";
 import classes from "./AddDesignTableForm.module.css";
@@ -11,6 +11,48 @@ export default function AddDesignTableForm({onCloseModal, formData, onAction,des
     const initialPiecesVal= formData ? formData.pieces : "";
     const initialStoneWtVal= formData ? formData.stoneWeight: "";
     const initialUOM = formData ? formData.unitOfMeasurement : "";
+
+    const [typeData, setTypeData] = useState([]);
+    const [stoneGroupData, setStoneGroupData] = useState([]);
+
+    const fetchTypeData = async () => {
+        try {
+          const response = await fetch('http://localhost:8080/api/types');
+          
+          if (response.status === 204) {
+           
+          } 
+          else if(response.status === 200){
+            const data = await response.json();
+            //console.log(data);
+            setTypeData(data);
+          }
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      };
+    
+      const fetchStoneGroupData = async () => {
+        try {
+          const response = await fetch('http://localhost:8080/api/stonegroups');
+          
+          if (response.status === 204) {
+           
+          } 
+          else if(response.status === 200){
+            const data = await response.json();
+            //console.log(data);
+            setStoneGroupData(data);
+          }
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      };
+
+    useEffect(()=> {
+        fetchStoneGroupData();
+        fetchTypeData();
+    })
 
     const {
     inputVal: type,
@@ -106,12 +148,15 @@ export default function AddDesignTableForm({onCloseModal, formData, onAction,des
                     value={type}
                     onChange={handleTypeChange}
                 /> */}
-                <select name="type" id="type" onChange={handleTypeChange} defaultValue={type} >
+                <select name="type" id="type" onChange={handleTypeChange} value={type} >
                     {!formData && <option value="" disabled hidden>
                         Select an option
                       </option>}
-                    <option value="Stone">Stone</option>
-                    <option value="Composite">Composite</option>
+                      {typeData && typeData.map((item) =>(
+                        <option key={item.id} value={item.name}>
+                          {item.name}
+                        </option>
+                        ))}
                 </select>
             </div>
             <div className={classes["input-grp"]}>
@@ -123,13 +168,15 @@ export default function AddDesignTableForm({onCloseModal, formData, onAction,des
                     type="text"
                     onChange={handleStoneGroupChange}
                 /> */}
-                <select name="stoneGroup" id="stoneGroup" onChange={handleStoneGroupChange} defaultValue={stoneGroup} >
+                <select name="stoneGroup" id="stoneGroup" onChange={handleStoneGroupChange} value={stoneGroup} >
                     {!formData && <option value="" disabled hidden>
                         Select an option
                       </option>}
-                    <option value="StoneGroup1">StoneGroup1</option>
-                    <option value="StoneGroup2">StoneGroup2</option>
-                    <option value="StoneGroup3">StoneGroup3</option>
+                      {stoneGroupData && stoneGroupData.map((item, index) =>(
+                        <option key={item.id} value={item.name}>
+                          {item.name}
+                        </option>
+                        ))}
                 </select>
             </div>
             <div className={classes["input-grp"]}>

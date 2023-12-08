@@ -15,9 +15,9 @@ import CatalogueDesigns from "./components/menu/catalogue/CatalogueDesigns";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClientObj } from "./util/http";
 import Settings from "./components/menu/settings/Settings";
-import Reports from "./components/menu/reports/Reports";
 import Orders from "./components/menu/orders/Orders";
 import OrdersMenu from "./components/menu/order-form/OrdersMenu";
+import Reports from "./components/menu/reports/Reports";
 
 const router= createBrowserRouter([
   {
@@ -53,7 +53,7 @@ const router= createBrowserRouter([
         path: "/settings", element:<Settings/>,
       },
       {
-        path: "/reports", element: <Reports/>, loader: checkAuthLoader,
+        path: "/reports", element: <Reports/>,
       },
       {
         path: "/orders", element: <Orders/>, loader: checkRetailerAuthLoader,

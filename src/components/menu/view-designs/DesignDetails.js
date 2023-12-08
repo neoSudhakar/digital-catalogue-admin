@@ -23,6 +23,7 @@ export default function DesignDetails({cardItem, onGoBack, onAnyUpdateAction}){
 
   useEffect(()=>{
     if(data){
+      console.log("assigned retailers list data is", data);
       const formattedList = data.map((eachObj)=>{
         return {
           id: eachObj.id,

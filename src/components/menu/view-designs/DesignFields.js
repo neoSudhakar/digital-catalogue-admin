@@ -100,6 +100,9 @@ export default function DesignFields({
       queryClientObj.invalidateQueries({
         queryKey: ["assignedRetailers"],
       })
+      queryClientObj.invalidateQueries({
+        queryKey: ["accountsVsAssignedDesigns"]
+      });
     }
   })
 
@@ -206,7 +209,7 @@ export default function DesignFields({
             <p>{cardItem.designNumber}</p>
           </div>
           <div>
-            <span>Mian Group: </span>
+            <span>Main Group: </span>
             <p>{cardItem.mainGroup}</p>
           </div>
           <div>

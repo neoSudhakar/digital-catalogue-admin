@@ -50,18 +50,14 @@ const AccountTable = ({data, refetchData}) => {
           .then((response) => {
             if (response.ok) {
               console.log('Row deleted from the backend:', rowToDelete);
-              // Update the state to reflect the deletion
               const updatedRows = rowData.filter((row) => row.id !== rowToDelete.id);
               setRowData(updatedRows);
             } else {
-              // Handle errors if any
               console.error('Failed to delete row from the backend.');
-              message.error('Failed to delete row from the backend.');
             }
           })
           .catch((error) => {
             console.error('Error:', error);
-            message.error('Error occurred while deleting the row.');
           });
       };
 

@@ -25,17 +25,15 @@ export default function Cart() {
     })
 
     useEffect(()=>{
+        if(data === null){
+            console.log("no cart data");
+        }
         if(data){
             console.log("cart data is", data);
-            const mappedList = data.flatMap(cart =>
-                cart.cartItems.map(item => ({ cartId: cart.id , ...item })) // change
-              );
-      
-              console.log("mappedList of cart is: ", mappedList);
-      
-              setCartItems(mappedList);
-            // localStorage.setItem("CART_ID", data.id);
-            setTotalQuantity(mappedList.reduce((sum, item)=>{
+            
+            setCartItems(data.cartItems);
+
+            setTotalQuantity(data.cartItems.reduce((sum, item)=>{
                 return sum + item.quantity 
             }, 0));
         }
@@ -54,6 +52,9 @@ export default function Cart() {
             queryClientObj.invalidateQueries({
                 queryKey: ["orders"],
             })
+            queryClientObj.invalidateQueries({
+                queryKey: ["cart"],
+            })
             handleCloseCart();
         },
         onError: ()=>{
@@ -62,12 +63,10 @@ export default function Cart() {
     })
 
     function handleOrder(){
-        const mappedList = data.flatMap(cart =>
-            cart.cartItems.map(item => ({designId: item.design.id, quantity: item.quantity}))
-          );
+        const mappedList = data.cartItems.map(item => ({designId: item.design.id, quantity: item.quantity}));
 
         console.log("mappedList of ordering cart items", mappedList);
-          orderMutate({ userId: userId, accountId: accountId, orderItems: [...mappedList] });
+          orderMutate({ userId: userId, accountId: accountId, orderItems: [...mappedList], cartId: data.id });
     }
 
     let content;
@@ -93,7 +92,7 @@ export default function Cart() {
     if(data){
         content = <>
         {cartItems.length > 0 && <ul  className={classes["list"]}>
-            {cartItems.map((item)=><CartItem key={item.id} item={item} />)}
+            {cartItems.map((item)=><CartItem key={item.id} item={item} cartId={data.id} />)}
         </ul>}
         {cartItems.length === 0 && <p className={classes["fallback"]}>No items in cart.</p>}
 

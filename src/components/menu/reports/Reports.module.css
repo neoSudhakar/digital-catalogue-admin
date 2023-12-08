@@ -13,11 +13,14 @@
 .menuItem {
     font-size: 18px;
   }
+  .whole-charts div{
+    flex-direction: column;
+  }
 
   .table-container {
-    width: 95%;
+    width: 92%;
     margin: 0 auto;
-    margin: 2rem 1rem 0;
+    /* margin: 0 1rem 0; */
     overflow-x: auto;
   }
   
@@ -44,7 +47,7 @@
     min-width: 100px;
     max-width: 500px;
   }
-  table tbody {
+  .table tbody {
     background-color: white;
   }
 
@@ -59,14 +62,28 @@
   .filters{
     flex: 1;
     margin: 0.8rem;
+    gap:0.5rem;
     display: flex;
-    flex-direction: row;
     justify-content: center;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .filters.full{
+    gap: 1rem;
   }
 
   .filters div{
-    margin-right: 0.5rem;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap:0.2rem;
   }
+
+  .filters div.full{
+    flex-direction: column;
+  }
+
 
   .filters div label{
     margin-right: 0.2rem;
@@ -79,22 +96,62 @@
     border-radius: 1%;
   }
 
-  .filters div Button{
-    background-color: rgb(8, 117, 219);
+  .download-btn{
+    padding: 0.25rem 0.75rem;
+    border-radius:0.35rem;
+    border: none;
+    background-color: rgb(107, 127, 139);
+    color: white;
+    /* margin: 0.75rem 0 0.5rem; */
+    /*margin-left: 5rem;*/
+    align-self: flex-end;
+  }
+
+  .download-btn:hover{
+    cursor: pointer;
+    background-color: rgb(129, 172, 199);
     color: white;
   }
-.filters div Button:hover{
-  cursor: pointer;
-  background-color: rgb(53, 91, 128);
-}
 
+  .download-btn:active{
+    opacity: 0.65;
+  }
+
+  .filters .button{
+    background-color: rgb(8, 117, 219);
+    color: white;
+    /*align-self: flex-end;*/
+  }
+.filters .button:hover{
+  cursor: pointer;
+  background-color: rgb(193, 223, 253);
+}
+.search{
+    flex: 1;
+    margin: 0.8rem;
+    gap:0.5rem;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: row;
+    align-items: center;
+}
+.search.full{
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+}
 
 @media screen and (max-width: 767px){
   .filters{
     flex-direction: column;
   }
-  .filters div{
-    margin-bottom: 0.3rem;
+
+  .download-btn{
+    align-self: center;
   }
-  
+  .search{
+    flex-direction: column;
+    
+  }
+
 }

@@ -4,8 +4,19 @@ import { SearchOutlined } from '@ant-design/icons';
 import classes from "./Reports.module.css";
 
 import { Reorder } from 'framer-motion';
+import { usePDF } from 'react-to-pdf';
+import { useSelector } from 'react-redux';
+import BarChartClassComponent from '../dashboard/BarChartClassComponent';
+import Chart from '../dashboard/Chart';
+import styles from "../dashboard/Dashboard.module.css"
+import { fetchAllDesigns, fetchAssignedDesignsForManufacturer } from '../../../util/http';
+import { useQuery } from '@tanstack/react-query';
+import Tile from '../dashboard/Tile';
 
 export default function DesignReports() {
+
+  const isDashboardOpen = useSelector(state => state.ui.isDashboardOpen);
+  const {toPDF, targetRef} = usePDF({filename: "designs"});
 
   const [rowData, setRowData] =useState([]);
 
@@ -14,31 +25,31 @@ export default function DesignReports() {
 
   const [retailerData, setRetailerData] =useState([]);
 
-  const [searchText, setSearchText] = useState('');
-  const [prevSearchText, setPrevSearchText] = useState('');
-
- //const [filteredData, setFilteredData]= useState([]);
- //let filteredData= rowData;
-
-  //console.log(filteredData)
+  const [searchText, setSearchText] = useState();
 
   function handleSearch() {
     if (searchText.trim() === '') {
       fetchDesigns();
     }
     const filtered = rowData.filter(item => {
+      console.log(item.mainGroup);
+      console.log(item.category);
+      console.log(item.netWeight);
+      console.log(item.pieces);
+      console.log(item.createdDate);
       return (
+        ("Design "+item.id).toLowerCase().includes(searchText.toLowerCase()) ||
         item.mainGroup.toLowerCase().includes(searchText.toLowerCase()) ||
         item.category.toLowerCase().includes(searchText.toLowerCase()) ||
-        item.detailsSet[0].unitOfMeasurement.toLowerCase().includes(searchText.toLowerCase()) ||
-        //item.style.toLowerCase().includes(searchText.toLowerCase()) ||
-        //item.product.toLowerCase().includes(searchText.toLowerCase()) ||
-        //item.model.toLowerCase().includes(searchText.toLowerCase()) ||
-        //item.worker.toLowerCase().includes(searchText.toLowerCase()) ||
-        //item.size.toLowerCase().includes(searchText.toLowerCase()) ||
+        // item.detailsSet[0].unitOfMeasurement.toLowerCase().includes(searchText.toLowerCase()) ||
+        // item.style.toLowerCase().includes(searchText.toLowerCase()) ||
+        // item.product.toLowerCase().includes(searchText.toLowerCase()) ||
+        // item.model.toLowerCase().includes(searchText.toLowerCase()) ||
+        // item.worker.toLowerCase().includes(searchText.toLowerCase()) ||
+        // item.size.toLowerCase().includes(searchText.toLowerCase()) ||
         item.netWeight.toString().includes(searchText) ||
-        item.pieces.toString().includes(searchText.toString()) ||
-        item.createdDate.includes(searchText)
+        item.pieces.toString().includes(searchText) ||
+        item.createdDate.slice(0,10).includes(searchText)
       );
     });
   
@@ -120,101 +131,129 @@ export default function DesignReports() {
     }
     
   };
-//console.log(accountData);
-//const retailerData= accountData.filter(account => account.accountType === 'Retailer');
 
-    return(
-      <div>
-        <div className={classes.filters}>
+  const {data: assignedDesignsData} = useQuery({
+    queryKey: ["assignedDesigns"],
+    queryFn: fetchAssignedDesignsForManufacturer,
+})
 
-        <div>
-          <label htmlFor="search">Search:</label>
-          <Input
-            id="search"
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-            suffix={<SearchOutlined onClick={handleSearch} style={{ cursor: 'pointer' }} />}
-            onKeyPress={handleKeyPress}
-            placeholder='type and press enter...'
-            style={{ width: 200 }}
-          />
+const {data: designsData} = useQuery({
+  queryKey:  ["designs"],
+  queryFn: fetchAllDesigns,
+})
+
+
+return(<>
+    <div className={`${classes["filters"]} ${isDashboardOpen ? classes["full"] : ""}`}>
+
+<div>
+  <label htmlFor="search">Search:</label>
+  <Input
+    id="search"
+    value={searchText}
+    onChange={(e) => setSearchText(e.target.value)}
+    suffix={<SearchOutlined onClick={handleSearch} style={{ cursor: 'pointer' }} />}
+    // onKeyPress={handleKeyPress}
+    onPressEnter={handleKeyPress}
+    placeholder='type and press enter...'
+    style={{ width: 200 }}
+  />
+</div>
+
+  <div>
+    <label htmlFor="designs">Designs:</label>
+    <Select
+      id="designs"
+      defaultValue=""
+      onChange={handleDesignFilters}
+      style={{width: 150}}
+    >
+      <Select.Option value="">All</Select.Option>
+      <Select.Option value="assigned">Assigned</Select.Option>
+      <Select.Option value="notAssigned">Not Assigned</Select.Option>
+    </Select>
+  </div>
+
+  {designsFilter === 'assigned' && 
+  <div>
+    <label htmlFor="retailer">Retailer:</label>
+    <Select
+      id="retailer"
+      defaultValue=""
+      onChange={(value) => setRetailerFilter(value)}
+      style={{width: 150}}
+    >
+      <Select.Option value="">All</Select.Option>
+      {retailerData && retailerData.map((item) =>(
+        <Select.Option key={item.id} value={item.id}>
+          {item.name}
+        </Select.Option>
+      ))}
+    </Select>
+  </div>}
+    
+
+  <div>
+    <Button className={classes["button"]} onClick={fetchDesigns}>
+      Get Reports
+    </Button>
+  </div>
+      <Button className={classes["download-btn"]} onClick={toPDF} >Download Report</Button>
+</div>
+<hr style={{width: '98%', color: '#000000'}}></hr>
+
+      <div ref={targetRef} style={{paddingTop: "1rem"}}>
+
+        <div className={styles["whole"]} style={{marginTop:"0", paddingTop: "0", marginLeft: "0rem", marginRight:"0rem"}}>
+          <menu className={styles["whole-tiles-and-charts"]}>
+            <section className={styles["whole-charts"]} style={{alignItems:"flex-start"}}>
+                <Chart title="Assigned Designs" chartComponent={<BarChartClassComponent designReports />} companyName="Tasks in catalogue" />
+                <Tile title="Total designs" count={designsData ? designsData.length : 0} filterCount={1}  />
+                <Tile title="Assigned designs" count={assignedDesignsData ? assignedDesignsData.length : 0} filterCount={2} />
+            </section>
+          </menu> 
         </div>
 
-          <div>
-            <label htmlFor="designs">Designs:</label>
-            <Select
-              id="designs"
-              defaultValue=""
-              onChange={handleDesignFilters}
-              style={{width: 150}}
-            >
-              <Select.Option value="">All</Select.Option>
-              <Select.Option value="assigned">Assigned</Select.Option>
-              <Select.Option value="notAssigned">Not Assigned</Select.Option>
-            </Select>
-          </div>
-
-          {designsFilter === 'assigned' && 
-          <div>
-            <label htmlFor="retailer">Retailer:</label>
-            <Select
-              id="retailer"
-              defaultValue=""
-              onChange={(value) => setRetailerFilter(value)}
-              style={{width: 150}}
-            >
-              <Select.Option value="">All</Select.Option>
-              {retailerData && retailerData.map((item) =>(
-                <Select.Option key={item.id} value={item.id}>
-                  {item.name}
-                </Select.Option>
-              ))}
-            </Select>
-          </div>}
-            
-
-          <div>
-            <Button onClick={fetchDesigns}>
-              Get Reports
-            </Button>
-          </div>
-      </div>
-
-
-            <div className={classes["table-container"]}>
-            {rowData.length > 0 ?
-            <table className={classes["table"]}>
-              <thead>
-                <tr>
-                  <th>Id</th>
-                  <th>Design</th>
-                  <th>Main Group</th>
-                  <th>Category</th>
-                  <th>Created Date</th>
-                  <th>Pieces</th>
-                  <th>Net Weight</th>
-                  <th>UOM</th>
+        <div className={classes["table-container"]}>
+        {rowData.length > 0 ?
+        <>
+        <table  className={classes["table"]}>
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Design</th>
+              <th>Main Group</th>
+              <th>Category</th>
+              <th>Created Date</th>
+              <th>Pieces</th>
+              <th>Net Weight</th>
+              <th>UOM</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rowData && rowData.map((item)=>(
+                <tr key={item.id}>
+                    <td>{item.id}</td>
+                    <td>
+                          <img src={item.designImages[0]?.preSignedURL} alt={item.id}/>
+                          <p>Design {item.id}</p>
+                    </td>
+                    <td>{item.mainGroup}</td>
+                    <td>{item.category}</td>
+                    <td>{item.createdDate.slice(0,10)}</td>
+                    <td>{item.pieces}</td>
+                    <td>{item.netWeight}</td>
+                    <td>{item.detailsSet[0]?.unitOfMeasurement}</td>
                 </tr>
-              </thead>
-              <tbody>
-                {rowData && rowData.map((item)=>(
-                    <tr key={item.id}>
-                        <td>{item.id}</td>
-                        <td>
-                              <img src={item.designImages[0].preSignedURL} alt={item.id}/>
-                        </td>
-                        <td>{item.mainGroup}</td>
-                        <td>{item.category}</td>
-                        <td>{item.createdDate.slice(0,10)}</td>
-                        <td>{item.pieces}</td>
-                        <td>{item.netWeight}</td>
-                        <td>{item.detailsSet[0].unitOfMeasurement}</td>
-                    </tr>
-                ))}
-              </tbody>
-            </table>: <h4>No Designs to show</h4>}   
-          </div>
-    </div>
+            ))}
+          </tbody>
+        </table>
+        </>
+        : <h4>No Designs to show</h4>}   
+        </div>
+      </div>
+    </>
+      
     )
 };
 

@@ -1,90 +1,57 @@
-import React, { PureComponent } from 'react';
-import { PieChart, Pie, Sector, ResponsiveContainer } from 'recharts';
+import { useQuery } from '@tanstack/react-query'
+import React from 'react'
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { fetchRecentOrders } from '../../../util/http'
+import { Carousel } from 'react-responsive-carousel';
+import classes from "./PieChartClassComponent.module.css"
+import { useSelector } from 'react-redux';
 
-const data = [
-  { name: 'Group A', value: 400 },
-  { name: 'Group B', value: 300 },
-  { name: 'Group C', value: 300 },
-  { name: 'Group D', value: 200 },
-];
+export default function PieChartClassComponent() {
 
-const renderActiveShape = (props) => {
-  const RADIAN = Math.PI / 180;
-  const { cx, cy, midAngle, innerRadius, outerRadius, startAngle, endAngle, fill, payload, percent, value } = props;
-  const sin = Math.sin(-RADIAN * midAngle);
-  const cos = Math.cos(-RADIAN * midAngle);
-  const sx = cx + (outerRadius + 10) * cos;
-  const sy = cy + (outerRadius + 10) * sin;
-  const mx = cx + (outerRadius + 30) * cos;
-  const my = cy + (outerRadius + 30) * sin;
-  const ex = mx + (cos >= 0 ? 1 : -1) * 22;
-  const ey = my;
-  const textAnchor = cos >= 0 ? 'start' : 'end';
+  const isDashboardOpen = useSelector(state=>state.ui.isDashboardOpen)
 
-  return (
-    <g>
-      <text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}>
-        {payload.name}
-      </text>
-      <Sector
-        cx={cx}
-        cy={cy}
-        innerRadius={innerRadius}
-        outerRadius={outerRadius}
-        startAngle={startAngle}
-        endAngle={endAngle}
-        fill={fill}
-      />
-      <Sector
-        cx={cx}
-        cy={cy}
-        startAngle={startAngle}
-        endAngle={endAngle}
-        innerRadius={outerRadius + 6}
-        outerRadius={outerRadius + 10}
-        fill={fill}
-      />
-      <path d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`} stroke={fill} fill="none" />
-      <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
-      <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} textAnchor={textAnchor} fill="#333">{`PV ${value}`}</text>
-      <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} dy={18} textAnchor={textAnchor} fill="#999">
-        {`(Rate ${(percent * 100).toFixed(2)}%)`}
-      </text>
-    </g>
-  );
-};
+  const {data} = useQuery({
+    queryKey: ["orders", {max:3}],
+    queryFn: ({signal, queryKey})=>fetchRecentOrders({signal, ...queryKey[1]})
+  })
 
-export default class PieChartClassComponent extends PureComponent {
-  static demoUrl = 'https://codesandbox.io/s/pie-chart-with-customized-active-shape-y93si';
+  let content = <p>No data yet.</p>
 
-  state = {
-    activeIndex: 0,
-  };
-
-  onPieEnter = (_, index) => {
-    this.setState({
-      activeIndex: index,
-    });
-  };
-
-  render() {
-    return (
-      <ResponsiveContainer width="100%" height="100%">
-        <PieChart width={400} height={400}>
-          <Pie
-            activeIndex={this.state.activeIndex}
-            activeShape={renderActiveShape}
-            data={data}
-            cx="50%"
-            cy="50%"
-            innerRadius={60}
-            outerRadius={80}
-            fill="#8884d8"
-            dataKey="value"
-            onMouseEnter={this.onPieEnter}
-          />
-        </PieChart>
-      </ResponsiveContainer>
-    );
+  if(data){
+    console.log("recent orders data is", data);
+    content = <ul className={classes["list"]}>
+      {data.map((order)=>{
+        return <li className={classes[`${!isDashboardOpen ? classes["full"] : ""}`]} key={order.id}>
+          <Carousel showThumbs={false} className={classes["carousel"]}>
+            {order.orderItems.map((item)=>{
+              return <div className={classes["image-container"]} key={item.id}>
+                <img src={item.design.designImages[0]?.preSignedURL} />
+              </div>
+            })}
+          </Carousel>
+          {/* <div className={`${classes["field"]} ${!isDashboardOpen ? classes["full"] : ""}`}>
+            <span>no. of designs</span>
+            <label>{order.orderItems.length}</label>
+          </div> */}
+          <div className={`${classes["field"]} ${!isDashboardOpen ? classes["full"] : ""}`}>
+            <span>by</span>
+            <label>{order.user.firstName} {order.user.lastName}</label>
+          </div>
+          <div className={`${classes["field"]} ${!isDashboardOpen ? classes["full"] : ""}`}>
+            <span>ordered date</span>
+            <label>{order.createdDate.slice(0,10)}</label>
+          </div>
+          <div className={`${classes["field"]} ${!isDashboardOpen ? classes["full"] : ""}`} style={{marginRight: isDashboardOpen ? "2rem" : "3.25rem"}}>
+            <span>status</span>
+            <label>{order.orderStatus}</label>
+          </div>
+        </li>
+      })}
+    </ul>
   }
+  return (
+    <div>
+      {content}
+    </div>
+  )
 }

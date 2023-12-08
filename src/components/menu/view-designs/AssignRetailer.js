@@ -26,6 +26,9 @@ export default function AssignRetailer({
             queryClientObj.invalidateQueries({
               queryKey: ["assignedRetailers"] // we can see this key inside DesignDetails.js
             });
+            queryClientObj.invalidateQueries({
+              queryKey: ["accountsVsAssignedDesigns"] // we can see this key inside DesignDetails.js
+            });
             onCloseModal();
     },
 
@@ -57,6 +60,7 @@ export default function AssignRetailer({
         formattedData: formattedDataPUT,
         edit: true,
         prevRetailerId: prevRetailerData.retailerId,
+        designAccountId: prevRetailerData.id,
       });
     } else {
       mutate({

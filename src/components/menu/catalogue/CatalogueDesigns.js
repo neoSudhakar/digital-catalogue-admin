@@ -57,10 +57,7 @@ export default function CatalogueDesigns() {
   useEffect(()=>{
     if(cartData){
       console.log("Cart data is: ", cartData);
-      const mappedList = cartData.flatMap(cart =>
-        cart.cartItems.map(item => ({ cartId: cart.id , ...item }))
-      );
-      dispatch(cartSliceActions.setCart(mappedList));
+      dispatch(cartSliceActions.setCart(cartData.cartItems));
     }
   },[cartData]);
 

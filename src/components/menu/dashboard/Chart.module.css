@@ -2,6 +2,7 @@
     min-width: 48%;
     max-width: 48.5%;
     flex: 1;
+    background-color: rgb(240, 240, 240);
     border: 1px solid #ccc;
     /* padding: 1rem; */
     border-radius: 0.5rem;
@@ -27,11 +28,13 @@
 .filter{
     display: inline-flex;
     gap: 0.5rem;
-    font-size: 0.75rem;
     align-items: center;
     color: rgb(112, 109, 109);
     font-weight: 600;
     padding: 1rem;
+}
+.filter span{
+    font-size: 0.75rem;
 }
 .filter:hover{
     cursor:pointer;

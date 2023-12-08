@@ -21,7 +21,7 @@ export async function fetchAllDesigns(){
 }
 
 export async function fetchCatalogueDesigns({accountId, signal}){
-    const response = await fetch(`http://localhost:8080/api/design-account/${accountId}/designs`, {signal: signal});
+    const response = await fetch(`http://localhost:8080/api/designs/filters?designs=assigned&accountId=${accountId}`, {signal: signal});
 
     if(!response.ok){
         console.log("response status: " + response.status);
@@ -133,12 +133,14 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
   }
 
 
-  export async function assignRetailer({cardItemId, formattedData, edit, prevRetailerId}){
+  export async function assignRetailer({cardItemId, formattedData, edit, prevRetailerId, designAccountId}){
     let url = `http://localhost:8080/api/design-account`;
     let method = "POST";
 
     if(edit){
-        url = `http://localhost:8080/api/design-account/accounts/${prevRetailerId}/designs/${cardItemId}`;
+        // url = `http://localhost:8080/api/design-account/accounts/${prevRetailerId}/designs/${cardItemId}`;
+        url = `http://localhost:8080/api/design-account/${designAccountId}`;
+
         method = "PUT";
     }
 
@@ -306,6 +308,26 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
     return resData;
   }
 
+  export async function fetchRecentOrders({signal,max}){
+    const response = await fetch(
+      `http://localhost:8080/api/orders/?pageSize=${max}`,{signal}
+    );
+
+    if(!response.ok){
+        console.log("response status: " + response.status);
+        const error = new Error("Failed to fetch recent order");
+        error.code = response.status;
+        const resData = await response.json();
+        console.log("res data of Failed to fetch recent order: ", resData);
+        error.info = resData;
+        throw error;
+    }
+
+    const resData = await response.json();
+    console.log("res data fetch recent order: ", resData);
+    return resData;
+  }
+
   export async function fetchOrdersForManufacturer(){
     const response = await fetch(
       `http://localhost:8080/api/orders`
@@ -376,7 +398,7 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
 
   export async function fetchCart({signal, userId}){
     const response = await fetch(
-      `http://localhost:8080/api/carts/user/${userId}/carts`,{signal}
+      `http://localhost:8080/api/carts/user/${userId}/cart`,{signal}
     );
 
     if(!response.ok){
@@ -468,6 +490,88 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
     console.log("res data update cart: ", resData);
     return resData;
   }
+
+  export async function fetchAssignedDesignsForManufacturer(){
+    const response = await fetch(
+      `http://localhost:8080/api/designs/filters?designs=assigned`
+    );
+
+    if(!response.ok){
+        console.log("response status: " + response.status);
+        const error = new Error("Failed to fetch Assigned Designs for manufacturer");
+        error.code = response.status;
+        const resData = await response.json();
+        console.log("res data of Failed to fetch Assigned Designs for manufacturer: ", resData);
+        error.info = resData;
+        throw error;
+    }
+
+    const resData = await response.json();
+    console.log("res data fetch Assigned Designs for manufacturer: ", resData);
+    return resData;
+  }
+
+  export async function fetchAccountOrdersForManufacturer(){
+    const response = await fetch(
+      `http://localhost:8080/api/accounts/account-orders`
+    );
+
+    if(!response.ok){
+        console.log("response status: " + response.status);
+        const error = new Error("Failed to fetch account orders for manufacturer");
+        error.code = response.status;
+        const resData = await response.json();
+        console.log("res data of Failed to fetch account orders for manufacturer: ", resData);
+        error.info = resData;
+        throw error;
+    }
+
+    const resData = await response.json();
+    console.log("res data fetch account orders for manufacturer: ", resData);
+    return resData;
+  }
+
+  export async function fetchOrderedDesignsForUser({userId, signal}){
+    const response = await fetch(
+      `http://localhost:8080/api/orders/user/${userId}/designs`,{signal}
+    );
+
+    if(!response.ok){
+        console.log("response status: " + response.status);
+        const error = new Error("Failed to fetch ordered designs for user");
+        error.code = response.status;
+        const resData = await response.json();
+        console.log("res data of Failed to fetch ordered designs for user: ", resData);
+        error.info = resData;
+        throw error;
+    }
+
+    const resData = await response.json();
+    console.log("res data fetch ordered designs for user: ", resData);
+    return resData;
+  }
+
+  export async function fetchAssignedDesignsVsAccounts(){
+    const response = await fetch(
+      `http://localhost:8080/api/accounts/account-designs`
+    );
+
+    if(!response.ok){
+        console.log("response status: " + response.status);
+        const error = new Error("Failed to fetch assigned designs Vs accounts");
+        error.code = response.status;
+        const resData = await response.json();
+        console.log("res data of Failed to fetch assigned designs Vs accounts: ", resData);
+        error.info = resData;
+        throw error;
+    }
+
+    const resData = await response.json();
+    console.log("res data fetch assigned designs Vs accounts: ", resData);
+    return resData;
+  }
+
+  
 
 
   

@@ -211,42 +211,64 @@ export default function DesignSettings() {
         setIsModalOpen(false);
     };
 
+  
+    const items = [
+      {
+        label: 'Group',
+        key: 'group',
+        style: {fontSize: '18px'}
+      },
+      {
+        label: 'Category',
+        key: 'category',
+        style: {fontSize: '18px'}
+      },
+      {
+        label: 'Style',
+        key: 'style',
+        style: {fontSize: '18px'}
+      },
+      {
+        label: 'Product',
+        key: 'product',
+        style: {fontSize: '18px'}
+      },
+      {
+        label: 'Model',
+        key: 'model',
+        style: {fontSize: '18px'}
+      },
+      {
+        label: 'Size',
+        key: 'size',
+        style: {fontSize: '18px'}
+      },
+      {
+        label: 'Worker',
+        key: 'worker',
+        style: {fontSize: '18px'}
+      },
+      {
+        label: 'Type',
+        key: 'type',
+        style: {fontSize: '18px'}
+      },
+      {
+        label: 'Stone Group',
+        key: 'stoneGroup',
+        style: {fontSize: '18px'}
+      }
+  ]
+
+
   const tabHandler= (tab) => {
-    setselectedTab(tab);
+    setselectedTab(tab.key);
   };
 
   return (
     <div className={classes.settings}>
 
-        <Menu mode="horizontal" defaultSelectedKeys={['group']} className={classes.menuBar}>
-            <Menu.Item key="group" onClick={tabHandler.bind(this, 'group')} className={classes.menuItem}>
-            Group
-            </Menu.Item>
-            <Menu.Item key="category" onClick={tabHandler.bind(this, 'category')} className={classes.menuItem}>
-            Category
-            </Menu.Item>
-            <Menu.Item key="style" onClick={tabHandler.bind(this, 'style')} className={classes.menuItem}>
-            Style
-            </Menu.Item>
-            <Menu.Item key="product" onClick={tabHandler.bind(this, 'product')} className={classes.menuItem}>
-            Product
-            </Menu.Item>
-            <Menu.Item key="model" onClick={tabHandler.bind(this, 'model')} className={classes.menuItem}>
-            Model
-            </Menu.Item>
-            <Menu.Item key="size" onClick={tabHandler.bind(this, 'size')} className={classes.menuItem}>
-            Size
-            </Menu.Item>
-            <Menu.Item key="worker" onClick={tabHandler.bind(this, 'worker')} className={classes.menuItem}>
-            Worker
-            </Menu.Item>
-            <Menu.Item key="type" onClick={tabHandler.bind(this, 'type')} className={classes.menuItem}>
-            Type
-            </Menu.Item>
-            <Menu.Item key="stoneGroup" onClick={tabHandler.bind(this, 'stoneGroup')} className={classes.menuItem}>
-            Stone Group
-            </Menu.Item>
-
+        <Menu mode="horizontal" defaultSelectedKeys={['group']} onClick={tabHandler} items={items} className={classes.menuBar}>
         </Menu>
 
         <div>

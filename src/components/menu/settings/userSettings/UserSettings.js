@@ -44,7 +44,7 @@ export default function UserSettings(){
 
   const fetchUserData = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/users');
+      const response = await fetch('http://localhost:8080/api/users/filters');
       //console.log("response is",response);
       
       if (response.status === 204) {
@@ -97,23 +97,32 @@ export default function UserSettings(){
         setIsModalOpen(false);
     };
 
+    const items = [
+      {
+        label: 'Account',
+        key: 'account',
+        style: {fontSize: '18px'}
+      },
+      {
+        label: 'Role',
+        key: 'role',
+        style: {fontSize: '18px'}
+      },
+      {
+        label: 'User',
+        key: 'user',
+        style: {fontSize: '18px'}
+      }
+  ]
+
   const tabHandler= (tab) => {
-    setselectedTab(tab);
+    setselectedTab(tab.key);
   };
 
   return (
     <div className={classes.settings}>
 
-        <Menu mode="horizontal" defaultSelectedKeys={['account']} className={classes.menuBar}>
-            <Menu.Item key="account" onClick={tabHandler.bind(this, 'account')} className={classes.menuItem}>
-            Account
-            </Menu.Item>
-            <Menu.Item key="role" onClick={tabHandler.bind(this, 'role')} className={classes.menuItem}>
-            Role
-            </Menu.Item>
-            <Menu.Item key="user" onClick={tabHandler.bind(this, 'user')} className={classes.menuItem}>
-            User
-            </Menu.Item>
+        <Menu mode="horizontal" defaultSelectedKeys={['account']} onClick={tabHandler} items={items} className={classes.menuBar}>
         </Menu>
 
         <div>
@@ -145,7 +154,7 @@ export default function UserSettings(){
             }
           </Modal>
         
-      </div>
+        </div>
     </div>
   );
 }

@@ -1,8 +1,185 @@
 import Button from "../../../UI/Button";
 import ErrorBlock from "../../../UI/ErrorBlock";
 import classes from "./DesignFields.module.css";
+import { useState, useEffect } from "react";
 
 export default function UpdateFieldsForm({cardItem, onAction, onCloseModal, updateDesignFieldsIsPending}){
+
+
+  const [groupData, setGroupData] = useState([]);
+  const [categoryData, setCategoryData] = useState([]);
+  const [styleData, setStyleData] = useState([]);
+    const [productData, setProductData] = useState([]);
+    const [modelData, setModelData] = useState([]);
+    const [sizeData, setSizeData] = useState([]);
+    const [workerData, setWorkerData] = useState([]);
+
+  const fetchGroupData = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/api/groups');
+      
+      if (response.status === 204) {
+       
+      } 
+      else if(response.status === 200){
+        const data = await response.json();
+        //console.log(data);
+        setGroupData(data);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const fetchCategoryData = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/api/categories');
+      
+      if (response.status === 204) {
+       
+      } 
+      else if(response.status === 200){
+        const data = await response.json();
+        //console.log(data);
+        setCategoryData(data);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const fetchStyleData = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/api/styles');
+      
+      if (response.status === 204) {
+       
+      } 
+      else if(response.status === 200){
+        const data = await response.json();
+        //console.log(data);
+        setStyleData(data);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const fetchProductData = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/api/products');
+      
+      if (response.status === 204) {
+       
+      } 
+      else if(response.status === 200){
+        const data = await response.json();
+        //console.log(data);
+        setProductData(data);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const fetchModelData = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/api/models');
+      
+      if (response.status === 204) {
+       
+      } 
+      else if(response.status === 200){
+        const data = await response.json();
+        //console.log(data);
+        setModelData(data);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const fetchSizeData = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/api/sizes');
+      
+      if (response.status === 204) {
+       
+      } 
+      else if(response.status === 200){
+        const data = await response.json();
+        //console.log(data);
+        setSizeData(data);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const fetchWorkerData = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/api/workers');
+      
+      if (response.status === 204) {
+       
+      } 
+      else if(response.status === 200){
+        const data = await response.json();
+        //console.log(data);
+        setWorkerData(data);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  useEffect(()=> {
+    fetchCategoryData();
+    fetchGroupData();
+    fetchModelData();
+        fetchProductData();
+        fetchSizeData();
+        fetchStyleData();
+        fetchWorkerData();
+  },[]);
+
+console.log(cardItem.mainGroup)
+
+const [mainGroupVal, setMainGroupVal] = useState(cardItem.mainGroup? cardItem.mainGroup: "");
+const [categoryVal, setCategoryVal] = useState(cardItem.category? cardItem.category: "");
+const [styleVal, setStyleVal] = useState(cardItem.style? cardItem.style: "");
+const [productVal, setProductVal] = useState(cardItem.product? cardItem.product: "");
+const [sizeVal, setSizeVal] = useState(cardItem.size? cardItem.size: "");
+const [modelVal, setModelVal] = useState(cardItem.model? cardItem.model: "");
+const [workerVal, setWorkerVal] = useState(cardItem.worker? cardItem.worker: "");
+
+function handleOnChangeMaingrp(event) {
+  setMainGroupVal(event.target.value)
+}
+
+function handleOnChangeCategory(event) {
+  setCategoryVal(event.target.value)
+}
+
+function handleOnChangeStyle(event) {
+  setStyleVal(event.target.value)
+}
+
+function handleOnChangeProduct(event) {
+  setProductVal(event.target.value)
+}
+
+function handleOnChangeModel(event) {
+  setModelVal(event.target.value)
+}
+
+function handleOnChangeSize(event) {
+  setSizeVal(event.target.value)
+}
+
+function handleOnChangeWorker(event) {
+  setWorkerVal(event.target.value)
+}
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -42,9 +219,15 @@ export default function UpdateFieldsForm({cardItem, onAction, onCloseModal, upda
         type="text"
         defaultValue={cardItem.mainGroup}
       /> */}
-      <select name="mainGroup" id="mainGroup" defaultValue={cardItem.mainGroup} >
-        <option value="Diamond">Diamond</option>
-        <option value="Gold">Gold</option>
+      <select name="mainGroup" id="mainGroup" value={mainGroupVal} onChange={handleOnChangeMaingrp} >
+        <option value="" disabled hidden>
+          Select an option
+        </option>
+        {groupData && groupData.map((item) =>(
+          <option key={item.id} value={item.name}>
+            {item.name}
+          </option>
+        ))}
       </select>
     </div>
     <div className={classes["input-grp"]}>
@@ -55,9 +238,15 @@ export default function UpdateFieldsForm({cardItem, onAction, onCloseModal, upda
         type="text"
         defaultValue={cardItem.category}
       /> */}
-      <select name="category" id="category" defaultValue={cardItem.category} >
-        <option value="Diamond Jewelery">Diamond Jewelery</option>
-        <option value="Gold Jewelery">Gold Jewelery</option>
+      <select name="category" id="category" value={categoryVal} onChange={handleOnChangeCategory} >
+        <option value="" disabled hidden>
+          Select an option
+        </option>
+        {categoryData && categoryData.map((item) =>(
+          <option key={item.id} value={item.name}>
+            {item.name}
+          </option>
+        ))}
       </select>
     </div>
     <div className={classes["input-grp"]}>
@@ -68,10 +257,15 @@ export default function UpdateFieldsForm({cardItem, onAction, onCloseModal, upda
         type="text"
         defaultValue={cardItem.style}
       /> */}
-      <select name="style" id="style" defaultValue={cardItem.style} >
-        <option value="Style1">Style1</option>
-        <option value="Style2">Style2</option>
-        <option value="Style3">Style3</option>
+      <select name="style" id="style" value={styleVal} onChange={handleOnChangeStyle}>
+        <option value="" disabled hidden>
+          Select an option
+        </option>
+        {styleData && styleData.map((item) =>(
+          <option key={item.id} value={item.name}>
+            {item.name}
+          </option>
+        ))}
       </select>
     </div>
     <div className={classes["input-grp"]}>
@@ -82,10 +276,15 @@ export default function UpdateFieldsForm({cardItem, onAction, onCloseModal, upda
         type="text"
         defaultValue={cardItem.product}
       /> */}
-      <select name="product" id="product" defaultValue={cardItem.product} >
-        <option value="Product1">Product1</option>
-        <option value="Product2">Product2</option>
-        <option value="Product3">Product3</option>
+      <select name="product" id="product" value={productVal} onChange={handleOnChangeProduct} >
+        <option value="" disabled hidden>
+          Select an option
+        </option>
+        {productData && productData.map((item) =>(
+          <option key={item.id} value={item.name}>
+            {item.name}
+          </option>
+        ))}
       </select>
     </div>
     <div className={classes["input-grp"]}>
@@ -96,10 +295,15 @@ export default function UpdateFieldsForm({cardItem, onAction, onCloseModal, upda
         type="text"
         defaultValue={cardItem.model}
       /> */}
-      <select name="model" id="model" defaultValue={cardItem.model} >
-        <option value="Model1">Model1</option>
-        <option value="Model2">Model2</option>
-        <option value="Model3">Model3</option>
+      <select name="model" id="model" value={modelVal} onChange={handleOnChangeModel} >
+        <option value="" disabled hidden>
+          Select an option
+        </option>
+        {modelData && modelData.map((item) =>(
+          <option key={item.id} value={item.name}>
+            {item.name}
+          </option>
+        ))}
       </select>
     </div>
     <div className={classes["input-grp"]}>
@@ -110,10 +314,15 @@ export default function UpdateFieldsForm({cardItem, onAction, onCloseModal, upda
         type="text"
         defaultValue={cardItem.size}
       /> */}
-      <select name="size" id="size" defaultValue={cardItem.size} >
-        <option value="Size1">Size1</option>
-        <option value="Size2">Size2</option>
-        <option value="Size3">Size3</option>
+      <select name="size" id="size" value={sizeVal} onChange={handleOnChangeSize} >
+        <option value="" disabled hidden>
+          Select an option
+        </option>
+        {sizeData && sizeData.map((item) =>(
+          <option key={item.id} value={item.name}>
+            {item.name}
+          </option>
+        ))}
       </select>
     </div>
     <div className={classes["input-grp"]}>
@@ -124,10 +333,15 @@ export default function UpdateFieldsForm({cardItem, onAction, onCloseModal, upda
         type="text"
         defaultValue={cardItem.worker}
       /> */}
-      <select name="worker" id="worker" defaultValue={cardItem.worker} >
-        <option value="Worker1">Worker1</option>
-        <option value="Worker2">Worker2</option>
-        <option value="Worker3">Worker3</option>
+      <select name="worker" id="worker" value={workerVal} onChange={handleOnChangeWorker} >
+        <option value="" disabled hidden>
+          Select an option
+        </option>
+        {workerData && workerData.map((item) =>(
+          <option key={item.id} value={item.name}>
+            {item.name}
+          </option>
+        ))}
       </select>
     </div>
     <div className={classes["input-grp"]}>

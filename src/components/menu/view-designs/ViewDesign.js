@@ -24,8 +24,8 @@ const token = useRouteLoaderData("root");
   function handleShowDetails(item) {
     // console.log(item);
     setCardItem(item);
-    // setIsShow(true);
     dispatch(uiActions.openDesignDetails());
+    // setIsShow(true);
   }
   function handleGoBack() {
     // setIsShow(false);
@@ -44,7 +44,7 @@ const token = useRouteLoaderData("root");
     <DesignCards handleShowDetails={handleShowDetails} updatedCardId={updatedCardId} setUpdatedCardId={setUpdatedCardId} />
   );
 
-  if (cardItem) {
+  if (isDesignDetailsOpen) {
     content = (
       <DesignDetails onGoBack={handleGoBack} cardItem={cardItem} onAnyUpdateAction={handleAnyUpdateAction} />
     );

@@ -1,8 +1,10 @@
 import useInputSpcl from "../../../../hooks/use-input-spcl";
+import { getAccountLoader } from "../../../../util/auth";
 import classes from "./User.module.css";
 import { useState } from "react";
 
 export default function User({refetchUserData,accountData,roleData,closeModal,selectedRow}) {
+  const accountObj = getAccountLoader();
 
   //console.log(roleData);
   console.log(selectedRow);
@@ -12,8 +14,13 @@ export default function User({refetchUserData,accountData,roleData,closeModal,se
   const initialAddressValue= selectedRow ? selectedRow.address : "";
   const initialUserNameValue= selectedRow ? selectedRow.userName : "";
   const initialPasswordValue= selectedRow ? selectedRow.password: "";
-  const initialAccountValue= selectedRow && selectedRow.account ? selectedRow.account.name: "";
+  let initialAccountValue= selectedRow && selectedRow.account ? selectedRow.account.name: "";
   const initialUserRoleValue= selectedRow && selectedRow.roleSet ? selectedRow.roleSet[0].role: "";
+
+  if(accountObj.accountType === "Retailer"){
+    console.log("account obj is", accountObj)
+    initialAccountValue = accountObj.name;
+  }
 
 
   const {
@@ -287,7 +294,7 @@ export default function User({refetchUserData,accountData,roleData,closeModal,se
 
         <div className={classes.field}>
           <label htmlFor="account">Account</label>
-          <select
+          {accountObj.accountType === "Manufacturer" && <select
             id="account"
             name="accountId"
             placeholder={"Select account"}
@@ -306,7 +313,14 @@ export default function User({refetchUserData,accountData,roleData,closeModal,se
                 {item.name}
               </option>
               ))}
-          </select>
+          </select>}
+
+          {accountObj.accountType === "Retailer" && <select 
+            id="account"
+            name="accountId">
+            <option key={accountObj.id} value={accountObj.id}>{accountObj.name}</option>
+          </select>}
+
           {accountHasErr && <p className={classes.err}>Select one account</p>}
         </div>
 

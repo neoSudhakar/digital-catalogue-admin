@@ -1,13 +1,24 @@
 import { useEffect, useMemo, useState } from 'react'; 
-import { Select, Button, DatePicker, Input} from 'antd';
-import { SearchOutlined } from '@ant-design/icons';
+import { Select, Button, DatePicker, Calendar, Input} from 'antd';
 import classes from "./Reports.module.css";
+import { SearchOutlined } from '@ant-design/icons';
+import styles from "../dashboard/Dashboard.module.css"
 
 import { Reorder } from 'framer-motion';
+import { usePDF } from 'react-to-pdf';
+import { useSelector } from 'react-redux';
+import Chart from '../dashboard/Chart';
+import BarChartClassComponent from '../dashboard/BarChartClassComponent';
+import Tile from '../dashboard/Tile';
+import { useQuery } from '@tanstack/react-query';
+import { fetchAccounts, fetchOrdersForManufacturer } from '../../../util/http';
 
 const { Option } = Select;
 
 export default function OrderReports() {
+  const isDashboardOpen = useSelector(state => state.ui.isDashboardOpen);
+
+  const {toPDF, targetRef} = usePDF({filename: 'order-report.pdf'});
 
   const [rowData, setRowData] =useState([]);
 
@@ -30,13 +41,12 @@ export default function OrderReports() {
         item.user && item.user.lastName.toLowerCase().includes(searchText.toLowerCase()) ||
         item.orderStatus.toLowerCase().includes(searchText.toLowerCase()) ||
         item.paymentStatus.toLowerCase().includes(searchText.toLowerCase()) ||
-        item.createdDate.includes(searchText)
+        item.createdDate.slice(0,10).includes(searchText)
       );
     });
   
     setRowData(filtered);
   }
-
 
 
   const fetchOrders= async() => {
@@ -97,10 +107,50 @@ export default function OrderReports() {
     
   };
 
+
+  const {data: ordersData} = useQuery({
+    queryKey: ["manufacturer-orders"],
+    queryFn: fetchOrdersForManufacturer ,
+});
+
+const {data: accountsData} = useQuery({
+    queryKey: ["accounts"],
+    queryFn: fetchAccounts,
+})
+
+const [retailerAccountsCount, setRetailerAccountsCount] = useState(0);
+const [retailerAccounts, setRetailerAccounts] = useState([]);
+
+console.log(retailerAccounts)
+
+    useEffect(()=>{
+        if(accountsData){
+            const retailers = accountsData.filter((account)=>{
+                return account.accountType === "Retailer"
+            })
+            setRetailerAccountsCount(retailers.length);
+            setRetailerAccounts(retailers);
+        }
+    },[accountsData])
+
+
+
     return(
-      <div>
-        <div className={classes.filters}>
-          <div>
+      <div style={{paddingTop: "1rem"}}>
+      <div className={`${classes["search"]} ${isDashboardOpen ? classes["full"] : ""}`}>
+        <label htmlFor="search">Search:</label>
+        <Input
+          id="search"
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+          suffix={<SearchOutlined onClick={handleSearch} style={{ cursor: 'pointer' }} />}
+          onPressEnter={handleKeyPress}
+          placeholder='type and press enter...'
+          style={{ width: 200 }}
+        />
+      </div>
+      <div className={`${classes["filters"]} ${isDashboardOpen ? classes["full"] : ""}`}>
+          <div className={classes[`${isDashboardOpen ? "full" : ""}`]}>
             <label htmlFor="retailer">Retailer:</label>
             <Select
               id="retailer"
@@ -119,7 +169,7 @@ export default function OrderReports() {
             </Select>
           </div>
 
-          <div>
+          <div className={classes[`${isDashboardOpen ? "full" : ""}`]}>
             <label htmlFor="datePicked">Date:</label>
             <DatePicker
               id='datePicked' 
@@ -140,7 +190,7 @@ export default function OrderReports() {
                   </Select>*/}
           </div>
 
-          <div>
+          <div className={classes[`${isDashboardOpen ? "full" : ""}`]}>
             <label htmlFor="orderStatus">Order Status:</label>
             <Select
               id="orderStatus"
@@ -158,7 +208,7 @@ export default function OrderReports() {
             </Select>
           </div>
 
-          <div>
+          <div className={classes[`${isDashboardOpen ? "full" : ""}`]}>
             <label htmlFor="paymentStatus">Payment Status:</label>
             <Select
               id="paymentStatus"
@@ -174,80 +224,77 @@ export default function OrderReports() {
           </Select>
               </div>
 
-          <div>
-            <Button onClick={fetchOrders}>
+            <Button className={classes["button"]} onClick={fetchOrders}>
               Get Reports
             </Button>
-          </div>
+          <Button onClick={toPDF} className={classes["download-btn"]}>Download Report</Button>
       </div>
 
         <hr style={{width: '98%', color: '#000000'}}></hr>
 
-        <div>
-        
-          <label htmlFor="search">Search:</label>
-          <Input
-            id="search"
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-            suffix={<SearchOutlined onClick={handleSearch} style={{ cursor: 'pointer' }} />}
-            onKeyPress={handleKeyPress}
-            placeholder='type and press enter...'
-            style={{ width: 200 , marginRight: 20}}
-          />
-        
-          <Button className={classes.download}>Download Reports</Button>
+        <div ref={targetRef} style={{paddingTop: "1rem"}}>
+        <span className={classes["download-heading"]}>Orders Report</span>
+        <div className={styles["whole"]} style={{marginTop:"0", paddingTop: "0", marginLeft: "0rem", marginRight:"0rem"}}>
+          <menu className={styles["whole-tiles-and-charts"]}>
+            <section className={styles["whole-charts"]} style={{alignItems:"flex-start"}}>
+                <Chart title="Orders by retailers" chartComponent={<BarChartClassComponent orderReports />} companyName="Tasks in catalogue" />
+                <Tile title="Orders" count={ordersData ? ordersData.length : 0} filterCount={1}  />
+                <Tile title="Retailers" count={retailerAccountsCount} filterCount={2} />
+            </section>
+          </menu> 
         </div>
 
         <div className={classes["table-container"]}>
         {rowData.length === 0 ? <h4>No orders to show</h4>:
-        <table className={classes["table"]}>
-          <thead>
-            <tr>
-              <th>Id</th>
-              <th>Designs</th>
-              <th>Ordered By</th>
-              <th>Ordered Date</th>
-              <th>Quantity</th>
-              <th>Order Status</th>
-              <th>Payment Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rowData && rowData.map((order,index)=>(
-                <tr key={order.id}>
-                    <td>{order.id}</td>
-                    <td>
-                        {order.orderItems && order.orderItems.map((item,index) => (
-                            <div>
-                                <span><img src={item.design.designImages[0].preSignedURL} alt={item.design.id}/></span>
-                                <p>{"Design "+item.design.id}</p>
-                            </div>
-                        ))}
-                    </td>
-                    <td>
-                        {order.user && <p>{order.user.firstName+order.user.lastName}</p>}
-                    </td>
-                    <td>{order.createdDate.slice(0,10)}</td>
-                    <td>
-                        {order.orderItems && order.orderItems.map((item,index) => (
-                                <p>{item.quantity}</p>
-                        ))}
-                    </td>
-                    <td style={{ color: order.orderStatus === 'accepted' ? 'green' :
-                        order.orderStatus === 'rejected' ? 'red' : 
-                            order.orderStatus === 'delivered' ? 'blue' : 'orange'
-                    , fontWeight: 'bold'}}>
-                        {order.orderStatus}
-                    </td>
-                    <td>{order.paymentStatus}</td>
-                </tr>
-            ))}
-          </tbody>
-        </table>}   
+        <>
+          <table className={classes["table"]}>
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Designs</th>
+                <th>Ordered By</th>
+                <th>Ordered Date</th>
+                <th>Quantity</th>
+                <th>Order Status</th>
+                <th>Payment Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rowData && rowData.map((order,index)=>(
+                  <tr key={order.id}>
+                      <td>{order.id}</td>
+                      <td>
+                          {order.orderItems && order.orderItems.map((item,index) => (
+                              <div key={item.design.id}>
+                                  <span><img src={item.design.designImages[0].preSignedURL} alt={item.design.id}/></span>
+                                  <p>{"Design "+item.design.id}</p>
+                              </div>
+                          ))}
+                      </td>
+                      <td>
+                          {order.user && <p>{order.user.firstName+order.user.lastName}</p>}
+                      </td>
+                      <td>{order.createdDate.slice(0,10)}</td>
+                      <td>
+                          {order.orderItems && order.orderItems.map((item,index) => (
+                                  <p>{item.quantity}</p>
+                          ))}
+                      </td>
+                      <td style={{ color: order.orderStatus === 'accepted' ? 'green' :
+                          order.orderStatus === 'rejected' ? 'red' : 
+                              order.orderStatus === 'delivered' ? 'blue' : 'orange'
+                      , fontWeight: 'bold'}}>
+                          {order.orderStatus}
+                      </td>
+                      <td>{order.paymentStatus}</td>
+                  </tr>
+              ))}
+            </tbody>
+          </table>
+        </>
+        }   
       </div>
+    </div>
     </div>
     )
 };
-
-
