@@ -5,6 +5,7 @@ import classes from "./Reports.module.css";
 
 import { Reorder } from 'framer-motion';
 import { usePDF } from 'react-to-pdf';
+import { useSelector } from 'react-redux';
 import BarChartClassComponent from '../dashboard/BarChartClassComponent';
 import Chart from '../dashboard/Chart';
 import styles from "../dashboard/Dashboard.module.css"
@@ -13,6 +14,8 @@ import { useQuery } from '@tanstack/react-query';
 import Tile from '../dashboard/Tile';
 
 export default function DesignReports() {
+
+  const isDashboardOpen = useSelector(state => state.ui.isDashboardOpen);
   const {toPDF, targetRef} = usePDF({filename: "designs"});
 
   const [rowData, setRowData] =useState([]);
@@ -141,7 +144,7 @@ const {data: designsData} = useQuery({
 
 
 return(<>
-    <div className={classes.filters}>
+    <div className={`${classes["filters"]} ${isDashboardOpen ? classes["full"] : ""}`}>
 
 <div>
   <label htmlFor="search">Search:</label>
@@ -195,7 +198,7 @@ return(<>
       Get Reports
     </Button>
   </div>
-      <button style={{alignSelf: "flex-end"}} className={classes["download-btn"]} onClick={toPDF} >Download Report</button>
+      <Button className={classes["download-btn"]} onClick={toPDF} >Download Report</Button>
 </div>
 <hr style={{width: '98%', color: '#000000'}}></hr>
 

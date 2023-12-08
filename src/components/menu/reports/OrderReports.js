@@ -94,7 +94,7 @@ export default function OrderReports() {
       setDateFilter(null);
     }
   }
-  console.log(dateFilter);
+  //console.log(dateFilter);
 
   useEffect(() =>{
     fetchOrders();
@@ -120,7 +120,7 @@ const {data: accountsData} = useQuery({
 
 const [retailerAccountsCount, setRetailerAccountsCount] = useState(0);
 
-    useEffect(()=>{
+ useEffect(()=>{
         if(accountsData){
             const retailers = accountsData.filter((account)=>{
                 return account.accountType === "Retailer"
@@ -130,9 +130,42 @@ const [retailerAccountsCount, setRetailerAccountsCount] = useState(0);
     },[accountsData])
 
 
+  const [retailersWithOrders, setRetailersWithOrders] =useState([]);
+  const fetchRetailerswithOrders= async() => {
+
+    try {
+      
+      let apiUrl = 'http://localhost:8080/api/orders';
+
+      const response = await fetch(apiUrl);
+      
+      if (!response.ok) {
+      
+        console.log(response.status);
+       
+      } 
+      else{
+        const data = await response.json();
+        console.log(data);
+        //console.error('Failed to fetch data:', response.statusText);
+        setRetailersWithOrders(data);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  useEffect(()=> {
+    fetchRetailerswithOrders();
+  },[])
+
+    const uniqueRetailers= [...new Set(retailersWithOrders.map(item => item.account.id))].map((accountId) => {
+      return retailersWithOrders.find(item => item.account.id === accountId).account;
+    });
+
     return(
       <div style={{paddingTop: "1rem"}}>
-      <div style={{display:"flex", justifyContent:"flex-end"}}>
+      <div className={`${classes["search"]} ${isDashboardOpen ? classes["full"] : ""}`}>
         <label htmlFor="search">Search:</label>
         <Input
           id="search"
@@ -141,7 +174,7 @@ const [retailerAccountsCount, setRetailerAccountsCount] = useState(0);
           suffix={<SearchOutlined onClick={handleSearch} style={{ cursor: 'pointer' }} />}
           onPressEnter={handleKeyPress}
           placeholder='type and press enter...'
-          style={{ width: 200 , marginRight: 20}}
+          style={{ width: 200 }}
         />
       </div>
       <div className={`${classes["filters"]} ${isDashboardOpen ? classes["full"] : ""}`}>
@@ -154,13 +187,11 @@ const [retailerAccountsCount, setRetailerAccountsCount] = useState(0);
               style={{width: 150}}
             >
               <Select.Option value="">All</Select.Option>
-                {[...new Set(rowData.map(item => item.account.id))].map((accountId) => {
-                  const retailer = rowData.find(item => item.account.id === accountId);
-                  return (
-                    <Select.Option key={retailer.account.id} value={retailer.account.id}>
-                      {retailer.account.name}
-                    </Select.Option>
-                  )})}
+                  {uniqueRetailers && uniqueRetailers.map((retailer) => (
+                    <Select.Option key={retailer.id} value={retailer.id}>
+                    {retailer.name}
+                  </Select.Option>
+                  ))}
             </Select>
           </div>
 
@@ -222,7 +253,7 @@ const [retailerAccountsCount, setRetailerAccountsCount] = useState(0);
             <Button className={classes["button"]} onClick={fetchOrders}>
               Get Reports
             </Button>
-          <button style={{alignSelf: "flex-end"}} onClick={toPDF} className={classes["download-btn"]}>Download Report</button>
+          <Button onClick={toPDF} className={classes["download-btn"]}>Download Report</Button>
       </div>
 
         <hr style={{width: '98%', color: '#000000'}}></hr>

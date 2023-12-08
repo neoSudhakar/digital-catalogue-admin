@@ -13,6 +13,9 @@
 .menuItem {
     font-size: 18px;
   }
+  .whole-charts div{
+    flex-direction: column;
+  }
 
   .table-container {
     width: 92%;
@@ -94,13 +97,14 @@
   }
 
   .download-btn{
-    padding: 0.25rem 1rem;
+    padding: 0.25rem 0.75rem;
     border-radius:0.35rem;
     border: none;
     background-color: rgb(107, 127, 139);
     color: white;
     /* margin: 0.75rem 0 0.5rem; */
-    margin-left: 5rem;
+    /*margin-left: 5rem;*/
+    align-self: flex-end;
   }
 
   .download-btn:hover{
@@ -116,7 +120,7 @@
   .filters .button{
     background-color: rgb(8, 117, 219);
     color: white;
-    align-self: flex-end;
+    /*align-self: flex-end;*/
   }
 .filters .button:hover{
   cursor: pointer;
@@ -133,13 +137,21 @@
 }
 .search.full{
   flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
 }
 
 @media screen and (max-width: 767px){
   .filters{
     flex-direction: column;
   }
-  .search{
-    justify-content: center;
+
+  .download-btn{
+    align-self: center;
   }
+  .search{
+    flex-direction: column;
+    
+  }
+
 }
