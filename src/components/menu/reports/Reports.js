@@ -14,12 +14,10 @@ const items = [
     {
       label: 'Designs',
       key: 'designs',
-      style: {fontSize: '28px'}
     },
     {
       label: 'Orders',
       key: 'orders',
-      style: {fontSize: '28px'}
     }
 ]
 
@@ -35,8 +33,7 @@ if(accountType === "Retailer"){
 
 return (
     <div className={classes.reportsMenu}>
-        <Menu mode="horizontal" selectedKeys={[selectedTab]} onClick={tabHandler} items={items} className={classes.menuBar}>
-        </Menu>
+        <Menu mode="horizontal" selectedKeys={[selectedTab]} onClick={tabHandler} style={{fontSize: "1rem"}} items={items} className={classes.menuBar}/>
 
         <div>
             {selectedTab === 'designs' ? <DesignReports/>: <OrderReports/>}

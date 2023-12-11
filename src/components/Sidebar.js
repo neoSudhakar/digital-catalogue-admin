@@ -16,8 +16,14 @@ import {
   AiFillSketchSquare,
   AiFillCodeSandboxSquare,
   AiOutlineCodepenCircle,
+  AiOutlineFileText,
+  AiOutlineSetting,
   AiOutlineLogout,
 } from "react-icons/ai";
+import { IoBagHandle } from 'react-icons/io5';
+import { BiBarChart, BiLineChart, BiShoppingBag, BiTable } from 'react-icons/bi';
+import { GiBigDiamondRing, GiDoubleNecklace, GiNecklaceDisplay, GiRingBox } from 'react-icons/gi';
+import { MdOutlineVisibility } from 'react-icons/md';
 import { useEffect, useState } from "react";
 import { getAccountLoader } from "../util/auth";
 
@@ -67,7 +73,7 @@ export default function Sidebar() {
             borderRadius: "1rem",
           }}
         >
-          <AiFillSlackSquare style={{ padding: "0 1rem 0 0" }} />
+          <BiBarChart style={{ padding: "0 1rem 0 0" , fontSize: 50}} />
           <span
             style={{
               fontSize: "20px",
@@ -95,7 +101,7 @@ export default function Sidebar() {
             borderRadius: "1rem",
           }}
         >
-          <AiFillSketchSquare style={{ padding: "0 1rem 0 0" }} />
+          <GiNecklaceDisplay style={{ padding: "0 1rem 0 0" , fontSize: 50}} />
           <span
             style={{
               fontSize: "20px",
@@ -126,7 +132,7 @@ export default function Sidebar() {
             borderRadius: "1rem",
           }}
         >
-          <AiFillCodeSandboxSquare style={{ padding: "0 1rem 0 0" }} />
+          <GiDoubleNecklace style={{ padding: "0 1rem 0 0", fontSize: 50 }} />
           <span
             style={{
               fontSize: "20px",
@@ -157,7 +163,7 @@ export default function Sidebar() {
             borderRadius: "1rem",
           }}
         >
-          <AiFillCodeSandboxSquare style={{ padding: "0 1rem 0 0" }} />
+          <BiShoppingBag style={{ padding: "0 1rem 0 0", fontSize: 50 }} />
           <span
             style={{
               fontSize: "20px",
@@ -189,7 +195,7 @@ export default function Sidebar() {
             borderRadius: "1rem",
           }}
         >
-          <AiFillCodeSandboxSquare style={{ padding: "0 1rem 0 0" }} />
+          <Gi style={{ padding: "0 1rem 0 0", fontSize: 50 }} />
           <span
             style={{
               fontSize: "20px",
@@ -217,7 +223,7 @@ export default function Sidebar() {
             borderRadius: "1rem",
           }}
         >
-          <AiOutlineCodepenCircle style={{ padding: "0 1rem 0 0" }} />
+          <BiShoppingBag style={{ padding: "0 1rem 0 0" , fontSize: 50}} />
           <span
             style={{
               fontSize: "20px",
@@ -248,7 +254,7 @@ export default function Sidebar() {
             borderRadius: "1rem",
           }}
         >
-          <AiFillCodeSandboxSquare style={{ padding: "0 1rem 0 0" }} />
+          <AiOutlineFileText style={{ padding: "0 1rem 0 0" , fontSize: 50}} />
           <span
             style={{
               fontSize: "20px",
@@ -307,7 +313,7 @@ export default function Sidebar() {
             borderRadius: "1rem",
           }}
         >
-          <AiOutlineCodepenCircle style={{ padding: "0 1rem 0 0" }} />
+          <AiOutlineSetting style={{ padding: "0 1rem 0 0", fontSize: 50 }} />
           <span
             style={{
               fontSize: "20px",
@@ -334,7 +340,7 @@ export default function Sidebar() {
             borderRadius: "1rem",
           }}
         >
-          <AiOutlineLogout style={{ padding: "0 1rem 0 0" }} />
+          <AiOutlineLogout style={{ padding: "0 1rem 0 0" , fontSize: 50}} />
           <span
             style={{
               fontSize: "20px",

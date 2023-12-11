@@ -11,7 +11,7 @@
   }
   
 .menuItem {
-    font-size: 18px;
+    font-size: 90px;
   }
   .whole-charts div{
     flex-direction: column;
@@ -103,7 +103,7 @@
     background-color: rgb(107, 127, 139);
     color: white;
     /* margin: 0.75rem 0 0.5rem; */
-    /*margin-left: 5rem;*/
+    margin-left: 5rem;
     align-self: flex-end;
   }
 
@@ -120,15 +120,16 @@
   .filters .button{
     background-color: rgb(8, 117, 219);
     color: white;
-    /*align-self: flex-end;*/
+    align-self: flex-end;
   }
 .filters .button:hover{
   cursor: pointer;
   background-color: rgb(193, 223, 253);
 }
 .search{
-    flex: 1;
-    margin: 0.8rem;
+    /* flex: 1; */
+    width: 96.5%;
+    /* margin: 0.8rem; */
     gap:0.5rem;
     display: flex;
     justify-content: flex-end;
@@ -137,21 +138,53 @@
 }
 .search.full{
   flex-direction: column;
+  width: 95%;
   justify-content: center;
   align-items: flex-end;
 }
 
 @media screen and (max-width: 767px){
   .filters{
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
   }
 
+  .filters div{
+    flex-direction: row;
+    width: 45%;
+  }
+  .filters div.full{
+    flex-direction: row;
+    width: 100%;
+  }
+
+  .filters div label{
+    flex: 1;
+  }
+  .filters div Select{
+    flex: 2;
+  }
+  .filters div .date{
+    flex:2;
+  }
+
+  /* .filters div.full Select, .filters div.full .date, .filters div.ful label{
+    flex:0;
+  } */
+
   .download-btn{
-    align-self: center;
+    align-self: flex-end;
+    margin: 0;
+    margin-left: auto;
   }
   .search{
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+  }
+  .search.full{
     flex-direction: column;
-    
+    align-items:center;
   }
 
 }

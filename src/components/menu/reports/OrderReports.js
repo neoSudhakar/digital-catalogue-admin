@@ -197,9 +197,12 @@ const [retailerAccountsCount, setRetailerAccountsCount] = useState(0);
 
           <div className={classes[`${isDashboardOpen ? "full" : ""}`]}>
             <label htmlFor="datePicked">Date:</label>
-            <DatePicker
-              id='datePicked' 
-              onChange={onPickDate}/>
+            {/* <span className={classes["date"]}> */}
+              <DatePicker
+                className={classes["date"]}
+                id='datePicked' 
+                onChange={onPickDate}/>
+            {/* </span> */}
             {/*<Calendar
             id="datePicked"
             onChange={(value) => setDateFilter(value)}
