@@ -294,6 +294,7 @@ export default function User({refetchUserData,accountData,roleData,closeModal,se
 
         <div className={classes.field}>
           <label htmlFor="account">Account</label>
+
           {accountObj.accountType === "Manufacturer" && <select
             id="account"
             name="accountId"

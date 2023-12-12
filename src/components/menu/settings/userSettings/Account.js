@@ -3,8 +3,11 @@ import useInput from "../../../../hooks/use-input";
 import classes from "../Account.module.css";
 
 import { useState } from "react";
+import { getAccountLoader } from "../../../../util/auth";
 
 export default function Account({refetchAccountData, closeModal, selectedRow}) {
+
+  const accountObj = getAccountLoader();
 
   console.log(selectedRow);
   const initialNameValue= selectedRow ? selectedRow.name : "";
@@ -309,7 +312,8 @@ export default function Account({refetchAccountData, closeModal, selectedRow}) {
                     Select an option
                   </option>
                   {/*<option value="Manufacturer">Manufacturer</option>*/}
-                  <option value="Retailer">Retailer</option>
+                  {accountObj.accountType === "system" && <option value="Manufacturer">Manufacturer</option>}
+                  {accountObj.accountType === "Manufacturer" && <option value="Retailer">Retailer</option>}
                 </select>
                 {accountTypeHasErr && <p className={classes.err}>Select one account type</p>}
           </div>
