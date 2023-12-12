@@ -22,7 +22,10 @@ import {
 } from "react-icons/ai";
 import { IoBagHandle } from 'react-icons/io5';
 import { BiBarChart, BiLineChart, BiShoppingBag, BiTable } from 'react-icons/bi';
-import { GiBigDiamondRing, GiDoubleNecklace, GiNecklaceDisplay, GiRingBox } from 'react-icons/gi';
+import { GiBigDiamondRing, GiCutDiamond, GiDiamondHard, GiDiamonds, GiDoubleNecklace, GiNecklaceDisplay, GiRingBox } from 'react-icons/gi';
+import {FaRegUserCircle} from 'react-icons/fa';
+import {GoStop} from 'react-icons/go';
+import {TbPackages} from "react-icons/tb";
 import { MdOutlineVisibility } from 'react-icons/md';
 import { useEffect, useState } from "react";
 import { getAccountLoader } from "../util/auth";
@@ -68,19 +71,19 @@ export default function Sidebar() {
             justifyContent: "flex-start",
             flexDirection: "row",
             margin: "0rem 0",
-            padding: "0.7rem 0",
+            padding: "0.05rem 0",
             width: "100%",
             borderRadius: "1rem",
           }}
         >
-          <BiBarChart style={{ padding: "0 1rem 0 0" , fontSize: 50}} />
+          <BiBarChart style={{ padding: "0 1rem 0" , fontSize: 55}} />
           <span
             style={{
               fontSize: "20px",
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              padding: "0 0 0 0.5rem",
+              padding: "0 0 0 0",
             }}
           >
             Dashboard
@@ -96,24 +99,112 @@ export default function Sidebar() {
             justifyContent: "flex-start",
             flexDirection: "row",
             margin: "0rem 0",
-            padding: "0.7rem 0",
+            padding: "0.05rem 0",
             width: "100%",
             borderRadius: "1rem",
           }}
         >
-          <GiNecklaceDisplay style={{ padding: "0 1rem 0 0" , fontSize: 50}} />
+          <GiDiamondHard style={{ padding: "0 1rem" , fontSize: 55}} />
           <span
             style={{
               fontSize: "20px",
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              padding: "0 0 0 0.5rem",
+              padding: "0 0 0 0rem",
             }}
           >
             Master Design
           </span>
         </NavLink>}
+
+        {accountType === "system" && <NavLink
+          onClick={() => dispatch(uiActions.toggleDashboard())}
+          to="/account-and-user"
+          className={({ isActive }) => (isActive ? classes.active : "")}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-start",
+            flexDirection: "row",
+            margin: "0rem 0",
+            padding: "0.05rem 0",
+            width: "100%",
+            borderRadius: "1rem",
+          }}
+        >
+          <FaRegUserCircle style={{ padding: "0 1rem" , fontSize: 55}} />
+          <span
+            style={{
+              fontSize: "20px",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              padding: "0 0 0 0rem",
+            }}
+          >
+            Account & User
+          </span>
+        </NavLink>}
+
+        {accountType === "system" && <NavLink
+          onClick={() => dispatch(uiActions.toggleDashboard())}
+          to="/permissions"
+          className={({ isActive }) => (isActive ? classes.active : "")}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-start",
+            flexDirection: "row",
+            margin: "0rem 0",
+            padding: "0.05rem 0",
+            width: "100%",
+            borderRadius: "1rem",
+          }}
+        >
+          <GoStop style={{ padding: "0 1rem" , fontSize: 55}} />
+          <span
+            style={{
+              fontSize: "20px",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              padding: "0 0 0 0rem",
+            }}
+          >
+            Permissions
+          </span>
+        </NavLink>}
+
+        {accountType === "system" && <NavLink
+          onClick={() => dispatch(uiActions.toggleDashboard())}
+          to="/packages"
+          className={({ isActive }) => (isActive ? classes.active : "")}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-start",
+            flexDirection: "row",
+            margin: "0rem 0",
+            padding: "0.05rem 0",
+            width: "100%",
+            borderRadius: "1rem",
+          }}
+        >
+          <TbPackages style={{ padding: "0 1rem" , fontSize: 55}} />
+          <span
+            style={{
+              fontSize: "20px",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              padding: "0 0 0 0rem",
+            }}
+          >
+            Packages
+          </span>
+        </NavLink>}
+
         {accountType === "Retailer" && <NavLink
           onClick={() => {
             dispatch(uiActions.closeCatalogueDesignDetails());
@@ -127,19 +218,19 @@ export default function Sidebar() {
             justifyContent: "flex-start",
             flexDirection: "row",
             margin: "0rem 0",
-            padding: "0.7rem 0",
+            padding: "0.05rem 0",
             width: "100%",
             borderRadius: "1rem",
           }}
         >
-          <GiDoubleNecklace style={{ padding: "0 1rem 0 0", fontSize: 50 }} />
+          <GiNecklaceDisplay style={{ padding: "0 1rem 0", fontSize: 55 }} />
           <span
             style={{
               fontSize: "20px",
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              padding: "0 0 0 0.5rem",
+              padding: "0 0 0 0rem",
             }}
           >
             Catalogue
@@ -158,19 +249,19 @@ export default function Sidebar() {
             justifyContent: "flex-start",
             flexDirection: "row",
             margin: "0rem 0",
-            padding: "0.7rem 0",
+            padding: "0.05rem 0",
             width: "100%",
             borderRadius: "1rem",
           }}
         >
-          <BiShoppingBag style={{ padding: "0 1rem 0 0", fontSize: 50 }} />
+          <BiShoppingBag style={{ padding: "0 1rem 0", fontSize: 55 }} />
           <span
             style={{
               fontSize: "20px",
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              padding: "0 0 0 0.5rem",
+              padding: "0 0 0 0rem",
             }}
           >
             Orders
@@ -190,19 +281,19 @@ export default function Sidebar() {
             justifyContent: "flex-start",
             flexDirection: "row",
             margin: "0rem 0",
-            padding: "0.7rem 0",
+            padding: "0.05rem 0",
             width: "100%",
             borderRadius: "1rem",
           }}
         >
-          <Gi style={{ padding: "0 1rem 0 0", fontSize: 50 }} />
+          <GiNecklaceDisplay style={{ padding: "0 1rem", fontSize: 55 }} />
           <span
             style={{
               fontSize: "20px",
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              padding: "0 0 0 0.5rem",
+              padding: "0 0 0 0rem",
             }}
           >
             View Designs
@@ -218,19 +309,19 @@ export default function Sidebar() {
             justifyContent: "flex-start",
             flexDirection: "row",
             margin: "0rem 0",
-            padding: "0.7rem 0",
+            padding: "0.05rem 0",
             width: "100%",
             borderRadius: "1rem",
           }}
         >
-          <BiShoppingBag style={{ padding: "0 1rem 0 0" , fontSize: 50}} />
+          <BiShoppingBag style={{ padding: "0 1rem" , fontSize: 55}} />
           <span
             style={{
               fontSize: "20px",
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              padding: "0 0 0 0.5rem",
+              padding: "0 0 0 0rem",
             }}
           >
             Order Form
@@ -249,19 +340,19 @@ export default function Sidebar() {
             justifyContent: "flex-start",
             flexDirection: "row",
             margin: "0rem 0",
-            padding: "0.7rem 0",
+            padding: "0.05rem 0",
             width: "100%",
             borderRadius: "1rem",
           }}
         >
-          <AiOutlineFileText style={{ padding: "0 1rem 0 0" , fontSize: 50}} />
+          <AiOutlineFileText style={{ padding: "0 1rem", fontSize: 55}} />
           <span
             style={{
               fontSize: "20px",
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              padding: "0 0 0 0.5rem",
+              padding: "0 0 0 0rem",
             }}
           >
             Reports
@@ -308,19 +399,19 @@ export default function Sidebar() {
             justifyContent: "flex-start",
             flexDirection: "row",
             margin: "0rem 0",
-            padding: "0.7rem 0",
+            padding: "0.05rem 0",
             width: "100%",
             borderRadius: "1rem",
           }}
         >
-          <AiOutlineSetting style={{ padding: "0 1rem 0 0", fontSize: 50 }} />
+          <AiOutlineSetting style={{ padding: "0 1rem", fontSize: 55 }} />
           <span
             style={{
               fontSize: "20px",
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              padding: "0 0 0 0.5rem",
+              padding: "0 0 0 0rem",
             }}
           >
             Settings
@@ -335,19 +426,19 @@ export default function Sidebar() {
             justifyContent: "flex-start",
             flexDirection: "row",
             margin: "0rem 0",
-            padding: "0.7rem 0",
+            padding: "0.05rem 0",
             width: "100%",
             borderRadius: "1rem",
           }}
         >
-          <AiOutlineLogout style={{ padding: "0 1rem 0 0" , fontSize: 50}} />
+          <AiOutlineLogout style={{ padding: "0 1rem" , fontSize: 55}} />
           <span
             style={{
               fontSize: "20px",
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              padding: "0 0 0 0.5rem",
+              padding: "0 0 0 0rem",
             }}
           >
             Logout

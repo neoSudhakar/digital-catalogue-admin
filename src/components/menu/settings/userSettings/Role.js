@@ -85,7 +85,7 @@ export default function Role({refetchRoleData, closeModal, selectedRow}) {
           <form onSubmit={handleSubmit} className={classes.form}>
           <section className={classes.fields}>
   
-            <div className={classes.field}>
+            <div className={`${classes["field"]} ${roleHasErr ? classes.invalid : ""}`}>
               <label htmlFor="role">Name</label>
               <div>
                 <input
@@ -98,7 +98,6 @@ export default function Role({refetchRoleData, closeModal, selectedRow}) {
                   onChange={handleRoleChange}
                   className={classes.select}
                 />
-                {roleHasErr && <p className={classes.err}>Enter valid name</p>}
               </div>
             </div>
             </section>

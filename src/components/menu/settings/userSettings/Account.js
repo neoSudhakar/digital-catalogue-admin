@@ -3,8 +3,11 @@ import useInput from "../../../../hooks/use-input";
 import classes from "../Account.module.css";
 
 import { useState } from "react";
+import { getAccountLoader } from "../../../../util/auth";
 
 export default function Account({refetchAccountData, closeModal, selectedRow}) {
+
+  const accountObj = getAccountLoader();
 
   console.log(selectedRow);
   const initialNameValue= selectedRow ? selectedRow.name : "";
@@ -181,7 +184,7 @@ export default function Account({refetchAccountData, closeModal, selectedRow}) {
         <form onSubmit={handleSubmit} className={classes.form}>
         <section className={classes.fields}>
 
-        <div className={classes.field}>
+        <div className={`${classes["field"]} ${nameHasErr ? classes.invalid : ""}`}>
             <label htmlFor="name">Name</label>
             <div>
               <input
@@ -194,11 +197,10 @@ export default function Account({refetchAccountData, closeModal, selectedRow}) {
                 onChange={handleNameChange}
                 className={classes.select}
               />
-              {nameHasErr && <p className={classes.err}>Enter valid name</p>}
             </div>
           </div>
 
-          <div className={classes.field}>
+          <div className={`${classes["field"]} ${emailHasErr ? classes.invalid : ""}`}>
             <label htmlFor="email">E-Mail</label>
             <div>
               <input
@@ -210,11 +212,10 @@ export default function Account({refetchAccountData, closeModal, selectedRow}) {
                 onBlur={handleEmailBlur}
                 onChange={handleEmailChange}
               />
-              {emailHasErr && <p className={classes.err}>Enter valid email</p>}
             </div>
           </div>
 
-          <div className={classes.field}>
+          <div className={`${classes["field"]} ${phoneNumberHasErr ? classes.invalid : ""}`}>
           <label htmlFor="phoneNumber">Phone Number</label>
             <div>
               <input
@@ -226,11 +227,10 @@ export default function Account({refetchAccountData, closeModal, selectedRow}) {
                 onBlur={handlePhoneNumberBlur}
                 onChange={handlePhoneNumberChange}
               />
-              {phoneNumberHasErr && <p className={classes.err}>Enter valid phone number</p>}
             </div>
           </div>
 
-          <div className={classes.field}>
+          <div className={`${classes["field"]} ${address1HasErr ? classes.invalid : ""}`}>
             <label htmlFor="address1">Address Line 1</label>
             <div>
               <input
@@ -242,11 +242,10 @@ export default function Account({refetchAccountData, closeModal, selectedRow}) {
                 onBlur={handleAddress1Blur}
                 onChange={handleAddress1Change}
               />
-              {address1HasErr && <p className={classes.err}>Enter valid address</p>}
             </div>
           </div>
 
-          <div className={classes.field}>
+          <div className={`${classes["field"]} ${address2HasErr ? classes.invalid : ""}`}>
             <label htmlFor="address2">Address Line 2</label>
             <div>
               <input
@@ -258,11 +257,10 @@ export default function Account({refetchAccountData, closeModal, selectedRow}) {
                 onBlur={handleAddress2Blur}
                 onChange={handleAddress2Change}
               />
-              {address2HasErr && <p className={classes.err}>Enter valid address</p>}
             </div>
           </div>
 
-          <div className={classes.field}>
+          <div className={`${classes["field"]} ${cityHasErr ? classes.invalid : ""}`}>
             <label htmlFor="city">City</label>
             <div>
               <input
@@ -274,11 +272,10 @@ export default function Account({refetchAccountData, closeModal, selectedRow}) {
                 onBlur={handleCityBlur}
                 onChange={handleCityChange}
               />
-              {cityHasErr && <p className={classes.err}>Enter valid city</p>}
             </div>
           </div>
 
-          <div className={classes.field}>
+          <div className={`${classes["field"]} ${stateHasErr ? classes.invalid : ""}`}>
             <label htmlFor="state">State</label>
             <div>
               <input
@@ -290,11 +287,10 @@ export default function Account({refetchAccountData, closeModal, selectedRow}) {
                 onBlur={handleStateBlur}
                 onChange={handleStateChange}
               />
-              {stateHasErr && <p className={classes.err}>Enter valid state</p>}
             </div>
           </div>
 
-          <div className={classes.field}>
+          <div className={`${classes["field"]} ${accountTypeHasErr ? classes.invalid : ""}`}>
             <label htmlFor="accountType">Type</label>
                 <select
                   id="accountType"
@@ -308,10 +304,9 @@ export default function Account({refetchAccountData, closeModal, selectedRow}) {
                   <option value="" disabled hidden>
                     Select an option
                   </option>
-                  {/*<option value="Manufacturer">Manufacturer</option>*/}
-                  <option value="Retailer">Retailer</option>
+                  {accountObj.accountType === "system" && <option value="Manufacturer">Manufacturer</option>}
+                  {accountObj.accountType === "Manufacturer" && <option value="Retailer">Retailer</option>}
                 </select>
-                {accountTypeHasErr && <p className={classes.err}>Select one account type</p>}
           </div>
         </section>
         <div className={classes.button}>

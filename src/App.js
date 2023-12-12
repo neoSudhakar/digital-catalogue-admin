@@ -18,6 +18,9 @@ import Settings from "./components/menu/settings/Settings";
 import Orders from "./components/menu/orders/Orders";
 import OrdersMenu from "./components/menu/order-form/OrdersMenu";
 import Reports from "./components/menu/reports/Reports";
+import AccountAndUser from "./components/menu/account-and-user/AccountAndUser";
+import Permissions from "./components/menu/permissions/Permissions";
+import Packages from "./components/menu/packages/Packages";
 
 const router= createBrowserRouter([
   {
@@ -57,6 +60,15 @@ const router= createBrowserRouter([
       },
       {
         path: "/orders", element: <Orders/>, loader: checkRetailerAuthLoader,
+      },
+      {
+        path: "/account-and-user", element: <AccountAndUser/>, loader: checkRetailerAuthLoader,
+      },
+      {
+        path: "/permissions", element: <Permissions/>, loader: checkRetailerAuthLoader,
+      },
+      {
+        path: "/packages", element: <Packages/>, loader: checkRetailerAuthLoader,
       }
     ]
   },
