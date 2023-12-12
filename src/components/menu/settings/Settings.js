@@ -48,6 +48,12 @@ if(accountType === "Retailer"){
 </div>
 }
 
+if(accountType === "system"){
+    return <>
+        <h1>System Settings</h1>
+    </>
+}
+
 return (
     <div className={classes.settings}>
         <Menu mode="horizontal" defaultSelectedKeys={['manageUsers']} onClick={tabHandler} items={items} className={classes.menuBar}>

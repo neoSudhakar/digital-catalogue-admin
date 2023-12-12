@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import React, { PureComponent, useEffect, useState } from 'react';
 import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { fetchAccountOrdersForManufacturer, fetchAssignedDesignsVsAccounts } from '../../../util/http';
+import { fetchAccountOrdersForManufacturer, fetchAccountsVsUsersForSystem, fetchAssignedDesignsVsAccounts } from '../../../util/http';
 
 // const data = [
 //   {
@@ -24,7 +24,7 @@ import { fetchAccountOrdersForManufacturer, fetchAssignedDesignsVsAccounts } fro
 //   },
 // ];
 
-export default function BarChartClassComponent({designReports, dashboard, orderReports}) {
+export default function BarChartClassComponent({designReports, dashboard, orderReports, isSystem}) {
 // export default class BarChartClassComponent extends PureComponent {
   // static demoUrl = 'https://codesandbox.io/s/simple-bar-chart-tpz8r';
 
@@ -41,10 +41,23 @@ export default function BarChartClassComponent({designReports, dashboard, orderR
     queryFn: fetchAssignedDesignsVsAccounts,
   })
 
+  const {data: accountsVsUsersForSystemData} = useQuery({
+    queryKey: ["accountsVsUsersForSystem"],
+    queryFn: fetchAccountsVsUsersForSystem,
+  })
+
   useEffect(()=>{
-    if(accountOrdersData){
+    if(!isSystem && accountOrdersData){
       console.log("accountOrders data is", accountOrdersData);
       const mappedList = accountOrdersData.map((eachObj)=>{
+        return {name: eachObj.account.name, orders: eachObj.objects.length, amt: 1}
+      })
+      setChartData([...mappedList]);
+    }
+
+    if(isSystem && accountsVsUsersForSystemData){
+      console.log("accountVsUsers for system data is", accountsVsUsersForSystemData);
+      const mappedList = accountsVsUsersForSystemData.map((eachObj)=>{
         return {name: eachObj.account.name, orders: eachObj.objects.length, amt: 1}
       })
       setChartData([...mappedList]);

@@ -83,7 +83,7 @@ export default function Style({refetchData, closeModal, selectedRow}) {
           <form onSubmit={handleSubmit} className={classes.form}>
           <section className={classes.fields}>
   
-                <div className={classes.field}>
+                <div className={`${classes["field"]} ${nameHasErr ? classes.invalid : ""}`}>
                     <label htmlFor="name">Name</label>
                     <div>
                     <input
@@ -96,7 +96,6 @@ export default function Style({refetchData, closeModal, selectedRow}) {
                         onChange={handleNameChange}
                         className={classes.select}
                     />
-                    {nameHasErr && <p className={classes.err}>Enter valid name</p>}
                     </div>
                 </div>
 

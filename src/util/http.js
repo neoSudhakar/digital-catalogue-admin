@@ -304,7 +304,7 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
     }
 
     const resData = await response.json();
-    console.log("res data fetch order: ", resData);
+    // console.log("res data fetch order: ", resData);
     return resData;
   }
 
@@ -324,7 +324,7 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
     }
 
     const resData = await response.json();
-    console.log("res data fetch recent order: ", resData);
+    // console.log("res data fetch recent order: ", resData);
     return resData;
   }
 
@@ -344,7 +344,7 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
     }
 
     const resData = await response.json();
-    console.log("res data fetch order for manufacturer: ", resData);
+    // console.log("res data fetch order for manufacturer: ", resData);
     return resData;
   }
 
@@ -366,7 +366,7 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
     }
 
     const resData = await response.json();
-    console.log("res data delete order: ", resData);
+    // console.log("res data delete order: ", resData);
     return resData;
   }
 
@@ -392,7 +392,7 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
     }
 
     const resData = await response.json();
-    console.log("res data update order: ", resData);
+    // console.log("res data update order: ", resData);
     return resData;
   }
 
@@ -412,7 +412,7 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
     }
 
     const resData = await response.json();
-    console.log("res data fetch cart: ", resData);
+    // console.log("res data fetch cart: ", resData);
     return resData;
   }
 
@@ -439,7 +439,7 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
     }
 
     const resData = await response.json();
-    console.log("res data post cart: ", resData);
+    // console.log("res data post cart: ", resData);
     return resData;
   }
 
@@ -461,7 +461,7 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
     }
 
     const resData = await response.json();
-    console.log("res data delete cart: ", resData);
+    // console.log("res data delete cart: ", resData);
     return resData;
   }
 
@@ -481,7 +481,7 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
         const error = new Error("Failed to update cart");
         error.code = response.status;
         const resData = await response.json();
-        console.log("res data of Failed to update cart: ", resData);
+        // console.log("res data of Failed to update cart: ", resData);
         error.info = resData;
         throw error;
     }
@@ -507,7 +507,7 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
     }
 
     const resData = await response.json();
-    console.log("res data fetch Assigned Designs for manufacturer: ", resData);
+    // console.log("res data fetch Assigned Designs for manufacturer: ", resData);
     return resData;
   }
 
@@ -527,7 +527,7 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
     }
 
     const resData = await response.json();
-    console.log("res data fetch account orders for manufacturer: ", resData);
+    // console.log("res data fetch account orders for manufacturer: ", resData);
     return resData;
   }
 
@@ -547,7 +547,7 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
     }
 
     const resData = await response.json();
-    console.log("res data fetch ordered designs for user: ", resData);
+    // console.log("res data fetch ordered designs for user: ", resData);
     return resData;
   }
 
@@ -567,7 +567,67 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
     }
 
     const resData = await response.json();
-    console.log("res data fetch assigned designs Vs accounts: ", resData);
+    // console.log("res data fetch assigned designs Vs accounts: ", resData);
+    return resData;
+  }
+
+  export async function fetchAccountsVsUsersForSystem(){
+    const response = await fetch(
+      `http://localhost:8080/api/accounts/account-users?accountType=manufacturer`
+    );
+
+    if(!response.ok){
+        console.log("response status: " + response.status);
+        const error = new Error("Failed to fetch accounts vs users for system");
+        error.code = response.status;
+        const resData = await response.json();
+        console.log("res data of Failed to fetch accounts vs users for system: ", resData);
+        error.info = resData;
+        throw error;
+    }
+
+    const resData = await response.json();
+    // console.log("res data fetch accounts vs users for system: ", resData);
+    return resData;
+  }
+
+  export async function fetchAccountsForSystem(){
+    const response = await fetch(
+      `http://localhost:8080/api/accounts/filters/?accountType=manufacturer`
+    );
+
+    if(!response.ok){
+        console.log("response status: " + response.status);
+        const error = new Error("Failed to fetch accounts for system");
+        error.code = response.status;
+        const resData = await response.json();
+        console.log("res data of Failed to fetch accounts for system: ", resData);
+        error.info = resData;
+        throw error;
+    }
+
+    const resData = await response.json();
+    // console.log("res data fetch accounts for system: ", resData);
+    return resData;
+  }
+
+  export async function fetchUsersForSystem(){
+    const response = await fetch(
+      `http://localhost:8080/api/users/filters?accountType=manufacturer`
+    );
+
+    if(!response.ok){
+        console.log("response status: " + response.status);
+        const error = new Error("Failed to fetch users for system");
+        error.code = response.status;
+        const resData = await response.json();
+        console.log("res data of Failed to fetch users for system: ", resData);
+        error.info = resData;
+        throw error;
+    }
+
+    const resData = await response.json();
+    // console.log("res data fetch users for system: ", resData);
     return resData;
   }
 

@@ -9,7 +9,7 @@ import "./styles.css";
 import AuthForm from "./components/Register/AuthForm";
 
 import { action as logoutAction } from "./components/Register/Logout";
-import { authTokenLoader, checkAuthLoader, checkManufacturerAuthLoader, checkRetailerAuthLoader, getAccountLoader } from "./util/auth";
+import { authTokenLoader, checkAuthLoader, checkManufacturerAuthLoader, checkRetailerAuthLoader, checkSystemAuthLoader, getAccountLoader } from "./util/auth";
 import MasterCreation from "./components/menu/master-design/MasterCreation";
 import CatalogueDesigns from "./components/menu/catalogue/CatalogueDesigns";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -62,13 +62,13 @@ const router= createBrowserRouter([
         path: "/orders", element: <Orders/>, loader: checkRetailerAuthLoader,
       },
       {
-        path: "/account-and-user", element: <AccountAndUser/>, loader: checkRetailerAuthLoader,
+        path: "/account-and-user", element: <AccountAndUser/>, loader: checkSystemAuthLoader,
       },
       {
-        path: "/permissions", element: <Permissions/>, loader: checkRetailerAuthLoader,
+        path: "/permissions", element: <Permissions/>, loader: checkSystemAuthLoader,
       },
       {
-        path: "/packages", element: <Packages/>, loader: checkRetailerAuthLoader,
+        path: "/packages", element: <Packages/>, loader: checkSystemAuthLoader,
       }
     ]
   },

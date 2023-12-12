@@ -45,7 +45,7 @@ export function checkRetailerAuthLoader(){
         console.log("no auth token");
         return redirect("/auth?mode=login");
     }
-    else if(account.accountType === "Manufacturer"){
+    else if(account.accountType === "Manufacturer" || account.accountType === "system"){
         console.log("Manufacturer don't have auth");
         return redirect("/");
     }
@@ -62,8 +62,27 @@ export function checkManufacturerAuthLoader(){
         console.log("no auth token");
         return redirect("/auth?mode=login");
     }
-    else if(account.accountType === "Retailer"){
+    else if(account.accountType === "Retailer" || account.accountType === "system"){
         console.log("Retailer don't have auth");
+        return redirect("/");
+    }
+    else{
+        return null;
+    }
+
+}
+
+export function checkSystemAuthLoader(){
+    const token= authTokenLoader();
+    const account = getAccountLoader();
+    console.log(account.accountType);
+
+    if(!token || !account){
+        console.log("no auth token");
+        return redirect("/auth?mode=login");
+    }
+    else if(account.accountType === "Retailer" || account.accountType === "Manufacturer"){
+        console.log("Retailer and Manufacturer don't have auth");
         return redirect("/");
     }
     else{

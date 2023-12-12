@@ -1,6 +1,6 @@
 import useInputSpcl from "../../../../hooks/use-input-spcl";
 import { getAccountLoader } from "../../../../util/auth";
-import classes from "./User.module.css";
+import classes from "../Account.module.css";
 import { useState } from "react";
 
 export default function User({refetchUserData,accountData,roleData,closeModal,selectedRow}) {
@@ -187,7 +187,7 @@ export default function User({refetchUserData,accountData,roleData,closeModal,se
     <div>
       <form onSubmit={handleSubmit} className={classes.form}>
       <section className={classes.fields}>
-        <div className={classes.field}>
+        <div className={`${classes["field"]} ${firstNameHasErr ? classes.invalid : ""}`}>
           <label htmlFor="firstName">First Name</label>
           <div>
             <input
@@ -199,13 +199,10 @@ export default function User({refetchUserData,accountData,roleData,closeModal,se
               onChange={handleFirstNameChange}
               onBlur={handleFirstNameBlur}
             />
-            {firstNameHasErr && (
-              <p className={classes.err}>Enter a valid first name!</p>
-            ) }
           </div>
         </div>
 
-        <div className={classes.field}>
+        <div className={`${classes["field"]} ${lastNameHasErr ? classes.invalid : ""}`}>
           <label htmlFor="lastName">Last Name</label>
           <div>
             <input
@@ -217,13 +214,10 @@ export default function User({refetchUserData,accountData,roleData,closeModal,se
               onChange={handleLastNameChange}
               onBlur={handleLastNameBlur}
             />
-            {lastNameHasErr && (
-              <p className={classes.err}>Enter a valid last name!</p>
-            )}
           </div>
         </div>
       
-        <div className={classes.field}>
+        <div className={`${classes["field"]} ${emailHasErr ? classes.invalid : ""}`}>
           <label htmlFor="email">Email</label>
           <div>
             <input
@@ -235,13 +229,10 @@ export default function User({refetchUserData,accountData,roleData,closeModal,se
               onChange={handleEmailChange}
               placeholder="Enter email address"
             />
-            {emailHasErr && (
-              <p className={classes.err}>Enter a valid email address!</p>
-            )}
           </div>
         </div>
 
-        <div className={classes.field}>
+        <div className={`${classes["field"]} ${addressHasErr ? classes.invalid : ""}`}>
           <label htmlFor="address">Address</label>
           <div>
             <input
@@ -253,13 +244,10 @@ export default function User({refetchUserData,accountData,roleData,closeModal,se
               onBlur={handleAddressBlur}
               onChange={handleAddressChange}
             />
-            {addressHasErr && (
-              <p className={classes.err}>Enter a valid address!</p>
-            )}
           </div>
         </div>
 
-        <div className={classes.field}>
+        <div className={`${classes["field"]} ${userNameHasErr ? classes.invalid : ""}`}>
           <label htmlFor="userName">User Name</label>
           <div>
             <input
@@ -271,12 +259,9 @@ export default function User({refetchUserData,accountData,roleData,closeModal,se
               onChange={handleUserNameChange}
               onBlur={handleUserNameBlur}
             />
-            {userNameHasErr && (
-              <p className={classes.err}>Enter a valid user name!</p>
-            )}
           </div>
         </div>
-        <div className={classes.field}>
+        <div className={`${classes["field"]} ${passwordHasErr ? classes.invalid : ""}`}>
           <label htmlFor="password">Password</label>
           <div>
             <input
@@ -288,14 +273,13 @@ export default function User({refetchUserData,accountData,roleData,closeModal,se
               onChange={handlePasswordChange}
               placeholder="Enter password"
             />
-            {passwordHasErr && <p className={classes.err}>Enter a valid password!</p>}
           </div>
         </div>
 
-        <div className={classes.field}>
+        <div className={`${classes["field"]} ${accountHasErr ? classes.invalid : ""}`}>
           <label htmlFor="account">Account</label>
 
-          {accountObj.accountType === "Manufacturer" && <select
+          <select
             id="account"
             name="accountId"
             placeholder={"Select account"}
@@ -309,23 +293,34 @@ export default function User({refetchUserData,accountData,roleData,closeModal,se
               </option>: <option key={selectedRow.account.id} value={selectedRow.account.id}>
                 {selectedRow.account.name}
                 </option>}
-              {accountData && accountData.map((item, index) =>(
-              <option key={item.id} value={item.id}>
-                {item.name}
-              </option>
-              ))}
-          </select>}
 
-          {accountObj.accountType === "Retailer" && <select 
+              {accountObj.accountType === "system" &&
+                accountData && accountData.map((item) =>(
+                item.accountType === "Manufacturer" && (<option key={item.id} value={item.id}>
+                  {item.name}
+                </option>)
+                ))}
+
+              {accountObj.accountType === "Manufacturer" &&
+                accountData && accountData.map((item) =>(
+                item.accountType === "Retailer" && (<option key={item.id} value={item.id}>
+                  {item.name}
+                </option>)
+                ))}
+
+              {accountObj.accountType === "Retailer" && 
+                <option key={accountObj.id} value={accountObj.id}>{accountObj.name}</option>
+              }
+          </select>
+
+          {/* {accountObj.accountType === "Retailer" && <select 
             id="account"
             name="accountId">
             <option key={accountObj.id} value={accountObj.id}>{accountObj.name}</option>
-          </select>}
-
-          {accountHasErr && <p className={classes.err}>Select one account</p>}
+          </select>} */}
         </div>
 
-        <div className={classes.field}>
+        <div className={`${classes["field"]} ${userRoleHasErr ? classes.invalid : ""}`}>
           <label htmlFor="userRole">Role</label>
           <select
             id="userRole"
@@ -342,13 +337,14 @@ export default function User({refetchUserData,accountData,roleData,closeModal,se
               <option key={selectedRow.roleSet[0].id} value={selectedRow.roleSet[0].id}>
                 {selectedRow.roleSet[0].role}
                 </option>}
-              {roleData && roleData.map((item, index) =>(
-              <option key={item.id} value={item.id}>
-                {item.role}
-              </option>
+
+              {roleData && roleData.map((item) =>(
+                item.role !== "superAdmin" && <option key={item.id} value={item.id}>
+                  {item.role}
+                </option>
               ))}
+              
           </select>
-          {userRoleHasErr && <p className={classes.err}>Select one role</p>}
         </div>
       </section>
       <div className={classes.button}>
