@@ -1,0 +1,86 @@
+.table-container{
+    width: 50%;
+    margin: 1rem auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    background-color: white;
+  }
+  .table thead{
+    height: 50px;
+  }
+
+  .table tbody tr td{
+    text-align: center;
+    padding: 0.75rem 1rem;
+  }
+  
+  .table th, .table td {
+    padding: 5px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .table th {
+    background-color: #f2f2f2;
+    font-size: 0.9rem;
+    min-width: 100px;
+    max-width: 500px;
+  }
+  .table tbody {
+    background-color: white;
+  }
+
+  .table label{
+    /* margin: 0 2rem 0 0.5rem; */
+    font-size: 1rem;
+  }
+  .table input{
+    margin: 0 0.5rem 0 2rem;
+  }
+
+  .table label, .table input{
+    cursor: pointer;
+  }
+
+  .view{
+    color: blue;
+  }
+  .edit{
+    color: green;
+  }
+  .delete{
+    color: red;
+  }
+
+  .save{
+    background-color: rgb(201, 119, 11);
+    color: white;
+    padding: 0 2rem;
+    align-self: flex-end;
+  }
+
+
+  @media screen and (max-width: 767px){
+    .table-container{
+        width: 98%;
+    }
+    .table td{
+        text-align: left;
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .table input{
+        margin: 0 0.5rem 0 1rem;
+      }
+  }
+
+
+  

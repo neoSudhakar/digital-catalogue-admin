@@ -58,7 +58,7 @@ export default function BarChartClassComponent({designReports, dashboard, orderR
     if(isSystem && accountsVsUsersForSystemData){
       console.log("accountVsUsers for system data is", accountsVsUsersForSystemData);
       const mappedList = accountsVsUsersForSystemData.map((eachObj)=>{
-        return {name: eachObj.account.name, orders: eachObj.objects.length, amt: 1}
+        return {name: eachObj.account.name, users: eachObj.objects.length, amt: 1}
       })
       setChartData([...mappedList]);
     }
@@ -91,7 +91,7 @@ export default function BarChartClassComponent({designReports, dashboard, orderR
           <YAxis />
           <Tooltip />
           <Legend />
-          <Bar dataKey="orders" fill="#8884d8" activeBar={<Rectangle fill="pink" stroke="blue" />} />
+          <Bar dataKey={isSystem ? "users" : "orders"} fill="#8884d8" activeBar={<Rectangle fill="pink" stroke="blue" />} />
           {/* <Bar dataKey="uv" fill="#82ca9d" activeBar={<Rectangle fill="gold" stroke="purple" />} /> */}
   </BarChart>
   }
