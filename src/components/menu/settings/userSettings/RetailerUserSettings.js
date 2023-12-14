@@ -38,7 +38,7 @@ export default function RetailerUserSettings() {
 
   const fetchRoleData = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/roles');
+      const response = await fetch('http://localhost:8080/api/roles/filters');
       
       if (response.status === 204) {
        

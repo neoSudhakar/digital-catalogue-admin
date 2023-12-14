@@ -6,8 +6,11 @@ import Role from './Role';
 
 import 'ag-grid-community/styles/ag-grid.css'; 
 import 'ag-grid-community/styles/ag-theme-alpine.css';
+import { getUserId } from '../../../../util/auth';
 
 export default function RoleTable({data}) {
+
+  const user= getUserId();
 
   const [rowData, setRowData] =useState(data);
   const [selectedRow, setSelectedRow]= useState();
@@ -15,7 +18,7 @@ export default function RoleTable({data}) {
 
   async function refetch() {
     try {
-      const response = await fetch('http://localhost:8080/api/roles');
+      const response = await fetch(`http://localhost:8080/api/roles/filters?userId=${user}`);
       
       if (response.status === 204) {
         

@@ -8,8 +8,11 @@ import RoleTable from "./RoleTable";
 
 import { Menu, Modal,Button } from "antd";
 import { useEffect, useState } from "react";
+import { getUserId } from "../../../../util/auth";
 
 export default function UserSettings(){
+
+  const user= getUserId();
 
   const [selectedTab, setselectedTab] = useState('account');
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -53,7 +56,7 @@ export default function UserSettings(){
       } 
       else if (response.status === 200){
         const data = await response.json();
-        //console.log("data is", data)
+        console.log("data is", data)
         //console.error('Failed to fetch data:', response.statusText);
         setUserData(data);
       }
@@ -67,14 +70,14 @@ export default function UserSettings(){
 
   const fetchRoleData = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/roles');
+      const response = await fetch(`http://localhost:8080/api/roles/filters?userId=${user}`);
       
       if (response.status === 204) {
        
       } 
       else if(response.status === 200){
         const data = await response.json();
-        //console.log(data);
+        console.log(data);
         setRoleData(data);
       }
     } catch (error) {
@@ -117,6 +120,10 @@ export default function UserSettings(){
 
   const tabHandler= (tab) => {
     setselectedTab(tab.key);
+    if(tab.key === 'user'){
+      fetchAccountData();
+      fetchRoleData();
+    }
   };
 
   return (
