@@ -28,7 +28,7 @@ import {GoStop} from 'react-icons/go';
 import {TbPackages} from "react-icons/tb";
 import { MdOutlineVisibility } from 'react-icons/md';
 import { useEffect, useState } from "react";
-import { getAccountLoader } from "../util/auth";
+import { getAccountLoader, getPermissionsObj } from "../util/auth";
 
 export default function Sidebar() {
   const dispatch = useDispatch();
@@ -36,6 +36,8 @@ export default function Sidebar() {
   const submit = useSubmit();
   const token = useRouteLoaderData("root");
   const account = getAccountLoader();
+  const permissionsObj = getPermissionsObj();
+  console.log("permissions object:", permissionsObj)
 
   console.log(account);
 
@@ -47,6 +49,7 @@ export default function Sidebar() {
     submit(null, { method: "post", action: "/logout" });
   }
   // initial={{x:-30, opacity:0}} animate={{x:0, opacity:1}} exit={{x:-30, opacity:0}}
+  // permissionsObj.accountIds.includes(account.id) && permissionsObj.features["MasterDesign"].view &&
   return (
     <motion.div className={classes.sidebar}>
       <section
@@ -60,7 +63,7 @@ export default function Sidebar() {
           flexDirection: "column",
         }}
       >
-        <NavLink
+        {<NavLink
           onClick={() => dispatch(uiActions.toggleDashboard())}
           to="/"
           className={({ isActive }) => (isActive ? classes.active : "")}
@@ -88,8 +91,8 @@ export default function Sidebar() {
           >
             Dashboard
           </span>
-        </NavLink>
-        {accountType === "Manufacturer" && <NavLink
+        </NavLink>}
+        {(accountType === "Manufacturer" && permissionsObj.accountIds.includes(account.id) && permissionsObj.features["MasterDesign"].view) && <NavLink
           onClick={() => dispatch(uiActions.toggleDashboard())}
           to="/master-design"
           className={({ isActive }) => (isActive ? classes.active : "")}
@@ -268,7 +271,7 @@ export default function Sidebar() {
           </span>
         </NavLink>}
         
-        {accountType === "Manufacturer" && <NavLink
+        {accountType === "Manufacturer" && permissionsObj.accountIds.includes(account.id) && permissionsObj.features["ViewDesigns"].view && <NavLink
           onClick={() => {
             dispatch(uiActions.closeDesignDetails());
             dispatch(uiActions.toggleDashboard());
@@ -299,7 +302,8 @@ export default function Sidebar() {
             View Designs
           </span>
         </NavLink>}
-        {accountType === "Manufacturer" && <NavLink
+
+        {(accountType === "Manufacturer" &&  permissionsObj.accountIds.includes(account.id) && permissionsObj.features["OrderForm"].view) && <NavLink
           onClick={() => dispatch(uiActions.toggleDashboard())}
           to="/order-form"
           className={({ isActive }) => (isActive ? classes.active : "")}
@@ -327,7 +331,8 @@ export default function Sidebar() {
             Order Form
           </span>
         </NavLink>}
-        <NavLink
+
+        {((accountType === "Manufacturer" &&  permissionsObj.accountIds.includes(account.id) && permissionsObj.features["Reports"].view) || (accountType==="system") || (accountType==="Retailer")) && <NavLink
           onClick={() => {
             dispatch(uiActions.closeCatalogueDesignDetails());
             dispatch(uiActions.toggleDashboard());
@@ -357,39 +362,9 @@ export default function Sidebar() {
           >
             Reports
           </span>
-        </NavLink>
-        {/* {accountType === "Retailer" && <NavLink
-          onClick={() => {
-            dispatch(uiActions.closeCatalogueDesignDetails());
-            dispatch(uiActions.toggleDashboard());
-          }}
-          to="/settings"
-          className={({ isActive }) => (isActive ? classes.active : "")}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "flex-start",
-            flexDirection: "row",
-            margin: "0rem 0",
-            padding: "0.7rem 0",
-            width: "100%",
-            borderRadius: "1rem",
-          }}
-        >
-          <AiFillCodeSandboxSquare style={{ padding: "0 1rem 0 0" }} />
-          <span
-            style={{
-              fontSize: "20px",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              padding: "0 0 0 0.5rem",
-            }}
-          >
-            Settings
-          </span>
-        </NavLink>} */}
-        <NavLink
+        </NavLink>}
+        
+        {((accountType === "Manufacturer" &&  permissionsObj.accountIds.includes(account.id) && permissionsObj.features["Reports"].view) || (accountType==="system") || (accountType==="Retailer") )&& <NavLink
           onClick={() => dispatch(uiActions.toggleDashboard())}
           to="/settings"
           className={({ isActive }) => (isActive ? classes.active : "")}
@@ -416,7 +391,7 @@ export default function Sidebar() {
           >
             Settings
           </span>
-        </NavLink>
+        </NavLink>}
 
         <Link
           onClick={handleLogout}

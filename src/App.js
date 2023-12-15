@@ -9,7 +9,7 @@ import "./styles.css";
 import AuthForm from "./components/Register/AuthForm";
 
 import { action as logoutAction } from "./components/Register/Logout";
-import { authTokenLoader, checkAuthLoader, checkManufacturerAuthLoader, checkRetailerAuthLoader, checkSystemAuthLoader, getAccountLoader } from "./util/auth";
+import { authTokenLoader, checkAuthLoader, checkCommonFeatureAuthLoader, checkManufacturerAuthLoader, checkRetailerAuthLoader, checkSystemAuthLoader, getAccountLoader } from "./util/auth";
 import MasterCreation from "./components/menu/master-design/MasterCreation";
 import CatalogueDesigns from "./components/menu/catalogue/CatalogueDesigns";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -32,13 +32,13 @@ const router= createBrowserRouter([
         index: true, element: <Dashboard/>,  loader: checkAuthLoader,
       },
       {
-        path: "/master-design", element: <MasterDesign/>, loader: checkManufacturerAuthLoader
+        path: "/master-design", element: <MasterDesign/>, loader: ()=>checkManufacturerAuthLoader("MasterDesign")
       },
       {
-        path: "/view-designs", element: <ViewDesign/>, loader: checkManufacturerAuthLoader
+        path: "/view-designs", element: <ViewDesign/>, loader: ()=>checkManufacturerAuthLoader("ViewDesigns")
       },
       {
-        path: "/order-form", element: <OrdersMenu/>, loader: checkManufacturerAuthLoader
+        path: "/order-form", element: <OrdersMenu/>, loader: ()=>checkManufacturerAuthLoader("OrderForm")
       },
       {
         path:"/auth", element:<AuthForm/>,
@@ -47,16 +47,16 @@ const router= createBrowserRouter([
         path:"/logout", action: logoutAction,
       },
       {
-        path:"/master-design/creation",  element:<MasterCreation/>, loader: checkManufacturerAuthLoader
+        path:"/master-design/creation",  element:<MasterCreation/>, loader: ()=>checkManufacturerAuthLoader("MasterDesign")
       },
       {
         path: "catalogue", element: <CatalogueDesigns/>, loader: checkRetailerAuthLoader,
       },
       {
-        path: "/settings", element:<Settings/>,
+        path: "/settings", element:<Settings/>, loader : ()=>checkCommonFeatureAuthLoader("Settings")
       },
       {
-        path: "/reports", element: <Reports/>,
+        path: "/reports", element: <Reports/>, loader : ()=>checkCommonFeatureAuthLoader("Reports")
       },
       {
         path: "/orders", element: <Orders/>, loader: checkRetailerAuthLoader,

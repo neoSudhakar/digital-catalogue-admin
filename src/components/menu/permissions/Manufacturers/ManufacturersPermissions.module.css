@@ -67,6 +67,12 @@
     align-self: flex-end;
   }
 
+  .save:disabled, .save:disabled:hover, .save:disabled:active{
+    cursor: not-allowed;
+    background-color: rgb(207, 205, 205);
+    color:rgb(77, 74, 74);
+  }
+
 
   @media screen and (max-width: 767px){
     .table-container{

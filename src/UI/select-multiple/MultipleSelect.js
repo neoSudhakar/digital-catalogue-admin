@@ -23,16 +23,13 @@ const tagRender = (props) => {
   };
 
 
-const MultipleSelect = ({options}) => {
-    const [selectedValues, setSelectedValues] = useState([]);
+const MultipleSelect = ({options, onSetSelectedValues}) => {
 
     function handleSelectChange(valuesArr, optionsArr){
-        // console.log("value: " , valuesArr);
-        // console.log("array: " , optionsArr);
-        setSelectedValues(valuesArr);
+        console.log("selected values", valuesArr)
+        onSetSelectedValues(valuesArr);
     }
 
-    console.log("selected values", selectedValues);
     return (
         <Select
             mode="multiple"

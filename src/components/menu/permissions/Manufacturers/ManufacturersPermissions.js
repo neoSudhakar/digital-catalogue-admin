@@ -7,6 +7,7 @@ import classes from "./ManufacturersPermissions.module.css"
 import MultipleSelect from '../../../../UI/select-multiple/MultipleSelect';
 
 export default function ManufacturersPermissions() {
+    const [selectedAccountIdsArr, setSelectedAccountIdsArr] = useState([]);
 
     const [options, setOptions] = useState([]);
 
@@ -24,47 +25,48 @@ export default function ManufacturersPermissions() {
         }
     },[accountsForSystemData]);
 
-    const [selectedManufacturer, setSelectedManufacturer] = useState();
-
-    function handleManufacturerChange(value){
-        setSelectedManufacturer(value);
-    }
-
     const DUMMY_FEATURES = [
-        {key: "Dashboard", name: "Dashboard", view: false, edit: false, delete: false},
-        {key: "MasterDesign", name: "Master Design", view: false, edit: false, delete: false},
-        {key: "ViewDesigns", name: "View Designs", view: false, edit: false, delete: false},
-        {key: "OrderForm", name: "Order Form", view: false, edit: false, delete: false},
-        {key: "Reports", name: "Reports", view: false, edit: false, delete: false},
-        {key: "Settings", name: "Settings", view: false, edit: false, delete: false},
+        {key: "Dashboard", name: "Dashboard",},
+        {key: "MasterDesign", name: "Master Design",},
+        {key: "ViewDesigns", name: "View Designs",},
+        {key: "OrderForm", name: "Order Form",},
+        {key: "Reports", name: "Reports",},
+        {key: "Settings", name: "Settings",},
     ]
 
-    const [features, setFeatures] = useState(DUMMY_FEATURES);
+    const DUMMY_FEATURE_PERMISSIONS ={
+        Dashboard: {view: false, edit: false, delete: false},
+        MasterDesign: {view: false, edit: false, delete: false},
+        ViewDesigns: {view: false, edit: false, delete: false},
+        OrderForm: {view: false, edit: false, delete: false},
+        Reports: {view: false, edit: false, delete: false},
+        Settings: {view: false, edit: false, delete: false},
 
-    function handleCheckboxChange(index, identifier){
-        setFeatures((prev)=>{
-            const list = [...prev];
-            const selectedFeature = prev[index];
-            const updatedSelectedFeature = {...selectedFeature, [identifier]: !selectedFeature[identifier]}
-            list[index] = updatedSelectedFeature;
-            return [...list];
+    }
+
+    const [feature_permissions, setFeaturePermissions] = useState(DUMMY_FEATURE_PERMISSIONS); 
+
+    function handleCheckboxChange(feature, identifier){
+        setFeaturePermissions((prev)=>{
+            return {...prev, [feature]: {...prev[feature], [identifier]: !prev[feature][identifier]}};
         });
     }
     
     function handleSave(){
-        console.log("features : ", features);
+        console.log("feature_permissions obj : ", feature_permissions);
+        console.log("selected account ids array :", selectedAccountIdsArr);
+        const finalObject = {accountIds: selectedAccountIdsArr, features: feature_permissions};
+        console.log("final Object : ", finalObject);
+        localStorage.setItem("PERMISSIONS", JSON.stringify(finalObject));
+        // setSelectedAccountIdsArr([]);
+        // setFeaturePermissions(DUMMY_FEATURE_PERMISSIONS);
     }
 
   return (
     <div style={{paddingTop: "1rem", width: "100%"}}>
-      {/* <Select className={styles["select"]} id='manufacturer' defaultValue="" onChange={handleManufacturerChange}>
-            <Select.Option value="">All</Select.Option>
-            {accountsForSystemData && accountsForSystemData.map((account)=>(
-                <Select.Option key={account.id} value={account.id}>{account.name}</Select.Option>
-            ))}
-      </Select> */}
 
-      <MultipleSelect options={options}/>
+      <label>Select Manufacturers : </label>
+      <MultipleSelect options={options} onSetSelectedValues={setSelectedAccountIdsArr}/>
 
       <section className={classes["table-container"]}>
         <table className={classes["table"]}>
@@ -75,24 +77,24 @@ export default function ManufacturersPermissions() {
                 </tr>
             </thead>
             <tbody>
-                {DUMMY_FEATURES.map((feature, index)=>(
+                {DUMMY_FEATURES.map((feature)=>(
                     <tr key={feature.key}>
                         <td>{feature.name}</td>
                         <td>
-                                <input type="checkbox" id={"View"+feature.key} onChange={()=>handleCheckboxChange(index, "view")} />
+                                <input type="checkbox" id={"View"+feature.key} onChange={()=>handleCheckboxChange(feature.key,"view")} />
                                 <label className={classes["view"]} htmlFor={"View"+feature.key}>View</label>
 
-                                <input type="checkbox" id={"Edit"+feature.key} onChange={()=>handleCheckboxChange(index, "edit")}  />
+                                <input type="checkbox" id={"Edit"+feature.key} onChange={()=>handleCheckboxChange(feature.key,"edit")}  />
                                 <label className={classes["edit"]} htmlFor={"Edit"+feature.key}>Edit</label>
 
-                                <input type="checkbox" id={"Delete"+feature.key} onChange={()=>handleCheckboxChange(index, "delete")}  />
+                                <input type="checkbox" id={"Delete"+feature.key} onChange={()=>handleCheckboxChange(feature.key,"delete")}  />
                                 <label className={classes["delete"]} htmlFor={"Delete"+feature.key}>Delete</label>
                         </td>
                     </tr>
                 ))}
             </tbody>
         </table>
-        <Button className={classes["save"]} onClick={handleSave}>Save</Button>
+        <Button className={classes["save"]} onClick={handleSave} disabled={selectedAccountIdsArr.length === 0}>Save</Button>
       </section>
     </div>
   )
