@@ -10,6 +10,7 @@ import LoadingIndicator from "../../../UI/LoadingIndicator";
 import { useMutation } from "@tanstack/react-query";
 import { queryClientObj, removeRetailer, updateDesignFields } from "../../../util/http";
 import ErrorModal from "./ErrorModal";
+import { getPermissionsObj } from "../../../util/auth";
 
 export default function DesignFields({
   cardItem1,
@@ -20,6 +21,9 @@ export default function DesignFields({
   error,
   refetchAssignedRetailers,
 }) {
+
+  const permissions= getPermissionsObj();
+
   const [cardItem, setCardItem] = useState(cardItem1);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -158,12 +162,14 @@ export default function DesignFields({
                     <button
                       className={classes["edit-assign"]}
                       onClick={() => handleStartEditAssign(retailerData)}
+                      disabled={permissions && !permissions.features.ViewDesigns.edit}
                     >
                       Edit
                     </button>
                     <button
                       className={classes["remove-assign"]}
                       onClick={() => handleRemoveAssign(retailerData)}
+                      disabled={permissions && !permissions.features.ViewDesigns.delete}
                     >
                       Remove
                     </button>
@@ -200,6 +206,7 @@ export default function DesignFields({
         <button
           className={classes["update-fields"]}
           onClick={handleStartUpdateFields}
+          disabled={permissions && !permissions.features.ViewDesigns.edit}
         >
           Update
         </button>

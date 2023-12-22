@@ -16,6 +16,7 @@ import AddDesignTableForm from "./AddDesignTableForm";
 import { useMutation } from "@tanstack/react-query";
 import { updateDesignSet } from "../../../util/http";
 import ErrorBlock from "../../../UI/ErrorBlock";
+import { getPermissionsObj } from "../../../util/auth";
 
 const DesignTable = ({
   rowDataArr,
@@ -23,6 +24,9 @@ const DesignTable = ({
   onAnyUpdateAction,
   setDetailsSet,
 }) => {
+
+  const permissions= getPermissionsObj();
+
   const [isModelOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState();
   //   const gridRef = useRef(); // Optional - for accessing Grid's API
@@ -157,12 +161,14 @@ const DesignTable = ({
           <button
             className={classes.update}
             onClick={handleStartUpdateRow.bind(this, params.data)}
+            disabled={permissions && !permissions.features.ViewDesigns.edit}
           >
             Update
           </button>
           <button
             className={classes.delete}
             onClick={handleDeleteRow.bind(this, params.data)}
+            disabled={permissions && !permissions.features.ViewDesigns.delete}
           >
             Delete
           </button>

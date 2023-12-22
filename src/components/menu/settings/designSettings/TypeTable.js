@@ -7,8 +7,11 @@ import UpdateModal from '../UpdateModal';
 import 'ag-grid-community/styles/ag-grid.css'; 
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import Type from './Type';
+import { getPermissionsObj } from '../../../../util/auth';
 
 export default function TypeTable({data}) {
+
+  const permissions= getPermissionsObj();
 
   const [rowData, setRowData] =useState(data);
   const [selectedRow, setSelectedRow]= useState();
@@ -73,12 +76,14 @@ const handleDeleteRow = (rowToDelete) => {
                 <button
                   className={classes.update}
                   onClick={handleUpdateRow.bind(this, params.data)}
+                  disabled={permissions && !permissions.features.Settings.edit}
                 >
                   Update
                 </button>
                 <button
                   className={classes.delete}
                   onClick={handleDeleteRow.bind(this, params.data)}
+                  disabled={permissions && !permissions.features.Settings.delete}
                 >
                   Delete
                 </button>

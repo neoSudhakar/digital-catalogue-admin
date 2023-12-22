@@ -1,0 +1,19 @@
+.whole {
+    width: 100%;
+    padding: 2rem 0;
+    text-align: center;
+  }
+  
+.menuBar {
+    background-color: #fcf2f3;
+    display: 'flex';
+    justify-content: center;
+  }
+  
+.menuItem {
+    font-size: 90px;
+}
+
+.select{
+    width: 10rem;
+}

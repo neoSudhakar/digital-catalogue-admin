@@ -8,11 +8,13 @@ import RoleTable from "./RoleTable";
 
 import { Menu, Modal,Button } from "antd";
 import { useEffect, useState } from "react";
-import { getUserId } from "../../../../util/auth";
+import { getPermissionsObj, getUserId } from "../../../../util/auth";
+
 
 export default function UserSettings(){
 
   const user= getUserId();
+  const permissions= getPermissionsObj();
 
   const [selectedTab, setselectedTab] = useState('account');
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -133,7 +135,11 @@ export default function UserSettings(){
         </Menu>
 
         <div>
-          <Button onClick={handleOpenModal} className={classes.button}>
+          <Button 
+            onClick={handleOpenModal} 
+            className={classes.button}
+            disabled={permissions && !permissions.features.Settings.edit}
+          >
             {selectedTab === 'account' ? "Add Account":
               (selectedTab === 'role' ? "Add Role": "Add User")
             }
@@ -165,4 +171,3 @@ export default function UserSettings(){
     </div>
   );
 }
-

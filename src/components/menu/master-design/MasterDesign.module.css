@@ -26,6 +26,15 @@
     cursor: pointer;
     background-color: rgb(38, 170, 231);
 }
+.master .disabled, .master .disabled:hover{
+    cursor: not-allowed;
+    background-color:rgb(190, 190, 190);
+    padding: 0.5rem 1rem;
+    border-radius: 0.45rem;
+    border: none;
+    text-decoration: none;
+    color:rgb(58, 59, 59);
+}
 
 @media screen and (max-width: 767px){
     .head{

@@ -7,10 +7,11 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 
 import classes from "../Tables.module.css";
-import { getAccountLoader } from '../../../../util/auth';
+import { getAccountLoader, getPermissionsObj } from '../../../../util/auth';
 
 const UserTable = ({data , accountData, roleData}) => {
   const accountObj = getAccountLoader();
+  const permissions= getPermissionsObj();
 
   const [rowData, setRowData] =useState(data);
   const [selectedRow, setSelectedRow]= useState();
@@ -99,12 +100,14 @@ const handleDeleteRow = (rowToDelete) => {
                 <button
                   className={classes.update}
                   onClick={handleUpdateRow.bind(this, params.data)}
+                  disabled={permissions && !permissions.features.Settings.edit}
                 >
                   Update
                 </button>
                 <button
                   className={classes.delete}
                   onClick={handleDeleteRow.bind(this, params.data)}
+                  disabled={permissions && !permissions.features.Settings.delete}
                 >
                   Delete
                 </button>

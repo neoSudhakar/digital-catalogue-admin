@@ -30,6 +30,11 @@ if(accountType === "Retailer"){
         <h1>Retailer Reports</h1>
     </>
 }
+if(accountType === "system"){
+    return <>
+        <h1>System Reports</h1>
+    </>
+}
 
 return (
     <div className={classes.reportsMenu}>

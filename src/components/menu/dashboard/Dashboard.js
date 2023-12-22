@@ -7,7 +7,7 @@ import classes from "./Dashboard.module.css";
 import PieChartClassComponent from "./PieChartClassComponent";
 import Tile from "./Tile";
 import { useQuery } from "@tanstack/react-query";
-import { fetchAccountOrdersForManufacturer, fetchAccounts, fetchAllDesigns, fetchAssignedDesignsForManufacturer, fetchCatalogueDesigns, fetchOrderedDesignsForUser, fetchOrders, fetchOrdersForManufacturer } from "../../../util/http";
+import { fetchAccountOrdersForManufacturer, fetchAccounts, fetchAccountsForSystem, fetchAccountsVsUsersForSystem, fetchAllDesigns, fetchAssignedDesignsForManufacturer, fetchCatalogueDesigns, fetchOrderedDesignsForUser, fetchOrders, fetchOrdersForManufacturer, fetchUsersForSystem } from "../../../util/http";
 import { useNavigate } from "react-router-dom";
 
 export default function Dashboard(){
@@ -17,6 +17,8 @@ export default function Dashboard(){
     const userId = getUserId();
 
     const isRetailer = accountType === "Retailer";
+    const isManufacturer = accountType === "Manufacturer";
+    const isSystem = accountType === "system";
 
 
     const {data: designsData} = useQuery({
@@ -55,6 +57,23 @@ export default function Dashboard(){
         queryFn: ({signal})=>fetchOrderedDesignsForUser({signal, userId}),
     })
 
+    const {data: accountsForSystemData} = useQuery({
+        queryKey: ["AccountsForSystem"],
+        queryFn: fetchAccountsForSystem,
+    })
+
+    if(accountsForSystemData){
+        console.log("accountsForSystemData is",accountsForSystemData);
+    }
+
+    const {data: usersForSystemData} = useQuery({
+        queryKey: ["usersForSystem"],
+        queryFn: fetchUsersForSystem,
+    })
+
+    if(usersForSystemData){
+        console.log("usersForSystemData is",usersForSystemData);
+    }
 
 
     if(assignedDesignsData){
@@ -92,15 +111,17 @@ export default function Dashboard(){
         {/* <h1>My Dashboard</h1> */}
         <menu className={classes["whole-tiles-and-charts"]}>
             <section className={classes["whole-tiles"]}>
-                <Tile title="Total designs" count={designsData ? designsData.length : 0} filterCount={1} onClick={()=>handleClick("total-designs")} />
+                {isSystem && <Tile title="Accounts" count={accountsForSystemData ? accountsForSystemData.length : 0} filterCount={1} />}
+                {isSystem && <Tile title="Users" count={usersForSystemData ? usersForSystemData.length : 0} filterCount={1} />}
+                {!isSystem && <Tile title="Total designs" count={designsData ? designsData.length : 0} filterCount={1} onClick={()=>handleClick("total-designs")} />}
                 {isRetailer && <Tile title="Ordered designs" count={orderedDesignsForUser ? orderedDesignsForUser.length : 0} filterCount={2} />}
-                {!isRetailer && <Tile title="Assigned designs" count={assignedDesignsData ? assignedDesignsData.length : 0} filterCount={2} />}
-                {!isRetailer && <Tile title="Orders" count={ordersData ? ordersData.length : 0} filterCount={1} onClick={()=>handleClick("orders")} />}
-                {!isRetailer && <Tile title="Retailers" count={retailerAccountsCount}  onClick={()=>handleClick("retailers")}/>}
+                {isManufacturer && <Tile title="Assigned designs" count={assignedDesignsData ? assignedDesignsData.length : 0} filterCount={2} />}
+                {isManufacturer && <Tile title="Orders" count={ordersData ? ordersData.length : 0} filterCount={1} onClick={()=>handleClick("orders")} />}
+                {isManufacturer && <Tile title="Retailers" count={retailerAccountsCount}  onClick={()=>handleClick("retailers")}/>}
             </section>
             <section className={classes["whole-charts"]}>
-                <Chart title="Orders by retailers" chartComponent={<BarChartClassComponent dashboard/>} companyName="Tasks in catalogue" onClick={()=>handleClick("orders-by-retailers")} />
-                <Chart title="Recent orders" chartComponent={<PieChartClassComponent/>} filterCount={1} companyName="Tasks in catalogue" />
+                <Chart title={`${!isSystem ? "Orders by retailers" : "Accounts Vs Users"}`} chartComponent={<BarChartClassComponent dashboard isSystem={isSystem}/>} companyName="Tasks in catalogue" onClick={()=>handleClick("orders-by-retailers")} />
+                {!isSystem && <Chart title="Recent orders" chartComponent={<PieChartClassComponent/>} filterCount={1} companyName="Tasks in catalogue" />}
             </section>
         </menu>
         
