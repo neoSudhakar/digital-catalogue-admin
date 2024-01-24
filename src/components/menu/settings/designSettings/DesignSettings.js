@@ -20,10 +20,13 @@ import StoneGroupTable from "./StoneGroupTable";
 
 import { Menu, Modal,Button } from "antd";
 import { useEffect, useState } from "react";
+import { getPermissionsObj } from "../../../../util/auth";
 
 
 
 export default function DesignSettings() {
+
+    const permissions= getPermissionsObj();
 
     const [selectedTab, setselectedTab] = useState('group');
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -272,7 +275,11 @@ export default function DesignSettings() {
         </Menu>
 
         <div>
-          <Button onClick={handleOpenModal} className={classes.button}>
+          <Button 
+            onClick={handleOpenModal} 
+            className={classes.button}
+            disabled= {permissions && !permissions.features.Settings.edit}
+          >
             {`Add ${selectedTab.charAt(0).toUpperCase() + selectedTab.slice(1)}`}
           </Button>
 

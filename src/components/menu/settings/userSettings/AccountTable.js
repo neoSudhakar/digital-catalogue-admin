@@ -7,9 +7,12 @@ import Account from './Account';
 import 'ag-grid-community/styles/ag-grid.css'; 
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import UpdateModal from '../UpdateModal';
+import { getPermissionsObj } from '../../../../util/auth';
 
 
 const AccountTable = ({data, refetchData}) => {
+
+  const permissions= getPermissionsObj();
 
     const [rowData, setRowData] =useState(data);
     const [selectedRow, setSelectedRow]= useState();
@@ -75,12 +78,14 @@ const AccountTable = ({data, refetchData}) => {
                 <button
                   className={classes.update}
                   onClick={handleUpdateRow.bind(this, params.data)}
+                  disabled={permissions && !permissions.features.Settings.edit}
                 >
                   Update
                 </button>
                 <button
                   className={classes.delete}
                   onClick={handleDeleteRow.bind(this, params.data)}
+                  disabled={permissions && !permissions.features.Settings.delete}
                 >
                   Delete
                 </button>

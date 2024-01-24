@@ -1,7 +1,11 @@
 import useInputSpcl from "../../../../hooks/use-input-spcl";
+import { getAccountLoader, getUserId } from "../../../../util/auth";
 import classes from "../Account.module.css";
 
 export default function Role({refetchRoleData, closeModal, selectedRow}) {
+
+  const user = getUserId();
+  const accountObj= getAccountLoader();
 
   console.log(selectedRow);
     const initialRoleValue= selectedRow ? selectedRow.role: "";  
@@ -35,6 +39,8 @@ export default function Role({refetchRoleData, closeModal, selectedRow}) {
 
         const form = new FormData(event.target);
         const formData = Object.fromEntries(form);
+        formData.createdUserId= user;
+        formData.createdAccountId= accountObj.id;
         console.log(formData);
 
         if(!selectedRow){

@@ -364,7 +364,7 @@ export default function Sidebar() {
           </span>
         </NavLink>}
         
-        {((accountType === "Manufacturer" &&  permissionsObj.accountIds.includes(account.id) && permissionsObj.features["Reports"].view) || (accountType==="system") || (accountType==="Retailer") )&& <NavLink
+        {((accountType === "Manufacturer" &&  permissionsObj.accountIds.includes(account.id) && permissionsObj.features["Settings"].view) || (accountType==="system") || (accountType==="Retailer") )&& <NavLink
           onClick={() => dispatch(uiActions.toggleDashboard())}
           to="/settings"
           className={({ isActive }) => (isActive ? classes.active : "")}

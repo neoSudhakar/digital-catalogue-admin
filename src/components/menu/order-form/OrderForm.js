@@ -9,8 +9,11 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { Reorder } from 'framer-motion';
 import ViewOrderItems from './ViewOrderItems';
+import { getPermissionsObj } from '../../../util/auth';
 
 export default function OrderForm() {
+
+  const permissions= getPermissionsObj();
 
   const [rowData, setRowData] =useState([]);
   const [showDesign, setShowDesign] =useState();
@@ -178,19 +181,21 @@ function handleDeliveredOrder(order) {
                           <button
                             className={classes.accept}
                             onClick={handleAcceptOrder.bind(this, order)}
-                            disabled={order.orderStatus === 'accepted'}
+                            disabled={order.orderStatus === 'accepted' || (permissions && !permissions.features.OrderForm.edit)}
                           >
                             Accept
                           </button>
                           <button
                             className={classes.reject}
                             onClick={handleRejectOrder.bind(this, order)}
+                            disabled={permissions && !permissions.features.Settings.delete}
                           >
                             Reject
                           </button>
                           <button
                             className={classes.delivered}
                             onClick={handleDeliveredOrder.bind(this, order)}
+                            disabled={permissions && !permissions.features.Settings.edit}
                           >
                             Delivered
                           </button>

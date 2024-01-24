@@ -70,7 +70,7 @@ export default function CartItem({item, cartId}) {
   return (
     <li className={classes["list-item"]}>
         <div className={classes["image-container"]}>
-            <img src={item.design.designImages[0].preSignedURL} alt={`Design ${item.id}`} />
+            <img src={item.design.designImages[0] ? item.design.designImages[0].preSignedURL : ""} alt={`Design ${item.id}`} />
         </div>
         <div className={classes["content"]}>
             <h3>Design {item.design.id}</h3>

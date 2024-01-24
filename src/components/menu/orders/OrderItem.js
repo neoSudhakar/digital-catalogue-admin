@@ -8,7 +8,7 @@ import { useMutation } from '@tanstack/react-query';
 import { deleteOrder, queryClientObj, updateOrder } from '../../../util/http';
 import ErrorModal from '../view-designs/ErrorModal';
 
-export default function OrderItem({item}) {
+export default function OrderItem({item, onMutationAction, setRefreshed, setRefreshedOrderId}) {
     const isDashboardOpen = useSelector(state=>state.ui.isDashboardOpen);
 
     const [isErrModalOpen, setIsErrModalOpen] = useState(false);
@@ -43,11 +43,15 @@ export default function OrderItem({item}) {
     function handleMinus(){
         const updatedQuantity = item.quantity - 1;
         updateMutate({orderId: item.orderId, orderItemId: item.id, data: {designId: item.design.id, quantity: updatedQuantity}})
+        setRefreshed(true);
+        setRefreshedOrderId(item.orderId)
     }
 
     function handlePlus() {
         const updatedQuantity = item.quantity + 1;
         updateMutate({orderId: item.orderId, orderItemId: item.id, data: {designId: item.design.id, quantity: updatedQuantity}})
+        setRefreshed(true);
+        setRefreshedOrderId(item.orderId)
     }
 
     function handleCloseErrModal(){
@@ -56,12 +60,14 @@ export default function OrderItem({item}) {
 
     function handleDeleteOrderItem(){
         mutate({orderId: item.orderId, orderItemId: item.id});
+        setRefreshed(true);
+        setRefreshedOrderId(item.orderId)
     }
 
   return (
     <li className={classes["list-item"]} style={{width: isDashboardOpen ? "80%" : "60%"}}>
         <div className={classes["image-container"]}>
-            <img src={item.design.designImages[0].preSignedURL} alt={`Design ${item.design.id}`} />
+            <img src={item.design.designImages[0] ? item.design.designImages[0].preSignedURL : ""} alt={`Design ${item.design.id}`} />
         </div>
         <div className={classes["content"]}>
             <h3>Design {item.design.id}</h3>

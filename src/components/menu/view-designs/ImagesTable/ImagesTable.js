@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import classes from "./ImagesTable.module.css";
+import { getPermissionsObj } from "../../../../util/auth";
 
 const ImagesTable = ({ imagesArr1, cardItem, onAnyUpdateAction, setDesignImages }) => {
+
+  const permissions= getPermissionsObj();
+
   console.log("images array is", imagesArr1);
   const [imagesArr, setImagesArr] = useState(imagesArr1);
   const [isChecked, setIsChecked] = useState(
@@ -61,6 +65,7 @@ const ImagesTable = ({ imagesArr1, cardItem, onAnyUpdateAction, setDesignImages 
                 <button
                   className={classes["delete-button"]}
                   onClick={() => handleDeleteImage(image.id)}
+                  disabled={permissions && !permissions.features.ViewDesigns.delete}
                 >
                   Delete
                 </button>

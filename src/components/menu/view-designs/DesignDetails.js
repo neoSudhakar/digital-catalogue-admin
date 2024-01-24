@@ -9,8 +9,11 @@ import ImagesTable from "./ImagesTable/ImagesTable";
 import AssignRetailer from "./AssignRetailer";
 import { useQuery } from "@tanstack/react-query";
 import { fetchAssignedRetailers } from "../../../util/http";
+import { getPermissionsObj } from "../../../util/auth";
 
 export default function DesignDetails({cardItem, onGoBack, onAnyUpdateAction}){
+
+  const permissions= getPermissionsObj();
 
   const isDashboardOpen = useSelector((state)=>state.ui.isDashboardOpen);
 
@@ -106,7 +109,11 @@ export default function DesignDetails({cardItem, onGoBack, onAnyUpdateAction}){
     </div>
     <div className={classes["header-content"]}>
       <h1>Design {cardItem.id} Details</h1>
-      <button className={classes["assign-btn"]} onClick={handleStartAssign}>Assign Retailer</button>
+      <button className={classes["assign-btn"]} onClick={handleStartAssign} 
+        disabled={permissions && !permissions.features.ViewDesigns.edit}
+      >
+        Assign Retailer
+      </button>
     </div>
 
     {isStartAssign && <AssignRetailer refetchAssignedRetailers={refetch} assignRetailersListData={assignRetailersListData} onAnyUpdateAction={onAnyUpdateAction} cardItem={cardItem} isModalOpen={isStartAssign} onCloseModal={handleCloseAssign}  />}

@@ -339,7 +339,7 @@ export default function User({refetchUserData,accountData,roleData,closeModal,se
                 </option>}
 
               {roleData && roleData.map((item) =>(
-                item.role !== "superAdmin" && <option key={item.id} value={item.id}>
+                <option key={item.id} value={item.id}>
                   {item.role}
                 </option>
               ))}

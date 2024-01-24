@@ -7,8 +7,11 @@ import AddDesignTableForm from "./AddDesignTableForm";
 import { useMutation } from "@tanstack/react-query";
 import { addDesignSet } from "../../../util/http";
 import ErrorBlock from "../../../UI/ErrorBlock";
+import { getPermissionsObj } from "../../../util/auth";
 
 export default function DesignTanbleJSX({ cardItem, onAnyUpdateAction }) {
+
+  const permissions= getPermissionsObj();
   // const {detailsSet} = cardItem;
   const [detailsSet, setDetailsSet] = useState(cardItem.detailsSet);
   // console.log(detailsSet);
@@ -83,7 +86,9 @@ export default function DesignTanbleJSX({ cardItem, onAnyUpdateAction }) {
   return (
     <>
       <div className={classes["add-design"]}>
-        <button className={classes.button} onClick={handleStartAddDesign}>
+        <button className={classes.button} onClick={handleStartAddDesign}
+          disabled={permissions && !permissions.features.ViewDesigns.edit}
+        >
           Add Description
         </button>
       </div>

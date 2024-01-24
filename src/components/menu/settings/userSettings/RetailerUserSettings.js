@@ -1,4 +1,4 @@
-import { getAccountLoader } from "../../../../util/auth";
+import { getAccountLoader, getPermissionsObj } from "../../../../util/auth";
 import classes from "../Settings.module.css";
 import User from "./User";
 import UserTable from "./UserTable";
@@ -7,6 +7,9 @@ import { Menu, Modal, Button } from "antd";
 import { useEffect, useState } from "react";
 
 export default function RetailerUserSettings() {
+
+  const permissions = getPermissionsObj();
+  
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [userData, setUserData] = useState([]);
@@ -38,7 +41,7 @@ export default function RetailerUserSettings() {
 
   const fetchRoleData = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/roles');
+      const response = await fetch('http://localhost:8080/api/roles/filters');
       
       if (response.status === 204) {
        
@@ -69,7 +72,9 @@ export default function RetailerUserSettings() {
   return (
     <div className={classes.settings}>
       <div>
-        <Button onClick={handleOpenModal} className={classes.button}>
+        <Button onClick={handleOpenModal} className={classes.button}
+          disabled={permissions && !permissions.features.Settings.edit}
+        >
           Add User
         </Button>
 

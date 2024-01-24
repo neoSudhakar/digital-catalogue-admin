@@ -1,3 +1,23 @@
 .whole{
     padding: 3rem 1rem 1rem;
 }
+.order{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: aquamarine;
+    border-radius: 0.65rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+.order:hover{
+    background-color: rgb(39, 223, 161);
+    cursor: pointer;
+}
+.order-items-page{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+}   
