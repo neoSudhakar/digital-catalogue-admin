@@ -9,14 +9,22 @@ const [selectedTab, setselectedTab] = useState('orders');
 
 const items = [
     {
-      label: 'Orders',
       key: 'orders',
-      style: {fontSize: '20px'}
+      label: 'Orders',
+      style: {
+        fontSize: "1.2rem",
+        // paddingBottom: "0.35rem",
+        // margin: "0 1.5rem",
+      },
     },
     {
-      label: 'History',
       key: 'history',
-      style: {fontSize: '20px'}
+      label: 'History',
+      style: {
+        fontSize: "1.2rem",
+        // paddingBottom: "0.35rem",
+        // margin: "0 1.5rem",
+      },
     }
 ]
 
@@ -27,7 +35,7 @@ const tabHandler= (tab) => {
 
 return (
     <div className={classes.ordersMenu}>
-        <Menu mode="horizontal" selectedKeys={[selectedTab]} onClick={tabHandler} items={items} className={classes.menuBar}>
+        <Menu mode="horizontal" defaultSelectedKeys={'orders'} selectedKeys={[selectedTab]} onClick={tabHandler} items={items} className={classes.menuBar}>
         </Menu>
 
         <div>

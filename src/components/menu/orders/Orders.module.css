@@ -3,13 +3,16 @@
 }
 .order{
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 100%;
     height: 100%;
+    gap: 2rem;
     background-color: aquamarine;
     border-radius: 0.65rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    border-left: 8px solid #a3036e;
 }
 .order:hover{
     background-color: rgb(39, 223, 161);

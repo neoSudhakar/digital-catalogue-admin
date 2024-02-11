@@ -68,7 +68,7 @@ export default function AssignRetailerForm({cardItem, assignRetailersListData , 
         <select name="retailer" id="retailer" required defaultValue={prevRetailerData ? prevRetailerData.retailerId : ""}>
           <option value="" disabled hidden>Select an option</option>
           {RETAILERS.map((retailer) => (
-            retailer.accountType !== "Manufacturer" && <option key={retailer.id} value={retailer.id} disabled={
+            retailer.accountType ==="Retailer" && <option key={retailer.id} value={retailer.id} disabled={
                 (!edit && retailerIdsList.includes(retailer.id)) ||
                 (edit && retailerIdsList.includes(retailer.id) && retailer.id !== prevRetailerData.retailerId)
               }

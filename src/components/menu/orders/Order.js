@@ -1,11 +1,7 @@
 import { Button, Row } from 'antd'
 import React, { useState } from 'react'
 import classes from "./Orders.module.css"
-import styles from "../cart/Cart.module.css"
-import OrderItem from './OrderItem';
-import { useQuery } from '@tanstack/react-query';
-import { fetchOrders } from '../../../util/http';
-import { getUserId } from '../../../util/auth';
+import { FaArrowRightLong } from "react-icons/fa6";
 
 function Order({order,setOrderOpen, onOpenOrder}) {
 
@@ -16,7 +12,8 @@ function Order({order,setOrderOpen, onOpenOrder}) {
 
   return (
     <div className={classes["order"]} onClick={handleGoToOrderItems}>
-        <h2>Order {order.id}</h2>
+        <h2 style={{color: "rgb(192, 9, 146)"}}>Order {order.id}</h2>
+        <FaArrowRightLong size={"1.75rem"} color='rgb(189, 8, 98)'/>
     </div>
   )
 }

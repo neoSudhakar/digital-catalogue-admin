@@ -91,7 +91,7 @@ export default function BarChartClassComponent({designReports, dashboard, orderR
           <YAxis />
           <Tooltip />
           <Legend />
-          <Bar dataKey={isSystem ? "users" : "orders"} fill="#8884d8" activeBar={<Rectangle fill="pink" stroke="blue" />} />
+          <Bar dataKey={isSystem ? "users" : "orders"} maxBarSize={100} fill="#8884d8" activeBar={<Rectangle fill="pink" stroke="blue" />} />
           {/* <Bar dataKey="uv" fill="#82ca9d" activeBar={<Rectangle fill="gold" stroke="purple" />} /> */}
   </BarChart>
   }

@@ -155,7 +155,7 @@ function handleDeliveredOrder(order) {
                    <td>
                       {order.orderItems && order.orderItems.map((item,index) => (
                           <div key={item.design.id} className={classes.designsColumn}>
-                              <img src={item.design.designImages[0].preSignedURL} alt={item.design.id}/>
+                              <img src={item.design.designImages[0] ? item.design.designImages[0].preSignedURL : ""} alt={item.design.id}/>
                               <p>{"Design "+item.design.id}</p>
                           </div>
                       ))}

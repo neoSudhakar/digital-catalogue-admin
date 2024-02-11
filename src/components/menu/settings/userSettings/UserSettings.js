@@ -40,7 +40,8 @@ export default function UserSettings(){
       } else if(response.status === 200) {
         const data = await response.json();
         //console.error('Failed to fetch data:', response.statusText);
-        setAccountData(data);
+        const filteredData= data.filter(account => account.accountType !== 'system');
+        setAccountData(filteredData);
       }
     } catch (error) {
       console.error('Error:', error);
@@ -60,7 +61,8 @@ export default function UserSettings(){
         const data = await response.json();
         console.log("data is", data)
         //console.error('Failed to fetch data:', response.statusText);
-        setUserData(data);
+        const filteredData= data.filter(user => user.account?.accountType !== 'system');
+        setUserData(filteredData);
       }
     } catch (error) {
       console.log("error msg", error.message);

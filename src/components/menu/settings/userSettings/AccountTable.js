@@ -26,7 +26,8 @@ const AccountTable = ({data, refetchData}) => {
           
         } else if(response.status === 200) {
           const data = await response.json();
-          setRowData(data);
+          const filteredData= data.filter(account => account.accountType !== 'system');
+          setRowData(filteredData);
         }
       } catch (error) {
         console.error('Error:', error);
