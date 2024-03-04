@@ -1,10 +1,10 @@
 import Button from "../../../UI/Button";
 import ErrorBlock from "../../../UI/ErrorBlock";
+import { BASE_URL } from "../../../util/http";
 import classes from "./DesignFields.module.css";
 import { useState, useEffect } from "react";
 
 export default function UpdateFieldsForm({cardItem, onAction, onCloseModal, updateDesignFieldsIsPending}){
-
 
   const [groupData, setGroupData] = useState([]);
   const [categoryData, setCategoryData] = useState([]);
@@ -16,7 +16,7 @@ export default function UpdateFieldsForm({cardItem, onAction, onCloseModal, upda
 
   const fetchGroupData = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/groups');
+      const response = await fetch(`${BASE_URL}/groups`);
       
       if (response.status === 204) {
        
@@ -33,7 +33,7 @@ export default function UpdateFieldsForm({cardItem, onAction, onCloseModal, upda
 
   const fetchCategoryData = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/categories');
+      const response = await fetch(`${BASE_URL}/categories`);
       
       if (response.status === 204) {
        
@@ -50,7 +50,7 @@ export default function UpdateFieldsForm({cardItem, onAction, onCloseModal, upda
 
   const fetchStyleData = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/styles');
+      const response = await fetch(`${BASE_URL}/styles`);
       
       if (response.status === 204) {
        
@@ -67,7 +67,7 @@ export default function UpdateFieldsForm({cardItem, onAction, onCloseModal, upda
 
   const fetchProductData = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/products');
+      const response = await fetch(`${BASE_URL}/products`);
       
       if (response.status === 204) {
        
@@ -84,7 +84,7 @@ export default function UpdateFieldsForm({cardItem, onAction, onCloseModal, upda
 
   const fetchModelData = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/models');
+      const response = await fetch(`${BASE_URL}/models`);
       
       if (response.status === 204) {
        
@@ -101,7 +101,7 @@ export default function UpdateFieldsForm({cardItem, onAction, onCloseModal, upda
 
   const fetchSizeData = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/sizes');
+      const response = await fetch(`${BASE_URL}/sizes`);
       
       if (response.status === 204) {
        
@@ -118,7 +118,7 @@ export default function UpdateFieldsForm({cardItem, onAction, onCloseModal, upda
 
   const fetchWorkerData = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/workers');
+      const response = await fetch(`${BASE_URL}/workers`);
       
       if (response.status === 204) {
        

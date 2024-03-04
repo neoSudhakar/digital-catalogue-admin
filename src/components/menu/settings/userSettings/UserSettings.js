@@ -9,6 +9,7 @@ import RoleTable from "./RoleTable";
 import { Menu, Modal,Button } from "antd";
 import { useEffect, useState } from "react";
 import { getPermissionsObj, getUserId } from "../../../../util/auth";
+import { BASE_URL } from "../../../../util/http";
 
 
 export default function UserSettings(){
@@ -26,7 +27,7 @@ export default function UserSettings(){
 
   const fetchAccountData = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/accounts');
+      const response = await fetch(BASE_URL+'/accounts');
       
       if (response.status === 204) {
         
@@ -50,7 +51,7 @@ export default function UserSettings(){
 
   const fetchUserData = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/users/filters');
+      const response = await fetch(BASE_URL+'/users/filters');
       //console.log("response is",response);
       
       if (response.status === 204) {
@@ -74,7 +75,7 @@ export default function UserSettings(){
 
   const fetchRoleData = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/api/roles/filters?userId=${user}`);
+      const response = await fetch(BASE_URL+`/roles/filters?userId=${user}`);
       
       if (response.status === 204) {
        

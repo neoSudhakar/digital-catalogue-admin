@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 import BarChartClassComponent from '../dashboard/BarChartClassComponent';
 import Chart from '../dashboard/Chart';
 import styles from "../dashboard/Dashboard.module.css"
-import { fetchAllDesigns, fetchAssignedDesignsForManufacturer } from '../../../util/http';
+import { BASE_URL, fetchAllDesigns, fetchAssignedDesignsForManufacturer } from '../../../util/http';
 import { useQuery } from '@tanstack/react-query';
 import Tile from '../dashboard/Tile';
 
@@ -61,7 +61,7 @@ export default function DesignReports() {
 
   const fetchAssignedRetailers= async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/accounts/withDesigns');
+      const response = await fetch(BASE_URL+'/accounts/withDesigns');
       
       if (response.status === 204) {
     
@@ -78,7 +78,7 @@ export default function DesignReports() {
   const fetchDesigns= async() => {
     try {
 
-      let apiUrl = 'http://localhost:8080/api/designs/filters';
+      let apiUrl = BASE_URL+'/designs/filters';
 
       const queryParams = new URLSearchParams({
         designs: designsFilter || null,

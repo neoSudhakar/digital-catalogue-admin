@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Drawer } from 'antd';
 import classes from "./Drawer.module.css";
+import { BASE_URL } from '../../../util/http';
 
 const DrawerComponent = ({isOpen, onCloseDrawer}) => {
 
@@ -13,7 +14,7 @@ const DrawerComponent = ({isOpen, onCloseDrawer}) => {
 
     const fetchGroupData = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/groups');
+        const response = await fetch(BASE_URL+'/groups');
         
         if (response.status === 204) {
          
@@ -30,7 +31,7 @@ const DrawerComponent = ({isOpen, onCloseDrawer}) => {
   
     const fetchCategoryData = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/categories');
+        const response = await fetch(BASE_URL+'/categories');
         
         if (response.status === 204) {
          
@@ -47,7 +48,7 @@ const DrawerComponent = ({isOpen, onCloseDrawer}) => {
   
     const fetchStyleData = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/styles');
+        const response = await fetch(BASE_URL+'/styles');
         
         if (response.status === 204) {
          
@@ -64,7 +65,7 @@ const DrawerComponent = ({isOpen, onCloseDrawer}) => {
   
     const fetchProductData = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/products');
+        const response = await fetch(BASE_URL+'/products');
         
         if (response.status === 204) {
          
@@ -81,7 +82,7 @@ const DrawerComponent = ({isOpen, onCloseDrawer}) => {
   
     const fetchModelData = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/models');
+        const response = await fetch(BASE_URL+'/models');
         
         if (response.status === 204) {
          
@@ -98,7 +99,7 @@ const DrawerComponent = ({isOpen, onCloseDrawer}) => {
   
     const fetchSizeData = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/sizes');
+        const response = await fetch(BASE_URL+'/sizes');
         
         if (response.status === 204) {
          

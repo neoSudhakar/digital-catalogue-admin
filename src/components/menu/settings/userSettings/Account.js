@@ -4,6 +4,7 @@ import classes from "../Account.module.css";
 
 import { useState } from "react";
 import { getAccountLoader } from "../../../../util/auth";
+import { BASE_URL } from "../../../../util/http";
 
 export default function Account({refetchAccountData, closeModal, selectedRow}) {
 
@@ -131,7 +132,7 @@ export default function Account({refetchAccountData, closeModal, selectedRow}) {
     console.log(formData);
 
     if(!selectedRow){
-      fetch('http://localhost:8080/api/accounts', {
+      fetch(BASE_URL+'/accounts', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -144,7 +145,7 @@ export default function Account({refetchAccountData, closeModal, selectedRow}) {
       .catch(error => console.log('error occurred!'));
       }
     else{
-      fetch(`http://localhost:8080/api/accounts/${selectedRow.id}`, {
+      fetch(BASE_URL+`/accounts/${selectedRow.id}`, {
         method: 'PUT', 
         headers: {
           'Content-Type': 'application/json',

@@ -1,4 +1,5 @@
 import { getAccountLoader, getPermissionsObj } from "../../../../util/auth";
+import { BASE_URL } from "../../../../util/http";
 import classes from "../Settings.module.css";
 import User from "./User";
 import UserTable from "./UserTable";
@@ -18,7 +19,7 @@ export default function RetailerUserSettings() {
   const fetchUserData = async () => {
     try {
         const accountObj = getAccountLoader();
-      const response = await fetch(`http://localhost:8080/api/users/filters?accountId=${accountObj.id}`);
+      const response = await fetch(BASE_URL+`/users/filters?accountId=${accountObj.id}`);
       //console.log("response is",response);
       
       if (response.status === 204) {
@@ -41,7 +42,7 @@ export default function RetailerUserSettings() {
 
   const fetchRoleData = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/roles/filters');
+      const response = await fetch(BASE_URL+'/roles/filters');
       
       if (response.status === 204) {
        

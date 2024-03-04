@@ -8,6 +8,7 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import Size from './Size';
 import { getPermissionsObj } from '../../../../util/auth';
+import { BASE_URL } from '../../../../util/http';
 
 export default function SizeTable({data}) {
 
@@ -20,7 +21,7 @@ export default function SizeTable({data}) {
 
   async function refetch() {
     try {
-      const response = await fetch('http://localhost:8080/api/sizes');
+      const response = await fetch(BASE_URL+'/sizes');
       
       if (response.status === 204) {
         
@@ -43,7 +44,7 @@ const handleUpdateRow= (row) => {
 };
 
 const handleDeleteRow = (rowToDelete) => {
-    fetch(`http://localhost:8080/api/sizes/${rowToDelete.id}`, {
+    fetch(BASE_URL+`/sizes/${rowToDelete.id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

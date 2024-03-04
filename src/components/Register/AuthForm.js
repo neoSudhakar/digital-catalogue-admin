@@ -2,6 +2,7 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import classes from "./AuthForm.module.css";
 import useInput from "../../hooks/use-input";
 import { Modal } from "antd";
+import { BASE_URL } from "../../util/http";
 
 export default function AuthForm() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -49,8 +50,7 @@ export default function AuthForm() {
     const formData = Object.fromEntries(form);
 
     console.log(formData);
-
-    fetch('http://localhost:8080/api/login', {
+    fetch(`${BASE_URL}/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

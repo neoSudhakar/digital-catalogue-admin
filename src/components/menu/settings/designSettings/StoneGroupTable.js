@@ -8,6 +8,7 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import StoneGroup from './StoneGroup';
 import { getPermissionsObj } from '../../../../util/auth';
+import { BASE_URL } from '../../../../util/http';
 
 export default function StoneGroupTable({data}) {
 
@@ -20,7 +21,7 @@ export default function StoneGroupTable({data}) {
 
   async function refetch() {
     try {
-      const response = await fetch('http://localhost:8080/api/stonegroups');
+      const response = await fetch(BASE_URL+'/stonegroups');
       
       if (response.status === 204) {
         
@@ -43,7 +44,7 @@ const handleUpdateRow= (row) => {
 };
 
 const handleDeleteRow = (rowToDelete) => {
-    fetch(`http://localhost:8080/api/stonegroups/${rowToDelete.id}`, {
+    fetch(BASE_URL+`/stonegroups/${rowToDelete.id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

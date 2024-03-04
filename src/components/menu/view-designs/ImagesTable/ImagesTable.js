@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import classes from "./ImagesTable.module.css";
 import { getPermissionsObj } from "../../../../util/auth";
+import { BASE_URL } from "../../../../util/http";
 
 const ImagesTable = ({ imagesArr1, cardItem, onAnyUpdateAction, setDesignImages }) => {
 
@@ -20,7 +21,7 @@ const ImagesTable = ({ imagesArr1, cardItem, onAnyUpdateAction, setDesignImages 
 
   async function handleDeleteImage(id) {
     const response = await fetch(
-      `http://localhost:8080/api/designs/${cardItem.id}/images/${id}`,
+      `${BASE_URL}/designs/${cardItem.id}/images/${id}`,
       {
         method: "DELETE",
       }

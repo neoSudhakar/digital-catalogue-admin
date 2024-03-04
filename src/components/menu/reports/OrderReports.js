@@ -11,7 +11,7 @@ import Chart from '../dashboard/Chart';
 import BarChartClassComponent from '../dashboard/BarChartClassComponent';
 import Tile from '../dashboard/Tile';
 import { useQuery } from '@tanstack/react-query';
-import { fetchAccounts, fetchOrdersForManufacturer } from '../../../util/http';
+import { BASE_URL, fetchAccounts, fetchOrdersForManufacturer } from '../../../util/http';
 
 const { Option } = Select;
 
@@ -53,7 +53,7 @@ export default function OrderReports() {
 
     try {
       
-      let apiUrl = 'http://localhost:8080/api/orders';
+      let apiUrl = BASE_URL+'/orders';
 
       const queryParams = new URLSearchParams({
         accountId: retailerFilter || 0,
@@ -135,7 +135,7 @@ const [retailerAccountsCount, setRetailerAccountsCount] = useState(0);
 
     try {
       
-      let apiUrl = 'http://localhost:8080/api/orders';
+      let apiUrl = BASE_URL+'/orders';
 
       const response = await fetch(apiUrl);
       

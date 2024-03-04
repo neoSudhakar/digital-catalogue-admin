@@ -1,6 +1,6 @@
 import { QueryClient } from "@tanstack/react-query";
 export const queryClientObj = new QueryClient();
-const BASE_URL = "http://localhost:8080/api";
+export const BASE_URL = "http://localhost:8080/api";
 
 export async function fetchAllDesigns(){
     const response = await fetch(`${BASE_URL}/designs`);

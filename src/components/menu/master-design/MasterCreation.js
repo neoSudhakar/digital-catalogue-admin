@@ -15,6 +15,7 @@ import SelectComponent from "./Select";
 import UploadImage from "../../../assets/upload-image.png";
 import ImageComponent from "./ImageComponent";
 import useSelect from "../../../hooks/useSelect";
+import { BASE_URL } from "../../../util/http";
 
 export default function MasterCreation() {
 
@@ -54,7 +55,7 @@ export default function MasterCreation() {
 
   const fetchGroupData = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/groups');
+      const response = await fetch(BASE_URL+'/groups');
       
       if (response.status === 204) {
        
@@ -71,7 +72,7 @@ export default function MasterCreation() {
 
   const fetchCategoryData = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/categories');
+      const response = await fetch(BASE_URL+'/categories');
       
       if (response.status === 204) {
        
@@ -88,7 +89,7 @@ export default function MasterCreation() {
 
   const fetchStyleData = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/styles');
+      const response = await fetch(BASE_URL+'/styles');
       
       if (response.status === 204) {
        
@@ -105,7 +106,7 @@ export default function MasterCreation() {
 
   const fetchProductData = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/products');
+      const response = await fetch(BASE_URL+'/products');
       
       if (response.status === 204) {
        
@@ -122,7 +123,7 @@ export default function MasterCreation() {
 
   const fetchModelData = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/models');
+      const response = await fetch(BASE_URL+'/models');
       
       if (response.status === 204) {
        
@@ -139,7 +140,7 @@ export default function MasterCreation() {
 
   const fetchSizeData = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/sizes');
+      const response = await fetch(BASE_URL+'/sizes');
       
       if (response.status === 204) {
        
@@ -156,7 +157,7 @@ export default function MasterCreation() {
 
   const fetchWorkerData = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/workers');
+      const response = await fetch(BASE_URL+'/workers');
       
       if (response.status === 204) {
        
@@ -173,7 +174,7 @@ export default function MasterCreation() {
 
   const fetchTypeData = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/types');
+      const response = await fetch(BASE_URL+'/types');
       
       if (response.status === 204) {
        
@@ -190,7 +191,7 @@ export default function MasterCreation() {
 
   const fetchStoneGroupData = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/stonegroups');
+      const response = await fetch(BASE_URL+'/stonegroups');
       
       if (response.status === 204) {
        
@@ -302,7 +303,7 @@ export default function MasterCreation() {
       }));
 
     console.log("form data is: ",formData);
-    fetch('http://localhost:8080/api/designs', { 
+    fetch(BASE_URL+'/designs', { 
       method: 'POST',
       body: formData
     }).then(response => response.json())
@@ -697,7 +698,7 @@ export default function MasterCreation() {
 
     console.log("FormData", formData);
 
-    // fetch('http://localhost:8080/api/designs', {
+    // fetch(BASE_URL+'/designs', {
     //   method: 'POST',
     //   body: formData,
     // }).then(response => response.json())
@@ -706,7 +707,7 @@ export default function MasterCreation() {
 
     async function fetchFn(){
       try{
-        const response = await fetch('http://localhost:8080/api/designs', {
+        const response = await fetch(BASE_URL+'/designs', {
           method: 'POST',
           body: formData,
           // body: JSON.stringify(formData),

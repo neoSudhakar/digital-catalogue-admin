@@ -10,6 +10,7 @@ import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { Reorder } from 'framer-motion';
 import ViewOrderItems from './ViewOrderItems';
 import { getPermissionsObj } from '../../../util/auth';
+import { BASE_URL } from '../../../util/http';
 
 export default function OrderForm() {
 
@@ -21,7 +22,7 @@ export default function OrderForm() {
 
   const fetchOrders= async() => {
     try {
-      const response = await fetch("http://localhost:8080/api/orders");
+      const response = await fetch(BASE_URL+"/orders");
       
       if (!response.ok) {
         //if(data.errorCode && data.errorCode === '600'){
@@ -57,7 +58,7 @@ export default function OrderForm() {
   }
 
 function handleAcceptOrder(order) {
-  fetch(`http://localhost:8080/api/orders/${order.id}`, {
+  fetch(BASE_URL+`/orders/${order.id}`, {
         method: 'PATCH', 
         headers: {
           'Content-Type': 'application/json',
@@ -81,7 +82,7 @@ function handleAcceptOrder(order) {
 };
 
 function handleRejectOrder(order) {
-  fetch(`http://localhost:8080/api/orders/${order.id}`, {
+  fetch(BASE_URL+`/orders/${order.id}`, {
         method: 'PATCH', 
         headers: {
           'Content-Type': 'application/json',
@@ -105,7 +106,7 @@ function handleRejectOrder(order) {
 };
 
 function handleDeliveredOrder(order) {
-  fetch(`http://localhost:8080/api/orders/${order.id}`, {
+  fetch(BASE_URL+`/orders/${order.id}`, {
         method: 'PATCH', 
         headers: {
           'Content-Type': 'application/json',

@@ -1,4 +1,5 @@
 import useInputSpcl from "../../../../hooks/use-input-spcl";
+import { BASE_URL } from "../../../../util/http";
 import classes from "../Account.module.css";
 
 export default function Category({refetchData, closeModal, selectedRow}) {
@@ -39,7 +40,7 @@ export default function Category({refetchData, closeModal, selectedRow}) {
 
 
         if(!selectedRow){
-        fetch('http://localhost:8080/api/categories', {
+        fetch(BASE_URL+'/categories', {
             method: 'POST',
             headers: {
           'Content-Type': 'application/json',
@@ -52,7 +53,7 @@ export default function Category({refetchData, closeModal, selectedRow}) {
         .catch(error => console.log('error occured!'));
         }
         else{
-          fetch(`http://localhost:8080/api/categories/${selectedRow.id}`, {
+          fetch(BASE_URL+`/categories/${selectedRow.id}`, {
         method: 'PUT', 
         headers: {
           'Content-Type': 'application/json',

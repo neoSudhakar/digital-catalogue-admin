@@ -7,6 +7,7 @@ import Style from './Style';
 import 'ag-grid-community/styles/ag-grid.css'; 
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { getPermissionsObj } from '../../../../util/auth';
+import { BASE_URL } from '../../../../util/http';
 
 export default function StyleTable({data}) {
 
@@ -19,7 +20,7 @@ export default function StyleTable({data}) {
 
   async function refetch() {
     try {
-      const response = await fetch('http://localhost:8080/api/styles');
+      const response = await fetch(BASE_URL+'/styles');
       
       if (response.status === 204) {
         
@@ -42,7 +43,7 @@ const handleUpdateRow= (row) => {
 };
 
 const handleDeleteRow = (rowToDelete) => {
-    fetch(`http://localhost:8080/api/styles/${rowToDelete.id}`, {
+    fetch(BASE_URL+`/styles/${rowToDelete.id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

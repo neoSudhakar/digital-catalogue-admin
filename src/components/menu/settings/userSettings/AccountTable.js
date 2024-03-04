@@ -8,6 +8,7 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import UpdateModal from '../UpdateModal';
 import { getPermissionsObj } from '../../../../util/auth';
+import { BASE_URL } from '../../../../util/http';
 
 
 const AccountTable = ({data, refetchData}) => {
@@ -20,7 +21,7 @@ const AccountTable = ({data, refetchData}) => {
 
     async function refetch() {
       try {
-        const response = await fetch('http://localhost:8080/api/accounts');
+        const response = await fetch(BASE_URL+'/accounts');
         
         if (response.status === 204) {
           
@@ -44,7 +45,7 @@ const AccountTable = ({data, refetchData}) => {
     };
 
     const handleDeleteRow = (rowToDelete) => {
-        fetch(`http://localhost:8080/api/accounts/${rowToDelete.id}`, {
+        fetch(BASE_URL+`/accounts/${rowToDelete.id}`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',

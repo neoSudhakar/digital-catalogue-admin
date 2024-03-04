@@ -14,7 +14,7 @@ import "ag-grid-community/styles/ag-theme-alpine.css"; // Optional theme CSS
 import ModalComponent from "./ModalComponent";
 import AddDesignTableForm from "./AddDesignTableForm";
 import { useMutation } from "@tanstack/react-query";
-import { updateDesignSet } from "../../../util/http";
+import { BASE_URL, updateDesignSet } from "../../../util/http";
 import ErrorBlock from "../../../UI/ErrorBlock";
 import { getPermissionsObj } from "../../../util/auth";
 
@@ -114,10 +114,9 @@ const DesignTable = ({
     // const {value}=params;
     // console.log(data);
     // const confirm = window.confirm("Are you sure?");
-
     // if (confirm) {
       const response = await fetch(
-        `http://localhost:8080/api/designs/${cardItem.id}/details/${data.id}`,
+        `${BASE_URL}/designs/${cardItem.id}/details/${data.id}`,
         {
           method: "DELETE",
         }

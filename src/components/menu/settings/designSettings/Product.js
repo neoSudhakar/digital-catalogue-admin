@@ -1,4 +1,5 @@
 import useInputSpcl from "../../../../hooks/use-input-spcl";
+import { BASE_URL } from "../../../../util/http";
 import classes from "../Account.module.css";
 
 export default function Product({refetchData, closeModal, selectedRow}) {
@@ -38,7 +39,7 @@ export default function Product({refetchData, closeModal, selectedRow}) {
         console.log(formData);
 
         if(!selectedRow){
-        fetch('http://localhost:8080/api/products', {
+        fetch(BASE_URL+'/products', {
             method: 'POST',
             headers: {
           'Content-Type': 'application/json',
@@ -51,7 +52,7 @@ export default function Product({refetchData, closeModal, selectedRow}) {
         .catch(error => console.log('error occured!'));
         }
         else{
-          fetch(`http://localhost:8080/api/products/${selectedRow.id}`, {
+          fetch(BASE_URL+`/products/${selectedRow.id}`, {
         method: 'PUT', 
         headers: {
           'Content-Type': 'application/json',

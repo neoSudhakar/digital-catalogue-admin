@@ -21,6 +21,7 @@ import StoneGroupTable from "./StoneGroupTable";
 import { Menu, Modal,Button } from "antd";
 import { useEffect, useState } from "react";
 import { getPermissionsObj } from "../../../../util/auth";
+import { BASE_URL } from "../../../../util/http";
 
 
 
@@ -43,7 +44,7 @@ export default function DesignSettings() {
 
     const fetchGroupData = async () => {
         try {
-          const response = await fetch('http://localhost:8080/api/groups');
+          const response = await fetch(BASE_URL+'/groups');
           
           if (response.status === 204) {
            
@@ -60,7 +61,7 @@ export default function DesignSettings() {
     
       const fetchCategoryData = async () => {
         try {
-          const response = await fetch('http://localhost:8080/api/categories');
+          const response = await fetch(BASE_URL+'/categories');
           
           if (response.status === 204) {
            
@@ -77,7 +78,7 @@ export default function DesignSettings() {
 
       const fetchStyleData = async () => {
         try {
-          const response = await fetch('http://localhost:8080/api/styles');
+          const response = await fetch(BASE_URL+'/styles');
           
           if (response.status === 204) {
            
@@ -94,7 +95,7 @@ export default function DesignSettings() {
 
       const fetchProductData = async () => {
         try {
-          const response = await fetch('http://localhost:8080/api/products');
+          const response = await fetch(BASE_URL+'/products');
           
           if (response.status === 204) {
            
@@ -111,7 +112,7 @@ export default function DesignSettings() {
 
       const fetchModelData = async () => {
         try {
-          const response = await fetch('http://localhost:8080/api/models');
+          const response = await fetch(BASE_URL+'/models');
           
           if (response.status === 204) {
            
@@ -128,7 +129,7 @@ export default function DesignSettings() {
 
       const fetchSizeData = async () => {
         try {
-          const response = await fetch('http://localhost:8080/api/sizes');
+          const response = await fetch(BASE_URL+'/sizes');
           
           if (response.status === 204) {
            
@@ -145,7 +146,7 @@ export default function DesignSettings() {
 
       const fetchWorkerData = async () => {
         try {
-          const response = await fetch('http://localhost:8080/api/workers');
+          const response = await fetch(BASE_URL+'/workers');
           
           if (response.status === 204) {
            
@@ -162,7 +163,7 @@ export default function DesignSettings() {
 
       const fetchTypeData = async () => {
         try {
-          const response = await fetch('http://localhost:8080/api/types');
+          const response = await fetch(BASE_URL+'/types');
           
           if (response.status === 204) {
            
@@ -179,7 +180,7 @@ export default function DesignSettings() {
 
       const fetchStoneGroupData = async () => {
         try {
-          const response = await fetch('http://localhost:8080/api/stonegroups');
+          const response = await fetch(BASE_URL+'/stonegroups');
           
           if (response.status === 204) {
            

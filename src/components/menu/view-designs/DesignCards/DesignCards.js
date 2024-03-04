@@ -8,7 +8,7 @@ import classes from "../ViewDesign.module.css";
 import WrongIcon from "../../../../icons/wrong-icon";
 import axios from "axios";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { fetchAllDesigns, fetchCatalogueDesigns, postCart, postOrder, queryClientObj } from "../../../../util/http";
+import { fetchAllDesigns, fetchCatalogueDesigns, postCart, postOrder, queryClientObj, BASE_URL } from "../../../../util/http";
 import LoadingIndicator from "../../../../UI/LoadingIndicator";
 import ErrorBlock from "../../../../UI/ErrorBlock";
 import { getAccountLoader, getUserId } from "../../../../util/auth";
@@ -36,7 +36,7 @@ export default function DesignCards({ handleShowDetails, catalogue, updatedCardI
 
     const fetchGroupData = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/groups');
+        const response = await fetch(BASE_URL+'/groups');
         
         if (response.status === 204) {
          
@@ -53,7 +53,7 @@ export default function DesignCards({ handleShowDetails, catalogue, updatedCardI
   
     const fetchCategoryData = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/categories');
+        const response = await fetch(BASE_URL+'/categories');
         
         if (response.status === 204) {
          
@@ -70,7 +70,7 @@ export default function DesignCards({ handleShowDetails, catalogue, updatedCardI
   
     const fetchStyleData = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/styles');
+        const response = await fetch(BASE_URL+'/styles');
         
         if (response.status === 204) {
          
@@ -87,7 +87,7 @@ export default function DesignCards({ handleShowDetails, catalogue, updatedCardI
   
     const fetchProductData = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/products');
+        const response = await fetch(BASE_URL+'/products');
         
         if (response.status === 204) {
          
@@ -104,7 +104,7 @@ export default function DesignCards({ handleShowDetails, catalogue, updatedCardI
   
     const fetchModelData = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/models');
+        const response = await fetch(BASE_URL+'/models');
         
         if (response.status === 204) {
          
@@ -121,7 +121,7 @@ export default function DesignCards({ handleShowDetails, catalogue, updatedCardI
   
     const fetchSizeData = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/sizes');
+        const response = await fetch(BASE_URL+'/sizes');
         
         if (response.status === 204) {
          

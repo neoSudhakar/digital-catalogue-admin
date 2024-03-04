@@ -8,6 +8,7 @@ import 'ag-grid-community/styles/ag-theme-alpine.css';
 
 import classes from "../Tables.module.css";
 import { getAccountLoader, getPermissionsObj } from '../../../../util/auth';
+import { BASE_URL } from '../../../../util/http';
 
 const UserTable = ({data , accountData, roleData}) => {
   const accountObj = getAccountLoader();
@@ -19,9 +20,9 @@ const UserTable = ({data , accountData, roleData}) => {
 
   async function refetch() {
     try {
-      let url = 'http://localhost:8080/api/users/filters';
+      let url = BASE_URL+'/users/filters';
       if(accountObj.accountType === "Retailer"){
-        url = `http://localhost:8080/api/users/filters?accountId=${accountObj.id}`;
+        url = BASE_URL+`/users/filters?accountId=${accountObj.id}`;
       }
       const response = await fetch(url);
       
@@ -47,7 +48,7 @@ const handleUpdateRow= (row) => {
 };
 
 const handleDeleteRow = (rowToDelete) => {
-    fetch(`http://localhost:8080/api/users/${rowToDelete.id}`, {
+    fetch(BASE_URL+`/users/${rowToDelete.id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

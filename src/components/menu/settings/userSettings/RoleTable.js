@@ -7,6 +7,7 @@ import Role from './Role';
 import 'ag-grid-community/styles/ag-grid.css'; 
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { getPermissionsObj, getUserId } from '../../../../util/auth';
+import { BASE_URL } from '../../../../util/http';
 
 export default function RoleTable({data}) {
 
@@ -19,7 +20,7 @@ export default function RoleTable({data}) {
 
   async function refetch() {
     try {
-      const response = await fetch(`http://localhost:8080/api/roles/filters?userId=${user}`);
+      const response = await fetch(BASE_URL+`/roles/filters?userId=${user}`);
       
       if (response.status === 204) {
         
@@ -42,7 +43,7 @@ const handleUpdateRow= (row) => {
 };
 
 const handleDeleteRow = (rowToDelete) => {
-    fetch(`http://localhost:8080/api/roles/${rowToDelete.id}`, {
+    fetch(BASE_URL+`/roles/${rowToDelete.id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

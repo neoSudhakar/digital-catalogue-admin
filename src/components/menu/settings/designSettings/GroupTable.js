@@ -7,6 +7,7 @@ import Group from './Group';
 import 'ag-grid-community/styles/ag-grid.css'; 
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { getPermissionsObj } from '../../../../util/auth';
+import { BASE_URL } from '../../../../util/http';
 
 export default function GroupTable({data}) {
 
@@ -19,7 +20,7 @@ export default function GroupTable({data}) {
 
   async function refetch() {
     try {
-      const response = await fetch('http://localhost:8080/api/groups');
+      const response = await fetch(BASE_URL+'/groups');
       
       if (response.status === 204) {
         
@@ -42,7 +43,7 @@ const handleUpdateRow= (row) => {
 };
 
 const handleDeleteRow = (rowToDelete) => {
-    fetch(`http://localhost:8080/api/groups/${rowToDelete.id}`, {
+    fetch(BASE_URL+`/groups/${rowToDelete.id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

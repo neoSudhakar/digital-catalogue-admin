@@ -7,6 +7,7 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import Category from './Category';
 import { getPermissionsObj } from '../../../../util/auth';
+import { BASE_URL } from '../../../../util/http';
 
 export default function CategoryTable({data}) {
 
@@ -19,7 +20,7 @@ export default function CategoryTable({data}) {
 
   async function refetch() {
     try {
-      const response = await fetch('http://localhost:8080/api/categories');
+      const response = await fetch(BASE_URL+'/categories');
       
       if (response.status === 204) {
         
@@ -42,7 +43,7 @@ const handleUpdateRow= (row) => {
 };
 
 const handleDeleteRow = (rowToDelete) => {
-    fetch(`http://localhost:8080/api/categories/${rowToDelete.id}`, {
+    fetch(BASE_URL+`/categories/${rowToDelete.id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

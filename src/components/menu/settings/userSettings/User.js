@@ -1,5 +1,6 @@
 import useInputSpcl from "../../../../hooks/use-input-spcl";
 import { getAccountLoader } from "../../../../util/auth";
+import { BASE_URL } from "../../../../util/http";
 import classes from "../Account.module.css";
 import { useState } from "react";
 
@@ -133,7 +134,7 @@ export default function User({refetchUserData,accountData,roleData,closeModal,se
     console.log(formData);
 
     if(!selectedRow){
-    fetch('http://localhost:8080/api/users', {
+    fetch(BASE_URL+'/users', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -146,7 +147,7 @@ export default function User({refetchUserData,accountData,roleData,closeModal,se
     .catch(error => console.log('error occurred!'));
     }
     else{
-      fetch(`http://localhost:8080/api/users/${selectedRow.id}`, {
+      fetch(BASE_URL+`/users/${selectedRow.id}`, {
         method: 'PUT', 
         headers: {
           'Content-Type': 'application/json',

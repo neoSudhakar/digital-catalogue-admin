@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Button from "../../../UI/Button";
 import useInputSpcl from "../../../hooks/use-input-spcl";
 import classes from "./AddDesignTableForm.module.css";
+import { BASE_URL } from "../../../util/http";
 
 export default function AddDesignTableForm({onCloseModal, formData, onAction,designSetIsPending, designSetData}){
     // console.log("Hello",formData);
@@ -17,7 +18,7 @@ export default function AddDesignTableForm({onCloseModal, formData, onAction,des
 
     const fetchTypeData = async () => {
         try {
-          const response = await fetch('http://localhost:8080/api/types');
+          const response = await fetch(BASE_URL+'/types');
           
           if (response.status === 204) {
            
@@ -34,7 +35,7 @@ export default function AddDesignTableForm({onCloseModal, formData, onAction,des
     
       const fetchStoneGroupData = async () => {
         try {
-          const response = await fetch('http://localhost:8080/api/stonegroups');
+          const response = await fetch(BASE_URL+'/stonegroups');
           
           if (response.status === 204) {
            

@@ -9,6 +9,7 @@ import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { Reorder } from 'framer-motion';
 import ViewOrderItems from './ViewOrderItems';
 import { all } from 'axios';
+import { BASE_URL } from '../../../util/http';
 
 export default function History() {
 
@@ -18,7 +19,7 @@ export default function History() {
 
   const fetchOrders= async() => {
     try {
-      const response = await fetch("http://localhost:8080/api/orders");
+      const response = await fetch(BASE_URL+"/orders");
       
       if (!response.ok) {
         //if(data.errorCode && data.errorCode === '600'){

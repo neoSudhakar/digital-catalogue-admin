@@ -1,5 +1,6 @@
 import useInputSpcl from "../../../../hooks/use-input-spcl";
 import { getAccountLoader, getUserId } from "../../../../util/auth";
+import { BASE_URL } from "../../../../util/http";
 import classes from "../Account.module.css";
 
 export default function Role({refetchRoleData, closeModal, selectedRow}) {
@@ -44,7 +45,7 @@ export default function Role({refetchRoleData, closeModal, selectedRow}) {
         console.log(formData);
 
         if(!selectedRow){
-        fetch('http://localhost:8080/api/roles', {
+        fetch(BASE_URL+'/roles', {
             method: 'POST',
             headers: {
           'Content-Type': 'application/json',
@@ -56,7 +57,7 @@ export default function Role({refetchRoleData, closeModal, selectedRow}) {
           console.log('Data sent sucessfully!')})
         .catch(error => console.log('error occured!'));
         }else{
-          fetch(`http://localhost:8080/api/roles/${selectedRow.id}`, {
+          fetch(BASE_URL+`/roles/${selectedRow.id}`, {
         method: 'PUT', 
         headers: {
           'Content-Type': 'application/json',
