@@ -1,9 +1,9 @@
 import { QueryClient } from "@tanstack/react-query";
-
 export const queryClientObj = new QueryClient();
+const BASE_URL = "http://localhost:8080/api";
 
 export async function fetchAllDesigns(){
-    const response = await fetch('http://localhost:8080/api/designs');
+    const response = await fetch(`${BASE_URL}/designs`);
     
     if(!response.ok){
         console.log("response status: " + response.status);
@@ -21,7 +21,7 @@ export async function fetchAllDesigns(){
 }
 
 export async function fetchCatalogueDesigns({accountId, signal}){
-    const response = await fetch(`http://localhost:8080/api/designs/filters?designs=assigned&accountId=${accountId}`, {signal: signal});
+    const response = await fetch(`${BASE_URL}/designs/filters?designs=assigned&accountId=${accountId}`, {signal: signal});
 
     if(!response.ok){
         console.log("response status: " + response.status);
@@ -39,7 +39,7 @@ export async function fetchCatalogueDesigns({accountId, signal}){
 }
 
 export async function fetchAssignedRetailers({cardItemId, signal}){
-    const response = await fetch(`http://localhost:8080/api/design-account/${cardItemId}/accounts`, {signal: signal});
+    const response = await fetch(`${BASE_URL}/design-account/${cardItemId}/accounts`, {signal: signal});
 
     if(!response.ok){
         console.log("response status: " + response.status);
@@ -58,7 +58,7 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
 
   
   export async function updateDesignFields({cardItemId, updatedData}){
-    const response = await fetch(`http://localhost:8080/api/designs/${cardItemId}`, {
+    const response = await fetch(`${BASE_URL}/designs/${cardItemId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",  
@@ -83,7 +83,7 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
 
 
   export async function addDesignSet({cardItemId, addedData}){
-    const response = await fetch(`http://localhost:8080/api/designs/${cardItemId}/details`,
+    const response = await fetch(`${BASE_URL}/designs/${cardItemId}/details`,
         {
         method: 'POST',
         headers: {
@@ -107,9 +107,8 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
     return resData;
   }
 
-
   export async function updateDesignSet({cardItemId, updatedData, detailsId}){
-     const response = await fetch(`http://localhost:8080/api/designs/${cardItemId}/details/${detailsId}`, {
+     const response = await fetch(`${BASE_URL}/designs/${cardItemId}/details/${detailsId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -132,14 +131,13 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
     return resData;
   }
 
-
   export async function assignRetailer({cardItemId, formattedData, edit, prevRetailerId, designAccountId}){
-    let url = `http://localhost:8080/api/design-account`;
+    let url = `${BASE_URL}/design-account`;
     let method = "POST";
 
     if(edit){
-        // url = `http://localhost:8080/api/design-account/accounts/${prevRetailerId}/designs/${cardItemId}`;
-        url = `http://localhost:8080/api/design-account/${designAccountId}`;
+        // url = `${BASE_URL}/design-account/accounts/${prevRetailerId}/designs/${cardItemId}`;
+        url = `${BASE_URL}/design-account/${designAccountId}`;
 
         method = "PUT";
     }
@@ -167,10 +165,9 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
     return resData;
   }
 
-
   export async function removeRetailer(retailerId){
     const response = await fetch(
-      `http://localhost:8080/api/design-account/${retailerId}`,
+      `${BASE_URL}/design-account/${retailerId}`,
       {
         method: "DELETE",
       }
@@ -191,10 +188,9 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
     return resData;
   }
 
-
   export async function accountLogin(retailerId){
     const response = await fetch(
-      `http://localhost:8080/api/login`,
+      `${BASE_URL}/login`,
       {
         method: "POST",
         headers:{
@@ -221,7 +217,7 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
 
   export async function fetchAccounts(){
     const response = await fetch(
-      `http://localhost:8080/api/accounts`
+      `${BASE_URL}/accounts`
     );
 
     if(!response.ok){
@@ -241,7 +237,7 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
 
   export async function fetchAssignedDesigns(){
     const response = await fetch(
-      `http://localhost:8080/api/design-account`
+      `${BASE_URL}/design-account`
     );
 
     if(!response.ok){
@@ -263,7 +259,7 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
 
   export async function postOrder(data){
     const response = await fetch(
-      `http://localhost:8080/api/orders`,
+      `${BASE_URL}/orders`,
       {
         method: "POST",
         headers:{
@@ -290,7 +286,7 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
 
   export async function fetchOrders({signal, userId}){
     const response = await fetch(
-      `http://localhost:8080/api/orders/user/${userId}/orders`,{signal}
+      `${BASE_URL}/orders/user/${userId}/orders`,{signal}
     );
 
     if(!response.ok){
@@ -310,7 +306,7 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
 
   export async function fetchRecentOrders({signal,max}){
     const response = await fetch(
-      `http://localhost:8080/api/orders/?pageSize=${max}`,{signal}
+      `${BASE_URL}/orders/?pageSize=${max}`,{signal}
     );
 
     if(!response.ok){
@@ -330,7 +326,7 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
 
   export async function fetchOrdersForManufacturer(){
     const response = await fetch(
-      `http://localhost:8080/api/orders`
+      `${BASE_URL}/orders`
     );
 
     if(!response.ok){
@@ -350,7 +346,7 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
 
   export async function deleteOrder({orderId, orderItemId}){
     const response = await fetch(
-      `http://localhost:8080/api/orders/${orderId}/orderItem/${orderItemId}`,{
+      `${BASE_URL}/orders/${orderId}/orderItem/${orderItemId}`,{
         method: "DELETE",
       }
     );
@@ -372,7 +368,7 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
 
   export async function updateOrder({orderId, orderItemId, data}){
     const response = await fetch(
-      `http://localhost:8080/api/orders/${orderId}/orderItem/${orderItemId}`,{
+      `${BASE_URL}/orders/${orderId}/orderItem/${orderItemId}`,{
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -398,7 +394,7 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
 
   export async function fetchCart({signal, userId}){
     const response = await fetch(
-      `http://localhost:8080/api/carts/user/${userId}/cart`,{signal}
+      `${BASE_URL}/carts/user/${userId}/cart`,{signal}
     );
 
     if(!response.ok){
@@ -418,7 +414,7 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
 
   export async function postCart(data){
     const response = await fetch(
-      `http://localhost:8080/api/carts`,
+      `${BASE_URL}/carts`,
       {
         method: "POST",
         headers:{
@@ -445,7 +441,7 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
 
   export async function deleteCart({cartId, cartItemId}){
     const response = await fetch(
-      `http://localhost:8080/api/carts/${cartId}/cartItem/${cartItemId}`,{
+      `${BASE_URL}/carts/${cartId}/cartItem/${cartItemId}`,{
         method: "DELETE",
       }
     );
@@ -467,7 +463,7 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
 
   export async function updateCart({cartId, cartItemId, data}){
     const response = await fetch(
-      `http://localhost:8080/api/carts/${cartId}/cartItem/${cartItemId}`,{
+      `${BASE_URL}/carts/${cartId}/cartItem/${cartItemId}`,{
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -493,7 +489,7 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
 
   export async function fetchAssignedDesignsForManufacturer(){
     const response = await fetch(
-      `http://localhost:8080/api/designs/filters?designs=assigned`
+      `${BASE_URL}/designs/filters?designs=assigned`
     );
 
     if(!response.ok){
@@ -513,7 +509,7 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
 
   export async function fetchAccountOrdersForManufacturer(){
     const response = await fetch(
-      `http://localhost:8080/api/accounts/account-orders`
+      `${BASE_URL}/accounts/account-orders`
     );
 
     if(!response.ok){
@@ -533,7 +529,7 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
 
   export async function fetchOrderedDesignsForUser({userId, signal}){
     const response = await fetch(
-      `http://localhost:8080/api/orders/user/${userId}/designs`,{signal}
+      `${BASE_URL}/orders/user/${userId}/designs`,{signal}
     );
 
     if(!response.ok){
@@ -553,7 +549,7 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
 
   export async function fetchAssignedDesignsVsAccounts(){
     const response = await fetch(
-      `http://localhost:8080/api/accounts/account-designs`
+      `${BASE_URL}/accounts/account-designs`
     );
 
     if(!response.ok){
@@ -573,7 +569,7 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
 
   export async function fetchAccountsVsUsersForSystem(){
     const response = await fetch(
-      `http://localhost:8080/api/accounts/account-users?accountType=manufacturer`
+      `${BASE_URL}/accounts/account-users?accountType=manufacturer`
     );
 
     if(!response.ok){
@@ -593,7 +589,7 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
 
   export async function fetchAccountsForSystem(){
     const response = await fetch(
-      `http://localhost:8080/api/accounts/filters/?accountType=manufacturer`
+      `${BASE_URL}/accounts/filters/?accountType=manufacturer`
     );
 
     if(!response.ok){
@@ -613,7 +609,7 @@ export async function fetchAssignedRetailers({cardItemId, signal}){
 
   export async function fetchUsersForSystem(){
     const response = await fetch(
-      `http://localhost:8080/api/users/filters?accountType=manufacturer`
+      `${BASE_URL}/users/filters?accountType=manufacturer`
     );
 
     if(!response.ok){
